@@ -1,7 +1,7 @@
 qt_add_library(gui STATIC)
 
 set(plain_qml_files
-    qml/Main.qml
+    Main.qml
     qml/components/button/IconButton.qml
     qml/components/button/Test.qml
 )
