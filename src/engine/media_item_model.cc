@@ -1,0 +1,39 @@
+#include "media_item_model.h"
+#include <qobject.h>
+#include <qvariant.h>
+namespace engine {
+MediaItemModel::MediaItemModel(QObject* parent) {}
+
+int MediaItemModel::rowCount(const QModelIndex& parent) const {
+  return m_items.size();
+}
+
+QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
+  if (index.row() < 0 || index.row() >= m_items.size()) {
+    return QVariant();
+  }
+  const MediaItem& item = m_items.at(index.row());
+  switch (role) {
+    case IdRole:
+      return item.id;
+    case NameRole:
+      return item.name;
+    case DurationRole:
+      return item.duration;
+    case AlbumRole:
+      return QVariant::fromValue(item.album);
+    case ArtistRole:
+      return QVariant::fromValue(item.artist);
+    case ReasonRole:
+      return item.reason;
+    default:
+      return QVariant();
+  }
+}
+
+QHash<int, QByteArray> MediaItemModel::roleNames() const {
+  return {
+      {IdRole, "id"},       {NameRole, "name"},     {DurationRole, "duration"},
+      {AlbumRole, "album"}, {ArtistRole, "artist"}, {ReasonRole, "reason"}};
+}
+}  // namespace engine

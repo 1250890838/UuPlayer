@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.16)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
+
+project(uu VERSION 1.0 LANGUAGES CXX)
+
+find_package(Qt6 6.2 COMPONENTS Quick Gui Multimedia REQUIRED)
+
+qt_standard_project_setup(REQUIRES 6.5)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_subdirectory(engine)
+add_subdirectory(gui)
+
+qt_add_executable(uu
+    main.cc
+)
+
+target_link_libraries(uu PRIVATE Qt6::Gui Qt6::Quick guiplugin engine)

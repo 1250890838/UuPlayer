@@ -1,0 +1,10 @@
+{
+    "cmake.configureEnvironment": {
+        "CMAKE_PREFIX_PATH": "D:\\Qt\\6.5.3\\msvc2019_64"
+    },
+    "cmake.sourceDirectory": "D:/projects/UuMusicPlayer/src",
+    "cmake.generator": "Ninja Multi-Config",
+    "clangd.fallbackFlags": [
+        "-std=c++17"
+    ]
+}
