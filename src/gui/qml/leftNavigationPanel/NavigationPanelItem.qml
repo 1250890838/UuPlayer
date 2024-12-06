@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import components 1.0
 import assets 1.0
 
-import "NavigateLogic.js" as Logic
 Item {
     id: root
     required implicitHeight
@@ -12,13 +11,13 @@ Item {
     required property var colors:[] // default | hovered | selected
     property alias radius: container.radius
     property alias text: label.text
-    property bool selected:false
+    //property bool selected:false
 
     Rectangle {
         id: container
         anchors.fill:parent
         color: {
-            if(root.selected)
+            if(currentItem===this)
                 return colors[2]
             else if(mouseArea.containsMouse)
                 return colors[1]
@@ -45,7 +44,7 @@ Item {
         anchors.fill:parent
         hoverEnabled:true
         onClicked:{
-            Logic
+            switchPage(this)
         }
     }
 }

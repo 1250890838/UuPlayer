@@ -2,10 +2,16 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import components 1.0
+import "NavigateLogic.js" as Logic
 
 Item {
     id: root
     property Item currentItem
+
+    function switchPage(item){
+        currentItem=item
+    }
+
     Pane {
         id: container
         anchors.fill: parent
