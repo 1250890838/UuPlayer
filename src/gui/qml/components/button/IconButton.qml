@@ -3,16 +3,28 @@ import QtQuick
 
 Item {
     id: root
-    required implicitWidth 
+    required implicitWidth
     required implicitHeight
     required property url icon
+    required property url hoveredIcon
+
     property real margins: 5
 
     signal clicked
 
     Image {
+        id:image
         anchors.fill: parent
         anchors.margins: root.margins
-        source: root.icon
+        source: mouseArea.containsMouse ? root.hoveredIcon : root.icon
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        hoverEnabled: true
+        onClicked: {
+            root.clicked();
+        }
     }
 }
