@@ -1,2 +1,3 @@
 module components
 IconButton 1.0 button/IconButton.qml
+IconLabel 1.0 button/IconLabel.qml

@@ -14,6 +14,7 @@ Item {
     Image{
         id:image
         anchors.fill:parent
-        margins:root.margins
+        anchors.margins:root.margins
+        source:root.icon
     }
 }

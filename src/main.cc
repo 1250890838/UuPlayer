@@ -1,20 +1,20 @@
+#include <QWKQuick/qwkquickglobal.h>
+
 #include <qqml.h>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml/QQmlExtensionPlugin>
-
 
 #include "engine/audio_player.h"
 Q_IMPORT_QML_PLUGIN(guiPlugin)
 
 int main(int argc, char* argv[]) {
   QGuiApplication app(argc, argv);
-
   QQmlApplicationEngine engine;
-  engine.addImportPath(
-      u"qrc:/gui/qml"_qs);  // register custom components
-  qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Icons.qml"_qs), "assets", 1,
-                           0, "Icons");
+  QWK::registerTypes(&engine);
+  engine.addImportPath(u"qrc:/gui/qml"_qs);  // register custom components
+  qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Icons.qml"_qs), "assets",
+                           1, 0, "Icons");
   qmlRegisterSingletonType<engine::MediaPlayer>(
       "engine", 1, 0, "Player", &engine::MediaPlayer::getInstance);
   const QUrl url(u"qrc:/gui/qml/Main.qml"_qs);
