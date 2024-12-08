@@ -8,7 +8,7 @@ Item {
     id: root
     required implicitHeight
     required implicitWidth
-    required property var colors:[] // default | hovered | selected
+    property var colors:[] // default | hovered | selected
     property alias radius: container.radius
     property alias text: label.text
     //property bool selected:false

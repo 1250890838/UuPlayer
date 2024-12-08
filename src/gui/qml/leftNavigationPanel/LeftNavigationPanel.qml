@@ -23,11 +23,13 @@ Item {
                 id:first
                 Layout.fillWidth:true
                 implicitHeight:50
+                colors:["#ff0000","#00ff00","#0000ff"]
             }
             NavigationPanelItem {
                 id:second
                 Layout.fillWidth:true
                 implicitHeight:50
+                colors:["#ff0000","#00ff00","#0000ff"]
             }
             /*
             NavigationPanelItem {

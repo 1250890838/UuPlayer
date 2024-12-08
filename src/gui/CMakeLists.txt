@@ -3,12 +3,14 @@ qt_add_library(gui STATIC)
 set(plain_qml_files
     qml/Main.qml
     qml/leftNavigationPanel/LeftNavigationPanel.qml
+    qml/leftNavigationPanel/NavigationPanelItem.qml
 )
 
 set(singletons_qml_files qml/assets/Icons.qml)
 
 set(custom_shared_qml_files 
     qml/components/button/IconButton.qml
+    qml/components/button/IconLabel.qml
 )
 
 #[[ set_source_files_properties(${qml_singletons}

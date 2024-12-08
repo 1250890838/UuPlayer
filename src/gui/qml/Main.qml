@@ -22,7 +22,7 @@ Window {
         }
         Rectangle{
             color:"red"
-                  Layout.fillWidth:true
+            Layout.fillWidth:true
             Layout.fillHeight:true      
         }
     }
