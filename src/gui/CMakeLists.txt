@@ -11,6 +11,7 @@ set(plain_qml_files
     qml/stackPages/LocalMusicPage.qml
     qml/stackPages/PodcastPage.qml
     qml/stackPages/RecentPlayPage.qml
+    qml/titleBar/TitleBar.qml
 )
 
 set(singletons_qml_files qml/assets/Icons.qml)
