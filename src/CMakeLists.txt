@@ -3,7 +3,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
 project(uu VERSION 1.0 LANGUAGES CXX)
 
-find_package(Qt6 6.2 COMPONENTS Quick Gui Multimedia REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Quick Gui Multimedia Network REQUIRED)
 find_package(QWindowKit COMPONENTS Core Widgets Quick REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.5)
@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(engine)
 add_subdirectory(gui)
+add_subdirectory(network)
 
 qt_add_executable(uu
     main.cc
