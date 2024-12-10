@@ -5,6 +5,7 @@ namespace engine{
 MediaPlayer::MediaPlayer(QObject *parent) : QMediaPlayer(parent) {
 }
 
+
 void MediaPlayer::play(const QString &path) {
   
 }
