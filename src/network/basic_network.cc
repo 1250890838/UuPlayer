@@ -1,2 +1,1 @@
-#include "basic_network.h"
-
+#include <QtNetwork/QNetworkAccessManager>

@@ -3,7 +3,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
 project(uu VERSION 1.0 LANGUAGES CXX)
 
-find_package(Qt6 6.2 COMPONENTS Quick Gui Multimedia Network REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Quick Gui Multimedia Network REQUIRED)
 find_package(QWindowKit COMPONENTS Core Widgets Quick REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.5)
@@ -18,4 +18,4 @@ qt_add_executable(uu
     main.cc
 )
 
-target_link_libraries(uu PRIVATE Qt6::Gui Qt6::Quick guiplugin engine QWindowKit::Quick)
+target_link_libraries(uu PRIVATE Qt6::Gui Qt6::Quick Qt6:Network guiplugin engine network QWindowKit::Quick)
