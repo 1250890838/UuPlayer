@@ -42,7 +42,7 @@ Item {
             Label {
                 id: label
                 font.pointSize: 10.2
-                color:currentItem === root ? "#FFFFFF" : "#000000"
+                color:currentItem === root ? "#FFFFFF" : "gray"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
