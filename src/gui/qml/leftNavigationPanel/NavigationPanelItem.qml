@@ -6,44 +6,55 @@ import assets 1.0
 
 Item {
     id: root
-    property var colors:[] // default | hovered | selected
+    implicitHeight: 35
+    property var colors: [] // default | hovered | selected
     property alias radius: container.radius
     property alias text: label.text
-    
-    signal clicked()
+    property url icon
+    property url selectedIcon
+
+    signal clicked
 
     Rectangle {
         id: container
-        anchors.fill:parent
+        anchors.fill: parent
         color: {
-            if(currentItem==root)
-                return colors[2]
-            else if(mouseArea.containsMouse)
-                return colors[1]
+            if (currentItem === root)
+                return colors[2];
+            else if (mouseArea.containsMouse)
+                return colors[1];
             else
-                return colors[0]
+                return colors[0];
         }
-        Row{
-            padding:8
-            IconLabel{
-                icon:Icons.test
-                selectedIcon:Icons.test
-                implicitWidth:30
-                implicitHeight:parent.height - 8 * 2
+        Row {
+            spacing: 10
+            padding: 0
+            leftPadding: 10
+            anchors.fill: parent
+            IconLabel {
+                id: iconLabel
+                width: 20
+                height: 20
+                margins:0.2
+                icon: currentItem === root ? root.selectedIcon : root.icon
+                anchors.verticalCenter: parent.verticalCenter
             }
-            Label{
-                id:label
-                text:"example"
+            Label {
+                id: label
+                font.pointSize: 10.2
+                color:currentItem === root ? "#FFFFFF" : "#000000"
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
     }
 
-    MouseArea{
-        id:mouseArea
-        anchors.fill:parent
-        hoverEnabled:true
-        onClicked:{
-            root.clicked()
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onClicked: {
+            root.clicked();
         }
     }
 }

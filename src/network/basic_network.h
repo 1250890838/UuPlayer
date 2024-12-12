@@ -13,7 +13,7 @@ protected:
     void sendRequest();
 private:
     QNetworkAccessManager m_netAccessManager;
-} 
+};
 
 
 }

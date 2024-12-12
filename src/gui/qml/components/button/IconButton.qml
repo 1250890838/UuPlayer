@@ -8,7 +8,7 @@ Item {
     required property url icon
     required property url hoveredIcon
 
-    property real margins: 5
+    property real margins: 0
 
     signal clicked
 
@@ -23,6 +23,7 @@ Item {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
+        cursorShape:Qt.PointingHandCursor
         onClicked: {
             root.clicked();
         }

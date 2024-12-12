@@ -18,4 +18,4 @@ qt_add_executable(uu
     main.cc
 )
 
-target_link_libraries(uu PRIVATE Qt6::Gui Qt6::Quick Qt6:Network guiplugin engine network QWindowKit::Quick)
+target_link_libraries(uu PRIVATE Qt6::Gui Qt6::Quick Qt6::Network guiplugin engine network QWindowKit::Quick)

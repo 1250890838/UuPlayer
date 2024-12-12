@@ -28,6 +28,27 @@ set(js_files
     PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 ]]
 
+set(image_files 
+    images/app_icon.png
+    images/button_choice_music.svg
+    images/button_choice_music_selected.svg
+    images/button_download_manager.svg
+    images/button_download_manager_selected.svg
+    images/button_favor_music.svg
+    images/button_favor_music_selected.svg
+    images/button_local_music.svg
+    images/button_local_music_selected.svg
+    images/button_movement.svg
+    images/button_movement_selected.svg
+    images/button_podcast.svg
+    images/button_podcast_selected.svg
+    images/button_recent_play.svg
+    images/button_recent_play_selected.svg
+    images/button_minimize.svg
+    images/button_maximize.svg
+    images/button_close.svg
+    )
+
 qt_add_qml_module(gui
     URI "gui"
     VERSION 1.0
@@ -38,7 +59,7 @@ qt_add_qml_module(gui
     ${js_files}
     RESOURCE_PREFIX /
     RESOURCES
-        images/demo.png
+    ${image_files}
         qml/components/qmldir
     IMPORT_PATH
         qml/

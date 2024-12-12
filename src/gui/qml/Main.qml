@@ -34,6 +34,7 @@ Window {
     }
     ColumnLayout {
         anchors.fill:parent
+        spacing:0
         TitleBar{
             id: titleBar
             Layout.fillWidth:true

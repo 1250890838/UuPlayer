@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import components 1.0
+import assets 1.0
 import "NavigateLogic.js" as Logic
 import "../stackPages"
 
@@ -12,103 +13,137 @@ Item {
     Pane {
         id: container
         anchors.fill: parent
+        padding: 25
         background: Rectangle {
             color: Qt.rgba(240 / 255, 243 / 255, 246 / 255, 1.0) //"#F0F3F6"
         }
-        contentItem: ColumnLayout {
+        contentItem: Column {
+            spacing:5
             NavigationPanelItem {
                 id: personalizedRecommendItem // 为我推荐
-                Layout.fillWidth: true
-                implicitHeight: 50
+                height: 33.5
+                width: parent.width
                 radius: 8
+                visible: false //TODO: user mode
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
             }
             NavigationPanelItem {
                 id: cloudMusicSelectedItem // 云音乐精选
-                Layout.fillWidth: true
-                implicitHeight: 50
+                height: 33.5
+                width: parent.width
                 radius: 8
+                text: "精选"
+                icon: Icons.choiceMusicIcon
+                selectedIcon: Icons.choiceMusicSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 onClicked: switchPage(this, Qt.createComponent("../stackPages/CloudMusicSelectedPage.qml"))
             }
             NavigationPanelItem {
                 id: podcastItem // 播客
-                Layout.fillWidth: true
-                implicitHeight: 50
                 radius: 8
+                height: 33.5
+                width: parent.width
+                text: "播客"
+                icon: Icons.podcastIcon
+                selectedIcon: Icons.podcastSelectedIcon
+                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                onClicked: switchPage(this, Qt.createComponent("../stackPages/PodcastPage.qml"))
+            }
+            NavigationPanelItem {
+                id: movementItem // 动态
+                radius: 8
+                text: "动态"
+                height: 33.5
+                width: parent.width
+                icon: Icons.movementIcon
+                selectedIcon: Icons.movementSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 onClicked: switchPage(this, Qt.createComponent("../stackPages/PodcastPage.qml"))
             }
             NavigationPanelItem {
                 id: privateRoamItem // 私人FM
-                Layout.fillWidth: true
-                implicitHeight: 50
                 radius: 8
+                visible: false
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 //      onClicked: switchPage(this,Qt.createComponent("../stackPages/.qml"))
             }
             NavigationPanelItem {
                 id: communityItem // 社区
-                Layout.fillWidth: true
-                implicitHeight: 50
                 radius: 8
+                visible: false
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 onClicked: switchPage(this, Qt.createComponent("../stackPages/CommunityPage.qml"))
             }
 
+            Rectangle{
+                id:spliter
+                color:"#E0E0E0"
+                width:parent.width - 10 * 2
+                height:1
+                anchors.horizontalCenter:parent.horizontalCenter
+            }
+
             NavigationPanelItem {
                 id: favorItem // 我喜欢的音乐
-                Layout.fillWidth: true
-                implicitHeight: 50
+                height: 33.5
+                width: parent.width
                 radius: 8
+                text: "我喜欢的音乐"
+                icon: Icons.favorMusicIcon
+                selectedIcon: Icons.favorMusicSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 onClicked: switchPage(this, Qt.createComponent("../stackPages/FavorMusicPage.qml"))
             }
 
             NavigationPanelItem {
                 id: recentPlayItem // 最近播放
-                Layout.fillWidth: true
-                implicitHeight: 50
+                height: 33.5
+                width: parent.width
                 radius: 8
+                text: "最近播放"
+                icon: Icons.recentPlayIcon
+                selectedIcon: Icons.recentPlaySelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 onClicked: switchPage(this, Qt.createComponent("../stackPages/RecentPlayPage.qml"))
             }
             NavigationPanelItem {
                 id: myPodcast // 我的播客
-                Layout.fillWidth: true
-                implicitHeight: 50
                 radius: 8
+                visible: false
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 //         onClicked: switchPage(this,Qt.createComponent("../stackPages/PodcastPage.qml"))
             }
             NavigationPanelItem {
                 id: myCollection // 我的收藏
-                Layout.fillWidth: true
-                implicitHeight: 50
                 radius: 8
+                visible: false
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 //   onClicked: switchPage(this,Qt.createComponent("../stackPages/PodcastPage.qml"))
             }
             NavigationPanelItem {
                 id: download // 下载管理
-                Layout.fillWidth: true
-                implicitHeight: 50
+                height: 33.5
+                width: parent.width
                 radius: 8
+                text: "下载管理"
+                icon: Icons.downloadManagerIcon
+                selectedIcon: Icons.downloadManagerSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 onClicked: switchPage(this, Qt.createComponent("../stackPages/DownloadManagePage.qml"))
             }
             NavigationPanelItem {
                 id: localMusic // 本地音乐
-                Layout.fillWidth: true
-                implicitHeight: 50
+                height: 33.5
+                width: parent.width
                 radius: 8
+                text: "本地音乐"
+                icon: Icons.localMusicIcon
+                selectedIcon: Icons.localMusicSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 onClicked: switchPage(this, Qt.createComponent("../stackPages/LocalMusicPage.qml"))
             }
             NavigationPanelItem {
                 id: musicCloudDisk // 音乐云盘
-                Layout.fillWidth: true
-                implicitHeight: 50
                 radius: 8
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
                 //                  onClicked: switchPage(this,Qt.createComponent("../stackPages/PodcastPage.qml"))
