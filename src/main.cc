@@ -6,6 +6,7 @@
 #include <QtQml/QQmlExtensionPlugin>
 
 #include "engine/audio_player.h"
+#include "network/basic_network.h"
 Q_IMPORT_QML_PLUGIN(guiPlugin)
 
 int main(int argc, char* argv[]) {
@@ -13,6 +14,9 @@ int main(int argc, char* argv[]) {
   QQmlApplicationEngine engine;
   QWK::registerTypes(&engine);
   engine.addImportPath(u"qrc:/gui/qml"_qs);  // register custom components
+
+  qmlRegisterUncreatableMetaObject(network::error_code::staticMetaObject, "network.errorcode", 1, 0, "ErrorCode", "Error: only enums");
+
   qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Icons.qml"_qs), "assets",
                            1, 0, "Icons");
   qmlRegisterSingletonType<engine::MediaPlayer>(

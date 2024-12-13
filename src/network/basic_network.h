@@ -6,7 +6,18 @@
 #include "network_global.h"
 
 #include <QNetworkAccessManager>
+
 namespace network {
+  namespace error_code {
+    Q_NAMESPACE
+    enum ErrorCode {
+      NoError = 0,
+      ConnectionRefusedError,
+      TimeoutError
+    };
+    Q_ENUM_NS(ErrorCode)
+  }
+
 class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
   Q_OBJECT
  public:
