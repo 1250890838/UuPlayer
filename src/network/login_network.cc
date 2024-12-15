@@ -26,7 +26,6 @@ QNetworkReply* LoginNetwork::getQRCodeKey() {
       QString str(data);
       qDebug() << "LoginNetWork::getQRCodeKey get response : " << str;
     }
-     
   }
     );
 }
