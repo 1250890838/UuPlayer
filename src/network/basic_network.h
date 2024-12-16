@@ -1,6 +1,4 @@
 #include <QtQml/qqmlengine.h>
-#include <qnetworkaccessmanager.h>
-#include <qnetworkrequest.h>
 #include <qobject.h>
 #include <qtmetamacros.h>
 #include "network_global.h"
@@ -9,7 +7,7 @@
 
 namespace network {
   namespace error_code {
-    Q_NAMESPACE
+    NETWORK_DLL_EXPORT Q_NAMESPACE
     enum ErrorCode {
       NoError = 0,
       ConnectionRefusedError,
@@ -27,7 +25,7 @@ class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
   QNetworkReply* get(const QNetworkRequest&);
   QNetworkReply* post(const QNetworkRequest&, const QByteArray&);
  private:
-  QNetworkAccessManager m_netAccessManager;
+  static QNetworkAccessManager m_netAccessManager;
 };
 
 }  // namespace network

@@ -5,6 +5,8 @@
 #include <QtNetwork/QNetworkAccessManager>
 
 namespace network {
+
+    QNetworkAccessManager BasicNetwork::m_netAccessManager;
 QNetworkReply* BasicNetwork::get(const QNetworkRequest& request) {
   return m_netAccessManager.get(request);
 }

@@ -1,0 +1,11 @@
+#ifndef UUSERVICE_GLOBAL_H
+#define UUSERVICE_GLOBAL_H
+
+#include <QtCore/QtGlobal>
+
+#if defined(SERVICE_EXPORT_SYMBOLS)
+#define SERVICE_DLL_EXPORT Q_DECL_EXPORT
+#else
+#define SERVICE_DLL_EXPORT Q_DECL_IMPORT
+#endif
+#endif // UUSERVICE_GLOBAL_H
