@@ -9,7 +9,7 @@ class SERVICE_DLL_EXPORT LoginService : public QObject {
  public:
   Q_INVOKABLE void getQRCodeImage();
  signals:
-  void qrCodeImageStatus();
+  void qrCodeImageStatus(network::error_code::ErrorCode);
   void qrCodeImageData(const QByteArray& image);
  public slots:
   void onGetQRCodeKeyFinished(network::error_code::ErrorCode,const QByteArray& data);

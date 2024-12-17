@@ -1,3 +1,5 @@
+#ifndef BASIC_NETWORK_H
+#define BASIC_NETWORK_H
 #include <QtQml/qqmlengine.h>
 #include <qobject.h>
 #include <qtmetamacros.h>
@@ -11,7 +13,8 @@ namespace network {
     enum ErrorCode {
       NoError = 0,
       ConnectionRefusedError,
-      TimeoutError
+      TimeoutError,
+      JsonContentError
     };
     Q_ENUM_NS(ErrorCode)
   }
@@ -29,3 +32,4 @@ class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
 };
 
 }  // namespace network
+#endif
