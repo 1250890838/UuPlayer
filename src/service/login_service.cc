@@ -38,4 +38,3 @@ void LoginService::onGetQRCodeKeyFinished(network::error_code::ErrorCode code,
 }
 
 }  // namespace service
-}  // namespace service

@@ -51,6 +51,29 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
+
+            TextIconButton {
+                id: loginButton
+                icon: Icons.defaultUserProfileIcon
+                iconWidth: 32
+                iconHeight: 32
+                text: "未登录"
+                onClicked: {
+                    let loginDialog = Qt.createComponent("LoginDialog.qml");
+                    let incubator = loginDialog.incubateObject(window, {
+                            "x": window.width / 2 - 500 / 2,
+                            "y": window.height / 2 - 500 / 2
+                        }, Qt.Asynchronous);
+                    incubator.onStatusChanged= function(status){
+                        if (status == Component.Ready) {
+                                print ("Object", incubator.object, "is now ready!");
+                        }
+                    }
+                    console.log("login button clicked!");
+                }
+                Component.onCompleted: windowAgent.setHitTestVisible(this)
+            }
+
             IconButton {
                 id: minButton
                 Layout.alignment: Qt.AlignRight
@@ -73,10 +96,10 @@ Item {
                 onClicked: {
                     if (window.visibility === Window.Maximized) {
                         window.showNormal();
-                        this.checked=true
+                        this.checked = true;
                     } else {
                         window.showMaximized();
-                        this.checked=false
+                        this.checked = false;
                     }
                 }
             }

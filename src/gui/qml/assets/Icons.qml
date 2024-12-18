@@ -21,5 +21,6 @@ Item{
     property url maximizeIcon:"qrc:/gui/images/button_maximize.svg"
     property url normalizeIcon:"qrc:/gui/images/button_normalize.svg"
     property url closeIcon:"qrc:/gui/images/button_close.svg"
+    property url defaultUserProfileIcon:"qrc:/gui/images/default_user_profile.svg"
     property url appIcon:"qrc:/gui/images/app_icon.png"
 }

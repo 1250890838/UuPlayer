@@ -12,6 +12,7 @@ set(plain_qml_files
     qml/stackPages/PodcastPage.qml
     qml/stackPages/RecentPlayPage.qml
     qml/titleBar/TitleBar.qml
+    qml/titleBar/LoginDialog.qml
 )
 
 set(singletons_qml_files qml/assets/Icons.qml)
@@ -19,6 +20,7 @@ set(singletons_qml_files qml/assets/Icons.qml)
 set(custom_shared_qml_files 
     qml/components/button/IconButton.qml
     qml/components/button/IconLabel.qml
+    qml/components/button/TextIconButton.qml
 )
 
 set(js_files
@@ -47,6 +49,7 @@ set(image_files
     images/button_minimize.svg
     images/button_maximize.svg
     images/button_close.svg
+    images/default_user_profile.svg
     )
 
 qt_add_qml_module(gui
