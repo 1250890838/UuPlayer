@@ -15,9 +15,11 @@ class NETWORK_DLL_EXPORT LoginNetwork : public BasicNetwork {
   LoginNetwork() = default;
   void getQRCodeKey();
   void createQRCode(const QString& key);
+  void checkQRCodeScan(const QString& key);
  signals:
   void getQRCodeKeyFinished(error_code::ErrorCode code,const QByteArray&);
   void createQRCodeFinished(error_code::ErrorCode code, const QByteArray&);
+  void checkQRCodeScanFinished(error_code::ErrorCode code, const QByteArray&);
 };
 }  // namespace network
 #endif

@@ -3,7 +3,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
 project(uu VERSION 1.0 LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Gui Multimedia Network REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Quick Gui Multimedia Network Concurrent REQUIRED)
 find_package(QWindowKit COMPONENTS Core Widgets Quick REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.5)

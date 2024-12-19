@@ -1,6 +1,7 @@
 #include <QWKQuick/qwkquickglobal.h>
 
 #include <qqml.h>
+#include <qthread.h>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml/QQmlExtensionPlugin>
@@ -23,10 +24,9 @@ int main(int argc, char* argv[]) {
                            1, 0, "Icons");
   qmlRegisterSingletonType<engine::MediaPlayer>(
       "engine", 1, 0, "Player", &engine::MediaPlayer::getInstance);
-  qmlRegisterSingletonInstance<service::LoginService>("service", 1, 0, "LoginService", new service::LoginService());
+
+  qmlRegisterSingletonInstance<service::LoginService>("service", 1, 0, "LoginService",new service::LoginService());
   
-
-
   const QUrl url(u"qrc:/gui/qml/Main.qml"_qs);
   QObject::connect(
       &engine, &QQmlApplicationEngine::objectCreationFailed, &app,

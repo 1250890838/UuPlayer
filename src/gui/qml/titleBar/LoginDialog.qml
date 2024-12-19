@@ -40,6 +40,10 @@ Window {
         function onQrCodeImageData(data) {
             qrcode.source = data;
         }
+
+        function onLoginSuccess(){
+            root.destroy();
+        }
     }
     Rectangle {
         id: container
