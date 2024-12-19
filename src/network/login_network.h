@@ -1,6 +1,5 @@
 #ifndef LOGIN_NETWORK_H
 #define LOGIN_NETWORK_H
-#include <QtMultimedia/qaudio.h>
 #include <qnetworkaccessmanager.h>
 #include <qstringview.h>
 #include <qtmetamacros.h>
@@ -17,7 +16,7 @@ class NETWORK_DLL_EXPORT LoginNetwork : public BasicNetwork {
   void createQRCode(const QString& key);
   void checkQRCodeScan(const QString& key);
  signals:
-  void getQRCodeKeyFinished(error_code::ErrorCode code,const QByteArray&);
+  void getQRCodeKeyFinished(error_code::ErrorCode code, const QByteArray&);
   void createQRCodeFinished(error_code::ErrorCode code, const QByteArray&);
   void checkQRCodeScanFinished(error_code::ErrorCode code, const QByteArray&);
 };

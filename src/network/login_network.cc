@@ -72,7 +72,8 @@ void LoginNetwork::createQRCode(const QString& key) {
 void LoginNetwork::checkQRCodeScan(const QString& key) {
   QString timeStamp =
       QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch(), 10);
-  QUrl url = QUrl(network_api::apiCheckQRCode + "?" + "key=" + key + "&" + "timestamp=" + timeStamp);
+  QUrl url = QUrl(network_api::apiCheckQRCode + "?" + "key=" + key + "&" +
+                  "timestamp=" + timeStamp);
   QNetworkRequest request;
   request.setUrl(url);
   auto reply = this->get(request);
@@ -81,9 +82,10 @@ void LoginNetwork::checkQRCodeScan(const QString& key) {
       if (reply->error() ==
           QNetworkReply::NetworkError::ConnectionRefusedError) {
         emit checkQRCodeScanFinished(error_code::ConnectionRefusedError,
-                                  QByteArray());
+                                     QByteArray());
       } else {
-        emit this->checkQRCodeScanFinished(error_code::TimeoutError, QByteArray());
+        emit this->checkQRCodeScanFinished(error_code::TimeoutError,
+                                           QByteArray());
       }
       qDebug() << "LoginNetWork::checkQRCode get error code : "
                << reply->error() << " " << reply->errorString();
