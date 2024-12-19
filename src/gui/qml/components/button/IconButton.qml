@@ -3,10 +3,11 @@ import QtQuick
 
 Item {
     id: root
-    required implicitWidth
-    required implicitHeight
+   // required implicitWidth
+   // required implicitHeight
     required property url icon
     required property url hoveredIcon
+    property int cursorShape:Qt.PointingHandCursor
 
     property real margins: 0
 
@@ -17,13 +18,14 @@ Item {
         anchors.fill: parent
         anchors.margins: root.margins
         source: mouseArea.containsMouse ? root.hoveredIcon : root.icon
+        fillMode:Image.PreserveAspectFit
     }
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape:Qt.PointingHandCursor
+        cursorShape:root.cursorShape
         onClicked: {
             root.clicked();
         }

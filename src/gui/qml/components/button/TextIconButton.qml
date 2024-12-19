@@ -3,8 +3,8 @@ import QtQuick
 
 Item {
     id: root
-    implicitWidth: row.width
-    implicitHeight: row.height
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
     required property real iconWidth
     required property real iconHeight
     required property url icon
@@ -16,8 +16,6 @@ Item {
 
     Row {
         id: row
-        width: image.width + spacing + text.implicitWidth
-        height: Math.max(image.height, text.height)
         spacing: 5
         Image {
             id: image
@@ -35,10 +33,9 @@ Item {
 
     MouseArea {
         id: mouseArea
-        width:50
-        height:32
+        anchors.fill:parent
         hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+        cursorShape:Qt.ArrowCursor
         onClicked: {
             root.clicked();
         }

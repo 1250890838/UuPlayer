@@ -60,15 +60,14 @@ Item {
                 text: "未登录"
                 onClicked: {
                     let loginDialog = Qt.createComponent("LoginDialog.qml");
-                    let incubator = loginDialog.incubateObject(window, {
-                            "x": window.width / 2 - 500 / 2,
-                            "y": window.height / 2 - 500 / 2
+                    let incubator = loginDialog.incubateObject(null, {
+                        //    "dim": false
                         }, Qt.Asynchronous);
-                    incubator.onStatusChanged= function(status){
+                    incubator.onStatusChanged = function (status) {
                         if (status == Component.Ready) {
-                                print ("Object", incubator.object, "is now ready!");
+                            let dialog = incubator.object;
                         }
-                    }
+                    };
                     console.log("login button clicked!");
                 }
                 Component.onCompleted: windowAgent.setHitTestVisible(this)

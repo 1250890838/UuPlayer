@@ -52,6 +52,12 @@ set(image_files
     images/default_user_profile.svg
     )
 
+set(cpp_files
+
+)
+
+target_include_directories(gui PRIVATE "./cpp")
+
 qt_add_qml_module(gui
     URI "gui"
     VERSION 1.0
@@ -60,6 +66,10 @@ qt_add_qml_module(gui
     ${singletons_qml_files}
     ${custom_shared_qml_files}
     ${js_files}
+    SOURCES
+    cpp/UuWindow.cc 
+    cpp/UuWindow.h
+    #   ${cpp_files}
     RESOURCE_PREFIX /
     RESOURCES
     ${image_files}
@@ -67,4 +77,6 @@ qt_add_qml_module(gui
     IMPORT_PATH
         qml/
 )
+
+target_link_libraries(gui PRIVATE Qt6::Quick)
 
