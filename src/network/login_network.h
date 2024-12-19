@@ -17,6 +17,7 @@ class NETWORK_DLL_EXPORT LoginNetwork : public BasicNetwork {
   void createQRCode(const QString& key);
  signals:
   void getQRCodeKeyFinished(error_code::ErrorCode code,const QByteArray&);
+  void createQRCodeFinished(error_code::ErrorCode code, const QByteArray&);
 };
 }  // namespace network
 #endif

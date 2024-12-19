@@ -11,12 +11,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(engine)
-add_subdirectory(gui)
 add_subdirectory(network)
 add_subdirectory(service)
+add_subdirectory(gui)
+
 
 qt_add_executable(uu
     main.cc
 )
 
-target_link_libraries(uu PRIVATE Qt6::Gui Qt6::Quick Qt6::Network guiplugin engine network QWindowKit::Quick)
+target_link_libraries(uu PRIVATE Qt6::Gui Qt6::Quick Qt6::Network guiplugin engine network service QWindowKit::Quick)
