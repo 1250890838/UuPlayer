@@ -19,16 +19,6 @@ Window {
     Component.onCompleted: function () {
         console.log(`LoginDialog : ${this} has borned!!!`);
         LoginService.getQRCodeImage();
-        scanSampleImage.x = 45;
-        zeroToOneOpacityAnimation.start();
-        scanSampleImage.y = 150;
-        qrcodeImage.x = 190;
-        qrcodeImage.y = 140;
-        qrcodeImage.width = 150;
-        qrcodeImage.height = 150;
-        desc.text = "使用 网易云音乐APP \n        扫码登陆      ";
-        desc.x = 190;
-        desc.y = 300;
     }
 
     QtObject {
@@ -45,10 +35,26 @@ Window {
             console.log(ErrorCode);
             if (status != ErrorCode.NoError) {
                 errorText.visible = true;
+                imageMouseArea.enabled=false;
                 console.log("error");
+                desc.text = "使用 网易云音乐APP 扫码登陆";
+                desc.x = 100;
+                desc.y = 350;
             } else {
                 console.log("noerror");
+                imageMouseArea.enabled=true;
                 qrcodeImage.visible = true;
+                scanSampleImage.visible = true;
+                scanSampleImage.x = 45;
+                zeroToOneOpacityAnimation.start();
+                scanSampleImage.y = 150;
+                qrcodeImage.x = 190;
+                qrcodeImage.y = 140;
+                qrcodeImage.width = 150;
+                qrcodeImage.height = 150;
+                desc.text = "使用 网易云音乐APP \n        扫码登陆      ";
+                desc.x = 190;
+                desc.y = 300;
             }
         }
 
@@ -118,24 +124,25 @@ Window {
 
         Image {
             id: scanSampleImage
+            visible: false
             x: 188
             y: 150
             opacity: 0
             width: 140
             height: 240
-            OpacityAnimator on opacity  {
+            OpacityAnimator on opacity {
                 from: 0
                 to: 1
                 duration: 1000
             }
             fillMode: Image.PreserveAspectFit
             source: Icons.qrcodeScanSampleIcon
-            Behavior on x  {
+            Behavior on x {
                 SmoothedAnimation {
                     velocity: settingGroup.velocity
                 }
             }
-            Behavior on y  {
+            Behavior on y {
                 SmoothedAnimation {
                     velocity: settingGroup.velocity
                 }
@@ -153,22 +160,22 @@ Window {
             smooth: true
             mipmap: true
 
-            Behavior on x  {
+            Behavior on x {
                 SmoothedAnimation {
                     velocity: settingGroup.velocity
                 }
             }
-            Behavior on y  {
+            Behavior on y {
                 SmoothedAnimation {
                     velocity: settingGroup.velocity
                 }
             }
-            Behavior on width  {
+            Behavior on width {
                 SmoothedAnimation {
                     velocity: settingGroup.velocity
                 }
             }
-            Behavior on height  {
+            Behavior on height {
                 SmoothedAnimation {
                     velocity: settingGroup.velocity
                 }
