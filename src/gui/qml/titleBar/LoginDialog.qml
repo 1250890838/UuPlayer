@@ -19,29 +19,44 @@ Window {
     Component.onCompleted: function () {
         console.log(`LoginDialog : ${this} has borned!!!`);
         LoginService.getQRCodeImage();
+        scanSampleImage.x = 45;
+        zeroToOneOpacityAnimation.start();
+        scanSampleImage.y = 150;
+        qrcodeImage.x = 190;
+        qrcodeImage.y = 140;
+        qrcodeImage.width = 150;
+        qrcodeImage.height = 150;
+        desc.text = "使用 网易云音乐APP \n        扫码登陆      ";
+        desc.x = 190;
+        desc.y = 300;
+    }
+
+    QtObject {
+        id: settingGroup
+        property int velocity: 300
+        property int duration: 2000
     }
 
     Connections {
         id: connections
         target: LoginService
         function onQrCodeImageStatus(status) {
-            console.log(ErrorCode.NoError)
-            console.log(ErrorCode)
+            console.log(ErrorCode.NoError);
+            console.log(ErrorCode);
             if (status != ErrorCode.NoError) {
-                errorText.visible=true
-                console.log("error")
-            }
-            else{
-                console.log("noerror")
-                qrcode.visible=true
+                errorText.visible = true;
+                console.log("error");
+            } else {
+                console.log("noerror");
+                qrcodeImage.visible = true;
             }
         }
 
         function onQrCodeImageData(data) {
-            qrcode.source = data;
+            qrcodeImage.source = data;
         }
 
-        function onLoginSuccess(){
+        function onLoginSuccess() {
             root.destroy();
         }
     }
@@ -50,6 +65,32 @@ Window {
         anchors.fill: parent
         anchors.margins: 10
         radius: 10
+
+        MouseArea {
+            id: mouseArea
+            z: 99
+            anchors.top: parent.top
+            width: parent.width
+            height: 50
+            propagateComposedEvents: true
+            property point pp: Qt.point(0, 0)// previous point
+
+            onPressed: function (mouse) {
+                let point = mapToGlobal(mouse.x, mouse.y);
+                this.pp = point;
+                console.log("Login dialog pressed!!!");
+            }
+
+            onPositionChanged: function (mouse) {
+                if (mouse.buttons | Qt.LeftButton) {
+                    let point = mapToGlobal(mouse.x, mouse.y);
+                    root.x += point.x - this.pp.x;
+                    root.y += point.y - this.pp.y;
+                    this.pp = point;
+                }
+            }
+        }
+
         Text {
             id: title
             anchors.horizontalCenter: parent.horizontalCenter
@@ -64,25 +105,74 @@ Window {
         }
 
         Text {
-            id:errorText
-            text:"二维码加载失败！"
-            anchors.centerIn:parent
-            visible:false
+            id: errorText
+            text: "二维码加载失败！"
+            anchors.centerIn: parent
+            visible: false
             font {
                 bold: true
                 pixelSize: 21
                 weight: 2
             }
         }
+
         Image {
-            id: qrcode
-            visible:false
-            anchors.top: title.bottom
-            anchors.topMargin: 40
-            anchors.horizontalCenter: parent.horizontalCenter
+            id: scanSampleImage
+            x: 188
+            y: 150
+            opacity: 0
+            width: 140
+            height: 240
+            OpacityAnimator on opacity  {
+                from: 0
+                to: 1
+                duration: 1000
+            }
             fillMode: Image.PreserveAspectFit
-            width: 210
-            height: 210
+            source: Icons.qrcodeScanSampleIcon
+            Behavior on x  {
+                SmoothedAnimation {
+                    velocity: settingGroup.velocity
+                }
+            }
+            Behavior on y  {
+                SmoothedAnimation {
+                    velocity: settingGroup.velocity
+                }
+            }
+        }
+
+        Image {
+            id: qrcodeImage
+            visible: false
+            x: 100
+            y: 153
+            fillMode: Image.PreserveAspectFit
+            width: 200
+            height: 200
+            smooth: true
+            mipmap: true
+
+            Behavior on x  {
+                SmoothedAnimation {
+                    velocity: settingGroup.velocity
+                }
+            }
+            Behavior on y  {
+                SmoothedAnimation {
+                    velocity: settingGroup.velocity
+                }
+            }
+            Behavior on width  {
+                SmoothedAnimation {
+                    velocity: settingGroup.velocity
+                }
+            }
+            Behavior on height  {
+                SmoothedAnimation {
+                    velocity: settingGroup.velocity
+                }
+            }
         }
 
         IconButton {
@@ -100,16 +190,71 @@ Window {
 
         Text {
             id: desc
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: qrcode.bottom
-            anchors.topMargin: 20
+            x: 100
+            y: 350
             text: "使用 网易云音乐APP 扫码登陆"
             font {
                 bold: true
                 pixelSize: 14
             }
         }
+
+        MouseArea {
+            id: imageMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            propagateComposedEvents: true
+            onContainsMouseChanged: function () {
+                console.log(`contains mouse changed now :${contains}`);
+                if (this.containsMouse) {
+                    scanSampleImage.x = 45;
+                    scanSampleImage.y = 150;
+                    scanSampleImage.opacity = 1;
+                    qrcodeImage.x = 190;
+                    qrcodeImage.y = 140;
+                    qrcodeImage.width = 150;
+                    qrcodeImage.height = 150;
+                    desc.text = "使用 网易云音乐APP \n        扫码登陆      ";
+                    desc.x = 190;
+                    desc.y = 300;
+                    zeroToOneOpacityAnimation.start();
+                } else {
+                    scanSampleImage.x = 155;
+                    scanSampleImage.y = 150;
+                    scanSampleImage.opacity = 0;
+                    qrcodeImage.x = 100;
+                    qrcodeImage.y = 153;
+                    qrcodeImage.width = 200;
+                    qrcodeImage.height = 200;
+                    desc.text = "使用 网易云音乐APP 扫码登陆";
+                    desc.x = 100;
+                    desc.y = 350;
+                    oneToZeroOpacityAnimation.start();
+                }
+            }
+        }
     }
+
+    NumberAnimation {
+        id: zeroToOneOpacityAnimation
+        target: scanSampleImage
+        from: 0
+        to: 1
+        property: "opacity"
+        duration: 1000
+        easing.type: Easing.InOutQuad
+    }
+
+    NumberAnimation {
+        id: oneToZeroOpacityAnimation
+        target: scanSampleImage
+        from: 1
+        to: 0
+        property: "opacity"
+        duration: 1000
+        easing.type: Easing.InOutQuad
+    }
+
     MultiEffect {
         id: effect
         source: container
@@ -118,26 +263,5 @@ Window {
         shadowColor: "black"
         shadowEnabled: true
         shadowVerticalOffset: 0
-    }
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        propagateComposedEvents: true
-        property point pp: Qt.point(0, 0)// previous point
-
-        onPressed: function (mouse) {
-            let point = mapToGlobal(mouse.x, mouse.y);
-            this.pp = point;
-            console.log("Login dialog pressed!!!");
-        }
-
-        onPositionChanged: function (mouse) {
-            if (mouse.buttons | Qt.LeftButton) {
-                let point = mapToGlobal(mouse.x, mouse.y);
-                root.x += point.x - this.pp.x;
-                root.y += point.y - this.pp.y;
-                this.pp = point;
-            }
-        }
     }
 }
