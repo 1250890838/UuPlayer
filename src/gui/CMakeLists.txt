@@ -50,6 +50,7 @@ set(image_files
     images/button_maximize.svg
     images/button_close.svg
     images/default_user_profile.svg
+    images/qrcode_scan_sample.png
     )
 
 set(cpp_files
