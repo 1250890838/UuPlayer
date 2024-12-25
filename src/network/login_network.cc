@@ -19,23 +19,18 @@ void LoginNetwork::getQRCodeKey() {
   auto reply = this->get(request);
 
   connect(reply, &QNetworkReply::finished, this, [reply, this]() {
-    if (reply->error() != QNetworkReply::NoError) {
-      auto e = reply->error();
-      if (reply->error() ==
-          QNetworkReply::NetworkError::ConnectionRefusedError) {
+    auto e = reply->error();
+    if (e != QNetworkReply::NoError) {
+      if (e == QNetworkReply::NetworkError::ConnectionRefusedError) {
         emit getQRCodeKeyFinished(error_code::ConnectionRefusedError,
                                   QByteArray());
       } else {
         emit this->getQRCodeKeyFinished(error_code::TimeoutError, QByteArray());
       }
-      qDebug() << "LoginNetWork::getQRCodeKey get error code : "
-               << reply->error() << " " << reply->errorString();
+
     } else {
-      qDebug() << "LoginNetWork::getQRCodeKey get success";
       QByteArray data = reply->readAll();
       emit this->getQRCodeKeyFinished(error_code::NoError, data);
-      QString str(data);
-      qDebug() << "LoginNetWork::getQRCodeKey get response : " << str;
     }
   });
 }

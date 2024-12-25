@@ -1,4 +1,7 @@
-add_library(service SHARED login_service.cc)
+add_library(service SHARED 
+    login_service.cc
+    model/media_item_model.cc
+)
 
 target_compile_definitions(service PRIVATE SERVICE_EXPORT_SYMBOLS)
 

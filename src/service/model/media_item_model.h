@@ -1,12 +1,12 @@
-#ifndef _ENGINE_MEDIA_ITEM_MODEL_H
-#define _ENGINE_MEDIA_ITEM_MODEL_H
+#ifndef _MODEL_MEDIA_ITEM_MODEL_H
+#define _MODEL_MEDIA_ITEM_MODEL_H
 #include <qobject.h>
 #include <QAbstractItemModel>
 #include <QObject>
 #include <QString>
 #include <QUrl>
 
-namespace engine {
+namespace model {
 class AlbumData {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id WRITE setId)
@@ -73,5 +73,5 @@ class MediaItemModel : public QAbstractListModel {
  private:
   QVector<MediaItem> m_items;
 };
-}  // namespace engine
+}  // namespace model
 #endif
