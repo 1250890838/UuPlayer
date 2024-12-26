@@ -8,6 +8,7 @@ import components 1.0
 import QWindowKit 1.0
 import "leftNavigationPanel"
 import "stackPages"
+import "stackPages/cloudMusicSelectedPage"
 import "titleBar"
 
 Window {
@@ -49,6 +50,7 @@ Window {
             }
             StackView {
                 id: stackView
+                Layout.margins:25
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 background: Rectangle {

@@ -13,7 +13,7 @@ Item {
         Text {
             id: title
             anchors.centerIn: parent
-            text: "云音乐精选"
+            text: "排行榜"
             font.pixelSize: 40
             font.bold: true
             color: "black"

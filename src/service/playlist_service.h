@@ -18,8 +18,8 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_PROPERTY(model::PlaylistItemModel* selectivePlaylists READ selectivePlaylists CONSTANT)
 
  public:
-  Q_INVOKABLE void getHighqualityPlaylists(qint32 limit,qint32 tag);
-  Q_INVOKABLE void getSelectivePlaylists(qint32 limit,qint32 tag);
+  Q_INVOKABLE void getHighqualityPlaylists(qint32 limit=5,qint32 tag=-1);
+  Q_INVOKABLE void getSelectivePlaylists(qint32 limit=5,qint32 tag=-1);
  signals:
   void highqualityPlaylistsStatus(network::error_code::ErrorCode code);
   void selectivePlaylistsStatus(network::error_code::ErrorCode code);

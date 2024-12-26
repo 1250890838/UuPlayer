@@ -9,6 +9,7 @@
 #include "engine/audio_player.h"
 #include "network/basic_network.h"
 #include "service/login_service.h"
+#include "service/playlist_service.h"
 
 Q_IMPORT_QML_PLUGIN(guiPlugin)
 
@@ -26,7 +27,8 @@ int main(int argc, char* argv[]) {
       "engine", 1, 0, "Player", &engine::MediaPlayer::getInstance);
 
   qmlRegisterSingletonInstance<service::LoginService>("service", 1, 0, "LoginService",new service::LoginService());
-  
+  qmlRegisterSingletonInstance<service::PlaylistService>("service", 1, 0, "PlaylistsService", new service::PlaylistService());
+
   const QUrl url(u"qrc:/gui/qml/Main.qml"_qs);
   QObject::connect(
       &engine, &QQmlApplicationEngine::objectCreationFailed, &app,

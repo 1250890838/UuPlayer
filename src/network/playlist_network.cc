@@ -6,9 +6,13 @@
 namespace network {
 void PlaylistNetwork::getHighqualityPlaylists(qint32 limit, qint32 tag) {
   QNetworkRequest request;
-  QUrl url = network_api::host + network_api::apiGetHighqualityPlaylists + "?" +
-             "limit=" + QString::number(limit) + "&" +
-             "tag=" + QString::number(tag);
+  QUrl url = QUrl(network_api::apiGetHighqualityPlaylists + "?" +
+             "limit=" + QString::number(limit));
+  qDebug() << url;
+  if (tag != -1) {
+    url.setUrl(url.toString(QUrl::None) + "&" + "tag=" + QString::number(tag));
+  }
+  qDebug() << url;
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply, this]() {
@@ -43,10 +47,10 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, qint32 tag) {
     } else {
       if (e == QNetworkReply::NetworkError::ConnectionRefusedError) {
         emit getSelectivePlaylistsFinished(error_code::ConnectionRefusedError,
-                                             QByteArray());
+                                           QByteArray());
       } else {
         emit this->getSelectivePlaylistsFinished(error_code::TimeoutError,
-                                                   QByteArray());
+                                                 QByteArray());
       }
     }
   });

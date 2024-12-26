@@ -85,6 +85,7 @@ class PlaylistItemModel : public QAbstractListModel {
   QHash<int, QByteArray> roleNames() const;
   void appendItem(const PlaylistItem& item);
   void appendItems(const QVector<PlaylistItem>& items);
+  void clear();
 
  private:
   QVector<PlaylistItem> m_items;

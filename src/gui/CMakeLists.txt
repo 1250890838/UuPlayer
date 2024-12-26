@@ -4,7 +4,14 @@ set(plain_qml_files
     qml/Main.qml
     qml/leftNavigationPanel/LeftNavigationPanel.qml
     qml/leftNavigationPanel/NavigationPanelItem.qml
-    qml/stackPages/CloudMusicSelectedPage.qml
+    qml/stackPages/cloudMusicSelectedPage/CloudMusicSelectedPage.qml
+    qml/stackPages/cloudMusicSelectedPage/NavigateLogic.js
+    qml/stackPages/cloudMusicSelectedPage/PlaylistSquareSubpage.qml
+    qml/stackPages/cloudMusicSelectedPage/RankingSubpage.qml
+    qml/stackPages/cloudMusicSelectedPage/SelectiveSubpage.qml
+    qml/stackPages/cloudMusicSelectedPage/SingerSubpage.qml
+    qml/stackPages/cloudMusicSelectedPage/TabsBar.qml
+    qml/stackPages/cloudMusicSelectedPage/VipSubpage.qml
     qml/stackPages/CommunityPage.qml
     qml/stackPages/DownloadManagePage.qml
     qml/stackPages/FavorMusicPage.qml
@@ -21,6 +28,7 @@ set(custom_shared_qml_files
     qml/components/button/IconButton.qml
     qml/components/button/IconLabel.qml
     qml/components/button/TextIconButton.qml
+    qml/components/other/PlaylistItem.qml
 )
 
 set(js_files
