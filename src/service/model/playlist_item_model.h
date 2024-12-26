@@ -12,7 +12,6 @@ namespace model{
 class UserData {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id WRITE setId)
-  Q_PROPERTY(QString name READ name WRITE setName)
   Q_PROPERTY(QUrl avatarUrl READ avatarUrl WRITE setAvatarUrl)
   Q_PROPERTY(QUrl backgroundUrl READ backgroundUrl WRITE setBackgroundUrl)
   Q_PROPERTY(QStringList expertTags READ expertTags WRITE setExpertTags)
@@ -47,13 +46,14 @@ class UserData {
   bool m_followed;
 };
 
+
 struct PlaylistItem {
     qulonglong id;
     QString name;
     qulonglong userId;
     qulonglong createTime;
     qulonglong updateTime;
-    QString coverUrl;
+    QUrl coverUrl;
     QString description;
     QStringList tags;
     qulonglong playCount;
@@ -83,9 +83,13 @@ class PlaylistItemModel : public QAbstractListModel {
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
+  void appendItem(const PlaylistItem& item);
+  void appendItems(const QVector<PlaylistItem>& items);
 
  private:
   QVector<PlaylistItem> m_items;
 };
 }
+
+Q_DECLARE_METATYPE(model::UserData);
 #endif

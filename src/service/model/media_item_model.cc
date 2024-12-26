@@ -1,7 +1,7 @@
 #include "media_item_model.h"
 #include <qobject.h>
 #include <qvariant.h>
-namespace engine {
+namespace model {
 MediaItemModel::MediaItemModel(QObject* parent) {}
 
 int MediaItemModel::rowCount(const QModelIndex& parent) const {
