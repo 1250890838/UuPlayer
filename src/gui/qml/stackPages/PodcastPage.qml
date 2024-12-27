@@ -13,7 +13,7 @@ Item {
         Text {
             id: title
             anchors.centerIn: parent
-            text: "播客"
+            text: "动态"
             font.pixelSize: 40
             font.bold: true
             color: "black"

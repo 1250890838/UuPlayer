@@ -1,5 +1,6 @@
-function switchPage(item){
+function switchPage(item,page){
     if(tabsBar.currentItem==item)
         return;
-    stackView.push(item);
+    tabsBar.currentItem=item;
+    stackView.replace(page);
 }

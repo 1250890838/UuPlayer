@@ -11,16 +11,22 @@ Pane {
     property var texts: ["精选", "歌单广场", "排行榜", "歌手", "VIP"]
 
     background: Rectangle {
-        color: "blue"
+        color: "transparent"
+    }
+    Component.onCompleted: {
+        tabsBar.currentItem = repeater.itemAt(0);
     }
 
     Row {
         id: row
         anchors.fill: parent
+        spacing:15
         Repeater {
+            id: repeater
             model: 5
             Item {
-                implicitWidth: column.implicitWidth + 20 + 5
+                id: tabItem
+                implicitWidth: column.implicitWidth + 5
                 implicitHeight: column.implicitHeight + 2 + 5
                 Column {
                     id: column
@@ -28,30 +34,32 @@ Pane {
                     Text {
                         id: text
                         text: tabsBar.texts[modelData]
+                        font.pointSize:11
                     }
                     Rectangle {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        width: 20
-                        height: 2
+                        width: 15
+                        height: 3.5
                         color: "red"
+                        visible: tabsBar.currentItem == tabItem
                     }
                 }
 
                 MouseArea {
                     id: mouseArea
-                    anchors.fill:parent
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        console.log(`clicked modelData ${modelData} `)
                         if (modelData == 0) {
-                            NavigateLogic.switchPage(this, Qt.createComponent("SelectiveSubpage.qml"));
+                            NavigateLogic.switchPage(tabItem, Qt.createComponent("SelectiveSubpage.qml"));
                         } else if (modelData == 1) {
-                            NavigateLogic.switchPage(this, Qt.createComponent("PlaylistSquareSubpage.qml"));
+                            NavigateLogic.switchPage(tabItem, Qt.createComponent("PlaylistSquareSubpage.qml"));
                         } else if (modelData == 2) {
-                            NavigateLogic.switchPage(this, Qt.createComponent("RankingSubpage.qml"));
+                            NavigateLogic.switchPage(tabItem, Qt.createComponent("RankingSubpage.qml"));
                         } else if (modelData == 3) {
-                            NavigateLogic.switchPage(this, Qt.createComponent("SingerSubpage.qml"));
+                            NavigateLogic.switchPage(tabItem, Qt.createComponent("SingerSubpage.qml"));
                         } else if (modelData == 4) {
-                            NavigateLogic.switchPage(this, Qt.createComponent("VipSubpage.qml"));
+                            NavigateLogic.switchPage(tabItem, Qt.createComponent("VipSubpage.qml"));
                         }
                     }
                 }

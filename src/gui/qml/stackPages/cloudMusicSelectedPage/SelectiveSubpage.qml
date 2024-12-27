@@ -7,8 +7,8 @@ Item {
     id: root
     Pane {
         anchors.fill: parent
-                background: Rectangle {
-            color: "yellowgreen"
+        background: Rectangle {
+            color: "gray"
         }
         Text {
             id: title

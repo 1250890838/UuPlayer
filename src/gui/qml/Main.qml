@@ -16,6 +16,7 @@ Window {
     minimumWidth: 1057
     minimumHeight: 752
     visible: false
+    color: "#F7F9FC"
     Component.onCompleted: {
         windowAgent.setup(window);
         window.visible = true;
@@ -25,20 +26,12 @@ Window {
     }
     title: qsTr("Demo")
 
-    function switchPage(item: Item, page: var) {
-        if (item === navigationPanel.currentItem) {
-            console.log("same page!");
-            return;
-        }
-        navigationPanel.currentItem = item;
-        stackView.push(page);
-    }
     ColumnLayout {
-        anchors.fill:parent
-        spacing:0
-        TitleBar{
+        anchors.fill: parent
+        spacing: 0
+        TitleBar {
             id: titleBar
-            Layout.fillWidth:true
+            Layout.fillWidth: true
         }
 
         RowLayout {
@@ -50,7 +43,7 @@ Window {
             }
             StackView {
                 id: stackView
-                Layout.margins:25
+                Layout.margins: 25
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 background: Rectangle {
@@ -60,6 +53,8 @@ Window {
                 popExit: null
                 pushEnter: null
                 pushExit: null
+                replaceEnter: null
+                replaceExit: null
                 initialItem: CloudMusicSelectedPage {
                 }
             }

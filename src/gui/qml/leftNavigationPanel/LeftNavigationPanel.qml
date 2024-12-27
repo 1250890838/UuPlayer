@@ -7,9 +7,8 @@ import "NavigateLogic.js" as Logic
 import "../stackPages"
 
 Item {
-    id: root
-    property Item currentItem
-
+    id: navigationPanel
+    property Item currentItem:cloudMusicSelectedItem
     Pane {
         id: container
         anchors.fill: parent
@@ -36,7 +35,7 @@ Item {
                 icon: Icons.choiceMusicIcon
                 selectedIcon: Icons.choiceMusicSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
-                onClicked: switchPage(this, Qt.createComponent("../stackPages/CloudMusicSelectedPage.qml"))
+                onClicked: Logic.switchPage(this, Qt.createComponent("../stackPages/cloudMusicSelectedPage/CloudMusicSelectedPage.qml"))
             }
             NavigationPanelItem {
                 id: podcastItem // 播客
@@ -47,7 +46,7 @@ Item {
                 icon: Icons.podcastIcon
                 selectedIcon: Icons.podcastSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
-                onClicked: switchPage(this, Qt.createComponent("../stackPages/PodcastPage.qml"))
+                onClicked: Logic.switchPage(this, Qt.createComponent("../stackPages/PodcastPage.qml"))
             }
             NavigationPanelItem {
                 id: movementItem // 动态
@@ -58,7 +57,7 @@ Item {
                 icon: Icons.movementIcon
                 selectedIcon: Icons.movementSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
-                onClicked: switchPage(this, Qt.createComponent("../stackPages/PodcastPage.qml"))
+                onClicked: Logic.switchPage(this, Qt.createComponent("../stackPages/PodcastPage.qml"))
             }
             NavigationPanelItem {
                 id: privateRoamItem // 私人FM
@@ -72,7 +71,7 @@ Item {
                 radius: 8
                 visible: false
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
-                onClicked: switchPage(this, Qt.createComponent("../stackPages/CommunityPage.qml"))
+                onClicked: Logic.switchPage(this, Qt.createComponent("../stackPages/CommunityPage.qml"))
             }
 
             Rectangle{
@@ -92,7 +91,7 @@ Item {
                 icon: Icons.favorMusicIcon
                 selectedIcon: Icons.favorMusicSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
-                onClicked: switchPage(this, Qt.createComponent("../stackPages/FavorMusicPage.qml"))
+                onClicked: Logic.switchPage(this, Qt.createComponent("../stackPages/FavorMusicPage.qml"))
             }
 
             NavigationPanelItem {
@@ -104,7 +103,7 @@ Item {
                 icon: Icons.recentPlayIcon
                 selectedIcon: Icons.recentPlaySelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
-                onClicked: switchPage(this, Qt.createComponent("../stackPages/RecentPlayPage.qml"))
+                onClicked: Logic.switchPage(this, Qt.createComponent("../stackPages/RecentPlayPage.qml"))
             }
             NavigationPanelItem {
                 id: myPodcast // 我的播客
@@ -129,7 +128,7 @@ Item {
                 icon: Icons.downloadManagerIcon
                 selectedIcon: Icons.downloadManagerSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
-                onClicked: switchPage(this, Qt.createComponent("../stackPages/DownloadManagePage.qml"))
+                onClicked: Logic.switchPage(this, Qt.createComponent("../stackPages/DownloadManagePage.qml"))
             }
             NavigationPanelItem {
                 id: localMusic // 本地音乐
@@ -140,7 +139,7 @@ Item {
                 icon: Icons.localMusicIcon
                 selectedIcon: Icons.localMusicSelectedIcon
                 colors: ["transparent", "#E4E8EC", "#fc3d4a"]
-                onClicked: switchPage(this, Qt.createComponent("../stackPages/LocalMusicPage.qml"))
+                onClicked: Logic.switchPage(this, Qt.createComponent("../stackPages/LocalMusicPage.qml"))
             }
             NavigationPanelItem {
                 id: musicCloudDisk // 音乐云盘

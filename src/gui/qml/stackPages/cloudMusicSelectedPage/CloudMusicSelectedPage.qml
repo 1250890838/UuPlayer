@@ -7,16 +7,22 @@ import service 1.0
 Page {
     id: root
     ColumnLayout {
-        anchors.fill:parent
+        anchors.fill: parent
         TabsBar {
             id: tabbar
-            Layout.fillWidth:true
+            Layout.fillWidth: true
         }
 
         StackView {
             id: stackView
-            Layout.fillHeight:true
-            Layout.fillWidth:true
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            popEnter: null
+            popExit: null
+            pushEnter: null
+            pushExit: null
+            replaceEnter: null
+            replaceExit: null
             initialItem: SelectiveSubpage {
             }
         }
