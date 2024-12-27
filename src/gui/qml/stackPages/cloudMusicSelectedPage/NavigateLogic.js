@@ -3,4 +3,7 @@ function switchPage(item,page){
         return;
     tabsBar.currentItem=item;
     stackView.replace(page);
+    window.commands.push(function(){
+        switchPage(item,page);
+    });
 }

@@ -17,6 +17,8 @@ Window {
     minimumHeight: 752
     visible: false
     color: "#F7F9FC"
+    property var commands:[]
+
     Component.onCompleted: {
         windowAgent.setup(window);
         window.visible = true;
