@@ -11,6 +11,7 @@ set(plain_qml_files
     qml/stackPages/cloudMusicSelectedPage/SelectiveSubpage.qml
     qml/stackPages/cloudMusicSelectedPage/SingerSubpage.qml
     qml/stackPages/cloudMusicSelectedPage/TabsBar.qml
+    qml/stackPages/cloudMusicSelectedPage/CTab.qml
     qml/stackPages/cloudMusicSelectedPage/VipSubpage.qml
     qml/stackPages/CommunityPage.qml
     qml/stackPages/DownloadManagePage.qml

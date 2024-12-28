@@ -6,6 +6,9 @@ import service 1.0
 
 Page {
     id: root
+    background:Rectangle{
+        color:"transparent"
+    }
     ColumnLayout {
         anchors.fill: parent
         TabsBar {

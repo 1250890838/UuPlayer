@@ -13,3 +13,4 @@ function switchPage(item, page, record = true) {
         });
     }
 }
+
