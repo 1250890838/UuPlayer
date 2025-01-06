@@ -7,7 +7,7 @@ namespace network {
 void PlaylistNetwork::getHighqualityPlaylists(qint32 limit, qint32 tag) {
   QNetworkRequest request;
   QUrl url = QUrl(network_api::apiGetHighqualityPlaylists + "?" +
-             "limit=" + QString::number(limit));
+                  "limit=" + QString::number(limit));
   qDebug() << url;
   if (tag != -1) {
     url.setUrl(url.toString(QUrl::None) + "&" + "tag=" + QString::number(tag));
@@ -55,4 +55,26 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, qint32 tag) {
     }
   });
 }
+  void PlaylistNetwork::getPlaylistsCatlist() {
+    QNetworkRequest request;
+    QUrl url = network_api::host + network_api::apiCatlist;
+    request.setUrl(url);
+    auto reply = this->get(request);
+    connect(reply, &QNetworkReply::finished, this, [reply, this]() {
+      auto e = reply->error();
+      if (e == QNetworkReply::NoError) {
+        QByteArray data = reply->readAll();
+        emit getPlaylistsCatlistFinished(error_code::NoError, data);
+      } else {
+        if (e == QNetworkReply::NetworkError::ConnectionRefusedError) {
+          emit getPlaylistsCatlistFinished(error_code::ConnectionRefusedError,
+                                           QByteArray());
+        } else {
+          emit this->getPlaylistsCatlistFinished(error_code::TimeoutError,
+                                                 QByteArray());
+        }
+      }
+  });
+}
+
 }  // namespace network

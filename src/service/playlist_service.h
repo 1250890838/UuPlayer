@@ -3,6 +3,7 @@
 #include <qjsonobject.h>
 #include <qtmetamacros.h>
 #include <qtypes.h>
+#include <qvariant.h>
 #include <QObject>
 
 #include "model/playlist_item_model.h"
@@ -20,15 +21,18 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
  public:
   Q_INVOKABLE void getHighqualityPlaylists(qint32 limit=5,qint32 tag=-1);
   Q_INVOKABLE void getSelectivePlaylists(qint32 limit=5,qint32 tag=-1);
+  Q_INVOKABLE void getPlaylistsCatlist();
  signals:
   void highqualityPlaylistsStatus(network::error_code::ErrorCode code);
   void selectivePlaylistsStatus(network::error_code::ErrorCode code);
+  void playlistsCatlistStatus(QVariantMap catlist);
 
  public slots:
   void onGetHighqualityPlaylists(network::error_code::ErrorCode,
                               const QByteArray& data);
   void onGetSelectivePlaylists(network::error_code::ErrorCode,
                                    const QByteArray& data);
+  void onGetPlaylistsCatlist(network::error_code::ErrorCode,const QByteArray& data);
 
 
  public:

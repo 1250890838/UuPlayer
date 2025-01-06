@@ -22,6 +22,8 @@ PlaylistService::PlaylistService(QObject* parent) : QObject(parent) {
           &PlaylistService::onGetHighqualityPlaylists);
   connect(&m_network, &PlaylistNetwork::getSelectivePlaylistsFinished, this,
           &PlaylistService::onGetSelectivePlaylists);
+  connect(&m_network, &PlaylistNetwork::getPlaylistsCatlistFinished, this,
+          &PlaylistService::onGetPlaylistsCatlist);
 }
 
 void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
@@ -30,6 +32,10 @@ void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
 
 void PlaylistService::getSelectivePlaylists(qint32 limit, qint32 tag) {
   m_network.getSelectivePlaylists(limit, tag);
+}
+
+void PlaylistService::getPlaylistsCatlist() {
+  m_network.getPlaylistsCatlist();
 }
 
 void PlaylistService::onGetHighqualityPlaylists(
@@ -140,4 +146,26 @@ QVector<model::UserData> PlaylistService::formatSubscribers(
   }
   return result;
 }
+
+void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
+                                            const QByteArray& data) {
+  if (code == network::error_code::NoError) {
+    QVariantMap result;
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    auto obj = doc.object();
+    auto subs = obj["sub"].toArray();
+    auto categories = obj["categories"].toObject();
+    for (int i = 0; i < categories.size(); i++) {
+      QStringList list;
+      auto category = categories[QString::number(i)].toString();
+      for (const auto& sub : subs) {
+        auto o = sub.toObject();
+        if (o["category"].toInt() == i) {
+          list.append(o["name"].toString());
+        }
+      }
+      result.insert(category, list);
+    }
+    emit playlistsCatlistStatus(result);
+  }
 }  // namespace service
