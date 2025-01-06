@@ -149,6 +149,10 @@ QVector<model::UserData> PlaylistService::formatSubscribers(
 
 void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
                                             const QByteArray& data) {
+  if (!m_catlist.empty()) {
+    emit playlistsCatlist(m_catlist);
+    return;
+  }
   if (code == network::error_code::NoError) {
     QVariantMap result;
     QJsonDocument doc = QJsonDocument::fromJson(data);
@@ -166,6 +170,6 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
       }
       result.insert(category, list);
     }
-    emit playlistsCatlistStatus(result);
+    emit playlistsCatlist(result);
   }
 }  // namespace service

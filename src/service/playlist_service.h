@@ -25,7 +25,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
  signals:
   void highqualityPlaylistsStatus(network::error_code::ErrorCode code);
   void selectivePlaylistsStatus(network::error_code::ErrorCode code);
-  void playlistsCatlistStatus(QVariantMap catlist);
+  void playlistsCatlist(QVariantMap catlist);
 
  public slots:
   void onGetHighqualityPlaylists(network::error_code::ErrorCode,
@@ -47,5 +47,6 @@ private:
   network::PlaylistNetwork m_network;
   model::PlaylistItemModel m_highqualityPlaylists;
   model::PlaylistItemModel m_selectivePlaylists;
+  QVariantMap m_catlist;
 };
 }  // namespace service

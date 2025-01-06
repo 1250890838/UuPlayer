@@ -2,12 +2,22 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import components 1.0
+import service 1.0
 
 Item {
     id: root
+
+    Connections {
+        target: PlaylistsService
+        onPlaylistsCatlistChanged: {
+            console.log("PlaylistsService.onPlaylistsCatlistChanged");
+            console.log(PlaylistsService.playlistsCatlist);
+        }
+    }
+
     Pane {
         anchors.fill: parent
-                background: Rectangle {
+        background: Rectangle {
             color: "transparent"
         }
         Text {
@@ -18,5 +28,8 @@ Item {
             font.bold: true
             color: "black"
         }
+    }
+    Component.onCompleted: {
+        PlaylistsService.getPlaylistsCatlist();
     }
 }
