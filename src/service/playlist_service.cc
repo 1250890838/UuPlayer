@@ -172,4 +172,5 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
     }
     emit playlistsCatlist(result);
   }
-}  // namespace service
+}
+}// namespace service

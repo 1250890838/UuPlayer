@@ -9,7 +9,7 @@ Item {
 
     Connections {
         target: PlaylistsService
-        onPlaylistsCatlistChanged: {
+        function onPlaylistsCatlistChanged() {
             console.log("PlaylistsService.onPlaylistsCatlistChanged");
             console.log(PlaylistsService.playlistsCatlist);
         }
