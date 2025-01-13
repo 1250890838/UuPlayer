@@ -9,6 +9,7 @@ Item {
 
     Connections {
         target: PlaylistsService
+        ignoreUnknownSignals: true
         function onPlaylistsCatlistChanged() {
             console.log("PlaylistsService.onPlaylistsCatlistChanged");
             console.log(PlaylistsService.playlistsCatlist);

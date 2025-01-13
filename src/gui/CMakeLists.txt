@@ -23,7 +23,10 @@ set(plain_qml_files
     qml/titleBar/LoginDialog.qml
 )
 
-set(singletons_qml_files qml/assets/Icons.qml)
+set(singletons_qml_files
+    qml/assets/Icons.qml
+    qml/assets/Skins.qml
+)
 
 set(custom_shared_qml_files 
     qml/components/button/IconButton.qml
