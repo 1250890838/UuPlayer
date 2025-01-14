@@ -62,6 +62,7 @@ set(image_files
     images/button_maximize.svg
     images/button_close.svg
     images/default_user_profile.svg
+    images/button_skin.svg
     images/qrcode_scan_sample.png
     )
 
@@ -89,6 +90,8 @@ qt_add_qml_module(gui
         qml/components/qmldir
     IMPORT_PATH
         qml/
+        QML_FILES qml/stackPages/skinPage/SkinPage.qml
+        QML_FILES qml/stackPages/skinPage/SkinItem.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

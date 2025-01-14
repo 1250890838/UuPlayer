@@ -59,16 +59,32 @@ Item {
                 iconHeight: 32
                 text: "未登录"
                 onClicked: {
-                    let loginDialog = Qt.createComponent("LoginDialog.qml");
-                    let incubator = loginDialog.incubateObject(null, {
-                        //    "dim": false
-                        }, Qt.Asynchronous);
+                    let loginDialog = Qt.createComponent("LoginDialog.qml")
+                    let incubator = loginDialog.incubateObject(
+                            null, {//    "dim": false
+                            }, Qt.Asynchronous)
                     incubator.onStatusChanged = function (status) {
                         if (status == Component.Ready) {
-                            let dialog = incubator.object;
+                            let dialog = incubator.object
                         }
-                    };
-                    console.log("login button clicked!");
+                    }
+                    console.log("login button clicked!")
+                }
+                Component.onCompleted: windowAgent.setHitTestVisible(this)
+            }
+
+            IconButton {
+                id: skinButton
+                Layout.alignment: Qt.AlignRight
+                icon: Icons.skinIcon
+                implicitHeight: 16
+                implicitWidth: 16
+                hoveredIcon: Icons.skinIcon
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    stackView.replace(
+                                Qt.createComponent(
+                                    "../stackPages/skinPage/SkinPage.qml"))
                 }
                 Component.onCompleted: windowAgent.setHitTestVisible(this)
             }
@@ -81,7 +97,8 @@ Item {
                 icon: Icons.minimizeIcon
                 hoveredIcon: Icons.minimizeIcon
                 onClicked: window.showMinimized()
-                Component.onCompleted: windowAgent.setSystemButton(WindowAgent.Minimize, minButton)
+                Component.onCompleted: windowAgent.setSystemButton(
+                                           WindowAgent.Minimize, minButton)
             }
             IconButton {
                 id: maxButton
@@ -91,14 +108,15 @@ Item {
                 implicitWidth: 16
                 icon: this.checked ? Icons.normalizeIcon : Icons.maximizeIcon
                 hoveredIcon: this.checked ? Icons.normalizeIcon : Icons.maximizeIcon
-                Component.onCompleted: windowAgent.setSystemButton(WindowAgent.Maximize, maxButton)
+                Component.onCompleted: windowAgent.setSystemButton(
+                                           WindowAgent.Maximize, maxButton)
                 onClicked: {
                     if (window.visibility === Window.Maximized) {
-                        window.showNormal();
-                        this.checked = true;
+                        window.showNormal()
+                        this.checked = true
                     } else {
-                        window.showMaximized();
-                        this.checked = false;
+                        window.showMaximized()
+                        this.checked = false
                     }
                 }
             }
@@ -110,7 +128,8 @@ Item {
                 implicitWidth: 16
                 icon: Icons.closeIcon
                 hoveredIcon: Icons.closeIcon
-                Component.onCompleted: windowAgent.setSystemButton(WindowAgent.Close, closeButton)
+                Component.onCompleted: windowAgent.setSystemButton(
+                                           WindowAgent.Close, closeButton)
                 onClicked: window.close()
             }
         }

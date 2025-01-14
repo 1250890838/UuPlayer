@@ -3,9 +3,9 @@ import QtQuick.Controls
 
 Item {
     id: root
-    property alias text:textId.text
-    property bool isCurrentItem:false
-    signal clicked()
+    property alias text: textId.text
+    property bool isCurrentItem: false
+    signal clicked
     implicitWidth: textId.implicitWidth + 5
     implicitHeight: 35
     Column {

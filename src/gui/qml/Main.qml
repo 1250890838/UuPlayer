@@ -17,11 +17,11 @@ Window {
     minimumHeight: 752
     visible: false
     color: "#F7F9FC"
-    property var commands:[]
+    property var commands: []
 
     Component.onCompleted: {
-        windowAgent.setup(window);
-        window.visible = true;
+        windowAgent.setup(window)
+        window.visible = true
     }
     WindowAgent {
         id: windowAgent
@@ -43,23 +43,47 @@ Window {
                 Layout.preferredWidth: 205
                 Layout.fillHeight: true
             }
-            StackView {
-                id: stackView
-                Layout.margins: 25
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                background: Rectangle {
-                    color: "#f7f9fc"
-                }
-                popEnter: null
-                popExit: null
-                pushEnter: null
-                pushExit: null
-                replaceEnter: null
-                replaceExit: null
-                initialItem: CloudMusicSelectedPage {
+
+            ColumnLayout {
+                id: columnLayout
+                Layout.preferredWidth: Rectangle {
+                    id: test
+                    color: "blue"
+                    Layout.preferredWidth: (0.9 * (window.width - navigationPanel.width))
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignRight
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            console.log(test.width)
+                            console.log(columnLayout.width)
+                        }
+                    }
                 }
             }
+
+
+            /*
+            ColumnLayout {
+                StackView {
+                    id: stackView
+                    Layout.margins: 25
+                    Layout.alignment: Qt.AlignCenter
+                    Layout.preferredWidth: (0.9 * (window.width - navigationPanel.width))
+                    Layout.fillHeight: true
+                    background: Rectangle {
+                        color: "#f7f9fc"
+                    }
+                    popEnter: null
+                    popExit: null
+                    pushEnter: null
+                    pushExit: null
+                    replaceEnter: null
+                    replaceExit: null
+                    initialItem: CloudMusicSelectedPage {}
+                }
+            }
+            */
         }
     }
 }
