@@ -23,6 +23,9 @@ int main(int argc, char* argv[]) {
 
   qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Icons.qml"_qs), "assets",
                            1, 0, "Icons");
+  qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Skins.qml"_qs), "skins",
+                           1, 0, "Skins");
+
   qmlRegisterSingletonType<engine::MediaPlayer>(
       "engine", 1, 0, "Player", &engine::MediaPlayer::getInstance);
 

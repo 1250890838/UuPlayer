@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick
 import components 1.0
 import assets 1.0
+import skins 1.0
 import QWindowKit 1.0
 
 Item {
@@ -14,7 +15,7 @@ Item {
         padding: 0
         background: Rectangle {
             id: background
-            color: "#F7F9FC"
+            color: Skins.titlebarRightBackColor
         }
         RowLayout {
             anchors.fill: parent
@@ -23,7 +24,7 @@ Item {
                 Layout.preferredWidth: 205
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignLeft
-                color: Qt.rgba(240 / 255, 243 / 255, 246 / 255, 1.0) //"#F0F3F6"
+                color: Skins.titlebarLeftBackColor
                 Row {
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 10

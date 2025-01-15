@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import engine 1.0
 import assets 1.0
+import skins 1.0
 import components 1.0
 import QWindowKit 1.0
 import "leftNavigationPanel"
@@ -46,25 +47,7 @@ Window {
 
             ColumnLayout {
                 id: columnLayout
-                Layout.preferredWidth: Rectangle {
-                    id: test
-                    color: "blue"
-                    Layout.preferredWidth: (0.9 * (window.width - navigationPanel.width))
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignRight
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            console.log(test.width)
-                            console.log(columnLayout.width)
-                        }
-                    }
-                }
-            }
-
-
-            /*
-            ColumnLayout {
+                Layout.preferredWidth: window.width - navigationPanel.width
                 StackView {
                     id: stackView
                     Layout.margins: 25
@@ -72,7 +55,7 @@ Window {
                     Layout.preferredWidth: (0.9 * (window.width - navigationPanel.width))
                     Layout.fillHeight: true
                     background: Rectangle {
-                        color: "#f7f9fc"
+                        color: Skins.bodyBackColor
                     }
                     popEnter: null
                     popExit: null
@@ -83,7 +66,6 @@ Window {
                     initialItem: CloudMusicSelectedPage {}
                 }
             }
-            */
         }
     }
 }
