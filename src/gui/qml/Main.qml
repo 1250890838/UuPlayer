@@ -17,7 +17,7 @@ Window {
     minimumWidth: 1057
     minimumHeight: 752
     visible: false
-    color: "#F7F9FC"
+    color: Skins.bodyBackColor
     property var commands: []
 
     Component.onCompleted: {

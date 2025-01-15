@@ -52,6 +52,7 @@ Page {
                 Layout.preferredHeight: this.width * 0.72
                 skinText: "黄绿色"
                 skinColor: "yellowgreen"
+                onClicked: Skins.state = "yellow_green"
             }
         }
     }

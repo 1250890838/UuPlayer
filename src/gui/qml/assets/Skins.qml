@@ -67,6 +67,21 @@ Item {
                 titlebarRightBackColor: "#13131a"
                 bodyBackColor: "#13131a"
             }
+        },
+        State {
+            name: "yellow_green"
+            PropertyChanges {
+                target: root
+                normalFontColor: "gray"
+                strongFontColor: "black"
+                leftNavPaneBackColor: "#f0f3f6"
+                leftNavPanelItemBackColor: "#f0f3f6"
+                leftNavPaenlItemBackHoveredColor: "#e4e8ec"
+                leftNavPanelItemBackCheckedColor: "yellowgreen"
+                titlebarLeftBackColor: "yellowgreen"
+                titlebarRightBackColor: "yellowgreen"
+                bodyBackColor: "#f7f9fc"
+            }
         }
     ]
 }

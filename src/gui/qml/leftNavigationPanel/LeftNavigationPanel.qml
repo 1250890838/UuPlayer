@@ -25,7 +25,7 @@ Item {
                 width: parent.width
                 radius: 8
                 visible: false //TODO: user mode
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
             }
             NavigationPanelItem {
                 id: cloudMusicSelectedItem // 云音乐精选
@@ -35,7 +35,7 @@ Item {
                 text: "精选"
                 icon: Icons.choiceMusicIcon
                 selectedIcon: Icons.choiceMusicSelectedIcon
-                colors: ["transparent", Skins.leftNavPanelItemBackColor, "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
                                    "../stackPages/cloudMusicSelectedPage/CloudMusicSelectedPage.qml"))
@@ -48,7 +48,7 @@ Item {
                 text: "播客"
                 icon: Icons.podcastIcon
                 selectedIcon: Icons.podcastSelectedIcon
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
                                    "../stackPages/PodcastPage.qml"))
@@ -61,7 +61,7 @@ Item {
                 width: parent.width
                 icon: Icons.movementIcon
                 selectedIcon: Icons.movementSelectedIcon
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
                                    "../stackPages/PodcastPage.qml"))
@@ -70,7 +70,7 @@ Item {
                 id: privateRoamItem // 私人FM
                 radius: 8
                 visible: false
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 //      onClicked: switchPage(this,Qt.createComponent("../stackPages/.qml"))
             }
             NavigationPanelItem {
@@ -85,7 +85,7 @@ Item {
 
             Rectangle {
                 id: spliter
-                color: "#E0E0E0"
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 width: parent.width - 10 * 2
                 height: 1
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -99,7 +99,7 @@ Item {
                 text: "我喜欢的音乐"
                 icon: Icons.favorMusicIcon
                 selectedIcon: Icons.favorMusicSelectedIcon
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
                                    "../stackPages/FavorMusicPage.qml"))
@@ -113,7 +113,7 @@ Item {
                 text: "最近播放"
                 icon: Icons.recentPlayIcon
                 selectedIcon: Icons.recentPlaySelectedIcon
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
                                    "../stackPages/RecentPlayPage.qml"))
@@ -122,14 +122,14 @@ Item {
                 id: myPodcast // 我的播客
                 radius: 8
                 visible: false
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 //         onClicked: switchPage(this,Qt.createComponent("../stackPages/PodcastPage.qml"))
             }
             NavigationPanelItem {
                 id: myCollection // 我的收藏
                 radius: 8
                 visible: false
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 //   onClicked: switchPage(this,Qt.createComponent("../stackPages/PodcastPage.qml"))
             }
             NavigationPanelItem {
@@ -140,7 +140,7 @@ Item {
                 text: "下载管理"
                 icon: Icons.downloadManagerIcon
                 selectedIcon: Icons.downloadManagerSelectedIcon
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
                                    "../stackPages/DownloadManagePage.qml"))
@@ -153,7 +153,7 @@ Item {
                 text: "本地音乐"
                 icon: Icons.localMusicIcon
                 selectedIcon: Icons.localMusicSelectedIcon
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
                                    "../stackPages/LocalMusicPage.qml"))
@@ -161,7 +161,7 @@ Item {
             NavigationPanelItem {
                 id: musicCloudDisk // 音乐云盘
                 radius: 8
-                colors: ["transparent", "#E4E8EC", "#fc3d4a"]
+                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 //                  onClicked: switchPage(this,Qt.createComponent("../stackPages/PodcastPage.qml"))
             }
         }
