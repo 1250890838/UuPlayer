@@ -4,6 +4,7 @@ import QtQuick.Controls
 Item {
     id: root
     property alias text: textId.text
+    property alias textColor: textId.color
     property bool isCurrentItem: false
     signal clicked
     implicitWidth: textId.implicitWidth + 5

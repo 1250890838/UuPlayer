@@ -85,7 +85,7 @@ Item {
 
             Rectangle {
                 id: spliter
-                colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
+                color:"transparent"
                 width: parent.width - 10 * 2
                 height: 1
                 anchors.horizontalCenter: parent.horizontalCenter

@@ -11,7 +11,7 @@ Item {
     // left panel
     property color leftNavPaneBackColor
     property color leftNavPanelItemBackColor
-    property color leftNavPaenlItemBackHoveredColor
+    property color leftNavPanelItemBackHoveredColor
     property color leftNavPanelItemBackCheckedColor
 
     // title bar
@@ -31,7 +31,7 @@ Item {
                 strongFontColor: "black"
                 leftNavPaneBackColor: "#f0f3f6"
                 leftNavPanelItemBackColor: "#f0f3f6"
-                leftNavPaenlItemBackHoveredColor: "#e4e8ec"
+                leftNavPanelItemBackHoveredColor: "#e4e8ec"
                 leftNavPanelItemBackCheckedColor: "#fc3d49"
                 titlebarLeftBackColor: "#f0f3f6"
                 titlebarRightBackColor: "#f7f9fc"
@@ -46,7 +46,7 @@ Item {
                 strongFontColor: "black"
                 leftNavPaneBackColor: "#f0f3f6"
                 leftNavPanelItemBackColor: "#f0f3f6"
-                leftNavPaenlItemBackHoveredColor: "#e4e8ec"
+                leftNavPanelItemBackHoveredColor: "#e4e8ec"
                 leftNavPanelItemBackCheckedColor: "#fc3d49"
                 titlebarLeftBackColor: "#ea3e3e"
                 titlebarRightBackColor: "#ea3e3e"
@@ -61,7 +61,7 @@ Item {
                 strongFontColor: "white"
                 leftNavPaneBackColor: "#1a1a21"
                 leftNavPanelItemBackColor: "#1a1a21"
-                leftNavPaenlItemBackHoveredColor: "#27272e"
+                leftNavPanelItemBackHoveredColor: "#27272e"
                 leftNavPanelItemBackCheckedColor: "#fc3d4c"
                 titlebarLeftBackColor: "#1a1a21"
                 titlebarRightBackColor: "#13131a"
@@ -76,7 +76,7 @@ Item {
                 strongFontColor: "black"
                 leftNavPaneBackColor: "#f0f3f6"
                 leftNavPanelItemBackColor: "#f0f3f6"
-                leftNavPaenlItemBackHoveredColor: "#e4e8ec"
+                leftNavPanelItemBackHoveredColor: "#e4e8ec"
                 leftNavPanelItemBackCheckedColor: "yellowgreen"
                 titlebarLeftBackColor: "yellowgreen"
                 titlebarRightBackColor: "yellowgreen"
