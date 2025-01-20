@@ -32,6 +32,7 @@
 *.app
 
 *.json
+*.user
 
 # folders
 build/
