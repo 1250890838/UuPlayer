@@ -8,11 +8,9 @@ void PlaylistNetwork::getHighqualityPlaylists(qint32 limit, qint32 tag) {
   QNetworkRequest request;
   QUrl url = QUrl(network_api::apiGetHighqualityPlaylists + "?" +
                   "limit=" + QString::number(limit));
-  qDebug() << url;
   if (tag != -1) {
     url.setUrl(url.toString(QUrl::None) + "&" + "tag=" + QString::number(tag));
   }
-  qDebug() << url;
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply, this]() {
@@ -21,13 +19,8 @@ void PlaylistNetwork::getHighqualityPlaylists(qint32 limit, qint32 tag) {
       QByteArray data = reply->readAll();
       emit getHighqualityPlaylistsFinished(error_code::NoError, data);
     } else {
-      if (e == QNetworkReply::NetworkError::ConnectionRefusedError) {
-        emit getHighqualityPlaylistsFinished(error_code::ConnectionRefusedError,
-                                             QByteArray());
-      } else {
-        emit this->getHighqualityPlaylistsFinished(error_code::TimeoutError,
-                                                   QByteArray());
-      }
+       emit this->getHighqualityPlaylistsFinished(error_code::OtherError,
+                                                 QByteArray());
     }
   });
 }
@@ -45,13 +38,8 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, qint32 tag) {
       QByteArray data = reply->readAll();
       emit getSelectivePlaylistsFinished(error_code::NoError, data);
     } else {
-      if (e == QNetworkReply::NetworkError::ConnectionRefusedError) {
-        emit getSelectivePlaylistsFinished(error_code::ConnectionRefusedError,
+        emit getSelectivePlaylistsFinished(error_code::OtherError,
                                            QByteArray());
-      } else {
-        emit this->getSelectivePlaylistsFinished(error_code::TimeoutError,
-                                                 QByteArray());
-      }
     }
   });
 }
@@ -64,15 +52,10 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, qint32 tag) {
       auto e = reply->error();
       if (e == QNetworkReply::NoError) {
         QByteArray data = reply->readAll();
-        emit getPlaylistsCatlistFinished(error_code::NoError, data);
+        emit getSelectivePlaylistsFinished(error_code::NoError, data);
       } else {
-        if (e == QNetworkReply::NetworkError::ConnectionRefusedError) {
-          emit getPlaylistsCatlistFinished(error_code::ConnectionRefusedError,
+        emit getSelectivePlaylistsFinished(error_code::OtherError,
                                            QByteArray());
-        } else {
-          emit this->getPlaylistsCatlistFinished(error_code::TimeoutError,
-                                                 QByteArray());
-        }
       }
   });
 }

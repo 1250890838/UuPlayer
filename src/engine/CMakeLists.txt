@@ -1,4 +1,6 @@
-add_library(engine SHARED audio_player.cc)
+add_library(engine SHARED
+    audio_player.h
+    audio_player.cc)
 
 
 target_compile_definitions(engine PRIVATE ENGINE_EXPORT_SYMBOLS)

@@ -157,8 +157,8 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
     QVariantMap result;
     QJsonDocument doc = QJsonDocument::fromJson(data);
     auto obj = doc.object();
-    auto subs = obj["sub"].toArray();
-    auto categories = obj["categories"].toObject();
+    auto subs = obj["sub"].toArray(); // 标签
+    auto categories = obj["categories"].toObject(); // 分类
     for (int i = 0; i < categories.size(); i++) {
       QStringList list;
       auto category = categories[QString::number(i)].toString();

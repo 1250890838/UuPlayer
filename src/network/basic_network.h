@@ -14,7 +14,8 @@ namespace network {
       NoError = 0,
       ConnectionRefusedError,
       TimeoutError,
-      JsonContentError
+      JsonContentError,
+      OtherError
     };
     Q_ENUM_NS(ErrorCode)
   }

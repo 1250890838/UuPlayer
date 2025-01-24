@@ -1,4 +1,6 @@
-add_library(network SHARED basic_network.cc login_network.cc playlist_network.cc)
+add_library(network SHARED
+    basic_network.h login_network.h playlist_network.h
+    basic_network.cc login_network.cc playlist_network.cc)
 
 
 target_compile_definitions(network PRIVATE NETWORK_EXPORT_SYMBOLS)

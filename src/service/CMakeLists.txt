@@ -1,4 +1,9 @@
 add_library(service SHARED 
+    login_service.h
+    playlist_service.h
+    model/media_item_model.h
+    model/playlist_item_model.h
+
     login_service.cc
     playlist_service.cc
     model/media_item_model.cc
