@@ -92,6 +92,9 @@ qt_add_qml_module(gui
         qml/
         QML_FILES qml/stackPages/skinPage/SkinPage.qml
         QML_FILES qml/stackPages/skinPage/SkinItem.qml
+        QML_FILES qml/components/other/CatlistItem.qml
+        QML_FILES qml/stackPages/cloudMusicSelectedPage/CatlistDialog.qml
+        QML_FILES qml/components/other/RoundedImage.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

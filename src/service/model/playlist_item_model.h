@@ -5,6 +5,7 @@
 #include <qtmetamacros.h>
 #include <QAbstractListModel>
 #include <QObject>
+#include <QColor>
 #include <QUrl>
 
 namespace model{

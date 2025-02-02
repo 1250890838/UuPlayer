@@ -13,7 +13,7 @@ class NETWORK_DLL_EXPORT PlaylistNetwork : public BasicNetwork {
  public:
   PlaylistNetwork() = default;
   void getHighqualityPlaylists(qint32 limit,qint32 tag);
-  void getSelectivePlaylists(qint32 limit,qint32 tag);
+  void getSelectivePlaylists(qint32 limit,const QString& tag,qint32 offest);
   void getPlaylistsCatlist();
  signals:
   void getHighqualityPlaylistsFinished(error_code::ErrorCode code , const QByteArray&);

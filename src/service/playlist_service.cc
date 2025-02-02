@@ -16,7 +16,11 @@
 
 namespace service {
 
-PlaylistService::PlaylistService(QObject* parent) : QObject(parent) {
+PlaylistService::PlaylistService(QObject* parent) :
+      QObject(parent),
+      m_currLimit(4),
+      m_currOffset(0)
+{
   using namespace network;
   connect(&m_network, &PlaylistNetwork::getHighqualityPlaylistsFinished, this,
           &PlaylistService::onGetHighqualityPlaylists);
@@ -30,8 +34,10 @@ void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
   m_network.getHighqualityPlaylists(limit, tag);
 }
 
-void PlaylistService::getSelectivePlaylists(qint32 limit, qint32 tag) {
-  m_network.getSelectivePlaylists(limit, tag);
+void PlaylistService::getSelectivePlaylists() {
+  if(m_currOffset==0) m_selectivePlaylists.clear();
+  m_network.getSelectivePlaylists(m_currLimit, m_currCat,m_currOffset);
+  m_currOffset+=m_currLimit;
 }
 
 void PlaylistService::getPlaylistsCatlist() {
@@ -82,7 +88,7 @@ void PlaylistService::onGetSelectivePlaylists(
 
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
-    if (!doc.isNull() && !doc.isEmpty()) {
+    if (doc.isNull() || doc.isEmpty()) {
       emit selectivePlaylistsStatus(network::error_code::JsonContentError);
       m_selectivePlaylists.clear();
 

@@ -4,33 +4,84 @@ import QtQuick.Layouts
 import components 1.0
 import service 1.0
 
-Item {
+Flickable {
     id: root
-
+    property var catMap
+    contentHeight: columnLayout.implicitHeight
+    contentWidth: this.width
+    clip: true
+    ScrollBar.vertical: ScrollBar {
+        policy: ScrollBar.AsNeeded
+    }
     Connections {
         target: PlaylistsService
         ignoreUnknownSignals: true
-        function onPlaylistsCatlistChanged() {
-            console.log("PlaylistsService.onPlaylistsCatlistChanged");
-            console.log(PlaylistsService.playlistsCatlist);
+        function onPlaylistsCatlist(map) {
+            root.catMap = map
+            repeater.model = map[(Object.keys(map)[0])].slice(0, 6)
+            PlaylistsService.setCurrCat(map[(Object.keys(map)[0])][0])
+            PlaylistsService.setCurrLimit(12)
+            PlaylistsService.setCurrOffset(0)
+            PlaylistsService.getSelectivePlaylists()
+        }
+    }
+    ColumnLayout {
+        id: columnLayout
+        anchors.fill: parent
+        spacing: 25
+        anchors.margins: 10
+        property Item currentCatItem
+        Row {
+            id: row
+            spacing: 10
+            Repeater {
+                id: repeater
+                delegate: CatlistItem {
+                    required property string modelData
+                    text: modelData
+                    selected: columnLayout.currentCatItem === this
+                    width: 60
+                    height: 30
+                    onClicked: columnLayout.currentCatItem = this
+                }
+            }
+            CatlistItem {
+                id: moreCatItem
+                text: "更多分类 ˇ"
+                width: 60
+                height: 30
+                onClicked: {
+                    catlistDialog.map = root.catMap
+                    catlistDialog.open()
+                    moreCatItem.text = "更多分类 ^"
+                }
+            }
+        }
+
+        GridLayout {
+            id: gridLayout
+            columns: columnLayout.width / (182 + 20)
+            columnSpacing: 20
+            rowSpacing: 20
+            Repeater {
+                id: repeater2
+                model: PlaylistsService.selectivePlaylists
+                delegate: PlaylistItem {
+                    implicitWidth: 182
+                    implicitHeight: 234
+                }
+            }
         }
     }
 
-    Pane {
-        anchors.fill: parent
-        background: Rectangle {
-            color: "transparent"
-        }
-        Text {
-            id: title
-            anchors.centerIn: parent
-            text: "歌单广场"
-            font.pixelSize: 40
-            font.bold: true
-            color: "black"
-        }
+    CatlistDialog {
+        id: catlistDialog
+        y: moreCatItem.y + moreCatItem.height + 25
+        x: 45
+        onClosed: moreCatItem.text = "更多分类 ˇ"
     }
     Component.onCompleted: {
-        PlaylistsService.getPlaylistsCatlist();
+        PlaylistsService.getPlaylistsCatlist()
+        console.log(root.width)
     }
 }

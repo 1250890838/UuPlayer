@@ -1,32 +1,39 @@
 import QtQuick.Controls
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Effects
 
 Item {
     id: root
     required property var model
-    implicitWidth: 182
-    implicitHeight: 234
     Rectangle {
         id: container
         anchors.fill: parent
-        radius: 8
-        ColumnLayout {
-            anchors.fill:parent
-            Image {
+        radius: 25
+        Column {
+            anchors.fill: parent
+            spacing: 0
+            RoundedImage {
                 id: image
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                source: model.coverUrl
+                radius: 10
+                imageUrl: model.coverUrl
+                width: parent.width
+                height: parent.height - 55
             }
 
             Rectangle {
                 id: descRect
-                Layout.fillWidth: true
-                implicitHeight: 60
+                width: parent.width
+                height: 55
+                radius: 10
+                color: "black"
                 Text {
-                    anchors.centerIn:parent
+                    color: "white"
+                    font.pointSize: 9
+                    anchors.margins: 7
+                    anchors.fill: parent
                     text: model.name
+                    wrapMode: Text.WordWrap
                 }
             }
         }

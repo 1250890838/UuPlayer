@@ -20,8 +20,12 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
 
  public:
   Q_INVOKABLE void getHighqualityPlaylists(qint32 limit=5,qint32 tag=-1);
-  Q_INVOKABLE void getSelectivePlaylists(qint32 limit=5,qint32 tag=-1);
+  Q_INVOKABLE void getSelectivePlaylists();
   Q_INVOKABLE void getPlaylistsCatlist();
+
+  Q_INVOKABLE void setCurrLimit(qint32 limit){ m_currLimit=limit;}
+  Q_INVOKABLE void setCurrCat(const QString& cat) { m_currCat=cat;}
+  Q_INVOKABLE void setCurrOffset(qint32 offset) {m_currOffset=offset;}
  signals:
   void highqualityPlaylistsStatus(network::error_code::ErrorCode code);
   void selectivePlaylistsStatus(network::error_code::ErrorCode code);
@@ -48,5 +52,9 @@ private:
   model::PlaylistItemModel m_highqualityPlaylists;
   model::PlaylistItemModel m_selectivePlaylists;
   QVariantMap m_catlist;
+
+  qint32 m_currLimit;
+  qint32 m_currOffset;
+  QString m_currCat;
 };
 }  // namespace service

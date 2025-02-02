@@ -25,11 +25,11 @@ void PlaylistNetwork::getHighqualityPlaylists(qint32 limit, qint32 tag) {
   });
 }
 
-void PlaylistNetwork::getSelectivePlaylists(qint32 limit, qint32 tag) {
+void PlaylistNetwork::getSelectivePlaylists(qint32 limit, const QString& tag,qint32 offset) {
   QNetworkRequest request;
-  QUrl url = network_api::host + network_api::apiGetSelectivePlaylists + "?" +
+  QUrl url = network_api::apiGetSelectivePlaylists + "?" +
              "limit=" + QString::number(limit) + "&" +
-             "tag=" + QString::number(tag);
+             "cat=" + tag + "&" + "offset=" + QString::number(offset);
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply, this]() {
@@ -45,16 +45,16 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, qint32 tag) {
 }
   void PlaylistNetwork::getPlaylistsCatlist() {
     QNetworkRequest request;
-    QUrl url = network_api::host + network_api::apiCatlist;
+    QUrl url = network_api::apiCatlist;
     request.setUrl(url);
     auto reply = this->get(request);
     connect(reply, &QNetworkReply::finished, this, [reply, this]() {
       auto e = reply->error();
       if (e == QNetworkReply::NoError) {
         QByteArray data = reply->readAll();
-        emit getSelectivePlaylistsFinished(error_code::NoError, data);
+        emit getPlaylistsCatlistFinished(error_code::NoError, data);
       } else {
-        emit getSelectivePlaylistsFinished(error_code::OtherError,
+        emit getPlaylistsCatlistFinished(error_code::OtherError,
                                            QByteArray());
       }
   });
