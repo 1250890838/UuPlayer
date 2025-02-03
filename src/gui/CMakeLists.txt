@@ -95,6 +95,8 @@ qt_add_qml_module(gui
         QML_FILES qml/components/other/CatlistItem.qml
         QML_FILES qml/stackPages/cloudMusicSelectedPage/CatlistDialog.qml
         QML_FILES qml/components/other/RoundedImage.qml
+        QML_FILES qml/components/other/RoundedRectangle.qml
+        QML_FILES qml/PlaylistDetailPage.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

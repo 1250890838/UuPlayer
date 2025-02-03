@@ -44,6 +44,10 @@ void PlaylistService::getPlaylistsCatlist() {
   m_network.getPlaylistsCatlist();
 }
 
+void PlaylistService::getPlaylistDetail(qulonglong id,model::PlaylistItem* item){
+  //m_network.getPlaylistDetail(id,item);
+}
+
 void PlaylistService::onGetHighqualityPlaylists(
     network::error_code::ErrorCode code, const QByteArray& data) {
   if (code == network::error_code::NoError) {
@@ -62,18 +66,18 @@ void PlaylistService::onGetHighqualityPlaylists(
         for (const QJsonValue& playlist : playlists) {
           auto o = playlist.toObject();
           model::PlaylistItem item;
-          item.id = o["id"].toVariant().toLongLong();
-          item.name = o["name"].toString();
-          item.userId = o["userId"].toVariant().toLongLong();
-          item.createTime = o["createTime"].toVariant().toLongLong();
-          item.updateTime = o["updateTime"].toVariant().toLongLong();
-          item.coverUrl = o["coverImgUrl"].toString();
-          item.description = o["description"].toString();
-          item.tags = formatTags(o["tags"].toArray());
-          item.playCount = o["playCount"].toVariant().toLongLong();
-          item.creator = formatCreator(o["creator"].toObject());
-          item.subscribers = formatSubscribers(o["subscribers"].toArray());
-          item.subscribed = o["subscribed"].toBool();
+          item.setId(o["id"].toVariant().toLongLong());
+          item.setName(o["name"].toString());
+          item.setUserId(o["userId"].toVariant().toLongLong());
+          item.setCreateTime(o["createTime"].toVariant().toLongLong());
+          item.setUpdateTime(o["updateTime"].toVariant().toLongLong());
+          item.setCoverUrl(QUrl(o["coverImgUrl"].toString()));
+          item.setDesc(o["description"].toString());
+          item.setTags(formatTags(o["tags"].toArray()));
+          item.setPlayCount(o["playCount"].toVariant().toLongLong());
+          item.setCreator(formatCreator(o["creator"].toObject()));
+          item.setSubscribers(formatSubscribers(o["subscribers"].toArray()));
+          item.setSubscribed(o["subscribed"].toBool());
           m_highqualityPlaylists.appendItem(item);
         }
       }
@@ -102,18 +106,18 @@ void PlaylistService::onGetSelectivePlaylists(
         for (const QJsonValue& playlist : playlists) {
           auto o = playlist.toObject();
           model::PlaylistItem item;
-          item.id = o["id"].toVariant().toLongLong();
-          item.name = o["name"].toString();
-          item.userId = o["userId"].toVariant().toLongLong();
-          item.createTime = o["createTime"].toVariant().toLongLong();
-          item.updateTime = o["updateTime"].toVariant().toLongLong();
-          item.coverUrl = o["coverImgUrl"].toString();
-          item.description = o["description"].toString();
-          item.tags = formatTags(o["tags"].toArray());
-          item.playCount = o["playCount"].toVariant().toLongLong();
-          item.creator = formatCreator(o["creator"].toObject());
-          item.subscribers = formatSubscribers(o["subscribers"].toArray());
-          item.subscribed = o["subscribed"].toBool();
+          item.setId(o["id"].toVariant().toLongLong());
+          item.setName(o["name"].toString());
+          item.setUserId(o["userId"].toVariant().toLongLong());
+          item.setCreateTime(o["createTime"].toVariant().toLongLong());
+          item.setUpdateTime(o["updateTime"].toVariant().toLongLong());
+          item.setCoverUrl(QUrl(o["coverImgUrl"].toString()));
+          item.setDesc(o["description"].toString());
+          item.setTags(formatTags(o["tags"].toArray()));
+          item.setPlayCount(o["playCount"].toVariant().toLongLong());
+          item.setCreator(formatCreator(o["creator"].toObject()));
+          item.setSubscribers(formatSubscribers(o["subscribers"].toArray()));
+          item.setSubscribed(o["subscribed"].toBool());
           m_selectivePlaylists.appendItem(item);
         }
       }
@@ -179,4 +183,32 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
     emit playlistsCatlist(result);
   }
 }
+
+void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,const QByteArray& data,model::PlaylistItem* item){
+  if(code == network::error_code::NoError){
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    auto obj = doc.object();
+    auto playlist = obj["playlist"].toObject();
+    auto tracks=obj["tracks"].toArray();
+    auto model=item->mediaItemModel();
+    for(const QJsonValue& track:tracks){
+      model::MediaItem item;
+      item.id=track["id"].toVariant().toLongLong();
+      item.name=track["name"].toString();
+      model::AlbumData albumData;
+      auto albumObj=track["al"].toObject();
+      albumData.setId(albumObj["id"].toVariant().toLongLong());
+      albumData.setName(albumObj["name"].toString());
+      albumData.setPicUrl(albumObj["picUrl"].toString());
+      item.album=albumData;
+      auto artistObj=track["ar"].toObject();
+      model::AristData aristData;
+      aristData.setId(artistObj["id"].toVariant().toLongLong());
+      aristData.setName(artistObj["name"].toString());
+      item.artist=aristData;
+      item.duration=track["dt"].toVariant().toLongLong();
+    }
+  }
+}
+
 }// namespace service

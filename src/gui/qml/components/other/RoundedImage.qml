@@ -1,10 +1,14 @@
 import QtQuick
 import QtQuick.Effects
 
-Item {
+Rectangle {
     id: root
     required property real radius
     required property url imageUrl
+    property alias isTopLeftRounded: maskRect.isTopLeftRounded
+    property alias isTopRightRounded: maskRect.isTopRightRounded
+    property alias isBottomLeftRounded: maskRect.isBottomLeftRounded
+    property alias isBottomRightRounded: maskRect.isBottomRightRounded
 
     Image {
         id: image
@@ -27,12 +31,20 @@ Item {
         layer.enabled: true
         visible: false
 
-        Rectangle {
+        RoundedRectangle {
             id: maskRect
             width: image.width
             height: image.height
             radius: root.radius
             color: "black"
+            Text {
+                color: "white"
+                font.pointSize: 9
+                anchors.margins: 7
+                anchors.fill: parent
+                text: model.name
+                wrapMode: Text.WordWrap
+            }
         }
     }
 }

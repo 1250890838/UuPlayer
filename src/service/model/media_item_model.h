@@ -48,7 +48,7 @@ class AristData {
 struct MediaItem {
   qulonglong id;
   QString name;
-  QString duration;
+  qulonglong duration;
   AlbumData album;
   AristData artist;
   QString reason;
@@ -69,6 +69,9 @@ class MediaItemModel : public QAbstractListModel {
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
+  void appendItem(const MediaItem& item);
+  void appendItems(const QVector<MediaItem>& items);
+  void clear();
 
  private:
   QVector<MediaItem> m_items;

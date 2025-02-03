@@ -5,3 +5,4 @@ TextIconButton 1.0 button/TextIconButton.qml
 PlaylistItem 1.0 other/PlaylistItem.qml
 CatlistItem 1.0 other/CatlistItem.qml
 RoundedImage 1.0 other/RoundedImage.qml
+RoundedRectangle 1.0 other/RoundedRectangle.qml

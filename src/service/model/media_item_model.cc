@@ -36,4 +36,24 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const {
       {IdRole, "id"},       {NameRole, "name"},     {DurationRole, "duration"},
       {AlbumRole, "album"}, {ArtistRole, "artist"}, {ReasonRole, "reason"}};
 }
+
+void MediaItemModel::appendItem(const MediaItem& item){
+  beginInsertRows(QModelIndex(), m_items.size(), m_items.length());
+  m_items.append(item);
+  endInsertRows();
+}
+
+void MediaItemModel::appendItems(const QVector<MediaItem>& items){
+  beginInsertRows(QModelIndex(), m_items.size(),
+                  m_items.size() + items.size() - 1);
+  m_items.append(items);
+  endInsertRows();
+}
+
+void MediaItemModel::clear(){
+  beginResetModel();
+  m_items.clear();
+  endResetModel();
+}
+
 }  // namespace engine

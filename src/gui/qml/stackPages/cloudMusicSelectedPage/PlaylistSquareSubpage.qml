@@ -9,10 +9,19 @@ Flickable {
     property var catMap
     contentHeight: columnLayout.implicitHeight
     contentWidth: this.width
+    boundsBehavior: Flickable.StopAtBounds
+    boundsMovement: Flickable.StopAtBounds
     clip: true
     ScrollBar.vertical: ScrollBar {
         policy: ScrollBar.AsNeeded
     }
+
+    onContentYChanged: {
+        if (root.contentY + root.height >= root.contentHeight) {
+            PlaylistsService.getSelectivePlaylists()
+        }
+    }
+
     Connections {
         target: PlaylistsService
         ignoreUnknownSignals: true
@@ -40,9 +49,14 @@ Flickable {
                     required property string modelData
                     text: modelData
                     selected: columnLayout.currentCatItem === this
-                    width: 60
+                    width: 65
                     height: 30
-                    onClicked: columnLayout.currentCatItem = this
+                    onClicked: {
+                        columnLayout.currentCatItem = this
+                        PlaylistsService.setCurrOffset(0)
+                        PlaylistsService.setCurrCat(this.text)
+                        PlaylistsService.getSelectivePlaylists()
+                    }
                 }
             }
             CatlistItem {

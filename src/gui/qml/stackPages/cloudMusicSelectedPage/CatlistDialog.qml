@@ -3,6 +3,7 @@ import QtQuick.Effects
 import QtQuick.Controls
 import components 1.0
 import skins 1.0
+import service 1.0
 
 Popup {
     id: root
@@ -75,6 +76,11 @@ Popup {
                     borderWidth: 0
                     width: 80
                     height: 30
+                    onClicked: {
+                        PlaylistsService.setCurrOffset(0)
+                        PlaylistsService.setCurrCat(this.text)
+                        PlaylistsService.getSelectivePlaylists()
+                    }
                 }
             }
         }
