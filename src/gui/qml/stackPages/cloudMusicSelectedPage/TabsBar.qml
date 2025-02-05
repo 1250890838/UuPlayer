@@ -22,6 +22,11 @@ Pane {
         item.isCurrentItem = true
     }
 
+    Component {
+        id: playlistSquareSubpage
+        PlaylistSquareSubpage {}
+    }
+
     Row {
         id: row
         spacing: 15
@@ -35,9 +40,7 @@ Pane {
         }
         CTab {
             id: playlistSquarePageItem
-            onClicked: NavigateLogic.switchPage(
-                           this,
-                           Qt.createComponent("PlaylistSquareSubpage.qml"))
+            onClicked: NavigateLogic.switchPage(this, playlistSquareSubpage)
             text: texts[1]
             textColor: Skins.strongFontColor
         }

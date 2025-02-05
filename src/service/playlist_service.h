@@ -38,7 +38,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   void onGetSelectivePlaylists(network::error_code::ErrorCode,
                                    const QByteArray& data);
   void onGetPlaylistsCatlist(network::error_code::ErrorCode,const QByteArray& data);
-  void onGetPlaylistDetail(network::error_code::ErrorCode,const QByteArray& data,model::PlaylistItem* item);
+  void onGetPlaylistDetail(network::error_code::ErrorCode,const QByteArray& data,void* item);
 
  public:
   PlaylistService(QObject* parent = nullptr);

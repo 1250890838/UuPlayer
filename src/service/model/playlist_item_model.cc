@@ -81,4 +81,12 @@ void PlaylistItemModel::clear() {
   endResetModel();
 }
 
+PlaylistItem* PlaylistItemModel::last(){
+  return &m_items.last();
+}
+
+PlaylistItem PlaylistItemModel::itemAt(quint32 index){
+  return m_items[index];
+}
+
 }  // namespace model

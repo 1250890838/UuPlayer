@@ -5,7 +5,7 @@ import QtQuick.Effects
 
 Item {
     id: root
-
+    signal clicked
     // required property var model
     function formatCount(count) {
         if (count >= 1000 && count <= 9999) {
@@ -62,5 +62,11 @@ Item {
                 }
             }
         }
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: root.clicked()
     }
 }

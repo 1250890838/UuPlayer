@@ -66,7 +66,7 @@ class PlaylistItem {
   Q_PROPERTY(MediaItemModel* mediaItemModel READ mediaItemModel)
 
  public:
-   PlaylistItem() : m_id(0), m_userId(0), m_createTime(0), m_updateTime(0), m_subscribed(false) {}
+  PlaylistItem() : m_id(0), m_userId(0), m_createTime(0), m_updateTime(0), m_subscribed(false),m_mediaItemModel(new MediaItemModel()) {}
   ~PlaylistItem() = default;
 
  public:
@@ -82,7 +82,7 @@ class PlaylistItem {
   qulonglong playCount() const {return m_playCount;}
   QVector<UserData> subscribers() const { return m_subscribers; }
   bool subscribed() const { return m_subscribed; }
-  MediaItemModel* mediaItemModel()  { return &m_mediaItemModel; }
+  MediaItemModel* mediaItemModel()  { return m_mediaItemModel; }
 
   void setId(qulonglong id) { m_id = id; }
   void setName(const QString& name) { m_name = name; }
@@ -110,7 +110,7 @@ class PlaylistItem {
     UserData m_creator;
     QVector<UserData> m_subscribers;
     bool m_subscribed;
-    MediaItemModel m_mediaItemModel;
+    MediaItemModel *m_mediaItemModel;
 };
 
 class PlaylistItemModel : public QAbstractListModel {
@@ -130,6 +130,10 @@ class PlaylistItemModel : public QAbstractListModel {
     SubscribersRole,
     SubscribedRole,
   };
+
+  Q_INVOKABLE PlaylistItem itemAt(quint32 index);
+  Q_INVOKABLE PlaylistItem* last();
+
   PlaylistItemModel(QObject* parent = nullptr);
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
@@ -137,6 +141,7 @@ class PlaylistItemModel : public QAbstractListModel {
   void appendItem(const PlaylistItem& item);
   void appendItems(const QVector<PlaylistItem>& items);
   void clear();
+
 
  private:
   QVector<PlaylistItem> m_items;

@@ -28,6 +28,7 @@ PlaylistService::PlaylistService(QObject* parent) :
           &PlaylistService::onGetSelectivePlaylists);
   connect(&m_network, &PlaylistNetwork::getPlaylistsCatlistFinished, this,
           &PlaylistService::onGetPlaylistsCatlist);
+  connect(&m_network,&PlaylistNetwork::getPlaylistDetailFinished,this,&PlaylistService::onGetPlaylistDetail);
 }
 
 void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
@@ -45,7 +46,7 @@ void PlaylistService::getPlaylistsCatlist() {
 }
 
 void PlaylistService::getPlaylistDetail(qulonglong id,model::PlaylistItem* item){
-  //m_network.getPlaylistDetail(id,item);
+  m_network.getPlaylistDetail(id,item);
 }
 
 void PlaylistService::onGetHighqualityPlaylists(
@@ -119,6 +120,7 @@ void PlaylistService::onGetSelectivePlaylists(
           item.setSubscribers(formatSubscribers(o["subscribers"].toArray()));
           item.setSubscribed(o["subscribed"].toBool());
           m_selectivePlaylists.appendItem(item);
+          this->getPlaylistDetail(item.id(),m_selectivePlaylists.last());
         }
       }
     }
@@ -184,13 +186,13 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
   }
 }
 
-void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,const QByteArray& data,model::PlaylistItem* item){
+void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,const QByteArray& data,void* item){
   if(code == network::error_code::NoError){
     QJsonDocument doc = QJsonDocument::fromJson(data);
     auto obj = doc.object();
     auto playlist = obj["playlist"].toObject();
     auto tracks=obj["tracks"].toArray();
-    auto model=item->mediaItemModel();
+    auto model=static_cast<model::PlaylistItem*>(item)->mediaItemModel();
     for(const QJsonValue& track:tracks){
       model::MediaItem item;
       item.id=track["id"].toVariant().toLongLong();
@@ -207,6 +209,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,co
       aristData.setName(artistObj["name"].toString());
       item.artist=aristData;
       item.duration=track["dt"].toVariant().toLongLong();
+      model->appendItem(item);
     }
   }
 }

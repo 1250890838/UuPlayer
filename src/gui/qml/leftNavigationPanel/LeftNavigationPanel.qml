@@ -85,7 +85,7 @@ Item {
 
             Rectangle {
                 id: spliter
-                color:"transparent"
+                color: "transparent"
                 width: parent.width - 10 * 2
                 height: 1
                 anchors.horizontalCenter: parent.horizontalCenter

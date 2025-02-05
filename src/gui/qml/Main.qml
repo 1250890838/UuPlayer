@@ -28,6 +28,14 @@ Window {
         id: windowAgent
     }
     title: qsTr("Demo")
+    Component {
+        id: playlistDetailPage
+        PlaylistDetailPage {}
+    }
+
+    function mainSwitchPage(page, properties) {
+        stackView.replace(page, properties)
+    }
 
     ColumnLayout {
         anchors.fill: parent

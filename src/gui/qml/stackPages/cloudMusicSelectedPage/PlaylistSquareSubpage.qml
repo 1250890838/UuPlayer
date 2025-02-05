@@ -83,6 +83,13 @@ Flickable {
                 delegate: PlaylistItem {
                     implicitWidth: 182
                     implicitHeight: 234
+                    onClicked: {
+                        let item = PlaylistsService.selectivePlaylists.itemAt(
+                                index)
+                        window.mainSwitchPage(playlistDetailPage, {
+                                                  "detail": item
+                                              })
+                    }
                 }
             }
         }
