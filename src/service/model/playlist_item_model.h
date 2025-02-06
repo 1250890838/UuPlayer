@@ -19,6 +19,7 @@ class UserData {
   Q_PROPERTY(QStringList expertTags READ expertTags WRITE setExpertTags)
   Q_PROPERTY(qulonglong birthday READ birthday WRITE setBirthday)
   Q_PROPERTY(bool followed READ followed WRITE setFollowed)
+  Q_PROPERTY(QString name READ name WRITE setName)
 
  public:
   UserData() = default;

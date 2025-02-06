@@ -55,10 +55,11 @@ Window {
 
             ColumnLayout {
                 id: columnLayout
-                Layout.preferredWidth: window.width - navigationPanel.width
+                Layout.fillWidth: true
                 StackView {
                     id: stackView
                     Layout.margins: 25
+                    Layout.leftMargin: (window.width - navigationPanel.width - this.width) / 2
                     Layout.alignment: Qt.AlignCenter
                     Layout.preferredWidth: (0.9 * (window.width - navigationPanel.width))
                     Layout.fillHeight: true

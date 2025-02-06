@@ -37,14 +37,6 @@ Rectangle {
             height: image.height
             radius: root.radius
             color: "black"
-            Text {
-                color: "white"
-                font.pointSize: 9
-                anchors.margins: 7
-                anchors.fill: parent
-                text: model.name
-                wrapMode: Text.WordWrap
-            }
         }
     }
 }

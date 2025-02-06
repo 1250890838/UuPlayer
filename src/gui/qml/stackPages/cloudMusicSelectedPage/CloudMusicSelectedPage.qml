@@ -6,8 +6,8 @@ import service 1.0
 
 Page {
     id: root
-    background:Rectangle{
-        color:"transparent"
+    background: Rectangle {
+        color: "transparent"
     }
     ColumnLayout {
         anchors.fill: parent
@@ -26,8 +26,7 @@ Page {
             pushExit: null
             replaceEnter: null
             replaceExit: null
-            initialItem: SelectiveSubpage {
-            }
+            initialItem: SelectiveSubpage {}
         }
     }
 
