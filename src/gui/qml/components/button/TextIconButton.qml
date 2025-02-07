@@ -10,6 +10,10 @@ Item {
     required property url icon
     required property string text
 
+    property color textColor: "black"
+    property bool textBold: false
+    property real textPointSize: 8
+    property int textWeight: Font.Normal
     property color backgroundColor: "transparent"
     property real radius
     property real margins: 0
@@ -24,6 +28,7 @@ Item {
         Row {
             id: row
             spacing: 5
+            anchors.centerIn: parent
             Image {
                 id: image
                 source: root.icon
@@ -34,7 +39,12 @@ Item {
                 id: text
                 anchors.verticalCenter: parent.verticalCenter
                 text: root.text
-                color: mouseArea.containsMouse ? "black" : "gray"
+                color: root.textColor
+                font {
+                    bold: root.textBold
+                    pointSize: root.textPointSize
+                    weight: root.textWeight
+                }
             }
         }
     }

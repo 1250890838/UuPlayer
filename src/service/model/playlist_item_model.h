@@ -62,6 +62,7 @@ class PlaylistItem {
   Q_PROPERTY(qulonglong playCount READ playCount)
   Q_PROPERTY(QStringList tags READ tags)
   Q_PROPERTY(UserData creator READ creator)
+  Q_PROPERTY(qulonglong subscribedCount READ subscribedCount)
   Q_PROPERTY(QVector<UserData> subscribers READ subscribers)
   Q_PROPERTY(bool subscribed READ subscribed)
   Q_PROPERTY(MediaItemModel* mediaItemModel READ mediaItemModel)
@@ -84,6 +85,7 @@ class PlaylistItem {
   QVector<UserData> subscribers() const { return m_subscribers; }
   bool subscribed() const { return m_subscribed; }
   MediaItemModel* mediaItemModel()  { return m_mediaItemModel; }
+  qulonglong subscribedCount() const {return m_subscribedCount;}
 
   void setId(qulonglong id) { m_id = id; }
   void setName(const QString& name) { m_name = name; }
@@ -97,6 +99,7 @@ class PlaylistItem {
   void setCreator(const UserData& creator) { m_creator = creator; }
   void setSubscribed(bool b) { m_subscribed = b; }
   void setSubscribers(const QVector<UserData>& subscribers) { m_subscribers = subscribers; }
+  void setSubscribedCount(qulonglong count) { m_subscribedCount = count;}
 
  private:
     qulonglong m_id;
@@ -111,6 +114,7 @@ class PlaylistItem {
     UserData m_creator;
     QVector<UserData> m_subscribers;
     bool m_subscribed;
+    qulonglong m_subscribedCount;
     MediaItemModel *m_mediaItemModel;
 };
 
@@ -129,7 +133,7 @@ class PlaylistItemModel : public QAbstractListModel {
     PlayCountRole,
     CreatorRole,
     SubscribersRole,
-    SubscribedRole,
+    SubscribedRole
   };
 
   Q_INVOKABLE PlaylistItem itemAt(quint32 index);

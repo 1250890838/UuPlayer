@@ -193,6 +193,8 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,co
     auto playlist = obj["playlist"].toObject();
     auto tracks=obj["tracks"].toArray();
     auto model=static_cast<model::PlaylistItem*>(item)->mediaItemModel();
+    auto subscribedCount=obj["subscribedCount"].toVariant().toULongLong();
+    static_cast<model::PlaylistItem*>(item)->setSubscribedCount(subscribedCount);
     for(const QJsonValue& track:tracks){
       model::MediaItem item;
       item.id=track["id"].toVariant().toLongLong();

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import service 1.0
+import assets 1.0
 import components 1.0
 
 Flickable {
@@ -74,6 +75,21 @@ Flickable {
                         text: Utils.convertMillisecondsToDate(
                                   detail.createTime) + qsTr("创建")
                     }
+                }
+
+                TextIconButton {
+                    icon: Icons.defaultUserProfileIcon
+                    width: 85
+                    height: 38
+                    iconWidth: 10
+                    iconHeight: 10
+                    text: "播放全部"
+                    textColor: "white"
+                    textPointSize: 10
+                    textBold: true
+                    textWeight: Font.DemiBold
+                    radius: 8
+                    backgroundColor: "#FC3B5B"
                 }
             }
         }

@@ -62,7 +62,7 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, const QString& tag,qin
 
 void PlaylistNetwork::getPlaylistDetail(qulonglong id,void* item){
   QNetworkRequest request;
-  QUrl url = network_api::apiPlaylistDetail;
+  QUrl url = network_api::apiPlaylistDetail + "?" + "id=" + QString::number(id);
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply,item,this]() {

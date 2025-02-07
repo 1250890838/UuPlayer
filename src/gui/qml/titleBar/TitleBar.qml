@@ -103,7 +103,6 @@ Item {
             }
             IconButton {
                 id: maxButton
-                property bool checked: false
                 Layout.alignment: Qt.AlignRight
                 implicitHeight: 16
                 implicitWidth: 16
@@ -115,10 +114,8 @@ Item {
                 onClicked: {
                     if (window.visibility === Window.Maximized) {
                         window.showNormal()
-                        this.checked = true
                     } else {
                         window.showMaximized()
-                        this.checked = false
                     }
                 }
             }
