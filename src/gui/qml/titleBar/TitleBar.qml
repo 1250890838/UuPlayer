@@ -65,11 +65,10 @@ Item {
                             null, {//    "dim": false
                             }, Qt.Asynchronous)
                     incubator.onStatusChanged = function (status) {
-                        if (status == Component.Ready) {
+                        if (status === Component.Ready) {
                             let dialog = incubator.object
                         }
                     }
-                    console.log("login button clicked!")
                 }
                 Component.onCompleted: windowAgent.setHitTestVisible(this)
             }

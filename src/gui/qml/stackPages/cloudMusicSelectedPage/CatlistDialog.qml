@@ -14,7 +14,7 @@ Popup {
     }
     width: 1150 / 2
     height: 520 / 2
-    property var map
+    property var map: null
     enter: Transition {
         NumberAnimation {
             property: "width"
@@ -44,7 +44,13 @@ Popup {
             spacing: 20
             Repeater {
                 id: repeater1
-                model: Object.keys(root.map).length
+                model: {
+                    if (root.map === null) {
+                        return null
+                    } else {
+                        return Object.keys(root.map).length
+                    }
+                }
                 CTab {
                     text: Object.keys(root.map)[modelData]
                     onClicked: {
@@ -69,7 +75,13 @@ Popup {
             width: parent.width
             Repeater {
                 id: repeater2
-                model: root.map[(Object.keys(root.map)[0])]
+                model: {
+                    if (root.map == null) {
+                        return null
+                    } else {
+                        return root.map[(Object.keys(root.map)[0])]
+                    }
+                }
                 CatlistItem {
                     required property string modelData
                     text: modelData

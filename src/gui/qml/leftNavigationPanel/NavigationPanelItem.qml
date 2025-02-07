@@ -19,14 +19,12 @@ Item {
         id: container
         anchors.fill: parent
         color: {
-
-            console.log(colors);
             if (currentItem == root)
-                return root.colors[2];
+                return root.colors[2]
             else if (mouseArea.containsMouse)
-                return root.colors[1];
+                return root.colors[1]
             else
-                return root.colors[0];
+                return root.colors[0]
         }
         Row {
             spacing: 10
@@ -37,14 +35,14 @@ Item {
                 id: iconLabel
                 width: 20
                 height: 20
-                margins:0.2
+                margins: 0.2
                 icon: currentItem === root ? root.selectedIcon : root.icon
                 anchors.verticalCenter: parent.verticalCenter
             }
             Label {
                 id: label
                 font.pointSize: 10.2
-                color:currentItem === root ? "#FFFFFF" : "gray"
+                color: currentItem === root ? "#FFFFFF" : "gray"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -56,7 +54,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            root.clicked();
+            root.clicked()
         }
     }
 }

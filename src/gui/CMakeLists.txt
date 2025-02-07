@@ -99,6 +99,8 @@ qt_add_qml_module(gui
         QML_FILES qml/PlaylistDetailPage.qml
         QML_FILES qml/components/utils.js
         RESOURCES images/button_normalize.svg
+        RESOURCES images/button_pause.svg images/button_play.svg images/button_subscribed.svg
+        QML_FILES qml/MediaItem.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

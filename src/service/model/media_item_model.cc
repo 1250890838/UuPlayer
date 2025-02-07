@@ -38,7 +38,7 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const {
 }
 
 void MediaItemModel::appendItem(const MediaItem& item){
-  beginInsertRows(QModelIndex(), m_items.size(), m_items.length());
+  beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
   m_items.append(item);
   endInsertRows();
 }

@@ -119,7 +119,9 @@ void PlaylistService::onGetSelectivePlaylists(
           item.setCreator(formatCreator(o["creator"].toObject()));
           item.setSubscribers(formatSubscribers(o["subscribers"].toArray()));
           item.setSubscribed(o["subscribed"].toBool());
+          item.setSubscribedCount(o["subscribedCount"].toVariant().toULongLong());
           m_selectivePlaylists.appendItem(item);
+          auto a=m_selectivePlaylists.last();
           this->getPlaylistDetail(item.id(),m_selectivePlaylists.last());
         }
       }
@@ -191,10 +193,9 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,co
     QJsonDocument doc = QJsonDocument::fromJson(data);
     auto obj = doc.object();
     auto playlist = obj["playlist"].toObject();
-    auto tracks=obj["tracks"].toArray();
-    auto model=static_cast<model::PlaylistItem*>(item)->mediaItemModel();
-    auto subscribedCount=obj["subscribedCount"].toVariant().toULongLong();
-    static_cast<model::PlaylistItem*>(item)->setSubscribedCount(subscribedCount);
+    auto tracks=playlist["tracks"].toArray();
+    auto fitem =static_cast<model::PlaylistItem*>(item);
+    auto model=fitem->mediaItemModel();
     for(const QJsonValue& track:tracks){
       model::MediaItem item;
       item.id=track["id"].toVariant().toLongLong();

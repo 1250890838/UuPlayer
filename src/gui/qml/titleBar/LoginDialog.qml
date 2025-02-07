@@ -17,8 +17,8 @@ Window {
 
     Component.onDestruction: console.log(`LoginDialog : ${this} has died!!!`)
     Component.onCompleted: function () {
-        console.log(`LoginDialog : ${this} has borned!!!`);
-        LoginService.getQRCodeImage();
+        console.log(`LoginDialog : ${this} has borned!!!`)
+        LoginService.getQRCodeImage()
     }
 
     QtObject {
@@ -31,39 +31,37 @@ Window {
         id: connections
         target: LoginService
         function onQrCodeImageStatus(status) {
-            console.log(ErrorCode.NoError);
-            console.log(ErrorCode);
-            if (status != ErrorCode.NoError) {
-                errorText.visible = true;
-                imageMouseArea.enabled=false;
-                console.log("error");
-                desc.text = "使用 网易云音乐APP 扫码登陆";
-                desc.x = 100;
-                desc.y = 350;
+            if (status !== ErrorCode.NoError) {
+                errorText.visible = true
+                imageMouseArea.enabled = false
+                console.log("error")
+                desc.text = "使用 网易云音乐APP 扫码登陆"
+                desc.x = 100
+                desc.y = 350
             } else {
-                console.log("noerror");
-                imageMouseArea.enabled=true;
-                qrcodeImage.visible = true;
-                scanSampleImage.visible = true;
-                scanSampleImage.x = 45;
-                zeroToOneOpacityAnimation.start();
-                scanSampleImage.y = 150;
-                qrcodeImage.x = 190;
-                qrcodeImage.y = 140;
-                qrcodeImage.width = 150;
-                qrcodeImage.height = 150;
-                desc.text = "使用 网易云音乐APP \n        扫码登陆      ";
-                desc.x = 190;
-                desc.y = 300;
+                console.log("noerror")
+                imageMouseArea.enabled = true
+                qrcodeImage.visible = true
+                scanSampleImage.visible = true
+                scanSampleImage.x = 45
+                zeroToOneOpacityAnimation.start()
+                scanSampleImage.y = 150
+                qrcodeImage.x = 190
+                qrcodeImage.y = 140
+                qrcodeImage.width = 150
+                qrcodeImage.height = 150
+                desc.text = "使用 网易云音乐APP \n        扫码登陆      "
+                desc.x = 190
+                desc.y = 300
             }
         }
 
         function onQrCodeImageData(data) {
-            qrcodeImage.source = data;
+            qrcodeImage.source = data
         }
 
         function onLoginSuccess() {
-            root.destroy();
+            root.destroy()
         }
     }
     Rectangle {
@@ -79,20 +77,20 @@ Window {
             width: parent.width
             height: 50
             propagateComposedEvents: true
-            property point pp: Qt.point(0, 0)// previous point
+            property point pp: Qt.point(0, 0) // previous point
 
             onPressed: function (mouse) {
-                let point = mapToGlobal(mouse.x, mouse.y);
-                this.pp = point;
-                console.log("Login dialog pressed!!!");
+                let point = mapToGlobal(mouse.x, mouse.y)
+                this.pp = point
+                console.log("Login dialog pressed!!!")
             }
 
             onPositionChanged: function (mouse) {
                 if (mouse.buttons | Qt.LeftButton) {
-                    let point = mapToGlobal(mouse.x, mouse.y);
-                    root.x += point.x - this.pp.x;
-                    root.y += point.y - this.pp.y;
-                    this.pp = point;
+                    let point = mapToGlobal(mouse.x, mouse.y)
+                    root.x += point.x - this.pp.x
+                    root.y += point.y - this.pp.y
+                    this.pp = point
                 }
             }
         }
@@ -212,31 +210,31 @@ Window {
             hoverEnabled: true
             propagateComposedEvents: true
             onContainsMouseChanged: function () {
-                console.log(`contains mouse changed now :${contains}`);
+                console.log(`contains mouse changed now :${contains}`)
                 if (this.containsMouse) {
-                    scanSampleImage.x = 45;
-                    scanSampleImage.y = 150;
-                    scanSampleImage.opacity = 1;
-                    qrcodeImage.x = 190;
-                    qrcodeImage.y = 140;
-                    qrcodeImage.width = 150;
-                    qrcodeImage.height = 150;
-                    desc.text = "使用 网易云音乐APP \n        扫码登陆      ";
-                    desc.x = 190;
-                    desc.y = 300;
-                    zeroToOneOpacityAnimation.start();
+                    scanSampleImage.x = 45
+                    scanSampleImage.y = 150
+                    scanSampleImage.opacity = 1
+                    qrcodeImage.x = 190
+                    qrcodeImage.y = 140
+                    qrcodeImage.width = 150
+                    qrcodeImage.height = 150
+                    desc.text = "使用 网易云音乐APP \n        扫码登陆      "
+                    desc.x = 190
+                    desc.y = 300
+                    zeroToOneOpacityAnimation.start()
                 } else {
-                    scanSampleImage.x = 155;
-                    scanSampleImage.y = 150;
-                    scanSampleImage.opacity = 0;
-                    qrcodeImage.x = 100;
-                    qrcodeImage.y = 153;
-                    qrcodeImage.width = 200;
-                    qrcodeImage.height = 200;
-                    desc.text = "使用 网易云音乐APP 扫码登陆";
-                    desc.x = 100;
-                    desc.y = 350;
-                    oneToZeroOpacityAnimation.start();
+                    scanSampleImage.x = 155
+                    scanSampleImage.y = 150
+                    scanSampleImage.opacity = 0
+                    qrcodeImage.x = 100
+                    qrcodeImage.y = 153
+                    qrcodeImage.width = 200
+                    qrcodeImage.height = 200
+                    desc.text = "使用 网易云音乐APP 扫码登陆"
+                    desc.x = 100
+                    desc.y = 350
+                    oneToZeroOpacityAnimation.start()
                 }
             }
         }

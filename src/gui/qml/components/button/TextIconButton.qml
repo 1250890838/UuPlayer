@@ -15,15 +15,16 @@ Item {
     property real textPointSize: 8
     property int textWeight: Font.Normal
     property color backgroundColor: "transparent"
+    property color hoveredBackgroundColor: "transparent"
     property real radius
     property real margins: 0
+    property bool pressedAction: false
 
     signal clicked
-
     Rectangle {
         id: container
         anchors.fill: parent
-        color: root.backgroundColor
+        color: mouseArea.containsMouse ? root.hoveredBackgroundColor : root.backgroundColor
         radius: root.radius
         Row {
             id: row
@@ -34,6 +35,7 @@ Item {
                 source: root.icon
                 width: root.iconWidth
                 height: root.iconHeight
+                anchors.verticalCenter: parent.verticalCenter
             }
             Text {
                 id: text
@@ -48,13 +50,28 @@ Item {
             }
         }
     }
+
     MouseArea {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: Qt.ArrowCursor
+        cursorShape: Qt.PointingHandCursor
         onClicked: {
             root.clicked()
+        }
+        onPressed: {
+            root.width -= 5
+            root.height -= 5
+            container.opacity -= 0.2
+            root.x += 2.5
+            root.y += 2.5
+        }
+        onReleased: {
+            root.width += 5
+            root.height += 5
+            container.opacity += 0.2
+            root.x -= 2.5
+            root.y -= 2.5
         }
     }
 }
