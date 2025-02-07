@@ -107,7 +107,8 @@ Item {
                 Layout.alignment: Qt.AlignRight
                 implicitHeight: 16
                 implicitWidth: 16
-                icon: this.checked ? Icons.normalizeIcon : Icons.maximizeIcon
+                icon: window.visibility
+                      === Window.Maximized ? Icons.normalizeIcon : Icons.maximizeIcon
                 hoveredIcon: this.checked ? Icons.normalizeIcon : Icons.maximizeIcon
                 Component.onCompleted: windowAgent.setSystemButton(
                                            WindowAgent.Maximize, maxButton)

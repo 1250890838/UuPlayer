@@ -98,6 +98,7 @@ qt_add_qml_module(gui
         QML_FILES qml/components/other/RoundedRectangle.qml
         QML_FILES qml/PlaylistDetailPage.qml
         QML_FILES qml/components/utils.js
+        RESOURCES images/button_normalize.svg
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

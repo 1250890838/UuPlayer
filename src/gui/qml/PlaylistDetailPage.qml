@@ -9,6 +9,12 @@ Flickable {
     required property var detail
     contentHeight: columnLayout.implicitHeight
     contentWidth: this.width
+    boundsBehavior: Flickable.StopAtBounds
+    boundsMovement: Flickable.StopAtBounds
+    clip: true
+    ScrollBar.vertical: ScrollBar {
+        policy: ScrollBar.AsNeeded
+    }
     ColumnLayout {
         id: columnLayout
         anchors.fill: parent
@@ -27,7 +33,7 @@ Flickable {
             }
 
             Column {
-                spacing: 10
+                spacing: 15
                 Text {
                     id: name
                     text: detail.name
@@ -44,18 +50,18 @@ Flickable {
                     color: "#54534d"
                     wrapMode: Text.WordWrap
                 }
-                RoundedImage {
-                    id: avatarImage
-                    radius: 10
-                    imageUrl: detail.creator.avatarUrl
-                    width: 25
-                    height: 25
-                    isTopLeftRounded: true
-                    isTopRightRounded: true
-                    isBottomLeftRounded: true
-                    isBottomRightRounded: true
-                }
                 Row {
+                    RoundedImage {
+                        id: avatarImage
+                        radius: 10
+                        imageUrl: detail.creator.avatarUrl
+                        width: 25
+                        height: 25
+                        isTopLeftRounded: true
+                        isTopRightRounded: true
+                        isBottomLeftRounded: true
+                        isBottomRightRounded: true
+                    }
                     spacing: 10
                     Text {
                         id: avatarName
@@ -65,7 +71,8 @@ Flickable {
                         id: createdTime
                         color: "gray"
                         font.pointSize: 7
-                        text: Utils.convertMillisecondsToDate(detail.createTime)
+                        text: Utils.convertMillisecondsToDate(
+                                  detail.createTime) + qsTr("创建")
                     }
                 }
             }
