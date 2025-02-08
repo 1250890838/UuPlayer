@@ -9,13 +9,16 @@ Flickable {
     id: root
     required property var detail
     contentHeight: columnLayout.implicitHeight
-    contentWidth: this.width
+    contentWidth: this.width - (scrollBar.width + 5)
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
+
     ScrollBar.vertical: ScrollBar {
+        id: scrollBar
         policy: ScrollBar.AsNeeded
     }
+
     ColumnLayout {
         id: columnLayout
         anchors.fill: parent
@@ -139,6 +142,82 @@ Flickable {
                 }
             }
         }
+
+        Item {
+            id: spacerRow2Tabs
+            Layout.fillWidth: true
+            Layout.preferredHeight: 20
+        }
+
+        Row {
+            id: tabsRow
+            property CTab currentTab: mediasTab
+            spacing: 20
+            CTab {
+                id: mediasTab
+                text: "歌曲"
+                isCurrentItem: tabsRow.currentTab === mediasTab
+                onClicked: {
+                    tabsRow.currentTab.isCurrentItem = false
+                    tabsRow.currentTab = this
+                    tabsRow.currentTab.isCurrentItem = true
+                }
+            }
+            CTab {
+                id: commentsTab
+                text: "评论"
+                isCurrentItem: tabsRow.currentTab === commentsTab
+                onClicked: {
+                    tabsRow.currentTab.isCurrentItem = false
+                    tabsRow.currentTab = this
+                    tabsRow.currentTab.isCurrentItem = true
+                }
+            }
+            CTab {
+                id: subscribersTab
+                text: "收藏者"
+                isCurrentItem: tabsRow.currentTab === subscribersTab
+                onClicked: {
+                    tabsRow.currentTab.isCurrentItem = false
+                    tabsRow.currentTab = this
+                    tabsRow.currentTab.isCurrentItem = true
+                }
+            }
+        }
+
+        RowLayout {
+            id: headerLayout
+            Text {
+                id: headerDummyItem
+                text: "#"
+                Layout.preferredWidth: 5
+                font.pointSize: 9
+            }
+            Item {
+                id: spacer
+                Layout.preferredWidth: 20
+                Layout.fillHeight: true
+            }
+            Text {
+                id: headerTitleItem
+                text: "标题"
+                Layout.fillWidth: true
+                font.pointSize: 9
+            }
+            Text {
+                id: headerAlbumItem
+                text: "专辑"
+                Layout.fillWidth: true
+                font.pointSize: 9
+            }
+            Text {
+                id: headerDurationItem
+                text: "时长"
+                Layout.preferredWidth: headerDurationItem.implicitWidth + 5
+                font.pointSize: 9
+            }
+        }
+
         Repeater {
             id: mediaItemsRepeater
             model: detail.mediaItemModel

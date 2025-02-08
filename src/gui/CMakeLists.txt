@@ -11,7 +11,7 @@ set(plain_qml_files
     qml/stackPages/cloudMusicSelectedPage/SelectiveSubpage.qml
     qml/stackPages/cloudMusicSelectedPage/SingerSubpage.qml
     qml/stackPages/cloudMusicSelectedPage/TabsBar.qml
-    qml/stackPages/cloudMusicSelectedPage/CTab.qml
+
     qml/stackPages/cloudMusicSelectedPage/VipSubpage.qml
     qml/stackPages/CommunityPage.qml
     qml/stackPages/DownloadManagePage.qml
@@ -101,6 +101,7 @@ qt_add_qml_module(gui
         RESOURCES images/button_normalize.svg
         RESOURCES images/button_pause.svg images/button_play.svg images/button_subscribed.svg
         QML_FILES qml/MediaItem.qml
+        QML_FILES qml/components/other/CTab.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

@@ -50,7 +50,7 @@ struct MediaItem {
   QString name;
   qulonglong duration;
   AlbumData album;
-  AristData artist;
+  QVariantList artists; // QList<AristData> artists
   QString reason;
 };
 
@@ -77,4 +77,6 @@ class MediaItemModel : public QAbstractListModel {
   QVector<MediaItem> m_items;
 };
 }  // namespace model
+Q_DECLARE_METATYPE(model::AlbumData);
+
 #endif

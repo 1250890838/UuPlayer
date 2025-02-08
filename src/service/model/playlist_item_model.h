@@ -10,6 +10,8 @@
 #include <QColor>
 #include <QUrl>
 
+#include <memory>
+
 namespace model{
 class UserData {
   Q_GADGET
@@ -146,10 +148,8 @@ class PlaylistItemModel : public QAbstractListModel {
   void appendItem(const PlaylistItem& item);
   void appendItems(const QVector<PlaylistItem>& items);
   void clear();
-
-
  private:
-  QVector<PlaylistItem> m_items;
+  QList<std::shared_ptr<PlaylistItem>> m_items;
 };
 }
 

@@ -18,11 +18,13 @@ class NETWORK_DLL_EXPORT PlaylistNetwork : public BasicNetwork {
   void getSelectivePlaylists(qint32 limit,const QString& tag,qint32 offest);
   void getPlaylistsCatlist();
   void getPlaylistDetail(qulonglong id,void* item);
+  void getPlaylistTracks(qulonglong id,void* item);
  signals:
   void getHighqualityPlaylistsFinished(error_code::ErrorCode code , const QByteArray&);
   void getSelectivePlaylistsFinished(error_code::ErrorCode code , const QByteArray&);
   void getPlaylistsCatlistFinished(error_code::ErrorCode code , const QByteArray&);
   void getPlaylistDetailFinished(error_code::ErrorCode code,const QByteArray&,void* item);
+  void getPlaylistTracksFinished(error_code::ErrorCode code,const QByteArray&,void* item);
 };
 }  // namespace network
 #endif

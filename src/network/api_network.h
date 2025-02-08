@@ -15,6 +15,7 @@ namespace network_api {
     const QString apiGetSelectivePlaylists=host+QStringLiteral("/top/playlist");
     const QString apiCatlist=host+QStringLiteral("/playlist/catlist");
     const QString apiPlaylistDetail=host+QStringLiteral("/playlist/detail");
+    const QString apiPlaylistTracks=host+QStringLiteral("/playlist/track/all");
 }
 
 #endif

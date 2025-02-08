@@ -23,7 +23,7 @@ QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
     case AlbumRole:
       return QVariant::fromValue(item.album);
     case ArtistRole:
-      return QVariant::fromValue(item.artist);
+      return QVariant::fromValue(item.artists);
     case ReasonRole:
       return item.reason;
     default:
@@ -34,7 +34,7 @@ QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
 QHash<int, QByteArray> MediaItemModel::roleNames() const {
   return {
       {IdRole, "id"},       {NameRole, "name"},     {DurationRole, "duration"},
-      {AlbumRole, "album"}, {ArtistRole, "artist"}, {ReasonRole, "reason"}};
+      {AlbumRole, "album"}, {ArtistRole, "artists"}, {ReasonRole, "reason"}};
 }
 
 void MediaItemModel::appendItem(const MediaItem& item){

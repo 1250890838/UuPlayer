@@ -23,6 +23,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_INVOKABLE void getSelectivePlaylists();
   Q_INVOKABLE void getPlaylistsCatlist();
   Q_INVOKABLE void getPlaylistDetail(qulonglong id,model::PlaylistItem* item);
+  Q_INVOKABLE void getPlaylistTracks(qulonglong id,model::PlaylistItem* item);
 
   Q_INVOKABLE void setCurrLimit(qint32 limit){ m_currLimit=limit;}
   Q_INVOKABLE void setCurrCat(const QString& cat) { m_currCat=cat;}
@@ -39,6 +40,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
                                    const QByteArray& data);
   void onGetPlaylistsCatlist(network::error_code::ErrorCode,const QByteArray& data);
   void onGetPlaylistDetail(network::error_code::ErrorCode,const QByteArray& data,void* item);
+  void onGetPlaylistTracks(network::error_code::ErrorCode,const QByteArray& data,void* item);
 
  public:
   PlaylistService(QObject* parent = nullptr);

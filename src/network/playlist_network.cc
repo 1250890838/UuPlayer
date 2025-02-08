@@ -77,4 +77,21 @@ void PlaylistNetwork::getPlaylistDetail(qulonglong id,void* item){
   });
 }
 
+void PlaylistNetwork::getPlaylistTracks(qulonglong id,void* item){
+  QNetworkRequest request;
+  QUrl url = network_api::apiPlaylistTracks + "?" + "id=" + QString::number(id);
+  request.setUrl(url);
+  auto reply = this->get(request);
+  connect(reply, &QNetworkReply::finished, this, [reply,item,this]() {
+    auto e = reply->error();
+    if (e == QNetworkReply::NoError) {
+      QByteArray data = reply->readAll();
+      emit getPlaylistTracksFinished(error_code::NoError, data,item);
+    } else {
+      emit getPlaylistTracksFinished(error_code::OtherError,
+                                     QByteArray(),item);
+    }
+  });
+}
+
 }  // namespace network

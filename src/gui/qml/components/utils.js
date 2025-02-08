@@ -14,3 +14,18 @@ function convertMillisecondsToDate(ms) {
     // Return the formatted date
     return `${year}-${month}-${day}`
 }
+
+function millisecondsToTime(ms) {
+    // Get total seconds
+    let totalSeconds = Math.floor(ms / 1000)
+
+    // Get minutes and seconds
+    let minutes = Math.floor(totalSeconds / 60)
+    let seconds = totalSeconds % 60
+
+    // Format minutes and seconds to always show two digits
+    let formattedTime = `${String(minutes).padStart(2, '0')}:${String(
+            seconds).padStart(2, '0')}`
+
+    return formattedTime
+}

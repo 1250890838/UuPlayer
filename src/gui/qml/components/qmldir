@@ -6,4 +6,5 @@ PlaylistItem 1.0 other/PlaylistItem.qml
 CatlistItem 1.0 other/CatlistItem.qml
 RoundedImage 1.0 other/RoundedImage.qml
 RoundedRectangle 1.0 other/RoundedRectangle.qml
+CTab 1.0 other/CTab.qml
 Utils 1.0 utils.js
