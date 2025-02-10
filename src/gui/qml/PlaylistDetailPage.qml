@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import service 1.0
+import service.api 1.0
 import assets 1.0
 import components 1.0
 

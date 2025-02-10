@@ -1,14 +1,20 @@
 add_library(service SHARED 
-    login_service.h
-    playlist_service.h
+
     model/media_item_model.h
     model/playlist_item_model.h
 
-    login_service.cc
-    playlist_service.cc
+
     model/media_item_model.cc
     model/playlist_item_model.cc
 
+
+)
+
+qt6_add_qml_module(service URI service.api VERSION 1.0 SOURCES
+    login_service.h
+    playlist_service.h
+    login_service.cc
+    playlist_service.cc
     song_service.h
     song_service.cc
 )

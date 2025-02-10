@@ -8,6 +8,7 @@ class SERVICE_DLL_EXPORT LoginService : public QObject {
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
+  QML_NAMED_ELEMENT(LoginService)
  public:
   Q_INVOKABLE void getQRCodeImage();
  signals:

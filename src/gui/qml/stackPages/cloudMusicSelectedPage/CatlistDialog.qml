@@ -3,7 +3,7 @@ import QtQuick.Effects
 import QtQuick.Controls
 import components 1.0
 import skins 1.0
-import service 1.0
+import service.api 1.0
 
 Popup {
     id: root

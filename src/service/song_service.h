@@ -1,14 +1,28 @@
-#ifndef SONG_SERVICE_H
-#define SONG_SERVICE_H
-
+#include <qglobal.h>
+#include <qjsonarray.h>
+#include <qjsonobject.h>
+#include <qtmetamacros.h>
+#include <qtypes.h>
+#include <qvariant.h>
 #include <QObject>
 
-class song_service : public QObject {
+#include "service_global.h"
+
+namespace service {
+class SERVICE_DLL_EXPORT SongService : public QObject {
   Q_OBJECT
  public:
-  explicit song_service(QObject* parent = nullptr);
-
+ void getSongUrl()
  signals:
-};
 
-#endif  // SONG_SERVICE_H
+ public slots:
+
+
+ public:
+  SongService(QObject* parent = nullptr){}
+
+ private:
+
+
+};
+}  // namespace service

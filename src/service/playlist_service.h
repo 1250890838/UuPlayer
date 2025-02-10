@@ -15,6 +15,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
+  QML_NAMED_ELEMENT(PlaylistsService)
   Q_PROPERTY(model::PlaylistItemModel* highqualityPlaylists READ highqualityPlaylists CONSTANT)
   Q_PROPERTY(model::PlaylistItemModel* selectivePlaylists READ selectivePlaylists CONSTANT)
 
