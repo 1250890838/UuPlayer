@@ -17,6 +17,7 @@ Flickable {
     ScrollBar.vertical: ScrollBar {
         id: scrollBar
         policy: ScrollBar.AsNeeded
+        implicitWidth: 7
     }
 
     ColumnLayout {
@@ -91,53 +92,77 @@ Flickable {
                 }
                 Row {
                     spacing: 10
-                    TextIconButton {
-                        icon: Icons.playIcon
+                    Item {
                         width: 95
                         height: 38
-                        iconWidth: 10
-                        iconHeight: 10
-                        text: "播放全部"
-                        textColor: "white"
-                        textPointSize: 10
-                        textBold: true
-                        textWeight: Font.DemiBold
-                        radius: 8
-                        backgroundColor: "#FC3B5B"
-                        hoveredBackgroundColor: "#E33552"
-                        pressedAction: true
+                        TextIconButton {
+                            icon: Icons.playIcon
+                            anchors.fill: parent
+                            iconWidth: 10
+                            iconHeight: 10
+                            text: "播放全部"
+                            textColor: "white"
+                            textPointSize: 10
+                            textBold: true
+                            textWeight: Font.DemiBold
+                            radius: 8
+                            backgroundColor: "#FC3B5B"
+                            hoveredBackgroundColor: "#E33552"
+                            onPressed: {
+                                anchors.margins = 2
+                            }
+                            onReleased: {
+                                anchors.margins = 0
+                            }
+                        }
                     }
-                    TextIconButton {
-                        icon: Icons.subscribedIcon
+                    Item {
                         width: 80
                         height: 38
-                        iconWidth: 16
-                        iconHeight: 16
-                        text: detail.subscribedCount
-                        textColor: "black"
-                        textPointSize: 8.5
-                        textBold: true
-                        textWeight: Font.DemiBold
-                        radius: 8
-                        backgroundColor: "#eae1e7"
-                        hoveredBackgroundColor: "#e2d9df"
-                        pressedAction: true
+                        TextIconButton {
+                            icon: Icons.subscribedIcon
+                            anchors.fill: parent
+                            iconWidth: 16
+                            iconHeight: 16
+                            text: detail.subscribedCount
+                            textColor: "black"
+                            textPointSize: 8.5
+                            textBold: true
+                            textWeight: Font.DemiBold
+                            radius: 8
+                            backgroundColor: "#eae1e7"
+                            hoveredBackgroundColor: "#e2d9df"
+                            onPressed: {
+                                anchors.margins = 2
+                            }
+                            onReleased: {
+                                anchors.margins = 0
+                            }
+                        }
                     }
-                    TextIconButton {
-                        icon: Icons.downloadManagerIcon
+                    Item {
                         width: 80
                         height: 38
-                        iconWidth: 16
-                        iconHeight: 16
-                        text: "下载"
-                        textColor: "black"
-                        textPointSize: 10
-                        textBold: true
-                        textWeight: Font.DemiBold
-                        radius: 8
-                        backgroundColor: "#eae1e7"
-                        hoveredBackgroundColor: "#e2d9df"
-                        pressedAction: true
+                        TextIconButton {
+                            icon: Icons.downloadManagerIcon
+                            anchors.fill: parent
+                            iconWidth: 16
+                            iconHeight: 16
+                            text: "下载"
+                            textColor: "black"
+                            textPointSize: 10
+                            textBold: true
+                            textWeight: Font.DemiBold
+                            radius: 8
+                            backgroundColor: "#eae1e7"
+                            hoveredBackgroundColor: "#e2d9df"
+                            onPressed: {
+                                anchors.margins = 2
+                            }
+                            onReleased: {
+                                anchors.margins = 0
+                            }
+                        }
                     }
                 }
             }

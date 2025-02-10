@@ -18,9 +18,11 @@ Item {
     property color hoveredBackgroundColor: "transparent"
     property real radius
     property real margins: 0
-    property bool pressedAction: false
 
     signal clicked
+    signal pressed
+    signal released
+
     Rectangle {
         id: container
         anchors.fill: parent
@@ -60,18 +62,10 @@ Item {
             root.clicked()
         }
         onPressed: {
-            root.width -= 5
-            root.height -= 5
-            container.opacity -= 0.2
-            root.x += 2.5
-            root.y += 2.5
+            root.pressed()
         }
         onReleased: {
-            root.width += 5
-            root.height += 5
-            container.opacity += 0.2
-            root.x -= 2.5
-            root.y -= 2.5
+            root.released()
         }
     }
 }

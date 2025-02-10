@@ -4,7 +4,7 @@ Item {
     id: root
     signal clicked
     required property string text
-    property color backgroundColor: "#F7F9FC"
+    property color backgroundColor: "#F0F3F6"
     property bool selected: false
     property real borderWidth: 1
     Rectangle {
