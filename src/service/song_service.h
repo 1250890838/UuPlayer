@@ -12,17 +12,19 @@ namespace service {
 class SERVICE_DLL_EXPORT SongService : public QObject {
   Q_OBJECT
  public:
- void getSongUrl()
+  Q_INVOKABLE void getSongUrl(qulonglong id){}
+  Q_INVOKABLE void checkSongEnable(qulonglong id){}
+  Q_INVOKABLE void getSongComments(qulonglong id){}
+  Q_INVOKABLE void getSongLyric(qulonglong id){}
+  Q_INVOKABLE void getSongNewLyric(qulonglong id){}
+
  signals:
 
  public slots:
 
-
  public:
-  SongService(QObject* parent = nullptr){}
+  SongService(QObject* parent = nullptr) {}
 
  private:
-
-
 };
 }  // namespace service

@@ -16,11 +16,8 @@
 
 namespace service {
 
-PlaylistService::PlaylistService(QObject* parent) :
-      QObject(parent),
-      m_currLimit(4),
-      m_currOffset(0)
-{
+PlaylistService::PlaylistService(QObject* parent)
+    : QObject(parent), m_currLimit(4), m_currOffset(0) {
   using namespace network;
   connect(&m_network, &PlaylistNetwork::getHighqualityPlaylistsFinished, this,
           &PlaylistService::onGetHighqualityPlaylists);
@@ -28,9 +25,9 @@ PlaylistService::PlaylistService(QObject* parent) :
           &PlaylistService::onGetSelectivePlaylists);
   connect(&m_network, &PlaylistNetwork::getPlaylistsCatlistFinished, this,
           &PlaylistService::onGetPlaylistsCatlist);
-  connect(&m_network,&PlaylistNetwork::getPlaylistDetailFinished,this,
+  connect(&m_network, &PlaylistNetwork::getPlaylistDetailFinished, this,
           &PlaylistService::onGetPlaylistDetail);
-  connect(&m_network,&PlaylistNetwork::getPlaylistTracksFinished,this,
+  connect(&m_network, &PlaylistNetwork::getPlaylistTracksFinished, this,
           &PlaylistService::onGetPlaylistTracks);
 }
 
@@ -39,21 +36,24 @@ void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
 }
 
 void PlaylistService::getSelectivePlaylists() {
-  if(m_currOffset==0) m_selectivePlaylists.clear();
-  m_network.getSelectivePlaylists(m_currLimit, m_currCat,m_currOffset);
-  m_currOffset+=m_currLimit;
+  if (m_currOffset == 0)
+    m_selectivePlaylists.clear();
+  m_network.getSelectivePlaylists(m_currLimit, m_currCat, m_currOffset);
+  m_currOffset += m_currLimit;
 }
 
 void PlaylistService::getPlaylistsCatlist() {
   m_network.getPlaylistsCatlist();
 }
 
-void PlaylistService::getPlaylistDetail(qulonglong id,model::PlaylistItem* item){
-  m_network.getPlaylistDetail(id,item);
+void PlaylistService::getPlaylistDetail(qulonglong id,
+                                        model::PlaylistItem* item) {
+  m_network.getPlaylistDetail(id, item);
 }
 
-void PlaylistService::getPlaylistTracks(qulonglong id,model::PlaylistItem* item){
-  m_network.getPlaylistTracks(id,item);
+void PlaylistService::getPlaylistTracks(qulonglong id,
+                                        model::PlaylistItem* item) {
+  m_network.getPlaylistTracks(id, item);
 }
 
 void PlaylistService::onGetHighqualityPlaylists(
@@ -126,9 +126,10 @@ void PlaylistService::onGetSelectivePlaylists(
           item.setCreator(formatCreator(o["creator"].toObject()));
           item.setSubscribers(formatSubscribers(o["subscribers"].toArray()));
           item.setSubscribed(o["subscribed"].toBool());
-          item.setSubscribedCount(o["subscribedCount"].toVariant().toULongLong());
+          item.setSubscribedCount(
+              o["subscribedCount"].toVariant().toULongLong());
           m_selectivePlaylists.appendItem(item);
-          this->getPlaylistTracks(item.id(),m_selectivePlaylists.last());
+          this->getPlaylistTracks(item.id(), m_selectivePlaylists.last());
         }
       }
     }
@@ -177,8 +178,8 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
     QVariantMap result;
     QJsonDocument doc = QJsonDocument::fromJson(data);
     auto obj = doc.object();
-    auto subs = obj["sub"].toArray(); // 标签
-    auto categories = obj["categories"].toObject(); // 分类
+    auto subs = obj["sub"].toArray();                // 标签
+    auto categories = obj["categories"].toObject();  // 分类
     for (int i = 0; i < categories.size(); i++) {
       QStringList list;
       auto category = categories[QString::number(i)].toString();
@@ -194,70 +195,72 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
   }
 }
 
-void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,const QByteArray& data,void* item){
-  if(code == network::error_code::NoError){
+void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
+                                          const QByteArray& data, void* item) {
+  if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     auto obj = doc.object();
     auto playlist = obj["playlist"].toObject();
-    auto tracks=playlist["tracks"].toArray();
-    auto fitem =static_cast<model::PlaylistItem*>(item);
-    auto model=fitem->mediaItemModel();
-    for(const QJsonValue& track:tracks){
+    auto tracks = playlist["tracks"].toArray();
+    auto fitem = static_cast<model::PlaylistItem*>(item);
+    auto model = fitem->mediaItemModel();
+    for (const QJsonValue& track : tracks) {
       model::MediaItem item;
-      item.id=track["id"].toVariant().toLongLong();
-      item.name=track["name"].toString();
+      item.id = track["id"].toVariant().toLongLong();
+      item.name = track["name"].toString();
       model::AlbumData albumData;
-      auto albumObj=track["al"].toObject();
+      auto albumObj = track["al"].toObject();
       albumData.setId(albumObj["id"].toVariant().toLongLong());
       albumData.setName(albumObj["name"].toString());
       albumData.setPicUrl(albumObj["picUrl"].toString());
-      item.album=albumData;
-      auto artistsArr=track["ar"].toArray();
+      item.album = albumData;
+      auto artistsArr = track["ar"].toArray();
       model::AristData aristData;
-      for(const auto& artistValue : artistsArr){
+      for (const auto& artistValue : artistsArr) {
         auto artistObj = artistValue.toObject();
         aristData.setId(artistObj["id"].toVariant().toLongLong());
         aristData.setName(artistObj["name"].toString());
         item.artists.append(QVariant::fromValue(aristData));
       }
-      item.duration=track["dt"].toVariant().toLongLong();
+      item.duration = track["dt"].toVariant().toLongLong();
       model->appendItem(item);
     }
   }
 }
 
-void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,const QByteArray& data,void* item){
+void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
+                                          const QByteArray& data, void* item) {
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() || doc.isEmpty()) {
     } else {
       auto obj = doc.object();
       QJsonArray tracks = obj["songs"].toArray();
-      auto fitem =static_cast<model::PlaylistItem*>(item);
-      auto model=fitem->mediaItemModel();
+      auto fitem = static_cast<model::PlaylistItem*>(item);
+      auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
         model::MediaItem item;
-        item.id=track["id"].toVariant().toLongLong();
-        item.name=track["name"].toString();
+        item.id = track["id"].toVariant().toLongLong();
+        item.name = track["name"].toString();
         model::AlbumData albumData;
-        auto albumObj=track["al"].toObject();
+        auto albumObj = track["al"].toObject();
         albumData.setId(albumObj["id"].toVariant().toLongLong());
         albumData.setName(albumObj["name"].toString());
         albumData.setPicUrl(albumObj["picUrl"].toString());
-        item.album=albumData;
-        auto artistsArr=track["ar"].toArray();
+        item.album = albumData;
+        auto artistsArr = track["ar"].toArray();
         model::AristData aristData;
-        for(const auto& artistValue : artistsArr){
+        for (const auto& artistValue : artistsArr) {
           auto artistObj = artistValue.toObject();
           aristData.setId(artistObj["id"].toVariant().toLongLong());
           aristData.setName(artistObj["name"].toString());
           item.artists.append(QVariant::fromValue(aristData));
         }
-        item.duration=track["dt"].toVariant().toLongLong();
+        item.duration = track["dt"].toVariant().toLongLong();
         model->appendItem(item);
       }
     }
   }
 }
 
-}// namespace service
+}  // namespace service

@@ -6,13 +6,13 @@
 #include <qglobal.h>
 #include <qtmetamacros.h>
 #include <QAbstractListModel>
-#include <QObject>
 #include <QColor>
+#include <QObject>
 #include <QUrl>
 
 #include <memory>
 
-namespace model{
+namespace model {
 class UserData {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id WRITE setId)
@@ -51,7 +51,6 @@ class UserData {
   bool m_followed;
 };
 
-
 class PlaylistItem {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id)
@@ -70,7 +69,13 @@ class PlaylistItem {
   Q_PROPERTY(MediaItemModel* mediaItemModel READ mediaItemModel)
 
  public:
-  PlaylistItem() : m_id(0), m_userId(0), m_createTime(0), m_updateTime(0), m_subscribed(false),m_mediaItemModel(new MediaItemModel()) {}
+  PlaylistItem()
+      : m_id(0),
+        m_userId(0),
+        m_createTime(0),
+        m_updateTime(0),
+        m_subscribed(false),
+        m_mediaItemModel(new MediaItemModel()) {}
   ~PlaylistItem() = default;
 
  public:
@@ -83,11 +88,11 @@ class PlaylistItem {
   QString desc() const { return m_description; }
   QStringList tags() const { return m_tags; }
   UserData creator() const { return m_creator; }
-  qulonglong playCount() const {return m_playCount;}
+  qulonglong playCount() const { return m_playCount; }
   QVector<UserData> subscribers() const { return m_subscribers; }
   bool subscribed() const { return m_subscribed; }
-  MediaItemModel* mediaItemModel()  { return m_mediaItemModel; }
-  qulonglong subscribedCount() const {return m_subscribedCount;}
+  MediaItemModel* mediaItemModel() { return m_mediaItemModel; }
+  qulonglong subscribedCount() const { return m_subscribedCount; }
 
   void setId(qulonglong id) { m_id = id; }
   void setName(const QString& name) { m_name = name; }
@@ -100,24 +105,26 @@ class PlaylistItem {
   void setTags(const QStringList& tags) { m_tags = tags; }
   void setCreator(const UserData& creator) { m_creator = creator; }
   void setSubscribed(bool b) { m_subscribed = b; }
-  void setSubscribers(const QVector<UserData>& subscribers) { m_subscribers = subscribers; }
-  void setSubscribedCount(qulonglong count) { m_subscribedCount = count;}
+  void setSubscribers(const QVector<UserData>& subscribers) {
+    m_subscribers = subscribers;
+  }
+  void setSubscribedCount(qulonglong count) { m_subscribedCount = count; }
 
  private:
-    qulonglong m_id;
-    QString m_name;
-    qulonglong m_userId;
-    qulonglong m_createTime;
-    qulonglong m_updateTime;
-    QUrl m_coverUrl;
-    QString m_description;
-    QStringList m_tags;
-    qulonglong m_playCount;
-    UserData m_creator;
-    QVector<UserData> m_subscribers;
-    bool m_subscribed;
-    qulonglong m_subscribedCount;
-    MediaItemModel *m_mediaItemModel;
+  qulonglong m_id;
+  QString m_name;
+  qulonglong m_userId;
+  qulonglong m_createTime;
+  qulonglong m_updateTime;
+  QUrl m_coverUrl;
+  QString m_description;
+  QStringList m_tags;
+  qulonglong m_playCount;
+  UserData m_creator;
+  QVector<UserData> m_subscribers;
+  bool m_subscribed;
+  qulonglong m_subscribedCount;
+  MediaItemModel* m_mediaItemModel;
 };
 
 class PlaylistItemModel : public QAbstractListModel {
@@ -148,10 +155,11 @@ class PlaylistItemModel : public QAbstractListModel {
   void appendItem(const PlaylistItem& item);
   void appendItems(const QVector<PlaylistItem>& items);
   void clear();
+
  private:
   QList<std::shared_ptr<PlaylistItem>> m_items;
 };
-}
+}  // namespace model
 
 Q_DECLARE_METATYPE(model::UserData);
 #endif

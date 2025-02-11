@@ -6,9 +6,7 @@
 namespace model {
 
 PlaylistItemModel::PlaylistItemModel(QObject* parent)
-    : QAbstractListModel(parent) {
-
-}
+    : QAbstractListModel(parent) {}
 
 int PlaylistItemModel::rowCount(const QModelIndex& parent) const {
   return m_items.count();
@@ -53,15 +51,18 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const {
 }
 
 QHash<int, QByteArray> PlaylistItemModel::roleNames() const {
-  return {
-    {IdRole, "id"}, {NameRole, "name"}, {UserId, "userId"},
-        {CreateTimeRole, "createTime"}, {UpdateTimeRole, "updateTime"},
-        {CoverUrlRole, "coverUrl"}, {DescriptionRole, "description"},
-        {TagsRole, "tags"}, {PlayCountRole, "playCount"},
-        {CreatorRole, "creator"}, {SubscribersRole, "subscribers"}, {
-      SubscribedRole, "subscribed"
-    }
-  };
+  return {{IdRole, "id"},
+          {NameRole, "name"},
+          {UserId, "userId"},
+          {CreateTimeRole, "createTime"},
+          {UpdateTimeRole, "updateTime"},
+          {CoverUrlRole, "coverUrl"},
+          {DescriptionRole, "description"},
+          {TagsRole, "tags"},
+          {PlayCountRole, "playCount"},
+          {CreatorRole, "creator"},
+          {SubscribersRole, "subscribers"},
+          {SubscribedRole, "subscribed"}};
 }
 
 void PlaylistItemModel::appendItem(const PlaylistItem& item) {
@@ -73,7 +74,7 @@ void PlaylistItemModel::appendItem(const PlaylistItem& item) {
 void PlaylistItemModel::appendItems(const QVector<PlaylistItem>& items) {
   beginInsertRows(QModelIndex(), m_items.size(),
                   m_items.size() + items.size() - 1);
-  for(auto& item:items){
+  for (auto& item : items) {
     m_items.append(std::make_shared<PlaylistItem>(item));
   }
   endInsertRows();
@@ -85,11 +86,11 @@ void PlaylistItemModel::clear() {
   endResetModel();
 }
 
-PlaylistItem* PlaylistItemModel::last(){
+PlaylistItem* PlaylistItemModel::last() {
   return m_items.last().get();
 }
 
-PlaylistItem PlaylistItemModel::itemAt(quint32 index){
+PlaylistItem PlaylistItemModel::itemAt(quint32 index) {
   return *(m_items[index]);
 }
 

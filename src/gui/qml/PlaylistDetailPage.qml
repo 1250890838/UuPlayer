@@ -186,6 +186,7 @@ Flickable {
                     tabsRow.currentTab.isCurrentItem = false
                     tabsRow.currentTab = this
                     tabsRow.currentTab.isCurrentItem = true
+                    stackLayout.currentIndex = 0
                 }
             }
             CTab {
@@ -196,6 +197,7 @@ Flickable {
                     tabsRow.currentTab.isCurrentItem = false
                     tabsRow.currentTab = this
                     tabsRow.currentTab.isCurrentItem = true
+                    stackLayout.currentIndex = 1
                 }
             }
             CTab {
@@ -206,48 +208,79 @@ Flickable {
                     tabsRow.currentTab.isCurrentItem = false
                     tabsRow.currentTab = this
                     tabsRow.currentTab.isCurrentItem = true
+                    stackLayout.currentIndex = 2
                 }
             }
         }
 
-        RowLayout {
-            id: headerLayout
-            Text {
-                id: headerDummyItem
-                text: "#"
-                Layout.preferredWidth: 5
-                font.pointSize: 9
+        StackLayout {
+            id: stackLayout
+            currentIndex: 0
+            implicitHeight: {
+                if (currentIndex == 0)
+                    return songsPage.height
+                else if (currentIndex == 1)
+                    return commentsPage.height
+                implicitHeightChanged()
             }
             Item {
-                id: spacer
-                Layout.preferredWidth: 20
-                Layout.fillHeight: true
-            }
-            Text {
-                id: headerTitleItem
-                text: "标题"
-                Layout.fillWidth: true
-                font.pointSize: 9
-            }
-            Text {
-                id: headerAlbumItem
-                text: "专辑"
-                Layout.fillWidth: true
-                font.pointSize: 9
-            }
-            Text {
-                id: headerDurationItem
-                text: "时长"
-                Layout.preferredWidth: headerDurationItem.implicitWidth + 5
-                font.pointSize: 9
-            }
-        }
+                id: songsPage
+                height: songsPageColumnLayout.implicitHeight
+                ColumnLayout {
+                    id: songsPageColumnLayout
+                    anchors.fill: parent
+                    RowLayout {
+                        id: headerLayout
+                        Text {
+                            id: headerDummyItem
+                            text: "#"
+                            Layout.preferredWidth: 5
+                            font.pointSize: 9
+                        }
+                        Item {
+                            id: spacer
+                            Layout.preferredWidth: 20
+                            Layout.fillHeight: true
+                        }
+                        Text {
+                            id: headerTitleItem
+                            text: "标题"
+                            Layout.fillWidth: true
+                            font.pointSize: 9
+                        }
+                        Text {
+                            id: headerAlbumItem
+                            text: "专辑"
+                            Layout.fillWidth: true
+                            font.pointSize: 9
+                        }
+                        Text {
+                            id: headerDurationItem
+                            text: "时长"
+                            Layout.preferredWidth: headerDurationItem.implicitWidth + 5
+                            font.pointSize: 9
+                        }
+                    }
 
-        Repeater {
-            id: mediaItemsRepeater
-            model: detail.mediaItemModel
-            MediaItem {
-                width: columnLayout.width
+                    Repeater {
+                        id: mediaItemsRepeater
+                        model: detail.mediaItemModel
+                        MediaItem {
+                            width: columnLayout.width
+                        }
+                    }
+                }
+            }
+            Item {
+                id: commentsPage
+                width: parent.width
+                height: 200
+                TextEdit {
+                    id: commentTextEdit
+                    width: parent.width
+                    height: 85
+                    focus: true
+                }
             }
         }
     }

@@ -50,7 +50,7 @@ struct MediaItem {
   QString name;
   qulonglong duration;
   AlbumData album;
-  QVariantList artists; // QList<AristData> artists
+  QVariantList artists;  // QList<AristData> artists
   QString reason;
 };
 

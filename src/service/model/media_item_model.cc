@@ -33,27 +33,27 @@ QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
 
 QHash<int, QByteArray> MediaItemModel::roleNames() const {
   return {
-      {IdRole, "id"},       {NameRole, "name"},     {DurationRole, "duration"},
+      {IdRole, "id"},       {NameRole, "name"},      {DurationRole, "duration"},
       {AlbumRole, "album"}, {ArtistRole, "artists"}, {ReasonRole, "reason"}};
 }
 
-void MediaItemModel::appendItem(const MediaItem& item){
+void MediaItemModel::appendItem(const MediaItem& item) {
   beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
   m_items.append(item);
   endInsertRows();
 }
 
-void MediaItemModel::appendItems(const QVector<MediaItem>& items){
+void MediaItemModel::appendItems(const QVector<MediaItem>& items) {
   beginInsertRows(QModelIndex(), m_items.size(),
                   m_items.size() + items.size() - 1);
   m_items.append(items);
   endInsertRows();
 }
 
-void MediaItemModel::clear(){
+void MediaItemModel::clear() {
   beginResetModel();
   m_items.clear();
   endResetModel();
 }
 
-}  // namespace engine
+}  // namespace model

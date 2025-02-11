@@ -37,8 +37,12 @@ Item {
                     isBottomRightRounded: true
                 }
                 Column {
+                    spacing: 5
+                    width: 2 * (parent.width - image.width) / 3
                     Text {
                         id: name
+                        width: parent.width
+                        elide: Text.ElideRight
                         text: model.name
                         font {
                             pointSize: 8
@@ -46,10 +50,12 @@ Item {
                     }
                     Text {
                         id: artists
+                        width: parent.width
                         font {
                             pointSize: 7.5
                         }
                         color: "gray"
+                        elide: Text.ElideRight
                         text: {
                             let result = ""
                             let ars = model.artists

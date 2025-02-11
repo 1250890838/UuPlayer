@@ -96,9 +96,7 @@ void LoginService::onCheckQRCodeScanStatusFinished(
     m_cookie = cookie;
     emit loginSuccess();
   } else {
-    QTimer::singleShot(3000,[this](){
-      checkQRCodeScanStatus();
-    });
+    QTimer::singleShot(3000, [this]() { checkQRCodeScanStatus(); });
   }
 }
 
