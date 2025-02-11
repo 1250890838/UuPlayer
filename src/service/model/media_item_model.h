@@ -14,6 +14,7 @@ class AlbumData {
   Q_PROPERTY(QUrl picUrl READ picUrl WRITE setPicUrl)
  public:
   AlbumData() = default;
+  AlbumData(qulonglong id, const QString& name, const QUrl& picUrl);
   ~AlbumData() = default;
   qulonglong id() const { return m_id; }
   void setId(qulonglong id) { m_id = id; }
@@ -50,7 +51,7 @@ struct MediaItem {
   QString name;
   qulonglong duration;
   AlbumData album;
-  QVariantList artists;  // QList<AristData> artists
+  QVariantList artists; // QList<AristData> artists
   QString reason;
 };
 

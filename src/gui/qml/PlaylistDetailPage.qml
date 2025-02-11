@@ -176,7 +176,7 @@ Flickable {
 
         Row {
             id: tabsRow
-            property CTab currentTab: mediasTab
+            property CTab currentTab: commentsTab //mediasTab
             spacing: 20
             CTab {
                 id: mediasTab
@@ -187,6 +187,9 @@ Flickable {
                     tabsRow.currentTab = this
                     tabsRow.currentTab.isCurrentItem = true
                     stackLayout.currentIndex = 0
+                }
+                Text {
+                    id: mediasNum
                 }
             }
             CTab {
@@ -212,20 +215,21 @@ Flickable {
                 }
             }
         }
-
         StackLayout {
             id: stackLayout
-            currentIndex: 0
-            implicitHeight: {
-                if (currentIndex == 0)
-                    return songsPage.height
-                else if (currentIndex == 1)
-                    return commentsPage.height
-                implicitHeightChanged()
-            }
+            currentIndex: 1
             Item {
                 id: songsPage
-                height: songsPageColumnLayout.implicitHeight
+
+
+                /*
+                 *ColumnLayout implicitHeight的stackLayout的部分高度是由stackLayout所有子节点中height最大的那个来确定的
+                 *无论这个节点是否是当前stackLayout显示的节点，所以在songsPage这个节点中，我设置了‘如果当前节点不是在栈顶，高度设置为0’，
+                 *以此来消除该节点的高度对整个columnLayout确定高度的影响
+                */
+                implicitHeight: stackLayout.currentIndex
+                                === 0 ? songsPageColumnLayout.implicitHeight : 0
+                visible: stackLayout.currentIndex === 0
                 ColumnLayout {
                     id: songsPageColumnLayout
                     anchors.fill: parent
@@ -274,12 +278,19 @@ Flickable {
             Item {
                 id: commentsPage
                 width: parent.width
-                height: 200
-                TextEdit {
+                implicitHeight: 200
+                visible: stackLayout.currentIndex === 1
+
+                UTextEdit {
                     id: commentTextEdit
+                    radius: 10
                     width: parent.width
+                    backgroundColor: "#F0EAEA"
                     height: 85
                     focus: true
+                    borderColor: "#efeef0"
+                    borderWidth: 1
+                    maxCharNum: 140
                 }
             }
         }

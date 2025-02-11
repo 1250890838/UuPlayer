@@ -102,6 +102,7 @@ qt_add_qml_module(gui
         RESOURCES images/button_pause.svg images/button_play.svg images/button_subscribed.svg
         QML_FILES qml/MediaItem.qml
         QML_FILES qml/components/other/CTab.qml
+        QML_FILES qml/components/edit/UTextEdit.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)
