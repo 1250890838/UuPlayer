@@ -1,3 +1,30 @@
 #include "song_network.h"
+namespace network{
 
-SongNetwork::SongNetwork(QObject* parent) : QObject{parent} {}
+void SongNetwork::getSongUrl(qulonglong id)
+{
+
+}
+
+void SongNetwork::checkSongEnable(qulonglong id)
+{
+
+}
+
+void SongNetwork::getSongComments(qulonglong id)
+{
+
+}
+
+void SongNetwork::getSongLyric(qulonglong id)
+{
+
+}
+
+void SongNetwork::getSongNewLyric(qulonglong id)
+{
+
+}
+
+
+}
