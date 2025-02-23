@@ -16,6 +16,11 @@ namespace network_api {
     const QString apiCatlist=host+QStringLiteral("/playlist/catlist");
     const QString apiPlaylistDetail=host+QStringLiteral("/playlist/detail");
     const QString apiPlaylistTracks=host+QStringLiteral("/playlist/track/all");
-}
+
+    const QString getSongUrl=host+QStringLiteral("/song/url/v1");
+    const QString getSongComment=host+QStringLiteral("/lyric");
+    const QString getPlaylistComment=host+QStringLiteral("comment/playlist");
+    const QString getAlbumComment=host+QStringLiteral("/comment/album");
+    }
 
 #endif

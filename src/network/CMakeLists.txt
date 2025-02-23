@@ -1,4 +1,5 @@
 add_library(network SHARED
+    api_network.h
     basic_network.h login_network.h playlist_network.h
     basic_network.cc login_network.cc playlist_network.cc
     song_network.h song_network.cc)
