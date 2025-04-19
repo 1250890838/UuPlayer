@@ -103,6 +103,8 @@ qt_add_qml_module(gui
         QML_FILES qml/MediaItem.qml
         QML_FILES qml/components/other/CTab.qml
         QML_FILES qml/components/edit/UTextEdit.qml
+        QML_FILES
+        QML_FILES qml/components/other/UScrollBar.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

@@ -9,15 +9,12 @@ Flickable {
     id: root
     required property var detail
     contentHeight: columnLayout.implicitHeight
-    contentWidth: this.width - (scrollBar.width + 5)
+    contentWidth: this.width
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
-
-    ScrollBar.vertical: ScrollBar {
-        id: scrollBar
-        policy: ScrollBar.AsNeeded
-        implicitWidth: 7
+    Component.onCompleted: {
+        globalScrollBar.currentFlickable = this
     }
 
     ColumnLayout {
@@ -261,7 +258,7 @@ Flickable {
                         Text {
                             id: headerDurationItem
                             text: "时长"
-                            Layout.preferredWidth: headerDurationItem.implicitWidth + 5
+                            Layout.preferredWidth: headerDurationItem.implicitWidth + 20
                             font.pointSize: 9
                         }
                     }
