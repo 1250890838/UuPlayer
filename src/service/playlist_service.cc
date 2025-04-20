@@ -56,6 +56,11 @@ void PlaylistService::getPlaylistTracks(qulonglong id,
   m_network.getPlaylistTracks(id, item);
 }
 
+void PlaylistService::getPlaylistComments(qulonglong id, model::PlaylistItem *item)
+{
+
+}
+
 void PlaylistService::onGetHighqualityPlaylists(
     network::error_code::ErrorCode code, const QByteArray& data) {
   if (code == network::error_code::NoError) {

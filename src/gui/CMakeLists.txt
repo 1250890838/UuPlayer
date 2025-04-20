@@ -105,6 +105,7 @@ qt_add_qml_module(gui
         QML_FILES qml/components/edit/UTextEdit.qml
         QML_FILES
         QML_FILES qml/components/other/UScrollBar.qml
+        RESOURCES images/button_pause_gray.svg images/button_play_gray.svg
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

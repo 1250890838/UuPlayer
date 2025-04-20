@@ -173,7 +173,7 @@ Flickable {
 
         Row {
             id: tabsRow
-            property CTab currentTab: commentsTab //mediasTab
+            property CTab currentTab: mediasTab //mediasTab
             spacing: 20
             CTab {
                 id: mediasTab
@@ -214,7 +214,10 @@ Flickable {
         }
         StackLayout {
             id: stackLayout
-            currentIndex: 1
+            Layout.rightMargin: 15
+            Layout.leftMargin: 15
+            Layout.topMargin: 5
+            currentIndex: 0
             Item {
                 id: songsPage
 

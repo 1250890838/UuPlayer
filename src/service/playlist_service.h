@@ -1,3 +1,7 @@
+#include "model/playlist_item_model.h"
+#include "playlist_network.h"
+#include "service_global.h"
+
 #include <qglobal.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
@@ -5,10 +9,6 @@
 #include <qtypes.h>
 #include <qvariant.h>
 #include <QObject>
-
-#include "model/playlist_item_model.h"
-#include "playlist_network.h"
-#include "service_global.h"
 
 namespace service {
 class SERVICE_DLL_EXPORT PlaylistService : public QObject {
