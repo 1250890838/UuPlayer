@@ -238,7 +238,7 @@ Flickable {
                         Text {
                             id: headerDummyItem
                             text: "#"
-                            Layout.preferredWidth: 5
+                            Layout.preferredWidth: 20
                             font.pointSize: 9
                         }
                         Item {
@@ -270,7 +270,8 @@ Flickable {
                         id: mediaItemsRepeater
                         model: detail.mediaItemModel
                         MediaItem {
-                            width: columnLayout.width
+                            implicitHeight: 55
+                            Layout.fillWidth: true
                         }
                     }
                 }

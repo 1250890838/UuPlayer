@@ -4,6 +4,8 @@
 #include "login_network.h"
 
 namespace service {
+
+// 获取登录相关服务
 class SERVICE_DLL_EXPORT LoginService : public QObject {
   Q_OBJECT
   QML_ELEMENT

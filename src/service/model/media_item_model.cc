@@ -2,6 +2,7 @@
 #include <qobject.h>
 #include <qvariant.h>
 namespace model {
+
 MediaItemModel::MediaItemModel(QObject* parent) {}
 
 int MediaItemModel::rowCount(const QModelIndex& parent) const {
@@ -12,7 +13,7 @@ QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
   if (index.row() < 0 || index.row() >= m_items.size()) {
     return QVariant();
   }
-  const MediaItem& item = m_items.at(index.row());
+  MediaItem item = m_items[index.row()];
   switch (role) {
     case IdRole:
       return item.id;

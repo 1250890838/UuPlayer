@@ -12,14 +12,22 @@
 #include "service_global.h"
 
 namespace service {
+
+// 获取歌曲相关信息服务
 class SERVICE_DLL_EXPORT SongService : public QObject {
   Q_OBJECT
+  QML_ELEMENT
+  QML_SINGLETON
+  QML_NAMED_ELEMENT(SongService)
  public:
-  Q_INVOKABLE void getSongUrl(qulonglong id,model::MediaItem* item);
+  Q_INVOKABLE void getSongUrl(qulonglong id);
   Q_INVOKABLE void checkSongEnable(qulonglong id);
   Q_INVOKABLE void getSongComments(qulonglong id);
   Q_INVOKABLE void getSongLyric(qulonglong id);
   Q_INVOKABLE void getSongNewLyric(qulonglong id);
+
+  static QMap<qulonglong, model::MediaItem*> s_idItemMap;
+
  public:
   SongService(QObject* parent = nullptr);
  public slots:

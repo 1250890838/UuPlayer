@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QQmlEngine>
 
+#include <QList>
 #include <QMediaPlayer>
 
 namespace engine {
@@ -18,9 +19,10 @@ class ENGINE_DLL_EXPORT MediaPlayer : public QMediaPlayer {
   MediaPlayer(QObject* parent = nullptr);
 
  public slots:
-  void play(const QString& path);
+  void play(const QUrl& url);
 
  private:
+  QList<QUrl> m_urls; // Local address or network address
 };
 }  // namespace engine
 #endif

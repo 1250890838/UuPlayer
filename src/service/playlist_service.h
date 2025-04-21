@@ -11,6 +11,8 @@
 #include <QObject>
 
 namespace service {
+
+//从网络获取歌单服务
 class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_OBJECT
   QML_ELEMENT

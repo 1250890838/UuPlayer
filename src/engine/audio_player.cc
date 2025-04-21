@@ -8,8 +8,10 @@ MediaPlayer::MediaPlayer(QObject *parent) : QMediaPlayer(parent) {
 }
 
 
-void MediaPlayer::play(const QString &path) {
-  
+void MediaPlayer::play(const QUrl& path) {
+  this->stop();
+  this->setSource(path);
+  QMediaPlayer::play();
 }
 
 QObject *MediaPlayer::getInstance(QQmlEngine * eng, QJSEngine *scriptEngine) {

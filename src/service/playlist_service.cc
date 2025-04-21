@@ -6,13 +6,15 @@
 
 #include <QJsonArray>
 #include <QJsonDocument>
+#include "basic_network.h"
+#include "model/playlist_item_model.h"
+#include "playlist_network.h"
+#include "song_service.h"
+
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QThread>
 #include <QTimer>
-#include "basic_network.h"
-#include "model/playlist_item_model.h"
-#include "playlist_network.h"
 
 namespace service {
 
