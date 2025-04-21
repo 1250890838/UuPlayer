@@ -9,15 +9,12 @@ Flickable {
     id: root
     required property var detail
     contentHeight: columnLayout.implicitHeight
-    contentWidth: this.width - (scrollBar.width + 5)
+    contentWidth: this.width
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
-
-    ScrollBar.vertical: ScrollBar {
-        id: scrollBar
-        policy: ScrollBar.AsNeeded
-        implicitWidth: 7
+    Component.onCompleted: {
+        globalScrollBar.currentFlickable = this
     }
 
     ColumnLayout {
@@ -176,7 +173,7 @@ Flickable {
 
         Row {
             id: tabsRow
-            property CTab currentTab: commentsTab //mediasTab
+            property CTab currentTab: mediasTab //mediasTab
             spacing: 20
             CTab {
                 id: mediasTab
@@ -217,7 +214,10 @@ Flickable {
         }
         StackLayout {
             id: stackLayout
-            currentIndex: 1
+            Layout.rightMargin: 15
+            Layout.leftMargin: 15
+            Layout.topMargin: 5
+            currentIndex: 0
             Item {
                 id: songsPage
 
@@ -261,7 +261,7 @@ Flickable {
                         Text {
                             id: headerDurationItem
                             text: "时长"
-                            Layout.preferredWidth: headerDurationItem.implicitWidth + 5
+                            Layout.preferredWidth: headerDurationItem.implicitWidth + 20
                             font.pointSize: 9
                         }
                     }

@@ -1,7 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+
+import service.api 1.0
 import components 1.0
+import assets 1.0
 
 Item {
     implicitHeight: 60
@@ -14,8 +17,18 @@ Item {
             anchors.fill: parent
             Text {
                 id: index
-                text: model.index
+                text: model.index.toString().padStart(2, '0') // 转换为两位数格式
                 Layout.preferredWidth: headerDummyItem.width
+            }
+            IconButton {
+                visible: mouseArea.containsMouse
+                icon: Icons.playGrayIcon
+                hoveredIcon: Icons.playGrayIcon
+                Layout.preferredHeight: 20
+                Layout.preferredWidth: 20
+                onClicked: {
+                    PlaylistsService.getSongUrl()
+                }
             }
             Item {
                 id: spacer
@@ -82,6 +95,12 @@ Item {
                 text: Utils.millisecondsToTime(model.duration)
                 Layout.preferredWidth: headerDurationItem.width
             }
+        }
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            propagateComposedEvents: true
+            hoverEnabled: true
         }
     }
 }

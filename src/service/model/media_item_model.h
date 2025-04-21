@@ -47,12 +47,25 @@ class AristData {
 };
 
 struct MediaItem {
+  /*
+  Q_GADGET
+  Q_PROPERTY(qulonglong id MEMBER id)
+  Q_PROPERTY(QString name MEMBER name)
+  Q_PROPERTY(qulonglong duration MEMBER duration)
+  Q_PROPERTY(AlbumData album MEMBER album)
+  Q_PROPERTY(QVariantList artists MEMBER artists)
+  Q_PROPERTY(QString reason MEMBER reason)
+  Q_PROPERTY(QUrl url MEMBER url)
+
+ public:
+*/
   qulonglong id;
   QString name;
   qulonglong duration;
   AlbumData album;
   QVariantList artists; // QList<AristData> artists
   QString reason;
+  QUrl url;
 };
 
 class MediaItemModel : public QAbstractListModel {
@@ -64,7 +77,8 @@ class MediaItemModel : public QAbstractListModel {
     DurationRole,
     AlbumRole,
     ArtistRole,
-    ReasonRole
+    ReasonRole,
+    UrlRole
   };
   MediaItemModel(QObject* parent = nullptr);
   int rowCount(const QModelIndex& parent) const;

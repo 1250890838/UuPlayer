@@ -55,7 +55,6 @@ Window {
 
             ColumnLayout {
                 id: columnLayout
-                Layout.fillWidth: true
                 StackView {
                     id: stackView
                     Layout.margins: 25
@@ -76,5 +75,14 @@ Window {
                 }
             }
         }
+    }
+
+    UScrollBar {
+        id: globalScrollBar
+        width: 10
+        height: parent.height * 4 / 5
+        x: parent.width - 15
+        y: parent.height / 10
+        z: 99
     }
 }

@@ -12,7 +12,7 @@ Flickable {
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
-    ScrollBar.vertical: ScrollBar {}
+
     onContentYChanged: {
         if (root.contentY + root.height >= root.contentHeight) {
             PlaylistsService.getSelectivePlaylists()
@@ -100,5 +100,6 @@ Flickable {
     }
     Component.onCompleted: {
         PlaylistsService.getPlaylistsCatlist()
+        globalScrollBar.currentFlickable = this
     }
 }

@@ -30,5 +30,8 @@ Item {
     property url pauseIcon: "qrc:/gui/images/button_pause.svg"
     property url subscribedIcon: "qrc:/gui/images/button_subscribed.svg"
 
+    property url playGrayIcon: "qrc:/gui/images/button_play_gray.svg"
+    property url pauseGrayIcon: "qrc:/gui/images/button_pause_gray.svg"
+
     property url appIcon: "qrc:/gui/images/app_icon.png"
 }
