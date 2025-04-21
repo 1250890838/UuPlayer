@@ -56,6 +56,11 @@ void PlaylistService::getPlaylistTracks(qulonglong id,
   m_network.getPlaylistTracks(id, item);
 }
 
+void PlaylistService::getPlaylistComments(qulonglong id,
+                                          model::PlaylistItem* item) {
+  m_network.getPlaylistComments(id, item);
+}
+
 void PlaylistService::onGetHighqualityPlaylists(
     network::error_code::ErrorCode code, const QByteArray& data) {
   if (code == network::error_code::NoError) {
@@ -230,6 +235,42 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
 
 void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
                                           const QByteArray& data, void* item) {
+  if (code == network::error_code::NoError) {
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    if (doc.isNull() || doc.isEmpty()) {
+    } else {
+      auto obj = doc.object();
+      QJsonArray tracks = obj["songs"].toArray();
+      auto fitem = static_cast<model::PlaylistItem*>(item);
+      auto model = fitem->mediaItemModel();
+      for (const QJsonValue& track : tracks) {
+        model::MediaItem item;
+        item.id = track["id"].toVariant().toLongLong();
+        item.name = track["name"].toString();
+        model::AlbumData albumData;
+        auto albumObj = track["al"].toObject();
+        albumData.setId(albumObj["id"].toVariant().toLongLong());
+        albumData.setName(albumObj["name"].toString());
+        albumData.setPicUrl(albumObj["picUrl"].toString());
+        item.album = albumData;
+        auto artistsArr = track["ar"].toArray();
+        model::AristData aristData;
+        for (const auto& artistValue : artistsArr) {
+          auto artistObj = artistValue.toObject();
+          aristData.setId(artistObj["id"].toVariant().toLongLong());
+          aristData.setName(artistObj["name"].toString());
+          item.artists.append(QVariant::fromValue(aristData));
+        }
+        item.duration = track["dt"].toVariant().toLongLong();
+        model->appendItem(item);
+      }
+    }
+  }
+}
+
+void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
+                                            const QByteArray& data,
+                                            void* item) {
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() || doc.isEmpty()) {
