@@ -70,11 +70,6 @@ struct MediaItem {
 
 class MediaItemModel : public QAbstractListModel {
   Q_OBJECT
-
- public:
-  Q_INVOKABLE MediaItem getMediaItem(qulonglong id);
-  Q_INVOKABLE MediaItem* getMediaItemPtr(qulonglong id);
-
  public:
   enum MediaRoles {
     IdRole = Qt::UserRole + 1,

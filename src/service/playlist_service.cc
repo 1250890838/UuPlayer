@@ -39,7 +39,7 @@ void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
 
 void PlaylistService::getSelectivePlaylists() {
   if (m_currOffset == 0)
-    m_selectivePlaylists.clear();
+    m_currPlaylists.clear();
   m_network.getSelectivePlaylists(m_currLimit, m_currCat, m_currOffset);
   m_currOffset += m_currLimit;
 }
@@ -69,13 +69,13 @@ void PlaylistService::onGetHighqualityPlaylists(
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() && doc.isEmpty()) {
       emit highqualityPlaylistsStatus(network::error_code::JsonContentError);
-      m_highqualityPlaylists.clear();
+      m_currPlaylists.clear();
 
     } else {
       auto obj = doc.object();
       if (obj["code"].toInt() != 200) {
         emit highqualityPlaylistsStatus(network::error_code::JsonContentError);
-        m_highqualityPlaylists.clear();
+        m_currPlaylists.clear();
       } else {
         QJsonArray playlists = obj["playlists"].toArray();
         for (const QJsonValue& playlist : playlists) {
@@ -93,13 +93,13 @@ void PlaylistService::onGetHighqualityPlaylists(
           item.setCreator(formatCreator(o["creator"].toObject()));
           item.setSubscribers(formatSubscribers(o["subscribers"].toArray()));
           item.setSubscribed(o["subscribed"].toBool());
-          m_highqualityPlaylists.appendItem(item);
+          m_currPlaylists.appendItem(item);
         }
       }
     }
   } else {
     emit highqualityPlaylistsStatus(code);
-    m_highqualityPlaylists.clear();
+    m_currPlaylists.clear();
   }
 }
 void PlaylistService::onGetSelectivePlaylists(
@@ -109,13 +109,13 @@ void PlaylistService::onGetSelectivePlaylists(
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() || doc.isEmpty()) {
       emit selectivePlaylistsStatus(network::error_code::JsonContentError);
-      m_selectivePlaylists.clear();
+      m_currPlaylists.clear();
 
     } else {
       auto obj = doc.object();
       if (obj["code"].toInt() != 200) {
         emit selectivePlaylistsStatus(network::error_code::JsonContentError);
-        m_selectivePlaylists.clear();
+        m_currPlaylists.clear();
       } else {
         QJsonArray playlists = obj["playlists"].toArray();
         for (const QJsonValue& playlist : playlists) {
@@ -135,14 +135,14 @@ void PlaylistService::onGetSelectivePlaylists(
           item.setSubscribed(o["subscribed"].toBool());
           item.setSubscribedCount(
               o["subscribedCount"].toVariant().toULongLong());
-          m_selectivePlaylists.appendItem(item);
-          this->getPlaylistTracks(item.id(), m_selectivePlaylists.last());
+          m_currPlaylists.appendItem(item);
+          this->getPlaylistTracks(item.id(), m_currPlaylists.last());
         }
       }
     }
   } else {
     emit selectivePlaylistsStatus(code);
-    m_selectivePlaylists.clear();
+    m_currPlaylists.clear();
   }
 }
 

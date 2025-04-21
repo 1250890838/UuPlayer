@@ -76,13 +76,12 @@ Flickable {
             rowSpacing: 20
             Repeater {
                 id: repeater2
-                model: PlaylistsService.selectivePlaylists
+                model: PlaylistsService.currPlaylists
                 delegate: PlaylistItem {
                     implicitWidth: 182
                     implicitHeight: 234
                     onClicked: {
-                        let item = PlaylistsService.selectivePlaylists.itemAt(
-                                index)
+                        let item = PlaylistsService.currPlaylists.itemAt(index)
                         window.mainSwitchPage(playlistDetailPage, {
                                                   "detail": item
                                               })

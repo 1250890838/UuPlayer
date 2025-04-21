@@ -18,10 +18,9 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   QML_ELEMENT
   QML_SINGLETON
   QML_NAMED_ELEMENT(PlaylistsService)
-  Q_PROPERTY(model::PlaylistItemModel* highqualityPlaylists READ
-                 highqualityPlaylists CONSTANT)
-  Q_PROPERTY(model::PlaylistItemModel* selectivePlaylists READ
-                 selectivePlaylists CONSTANT)
+  Q_PROPERTY(model::PlaylistItemModel* currPlaylists READ
+                 currPlaylists CONSTANT)
+
 
  public:
   Q_INVOKABLE void getHighqualityPlaylists(qint32 limit = 5, qint32 tag = -1);
@@ -56,11 +55,8 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
 
  public:
   PlaylistService(QObject* parent = nullptr);
-  model::PlaylistItemModel* highqualityPlaylists() {
-    return &m_highqualityPlaylists;
-  }
-  model::PlaylistItemModel* selectivePlaylists() {
-    return &m_selectivePlaylists;
+  model::PlaylistItemModel* currPlaylists() {
+    return &m_currPlaylists;
   }
 
  private:
@@ -70,8 +66,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
 
  private:
   network::PlaylistNetwork m_network;
-  model::PlaylistItemModel m_highqualityPlaylists;
-  model::PlaylistItemModel m_selectivePlaylists;
+  model::PlaylistItemModel m_currPlaylists;
   QVariantMap m_catlist;
 
   qint32 m_currLimit;

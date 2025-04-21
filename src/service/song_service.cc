@@ -32,7 +32,7 @@ void service::SongService::onGetSongUrlFinished(
 }
 
 void service::SongService::getSongUrl(qulonglong id) {
-  m_network.getSongUrl(id);
+ // m_network.getSongUrl(id);
 }
 
 void service::SongService::checkSongEnable(qulonglong id) {}
