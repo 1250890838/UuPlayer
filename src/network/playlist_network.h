@@ -8,23 +8,30 @@
 #include <qtmetamacros.h>
 #include <qurl.h>
 
-
 namespace network {
 class NETWORK_DLL_EXPORT PlaylistNetwork : public BasicNetwork {
   Q_OBJECT
  public:
   PlaylistNetwork() = default;
-  void getHighqualityPlaylists(qint32 limit,qint32 tag);
-  void getSelectivePlaylists(qint32 limit,const QString& tag,qint32 offest);
+  void getHighqualityPlaylists(qint32 limit, qint32 tag);
+  void getSelectivePlaylists(qint32 limit, const QString& tag, qint32 offest);
   void getPlaylistsCatlist();
-  void getPlaylistDetail(qulonglong id,void* item);
-  void getPlaylistTracks(qulonglong id,void* item);
+  void getPlaylistDetail(qulonglong id, void* item);
+  void getPlaylistTracks(qulonglong id, void* item);
+  void getPlaylistComments(qulonglong id, void* item);
  signals:
-  void getHighqualityPlaylistsFinished(error_code::ErrorCode code , const QByteArray&);
-  void getSelectivePlaylistsFinished(error_code::ErrorCode code , const QByteArray&);
-  void getPlaylistsCatlistFinished(error_code::ErrorCode code , const QByteArray&);
-  void getPlaylistDetailFinished(error_code::ErrorCode code,const QByteArray&,void* item);
-  void getPlaylistTracksFinished(error_code::ErrorCode code,const QByteArray&,void* item);
+  void getHighqualityPlaylistsFinished(error_code::ErrorCode code,
+                                       const QByteArray&);
+  void getSelectivePlaylistsFinished(error_code::ErrorCode code,
+                                     const QByteArray&);
+  void getPlaylistsCatlistFinished(error_code::ErrorCode code,
+                                   const QByteArray&);
+  void getPlaylistDetailFinished(error_code::ErrorCode code, const QByteArray&,
+                                 void* item);
+  void getPlaylistTracksFinished(error_code::ErrorCode code, const QByteArray&,
+                                 void* item);
+  void getPlaylistCommentsFinished(error_code::ErrorCode code,
+                                   const QByteArray&, void* item);
 };
 }  // namespace network
 #endif
