@@ -86,10 +86,11 @@ class MediaItemModel : public QAbstractListModel {
   QHash<int, QByteArray> roleNames() const;
   void appendItem(const MediaItem& item);
   void appendItems(const QVector<MediaItem>& items);
+  MediaItem* last();
   void clear();
 
  private:
-  QVector<MediaItem> m_items;
+  QList<std::shared_ptr<MediaItem>> m_items;
 };
 }  // namespace model
 

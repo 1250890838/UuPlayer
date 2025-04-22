@@ -18,6 +18,8 @@
 
 namespace service {
 
+QMap<qulonglong, model::MediaItem*> g_idToMediaMap;
+
 PlaylistService::PlaylistService(QObject* parent)
     : QObject(parent), m_currLimit(4), m_currOffset(0) {
   using namespace network;
@@ -246,25 +248,26 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
       auto fitem = static_cast<model::PlaylistItem*>(item);
       auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
-        model::MediaItem item;
-        item.id = track["id"].toVariant().toLongLong();
-        item.name = track["name"].toString();
+        model::MediaItem mediaItem;
+        mediaItem.id = track["id"].toVariant().toLongLong();
+        mediaItem.name = track["name"].toString();
         model::AlbumData albumData;
         auto albumObj = track["al"].toObject();
         albumData.setId(albumObj["id"].toVariant().toLongLong());
         albumData.setName(albumObj["name"].toString());
         albumData.setPicUrl(albumObj["picUrl"].toString());
-        item.album = albumData;
+        mediaItem.album = albumData;
         auto artistsArr = track["ar"].toArray();
         model::AristData aristData;
         for (const auto& artistValue : artistsArr) {
           auto artistObj = artistValue.toObject();
           aristData.setId(artistObj["id"].toVariant().toLongLong());
           aristData.setName(artistObj["name"].toString());
-          item.artists.append(QVariant::fromValue(aristData));
+          mediaItem.artists.append(QVariant::fromValue(aristData));
         }
-        item.duration = track["dt"].toVariant().toLongLong();
-        model->appendItem(item);
+        mediaItem.duration = track["dt"].toVariant().toLongLong();
+        model->appendItem(mediaItem);
+        g_idToMediaMap[mediaItem.id] = model->last();
       }
     }
   }

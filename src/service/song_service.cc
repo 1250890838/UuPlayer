@@ -1,6 +1,7 @@
 #include "song_service.h"
 
 #include "model/media_item_model.h"
+#include "playlist_service.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -32,7 +33,10 @@ void service::SongService::onGetSongUrlFinished(
 }
 
 void service::SongService::getSongUrl(qulonglong id) {
- // m_network.getSongUrl(id);
+  auto mediaItem = g_idToMediaMap[id];
+  if(mediaItem != nullptr){
+    m_network.getSongUrl(id,mediaItem);
+  }
 }
 
 void service::SongService::checkSongEnable(qulonglong id) {}

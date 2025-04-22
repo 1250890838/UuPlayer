@@ -12,6 +12,7 @@
 
 namespace service {
 
+extern QMap<qulonglong, model::MediaItem*> g_idToMediaMap;
 //从网络获取歌单服务
 class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_OBJECT

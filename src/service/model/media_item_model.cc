@@ -13,20 +13,20 @@ QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
   if (index.row() < 0 || index.row() >= m_items.size()) {
     return QVariant();
   }
-  MediaItem item = m_items[index.row()];
+  auto item = m_items[index.row()];
   switch (role) {
     case IdRole:
-      return item.id;
+      return item->id;
     case NameRole:
-      return item.name;
+      return item->name;
     case DurationRole:
-      return item.duration;
+      return item->duration;
     case AlbumRole:
-      return QVariant::fromValue(item.album);
+      return QVariant::fromValue(item->album);
     case ArtistRole:
-      return QVariant::fromValue(item.artists);
+      return QVariant::fromValue(item->artists);
     case ReasonRole:
-      return item.reason;
+      return item->reason;
     default:
       return QVariant();
   }
@@ -40,15 +40,21 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const {
 
 void MediaItemModel::appendItem(const MediaItem& item) {
   beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-  m_items.append(item);
+  m_items.append(std::make_shared<MediaItem>(item));
   endInsertRows();
 }
 
 void MediaItemModel::appendItems(const QVector<MediaItem>& items) {
   beginInsertRows(QModelIndex(), m_items.size(),
                   m_items.size() + items.size() - 1);
-  m_items.append(items);
+  for (auto& item : items) {
+    m_items.append(std::make_shared<MediaItem>(item));
+  }
   endInsertRows();
+}
+
+MediaItem* MediaItemModel::last() {
+  return const_cast<MediaItem*>(m_items[m_items.size() - 1].get());
 }
 
 void MediaItemModel::clear() {
