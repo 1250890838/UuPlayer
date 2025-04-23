@@ -3,11 +3,14 @@
 
 #include "audio_player.h"
 #include "model/media_item_model.h"
+#include "playlist_service.h"
 
 #include <QList>
 #include <QObject>
 
 // 播放服务、存储播放列表
+
+namespace service {
 class PlayService : public QObject {
   Q_OBJECT
   QML_ELEMENT
@@ -31,18 +34,19 @@ class PlayService : public QObject {
   Q_INVOKABLE void pause();
   Q_INVOKABLE void next();
   Q_INVOKABLE void previous();
-  Q_INVOKABLE void appendMediaItem(const model::MediaItem& mediaItem);
-  Q_INVOKABLE void insertNext(const model::MediaItem& mediaItem);
+  Q_INVOKABLE void appendMediaId(qulonglong id);
+  Q_INVOKABLE void insertNext(qulonglong id);
  private slots:
   void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
+
  private:
   engine::MediaPlayer m_player;
-  QList<model::MediaItem> m_medias;
+  QList<model::MediaItem*> m_medias;
   quint32 m_currentIndex;
  signals:
   void playingChanged(bool b);
   void durationChanged(qint64 duration);
   void positionChanged(qint64 position);
 };
-
+}  // namespace service
 #endif  // PLAY_SERVICE_H

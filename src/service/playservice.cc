@@ -2,6 +2,7 @@
 
 #include <QObject>
 
+namespace service {
 PlayService::PlayService() {
   connect(&m_player, &engine::MediaPlayer::playingChanged, this,
           &PlayService::playingChanged);
@@ -28,9 +29,9 @@ void PlayService::setPosition(quint64 position) {
 }
 
 void PlayService::play(qulonglong id) {
-  for (auto& media : m_medias) {
-    if (media.id == id) {
-      m_player.play(media.url);
+  for (auto media : m_medias) {
+    if (media->id == id) {
+      m_player.play(media->url);
       break;
     }
   }
@@ -51,8 +52,8 @@ void PlayService::next() {
   }
 
   if (m_currentIndex != -1) {
-    auto& media = m_medias[m_currentIndex];
-    this->play(media.id);
+    auto media = m_medias[m_currentIndex];
+    this->play(media->id);
   }
 }
 
@@ -67,30 +68,41 @@ void PlayService::previous() {
   }
 
   if (m_currentIndex != -1) {
-    auto& media = m_medias[m_currentIndex];
-    this->play(media.id);
+    auto media = m_medias[m_currentIndex];
+    this->play(media->id);
   }
 }
 
-void PlayService::appendMediaItem(const model::MediaItem& mediaItem) {
+void PlayService::appendMediaId(qulonglong id) {
   // 先检查歌曲是否已在列表
   for (auto& media : m_medias) {
-    if (media.id == mediaItem.id) {
+    if (media->id == id) {
       return;
     }
   }
 
-  m_medias.emplaceBack(mediaItem);
+  if (g_idToMediaMap[id] != Q_NULLPTR) {
+    return;
+  }
+
+  model::MediaItem* item = g_idToMediaMap[id];
+
+  m_medias.emplaceBack(item);
 }
 
-void PlayService::insertNext(const model::MediaItem& mediaItem) {
+void PlayService::insertNext(qulonglong id) {
   for (int i = 0; i < m_medias.size(); i++) {
-    if (m_medias[i].id == mediaItem.id) {
+    if (m_medias[i]->id == id) {
       m_medias.removeAt(i);
       break;
     }
   }
-  m_medias.insert(m_currentIndex + 1, mediaItem);
+
+  if (g_idToMediaMap[id] != Q_NULLPTR) {
+    return;
+  }
+
+  m_medias.insert(m_currentIndex + 1, g_idToMediaMap[id]);
   m_currentIndex++;
 }
 
@@ -101,3 +113,4 @@ void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {
     next();
   }
 }
+}  // namespace service

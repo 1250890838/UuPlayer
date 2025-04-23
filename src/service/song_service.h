@@ -26,8 +26,6 @@ class SERVICE_DLL_EXPORT SongService : public QObject {
   Q_INVOKABLE void getSongLyric(qulonglong id);
   Q_INVOKABLE void getSongNewLyric(qulonglong id);
 
-  static QMap<qulonglong, model::MediaItem*> s_idItemMap;
-
  public:
   SongService(QObject* parent = nullptr);
  public slots:

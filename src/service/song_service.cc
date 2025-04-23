@@ -8,8 +8,6 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
-QMap<qulonglong, model::MediaItem*> service::SongService::s_idItemMap;
-
 service::SongService::SongService(QObject* parent) {
   connect(&m_network, &network::SongNetwork::getSongUrlFinished, this,
           &SongService::onGetSongUrlFinished);

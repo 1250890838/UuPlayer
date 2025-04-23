@@ -40,7 +40,7 @@ Item {
             target: SongService
             function onSongUrlStatus(code) {
                 if (code === ErrorCode.NoError) {
-                    let n = 3
+                    PlayService.appendMediaId(model.id)
                 }
             }
         }

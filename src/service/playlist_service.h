@@ -1,3 +1,6 @@
+#ifndef PLAYLIST_SERVICE_H
+#define PLAYLIST_SERVICE_H
+
 #include "model/playlist_item_model.h"
 #include "playlist_network.h"
 #include "service_global.h"
@@ -19,9 +22,8 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   QML_ELEMENT
   QML_SINGLETON
   QML_NAMED_ELEMENT(PlaylistsService)
-  Q_PROPERTY(model::PlaylistItemModel* currPlaylists READ
-                 currPlaylists CONSTANT)
-
+  Q_PROPERTY(
+      model::PlaylistItemModel* currPlaylists READ currPlaylists CONSTANT)
 
  public:
   Q_INVOKABLE void getHighqualityPlaylists(qint32 limit = 5, qint32 tag = -1);
@@ -52,13 +54,11 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   void onGetPlaylistTracks(network::error_code::ErrorCode,
                            const QByteArray& data, void* item);
   void onGetPlaylistComments(network::error_code::ErrorCode,
-                           const QByteArray& data, void* item);
+                             const QByteArray& data, void* item);
 
  public:
   PlaylistService(QObject* parent = nullptr);
-  model::PlaylistItemModel* currPlaylists() {
-    return &m_currPlaylists;
-  }
+  model::PlaylistItemModel* currPlaylists() { return &m_currPlaylists; }
 
  private:
   QStringList formatTags(const QJsonArray& array);
@@ -75,3 +75,4 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   QString m_currCat;
 };
 }  // namespace service
+#endif
