@@ -106,6 +106,12 @@ void PlayService::insertNext(qulonglong id) {
   m_currentIndex++;
 }
 
+model::MediaItem PlayService::currentPlayItem() {
+  if (m_currentIndex >= 0 && m_currentIndex < m_medias.size()) {
+    return *m_medias[m_currentIndex];
+  }
+}
+
 void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {
   if (state == QMediaPlayer::PlayingState) {
   } else if (state == QMediaPlayer::PausedState) {

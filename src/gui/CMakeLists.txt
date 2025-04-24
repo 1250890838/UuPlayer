@@ -104,6 +104,7 @@ qt_add_qml_module(gui
         QML_FILES qml/components/other/UScrollBar.qml
         RESOURCES images/button_pause_gray.svg images/button_play_gray.svg
         QML_FILES qml/playlistDetail/MediaItem.qml qml/playlistDetail/PlaylistDetailPage.qml
+        QML_FILES qml/playbackBar/PlaybackBar.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)
