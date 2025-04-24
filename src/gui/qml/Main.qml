@@ -11,6 +11,7 @@ import "leftNavigationPanel"
 import "stackPages"
 import "stackPages/cloudMusicSelectedPage"
 import "titleBar"
+import "playlistDetail"
 
 Window {
     id: window
