@@ -35,12 +35,18 @@ Item {
             text: model.index.toString().padStart(2, '0') // 转换为两位数格式
             Layout.preferredWidth: headerDummyItem.width
         }
-        Connections {
-            id: playSongConnection
-            target: SongService
-            function onSongUrlStatus(code) {
-                if (code === ErrorCode.NoError) {
-                    PlayService.appendMediaId(model.id)
+
+        Component {
+            id: connectFactory
+            Connections {
+                id: playSongConnection
+                target: SongService
+                function onSongUrlStatus(code) {
+                    if (code === ErrorCode.NoError) {
+                        PlayService.appendMediaId(model.id)
+                        PlayService.play(model.id)
+                    }
+                    playSongConnection.destroy()
                 }
             }
         }
@@ -54,6 +60,7 @@ Item {
             Layout.preferredWidth: headerDummyItem.width
             onClicked: {
                 SongService.getSongUrl(model.id)
+                connectFactory.createObject(this)
             }
         }
         Item {

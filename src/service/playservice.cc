@@ -81,7 +81,7 @@ void PlayService::appendMediaId(qulonglong id) {
     }
   }
 
-  if (g_idToMediaMap[id] != Q_NULLPTR) {
+  if (g_idToMediaMap[id] == Q_NULLPTR) {
     return;
   }
 

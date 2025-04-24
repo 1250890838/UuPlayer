@@ -1,10 +1,11 @@
-
 #include "audio_player.h"
 
-// write a function that multiple two and three
+#include <QAudioOutput>
 
 namespace engine{
 MediaPlayer::MediaPlayer(QObject *parent) : QMediaPlayer(parent) {
+  m_audioOutput = new QAudioOutput(this);
+  this->setAudioOutput(m_audioOutput);
 }
 
 

@@ -5,6 +5,7 @@
 #include <QJSEngine>
 #include <QObject>
 #include <QQmlEngine>
+#include <QAudioOutput>
 
 #include <QList>
 #include <QMediaPlayer>
@@ -22,7 +23,7 @@ class ENGINE_DLL_EXPORT MediaPlayer : public QMediaPlayer {
   void play(const QUrl& url);
 
  private:
-  QList<QUrl> m_urls; // Local address or network address
+  QAudioOutput* m_audioOutput;
 };
 }  // namespace engine
 #endif
