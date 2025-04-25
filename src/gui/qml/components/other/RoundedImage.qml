@@ -1,42 +1,27 @@
 import QtQuick
-import QtQuick.Effects
 
-Rectangle {
+// 正方形显示为圆形
+Item {
     id: root
-    required property real radius
     required property url imageUrl
-    property alias isTopLeftRounded: maskRect.isTopLeftRounded
-    property alias isTopRightRounded: maskRect.isTopRightRounded
-    property alias isBottomLeftRounded: maskRect.isBottomLeftRounded
-    property alias isBottomRightRounded: maskRect.isBottomRightRounded
+    property bool isCircle: false
+    property int radius
 
-    Image {
-        id: image
+    Rectangle {
+        id: container
         anchors.fill: parent
-        source: root.imageUrl
-        visible: false
-    }
+        radius: {
+            if (root.isCircle) {
+                return container.width / 2
+            }
+            return root.radius
+        } // 圆角半径为边长一半
+        clip: true // 裁剪超出区域
 
-    MultiEffect {
-        source: image
-        anchors.fill: image
-        maskEnabled: true
-        maskSource: mask
-    }
-
-    Item {
-        id: mask
-        width: image.width
-        height: image.height
-        layer.enabled: true
-        visible: false
-
-        RoundedRectangle {
-            id: maskRect
-            width: image.width
-            height: image.height
-            radius: root.radius
-            color: "black"
+        Image {
+            anchors.fill: parent
+            source: root.imageUrl
+            fillMode: Image.PreserveAspectCrop // 保持比例并裁剪填充
         }
     }
 }

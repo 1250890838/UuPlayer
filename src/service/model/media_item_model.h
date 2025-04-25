@@ -47,7 +47,6 @@ class AristData {
 };
 
 struct MediaItem {
-  /*
   Q_GADGET
   Q_PROPERTY(qulonglong id MEMBER id)
   Q_PROPERTY(QString name MEMBER name)
@@ -58,7 +57,6 @@ struct MediaItem {
   Q_PROPERTY(QUrl url MEMBER url)
 
  public:
-*/
   qulonglong id;
   QString name;
   qulonglong duration;
