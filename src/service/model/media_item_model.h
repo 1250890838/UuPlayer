@@ -51,16 +51,18 @@ struct MediaItem {
   Q_PROPERTY(qulonglong id MEMBER id)
   Q_PROPERTY(QString name MEMBER name)
   Q_PROPERTY(qulonglong duration MEMBER duration)
-  Q_PROPERTY(AlbumData album MEMBER album)
+  Q_PROPERTY(AlbumData album READ album WRITE setAlbum)
   Q_PROPERTY(QVariantList artists MEMBER artists)
   Q_PROPERTY(QString reason MEMBER reason)
   Q_PROPERTY(QUrl url MEMBER url)
-
+ public:
+  AlbumData album() { return albumdata; }
+  void setAlbum(const AlbumData& data) { albumdata = data; }
  public:
   qulonglong id;
   QString name;
   qulonglong duration;
-  AlbumData album;
+  AlbumData albumdata;
   QVariantList artists; // QList<AristData> artists
   QString reason;
   QUrl url;
@@ -93,5 +95,4 @@ class MediaItemModel : public QAbstractListModel {
 }  // namespace model
 
 Q_DECLARE_METATYPE(model::AlbumData);
-
 #endif

@@ -105,8 +105,10 @@ qt_add_qml_module(gui
         RESOURCES images/button_pause_gray.svg images/button_play_gray.svg
         QML_FILES qml/playlistDetail/MediaItem.qml qml/playlistDetail/PlaylistDetailPage.qml
         QML_FILES qml/playbackBar/PlaybackBar.qml
-        QML_FILES qml/components/other/RoundedImage.qml
         QML_FILES qml/playbackBar/AlbumDisplay.qml
+        RESOURCES images/button_playbackbar_next.svg images/button_playbackbar_play.svg images/button_playbackbar_previous.svg images/button_playbackmode_sequential.svg
+        RESOURCES images/button_playbackbar_pause.svg
+        QML_FILES qml/playbackBar/UuSlider.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

@@ -7,11 +7,13 @@ import assets 1.0
 import skins 1.0
 import components 1.0
 import QWindowKit 1.0
+import service.api 1.0
 import "leftNavigationPanel"
 import "stackPages"
 import "stackPages/cloudMusicSelectedPage"
 import "titleBar"
 import "playlistDetail"
+import "playbackBar"
 
 Window {
     id: window
@@ -76,6 +78,15 @@ Window {
                 }
             }
         }
+    }
+
+    PlaybackBar {
+        id: playbackBar
+        width: window.width
+        height: 80
+        mediaData: PlayService.currentPlayItem
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 30
     }
 
     UScrollBar {

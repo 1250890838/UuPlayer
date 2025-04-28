@@ -13,10 +13,13 @@ Item {
         id: effect
         source: container
         anchors.fill: container
-        shadowBlur: 0.02
+        shadowBlur: 0.01
         shadowColor: "gray"
         shadowEnabled: true
         shadowVerticalOffset: 0
+        shadowHorizontalOffset: 0
+        shadowOpacity: 0.3
+        shadowScale: 1.0
     }
 
     Rectangle {
@@ -105,7 +108,6 @@ Item {
                     text: {
                         let result = ""
                         let ars = model.artists
-                        let test = model.album
                         for (let t of ars) {
                             result += t.name
                             result += ' / '

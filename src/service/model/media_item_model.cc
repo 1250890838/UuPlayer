@@ -22,7 +22,7 @@ QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
     case DurationRole:
       return item->duration;
     case AlbumRole:
-      return QVariant::fromValue(item->album);
+      return QVariant::fromValue(item->albumdata);
     case ArtistRole:
       return QVariant::fromValue(item->artists);
     case ReasonRole:

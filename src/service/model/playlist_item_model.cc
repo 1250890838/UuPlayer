@@ -46,6 +46,7 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const {
     case SubscribedRole:
       return m_items[index.row()]->subscribed();
     default:
+      return {};
       break;
   }
 }

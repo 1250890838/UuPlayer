@@ -222,7 +222,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
       albumData.setId(albumObj["id"].toVariant().toLongLong());
       albumData.setName(albumObj["name"].toString());
       albumData.setPicUrl(albumObj["picUrl"].toString());
-      item.album = albumData;
+      item.albumdata = albumData;
       auto artistsArr = track["ar"].toArray();
       model::AristData aristData;
       for (const auto& artistValue : artistsArr) {
@@ -256,7 +256,7 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
         albumData.setId(albumObj["id"].toVariant().toLongLong());
         albumData.setName(albumObj["name"].toString());
         albumData.setPicUrl(albumObj["picUrl"].toString());
-        mediaItem.album = albumData;
+        mediaItem.albumdata = albumData;
         auto artistsArr = track["ar"].toArray();
         model::AristData aristData;
         for (const auto& artistValue : artistsArr) {
@@ -293,7 +293,7 @@ void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
         albumData.setId(albumObj["id"].toVariant().toLongLong());
         albumData.setName(albumObj["name"].toString());
         albumData.setPicUrl(albumObj["picUrl"].toString());
-        item.album = albumData;
+        item.albumdata = albumData;
         auto artistsArr = track["ar"].toArray();
         model::AristData aristData;
         for (const auto& artistValue : artistsArr) {

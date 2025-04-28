@@ -1,9 +1,10 @@
 #include "play_service.h"
+#include "playlist_service.h"
 
 #include <QObject>
 
 namespace service {
-PlayService::PlayService() {
+PlayService::PlayService():m_currentIndex(0) {
   connect(&m_player, &engine::MediaPlayer::playingChanged, this,
           &PlayService::playingChanged);
   connect(&m_player, &engine::MediaPlayer::durationChanged, this,
@@ -29,9 +30,11 @@ void PlayService::setPosition(quint64 position) {
 }
 
 void PlayService::play(qulonglong id) {
-  for (auto media : m_medias) {
-    if (media->id == id) {
-      m_player.play(media->url);
+  for (int i = 0; i < m_medias.size(); i++) {
+    if (m_medias[i]->id == id) {
+      m_player.play(m_medias[i]->url);
+      m_currentIndex = i;
+      emit currentPlayItemChanged();
       break;
     }
   }
@@ -110,6 +113,7 @@ model::MediaItem PlayService::currentPlayItem() {
   if (m_currentIndex >= 0 && m_currentIndex < m_medias.size()) {
     return *m_medias[m_currentIndex];
   }
+  return {};
 }
 
 void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {

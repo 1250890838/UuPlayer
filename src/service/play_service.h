@@ -3,7 +3,6 @@
 
 #include "audio_player.h"
 #include "model/media_item_model.h"
-#include "playlist_service.h"
 
 #include <QList>
 #include <QObject>
@@ -21,6 +20,7 @@ class PlayService : public QObject {
   Q_PROPERTY(qint64 duration READ duration NOTIFY durationChanged)
   Q_PROPERTY(
       qint64 position READ position WRITE setPosition NOTIFY positionChanged)
+  Q_PROPERTY(model::MediaItem currentPlayItem  READ currentPlayItem NOTIFY currentPlayItemChanged)
 
  public:
   PlayService();
@@ -48,6 +48,7 @@ class PlayService : public QObject {
   void playingChanged(bool b);
   void durationChanged(qint64 duration);
   void positionChanged(qint64 position);
+  void currentPlayItemChanged();
 };
 }  // namespace service
 #endif  // PLAY_SERVICE_H

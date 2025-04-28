@@ -34,4 +34,9 @@ Item {
     property url pauseGrayIcon: "qrc:/gui/images/button_pause_gray.svg"
 
     property url appIcon: "qrc:/gui/images/app_icon.png"
+    property url playbackBarPlayIcon: "qrc:/gui/images/button_playbackbar_play.svg"
+    property url playbackBarPauseIcon: "qrc:/gui/images/button_playbackbar_pause.svg"
+    property url playbackBarNextIcon: "qrc:/gui/images/button_playbackbar_next.svg"
+    property url playbackBarPreviousIcon: "qrc:/gui/images/button_playbackbar_previous.svg"
+    property url playbackModeSequentialIcon: "qrc:/gui/images/button_playbackmode_sequential.svg"
 }

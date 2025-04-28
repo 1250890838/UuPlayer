@@ -214,8 +214,8 @@ Flickable {
         }
         StackLayout {
             id: stackLayout
-            Layout.rightMargin: 15
-            Layout.leftMargin: 15
+            Layout.rightMargin: 5
+            Layout.leftMargin: 5
             Layout.topMargin: 5
             currentIndex: 0
             Item {
