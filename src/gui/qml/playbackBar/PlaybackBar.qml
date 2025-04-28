@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import components 1.0
+import service.api 1.0
 import assets 1.0
 
 Item {
@@ -65,16 +66,22 @@ Item {
                     IconButton {
                         icon: Icons.playbackBarPreviousIcon
                         hoveredIcon: Icons.playbackBarPreviousIcon
-                        width: 21
-                        height: 21
+                        width: 28
+                        height: 28
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     IconButton {
-                        icon: Icons.playbackBarPlayIcon
-                        hoveredIcon: Icons.playbackBarPlayIcon
+                        icon: PlayService.playing ? Icons.playbackBarPauseIcon : Icons.playbackBarPlayIcon
+                        hoveredIcon: this.icon
                         width: 41
                         height: 41
                         anchors.verticalCenter: parent.verticalCenter
+                        onClicked: {
+                            if (PlayService.playing)
+                                PlayService.pause()
+                            else
+                                PlayService.play()
+                        }
                     }
                     IconButton {
                         icon: Icons.playbackBarNextIcon
@@ -94,7 +101,7 @@ Item {
                 Row {
                     Label {
                         id: currentTime
-                        text: Utils.formatTime(slider.value)
+                        text: Utils.formatTime(playbackSlider.value)
                         width: 50
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: 12
@@ -104,10 +111,12 @@ Item {
                         width: 310
                         from: 0
                         to: PlayService.duration
+                        value: PlayService.position
+                        onMoved: PlayService.position = this.value
                     }
                     Label {
                         id: totalTime
-                        text: Utils.formatTime(mediaPlayer.duration)
+                        text: Utils.formatTime(playbackSlider.to)
                         width: 50
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: 12

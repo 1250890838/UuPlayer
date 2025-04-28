@@ -15,6 +15,7 @@ class ENGINE_DLL_EXPORT MediaPlayer : public QMediaPlayer {
   Q_OBJECT
   Q_DISABLE_COPY(MediaPlayer)
  public:
+  using QMediaPlayer::play;
   static QObject* getInstance(QQmlEngine* eng, QJSEngine* scriptEngine);
 
   MediaPlayer(QObject* parent = nullptr);

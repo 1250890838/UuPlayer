@@ -76,6 +76,11 @@ void PlayService::previous() {
   }
 }
 
+void PlayService::play()
+{
+  m_player.play();
+}
+
 void PlayService::appendMediaId(qulonglong id) {
   // 先检查歌曲是否已在列表
   for (auto& media : m_medias) {
