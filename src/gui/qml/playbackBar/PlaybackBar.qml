@@ -34,9 +34,12 @@ Item {
             Column {
                 id: nameColumn
                 Layout.alignment: Layout.Left
+                width: 150
                 Label {
                     id: songName
                     text: mediaData.name
+                    elide: Text.ElideRight
+                    width: parent.width
                 }
                 Label {
                     id: spilter
@@ -44,6 +47,8 @@ Item {
                 }
                 Label {
                     id: artistsName
+                    elide: Text.ElideRight
+                    width: parent.width
                     text: {
                         var names = mediaData.artists.map(artist => artist.name)
                         return names.join("/ ")
@@ -64,7 +69,6 @@ Item {
                         height: 21
                         anchors.verticalCenter: parent.verticalCenter
                     }
-
                     IconButton {
                         icon: Icons.playbackBarPlayIcon
                         hoveredIcon: Icons.playbackBarPlayIcon
@@ -72,7 +76,6 @@ Item {
                         height: 41
                         anchors.verticalCenter: parent.verticalCenter
                     }
-
                     IconButton {
                         icon: Icons.playbackBarNextIcon
                         hoveredIcon: Icons.playbackBarNextIcon
@@ -88,11 +91,27 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }
-                UuSlider {
-                    id: playbackSlider
-                    width: 310
-                    from: 1
-                    to: 100
+                Row {
+                    Label {
+                        id: currentTime
+                        text: Utils.formatTime(slider.value)
+                        width: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: 12
+                    }
+                    UuSlider {
+                        id: playbackSlider
+                        width: 310
+                        from: 0
+                        to: PlayService.duration
+                    }
+                    Label {
+                        id: totalTime
+                        text: Utils.formatTime(mediaPlayer.duration)
+                        width: 50
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: 12
+                    }
                 }
             }
         }

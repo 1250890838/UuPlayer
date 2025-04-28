@@ -29,3 +29,12 @@ function millisecondsToTime(ms) {
 
     return formattedTime
 }
+
+function formatTime(milliseconds) {
+    if (isNaN(milliseconds))
+        return "00:00"
+    let seconds = Math.floor(milliseconds / 1000)
+    let minutes = Math.floor(seconds / 60)
+    seconds = seconds % 60
+    return Qt.formatTime(new Date(0, 0, 0, 0, minutes, seconds), "mm:ss")
+}
