@@ -82,6 +82,7 @@ Window {
 
     PlaybackBar {
         id: playbackBar
+        visible: PlayService.num !== 0
         width: window.width
         height: 80
         mediaData: PlayService.currentPlayItem

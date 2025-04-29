@@ -21,12 +21,14 @@ class PlayService : public QObject {
   Q_PROPERTY(
       qint64 position READ position WRITE setPosition NOTIFY positionChanged)
   Q_PROPERTY(model::MediaItem currentPlayItem  READ currentPlayItem NOTIFY currentPlayItemChanged)
+  Q_PROPERTY(qint64 num READ num NOTIFY numChanged)
 
  public:
   PlayService();
   bool isPlaying();
   qint64 duration();
   qint64 position();
+  qint64 num();
   void setPosition(quint64 position);
   // interface
  public:
@@ -40,7 +42,6 @@ class PlayService : public QObject {
   Q_INVOKABLE model::MediaItem currentPlayItem();
  private slots:
   void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
-
  private:
   engine::MediaPlayer m_player;
   QList<model::MediaItem*> m_medias;
@@ -50,6 +51,7 @@ class PlayService : public QObject {
   void durationChanged(qint64 duration);
   void positionChanged(qint64 position);
   void currentPlayItemChanged();
+  void numChanged();
 };
 }  // namespace service
 #endif  // PLAY_SERVICE_H

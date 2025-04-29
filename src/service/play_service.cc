@@ -5,12 +5,14 @@
 
 namespace service {
 PlayService::PlayService():m_currentIndex(0) {
-  connect(&m_player, &engine::MediaPlayer::playingChanged, this,
-          &PlayService::playingChanged);
+ // connect(&m_player, &engine::MediaPlayer::playingChanged, this,
+  //        &PlayService::playingChanged);
   connect(&m_player, &engine::MediaPlayer::durationChanged, this,
           &PlayService::durationChanged);
   connect(&m_player, &engine::MediaPlayer::positionChanged, this,
           &PlayService::positionChanged);
+  connect(&m_player, &engine::MediaPlayer::playbackStateChanged, this,
+          &PlayService::onPlaybackStateChanged);
 }
 
 bool PlayService::isPlaying() {
@@ -23,6 +25,10 @@ qint64 PlayService::duration() {
 
 qint64 PlayService::position() {
   return m_player.position();
+}
+
+qint64 PlayService::num() {
+  return m_medias.size();
 }
 
 void PlayService::setPosition(quint64 position) {
@@ -94,8 +100,8 @@ void PlayService::appendMediaId(qulonglong id) {
   }
 
   model::MediaItem* item = g_idToMediaMap[id];
-
   m_medias.emplaceBack(item);
+  emit numChanged();
 }
 
 void PlayService::insertNext(qulonglong id) {
@@ -112,6 +118,7 @@ void PlayService::insertNext(qulonglong id) {
 
   m_medias.insert(m_currentIndex + 1, g_idToMediaMap[id]);
   m_currentIndex++;
+  emit numChanged();
 }
 
 model::MediaItem PlayService::currentPlayItem() {
@@ -123,9 +130,11 @@ model::MediaItem PlayService::currentPlayItem() {
 
 void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {
   if (state == QMediaPlayer::PlayingState) {
+    emit playingChanged(true);
   } else if (state == QMediaPlayer::PausedState) {
+    emit playingChanged(false);
   } else if (state == QMediaPlayer::StoppedState) {
-    next();
+    emit playingChanged(false);
   }
 }
 }  // namespace service

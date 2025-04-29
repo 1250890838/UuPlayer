@@ -30,6 +30,7 @@ Item {
                 implicitHeight: 60
                 implicitWidth: 60
                 imageUrl: mediaData.album.picUrl
+                running: PlayService.playing
             }
 
             Column {
@@ -71,6 +72,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     IconButton {
+                        id: playbackButton
                         icon: PlayService.playing ? Icons.playbackBarPauseIcon : Icons.playbackBarPlayIcon
                         hoveredIcon: this.icon
                         width: 41
@@ -113,6 +115,9 @@ Item {
                         to: PlayService.duration
                         value: PlayService.position
                         onMoved: PlayService.position = this.value
+                        HoverHandler {
+                            cursorShape: Qt.PointingHandCursor
+                        }
                     }
                     Label {
                         id: totalTime

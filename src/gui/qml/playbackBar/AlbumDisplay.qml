@@ -4,6 +4,7 @@ import components 1.0
 Item {
     id: root
     required property url imageUrl
+    property bool running: false
     Rectangle {
         id: albumContainer
         anchors.fill: parent
@@ -18,7 +19,7 @@ Item {
                 to: 360 // 终止角度
                 duration: 60000 // 动画时长（毫秒）
                 loops: Animation.Infinite // 无限循环
-                running: true // 自动启动
+                running: root.running // 自动启动
             }
 
             // 设置旋转中心点（默认是图像左上角 (0,0)）
