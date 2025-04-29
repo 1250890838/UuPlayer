@@ -76,7 +76,6 @@ void PlayService::next() {
 }
 
 void PlayService::previous() {
-  m_currentIndex--;
   if (m_currentIndex < 0) {
     m_currentIndex = 0;
   }
@@ -144,6 +143,26 @@ void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {
     emit playingChanged(false);
   } else if (state == QMediaPlayer::StoppedState) {
     emit playingChanged(false);
+  }
+}
+
+void PlayService::operateCurrentIndexForPlaybackMode(bool previous) {
+  switch (m_playbackMode) {
+    case PlaybackMode::Sequentially:
+      if (previous) {
+        m_currentIndex--;
+      } else {
+        m_currentIndex++;
+      }
+      break;
+    case PlaybackMode::ListLoop:
+      break;
+    case PlaybackMode::SingleLoop:
+      break;
+    case PlaybackMode::Shuffle:
+      break;
+    default:
+      break;
   }
 }
 }  // namespace service
