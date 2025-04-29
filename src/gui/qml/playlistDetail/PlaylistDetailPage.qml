@@ -58,7 +58,7 @@ Flickable {
                     height: avatarImage.height
                     RoundedImage {
                         id: avatarImage
-                        radius: 10
+                        radius: 12.5
                         imageUrl: detail.creator.avatarUrl
                         width: 25
                         height: 25

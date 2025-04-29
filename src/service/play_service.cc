@@ -31,6 +31,15 @@ qint64 PlayService::num() {
   return m_medias.size();
 }
 
+void PlayService::setPlaybackMode(PlaybackMode mode) {
+  m_playbackMode = mode;
+  emit playbackModeChanged();
+}
+
+PlayService::PlaybackMode PlayService::playbackMode() {
+  return m_playbackMode;
+}
+
 void PlayService::setPosition(quint64 position) {
   m_player.setPosition(position);
 }

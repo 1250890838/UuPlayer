@@ -22,14 +22,24 @@ class PlayService : public QObject {
       qint64 position READ position WRITE setPosition NOTIFY positionChanged)
   Q_PROPERTY(model::MediaItem currentPlayItem  READ currentPlayItem NOTIFY currentPlayItemChanged)
   Q_PROPERTY(qint64 num READ num NOTIFY numChanged)
-
+  Q_PROPERTY(PlaybackMode playbackMode READ playbackMode WRITE setPlaybackMode NOTIFY playbackModeChanged)
+ public:
+  enum class PlaybackMode {
+    Sequentially,
+    ListLoop,
+    SingleLoop,
+    Shuffle
+  };
+  Q_ENUM(PlaybackMode) // 注册枚举到元对象系统
  public:
   PlayService();
   bool isPlaying();
   qint64 duration();
   qint64 position();
-  qint64 num();
   void setPosition(quint64 position);
+  qint64 num();
+  PlaybackMode playbackMode();
+  void setPlaybackMode(PlaybackMode mode);
   // interface
  public:
   Q_INVOKABLE void play(qulonglong id);
@@ -45,6 +55,7 @@ class PlayService : public QObject {
  private:
   engine::MediaPlayer m_player;
   QList<model::MediaItem*> m_medias;
+  PlaybackMode m_playbackMode;
   quint32 m_currentIndex;
  signals:
   void playingChanged(bool b);
@@ -52,6 +63,7 @@ class PlayService : public QObject {
   void positionChanged(qint64 position);
   void currentPlayItemChanged();
   void numChanged();
+  void playbackModeChanged();
 };
 }  // namespace service
 #endif  // PLAY_SERVICE_H

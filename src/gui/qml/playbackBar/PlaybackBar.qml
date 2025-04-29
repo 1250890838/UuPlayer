@@ -70,6 +70,7 @@ Item {
                         width: 28
                         height: 28
                         anchors.verticalCenter: parent.verticalCenter
+                        onClicked: PlayService.previous()
                     }
                     IconButton {
                         id: playbackButton
@@ -91,13 +92,23 @@ Item {
                         width: 21
                         height: 21
                         anchors.verticalCenter: parent.verticalCenter
+                        onClicked: PlayService.next()
                     }
                     IconButton {
-                        icon: Icons.playbackModeSequentialIcon
-                        hoveredIcon: Icons.playbackModeSequentialIcon
+                        property var currentMode: playbackModes[0]
+                        property var playbackModes: [PlayService.Sequentially, PlayService.ListLoop, PlayService.SingleLoop, PlayService.Shuffle]
+                        property var playbackModeIcons: [Icons.playbackModeSequentialIcon, Icons.playbackModeListLoopIcon, Icons.playbackModeSingleLoopIcon, Icons.playbackModeShuffleIcon]
+                        icon: playbackModeIcons[currentMode]
+                        hoveredIcon: playbackModeIcons[currentMode]
                         width: 23
                         height: 23
                         anchors.verticalCenter: parent.verticalCenter
+                        onClicked: {
+                            currentMode++
+                            if (currentMode > playbackModes.length)
+                                currentMode = 0
+                            PlayService.setPlaybackMode(currentMode)
+                        }
                     }
                 }
                 Row {
