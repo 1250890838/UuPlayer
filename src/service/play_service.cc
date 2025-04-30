@@ -76,6 +76,7 @@ void PlayService::next() {
 }
 
 void PlayService::previous() {
+  m_currentIndex--;
   if (m_currentIndex < 0) {
     m_currentIndex = 0;
   }
