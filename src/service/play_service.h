@@ -23,6 +23,7 @@ class PlayService : public QObject {
   Q_PROPERTY(model::MediaItem currentPlayItem  READ currentPlayItem NOTIFY currentPlayItemChanged)
   Q_PROPERTY(qint64 num READ num NOTIFY numChanged)
   Q_PROPERTY(PlaybackMode playbackMode READ playbackMode WRITE setPlaybackMode NOTIFY playbackModeChanged)
+  Q_PROPERTY(model::MediaItemModel* playbacklist READ playbacklist CONSTANT)
  public:
   enum class PlaybackMode {
     Sequentially,
@@ -39,6 +40,7 @@ class PlayService : public QObject {
   void setPosition(quint64 position);
   qint64 num();
   PlaybackMode playbackMode();
+  model::MediaItemModel* playbacklist();
   void setPlaybackMode(PlaybackMode mode);
   // interface
  public:
@@ -54,10 +56,11 @@ class PlayService : public QObject {
   void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
 
  private:
-  void operateCurrentIndexForPlaybackMode(bool);
+  void operateForPlaybackMode();
  private:
+  model::MediaItemModel m_playbacklistModel;
   engine::MediaPlayer m_player;
-  QList<model::MediaItem*> m_medias;
+ // QList<model::MediaItem*> m_medias;
   PlaybackMode m_playbackMode;
   quint32 m_currentIndex;
  signals:

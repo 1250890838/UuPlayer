@@ -84,10 +84,13 @@ class MediaItemModel : public QAbstractListModel {
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
+  void insertItem(const MediaItem& item,quint32 pos);
   void appendItem(const MediaItem& item);
   void appendItems(const QVector<MediaItem>& items);
+  void removeItem(qint32 pos);
   MediaItem* last();
   void clear();
+  QList<std::shared_ptr<MediaItem>>& rawData();
 
  private:
   QList<std::shared_ptr<MediaItem>> m_items;

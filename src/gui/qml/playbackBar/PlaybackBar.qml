@@ -107,7 +107,7 @@ Item {
                             currentMode++
                             if (currentMode > playbackModes.length)
                                 currentMode = 0
-                            PlayService.setPlaybackMode(currentMode)
+                            PlayService.playbackMode = currentMode
                         }
                     }
                 }
@@ -137,6 +137,18 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: 12
                     }
+                }
+            }
+
+            IconButton {
+                id: playbacklistButton
+                implicitWidth: 21
+                implicitHeight: 21
+                icon: Icons.playbackBarPlaylistIcon
+                hoveredIcon: Icons.playbackBarPlaylistIcon
+                Layout.alignment: Qt.AlignCenter
+                onClicked: {
+                    playbacklistPage.open()
                 }
             }
         }

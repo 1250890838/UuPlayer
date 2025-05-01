@@ -38,6 +38,8 @@ Item {
     property url playbackBarPauseIcon: "qrc:/gui/images/button_playbackbar_pause.svg"
     property url playbackBarNextIcon: "qrc:/gui/images/button_playbackbar_next.svg"
     property url playbackBarPreviousIcon: "qrc:/gui/images/button_playbackbar_previous.svg"
+    property url playbackBarPlaylistIcon: "qrc:/gui/images/button_playbackbar_playlist.svg"
+
     property url playbackModeSequentialIcon: "qrc:/gui/images/button_playbackmode_sequential.svg"
     property url playbackModeListLoopIcon: "qrc:/gui/images/button_playbackmode_listloop.svg"
     property url playbackModeShuffleIcon: "qrc:/gui/images/button_playbackmode_shuffle.svg"

@@ -41,10 +41,6 @@ int main(int argc, char* argv[]) {
                            1, 0, "Icons");
   qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Skins.qml"_qs), "skins",
                            1, 0, "Skins");
-
-  qmlRegisterSingletonType<engine::MediaPlayer>(
-      "engine", 1, 0, "Player", &engine::MediaPlayer::getInstance);
-
   /*
   qRegisterMetaType<model::MediaItem*>("MediaItem*");
   qmlRegisterSingletonInstance<service::LoginService>("service", 1, 0, "LoginService",new service::LoginService());

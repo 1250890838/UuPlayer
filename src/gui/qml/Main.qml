@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
-import engine 1.0
 import assets 1.0
 import skins 1.0
 import components 1.0
@@ -14,6 +13,7 @@ import "stackPages/cloudMusicSelectedPage"
 import "titleBar"
 import "playlistDetail"
 import "playbackBar"
+import "playbacklist"
 
 Window {
     id: window
@@ -61,9 +61,9 @@ Window {
                 StackView {
                     id: stackView
                     Layout.margins: 25
-                    Layout.leftMargin: (window.width - navigationPanel.width - this.width) / 2
+                    padding: (window.width - navigationPanel.width - this.width) / 2
                     Layout.alignment: Qt.AlignCenter
-                    Layout.preferredWidth: (0.9 * (window.width - navigationPanel.width))
+                    Layout.fillWidth: true
                     Layout.fillHeight: true
                     background: Rectangle {
                         color: Skins.bodyBackColor
@@ -97,5 +97,31 @@ Window {
         x: parent.width - 15
         y: parent.height / 10
         z: 99
+    }
+
+    PlaybacklistPage {
+        id: playbacklistPage
+        x: window.width - this.width
+        y: 85
+        width: 383
+        height: stackView.height - playbackBar.height
+        enter: Transition {
+            NumberAnimation {
+                property: "x"
+                from: window.width + 8
+                to: window.width - playbacklistPage.width
+                duration: 300 // 动画时长 300ms
+                easing.type: Easing.OutCubic // 缓动曲线
+            }
+        }
+        exit: Transition {
+            NumberAnimation {
+                property: "x"
+                to: window.width + 8
+                from: window.width - playbacklistPage.width
+                duration: 300 // 动画时长 300ms
+                easing.type: Easing.OutCubic // 缓动曲线
+            }
+        }
     }
 }

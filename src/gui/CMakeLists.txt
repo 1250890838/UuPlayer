@@ -110,6 +110,9 @@ qt_add_qml_module(gui
         RESOURCES images/button_playbackbar_pause.svg
         QML_FILES qml/playbackBar/UuSlider.qml
         RESOURCES images/button_playbackmode_listloop.svg images/button_playbackmode_shuffle.svg images/button_playbackmode_singleloop.svg
+        QML_FILES qml/playbacklist/PlaybacklistPage.qml
+        RESOURCES images/button_playbackbar_playlist.svg
+        QML_FILES qml/playbacklist/PlaybacklistItem.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

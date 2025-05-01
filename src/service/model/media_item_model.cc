@@ -44,6 +44,12 @@ void MediaItemModel::appendItem(const MediaItem& item) {
   endInsertRows();
 }
 
+void MediaItemModel::insertItem(const MediaItem& item,quint32 pos){
+  beginInsertRows(QModelIndex(),pos,pos);
+  m_items.insert(pos,std::make_shared<MediaItem>(item));
+  endInsertRows();
+}
+
 void MediaItemModel::appendItems(const QVector<MediaItem>& items) {
   beginInsertRows(QModelIndex(), m_items.size(),
                   m_items.size() + items.size() - 1);
@@ -51,6 +57,13 @@ void MediaItemModel::appendItems(const QVector<MediaItem>& items) {
     m_items.append(std::make_shared<MediaItem>(item));
   }
   endInsertRows();
+}
+
+void MediaItemModel::removeItem(qint32 pos)
+{
+  beginRemoveRows(QModelIndex(),pos,pos);
+  m_items.remove(pos);
+  endRemoveRows();
 }
 
 MediaItem* MediaItemModel::last() {
@@ -61,6 +74,11 @@ void MediaItemModel::clear() {
   beginResetModel();
   m_items.clear();
   endResetModel();
+}
+
+QList<std::shared_ptr<MediaItem> >& MediaItemModel::rawData()
+{
+  return m_items;
 }
 
 }  // namespace model
