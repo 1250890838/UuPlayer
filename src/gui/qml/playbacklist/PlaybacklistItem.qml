@@ -18,6 +18,7 @@ Item {
         anchors.fill: parent
         Row {
             id: row
+            height: parent.height
             spacing: 10
             RoundedImage {
                 id: coverImage
@@ -29,9 +30,11 @@ Item {
                 width: 50
                 height: 50
                 imageUrl: model.album.picUrl
+                anchors.verticalCenter: parent.verticalCenter
             }
             Column {
                 id: nameColumn
+                anchors.verticalCenter: parent.verticalCenter
                 width: 170
                 Text {
                     id: songName
@@ -55,8 +58,16 @@ Item {
                 }
             }
 
+            Item {
+                id: spacer
+                anchors.verticalCenter: parent.verticalCenter
+                width: 60
+                height: 1
+            }
+
             Text {
                 id: duration
+                anchors.verticalCenter: parent.verticalCenter
                 text: Utils.millisecondsToTime(model.duration)
             }
         }

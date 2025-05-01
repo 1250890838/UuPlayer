@@ -30,10 +30,6 @@ Popup {
         shadowScale: 1.0
     }
 
-    UScrollBar {
-        id: scrollbar
-    }
-
     Rectangle {
         id: container
         anchors.fill: parent
@@ -43,11 +39,12 @@ Popup {
         Column {
             id: containerColumn
             anchors.fill: parent
-            anchors.margins: 20
             spacing: 20
             Row {
                 id: headerRow
                 width: parent.width
+                leftPadding: 20
+                topPadding: 20
                 Label {
                     id: playlistLabel
                     text: qsTr("播放列表")
@@ -59,25 +56,41 @@ Popup {
                     text: repeater.count
                     font.pointSize: 5
                     anchors.top: playlistLabel.top
+                    color: "gray"
                 }
             }
 
             Flickable {
                 id: flickable
                 contentWidth: width
-                contentHeight: contentColumn.height // 使用实际内容高度
+                contentHeight: contentColumn.implicitHeight // 使用实际内容高度
+                boundsBehavior: Flickable.StopAtBounds
+                boundsMovement: Flickable.StopAtBounds
                 width: container.width
                 height: parent.height - headerRow.height - containerColumn.spacing // 动态计算高度
                 clip: true
+                ScrollBar.vertical: ScrollBar {
+                    policy: ScrollBar.AlwaysOff
+                }
 
-                Column {
+                UScrollBar {
+                    id: scrollbar
+                    width: 10
+                    height: parent.height
+                    x: parent.width - 10
+                    y: 0
+                    z: 99
+                    currentFlickable: flickable
+                }
+
+                ColumnLayout {
                     id: contentColumn
                     Repeater {
                         id: repeater
                         model: PlayService.playbacklist
                         PlaybacklistItem {
                             id: playbacklistItem
-                            width: parent.width
+                            implicitWidth: flickable.width
                             implicitHeight: 70
                         }
                     }
