@@ -4,7 +4,7 @@
 #include <QObject>
 
 namespace service {
-PlayService::PlayService():m_currentIndex(0) {
+PlayService::PlayService():m_currentIndex(-1) {
  // connect(&m_player, &engine::MediaPlayer::playingChanged, this,
   //        &PlayService::playingChanged);
   connect(&m_player, &engine::MediaPlayer::durationChanged, this,
@@ -13,6 +13,7 @@ PlayService::PlayService():m_currentIndex(0) {
           &PlayService::positionChanged);
   connect(&m_player, &engine::MediaPlayer::playbackStateChanged, this,
           &PlayService::onPlaybackStateChanged);
+  connect(&m_player,&engine::MediaPlayer::mediaStatusChanged,this,&PlayService::onMediaStatusChanged);
 }
 
 bool PlayService::isPlaying() {
@@ -52,6 +53,11 @@ void PlayService::setPosition(quint64 position) {
 
 void PlayService::play(qulonglong id) {
   auto items = m_playbacklistModel.rawData();
+
+  if(m_currentIndex!=-1 && id == items[m_currentIndex]->id){
+    m_player.play();
+    return;
+  }
   for (int i = 0; i < items.size();i++) {
     if (items[i]->id == id) {
       m_player.play(items[i]->url);
@@ -156,6 +162,14 @@ void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {
     emit playingChanged(false);
   } else if (state == QMediaPlayer::StoppedState) {
     emit playingChanged(false);
+  }
+}
+
+void PlayService::onMediaStatusChanged(QMediaPlayer::MediaStatus status)
+{
+  if(status == QMediaPlayer::EndOfMedia)
+  {
+    operateForPlaybackMode();;
   }
 }
 

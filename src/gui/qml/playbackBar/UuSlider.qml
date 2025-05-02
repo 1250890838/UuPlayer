@@ -4,7 +4,8 @@ import QtQuick.Controls.Basic
 Slider {
     id: control
     value: 0.5
-
+    padding: 0
+    topPadding: 0
     background: Rectangle {
         x: control.leftPadding + handle.width / 2
         y: control.topPadding + control.availableHeight / 2 - height / 2

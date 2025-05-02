@@ -54,7 +54,7 @@ class PlayService : public QObject {
   Q_INVOKABLE model::MediaItem currentPlayItem();
  private slots:
   void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
-
+  void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
  private:
   void operateForPlaybackMode();
  private:

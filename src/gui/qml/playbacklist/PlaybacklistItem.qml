@@ -1,7 +1,9 @@
 import QtQuick 2.15
 import QtQuick.Controls
 
+import service.api 1.0
 import components 1.0
+import assets 1.0
 
 
 /*
@@ -11,10 +13,14 @@ import components 1.0
   */ //edeeef
 Item {
     id: root
-    signal clicked
     Rectangle {
         id: container
-        color: mouseArea.containsMouse ? "#edeeef" : "transparent"
+        color: {
+            let curColor = (hoverHandler.hovered
+                            || PlayService.currentPlayItem.id
+                            === model.id) ? "#edeeef" : "transparent"
+            return curColor
+        }
         anchors.fill: parent
         Row {
             id: row
@@ -38,6 +44,45 @@ Item {
                 height: 50
                 imageUrl: model.album.picUrl
                 anchors.verticalCenter: parent.verticalCenter
+
+                Rectangle {
+                    id: overlay
+                    radius: coverImage.radius
+                    anchors.fill: parent
+                    color: "#80000011"
+                    visible: onCoverImage.visible
+                }
+
+                Image {
+                    id: onCoverImage
+                    source: (PlayService.currentPlayItem.id === model.id
+                             && PlayService.playing) ? Icons.pauseIcon : Icons.playIcon
+                    width: 15
+                    height: 15
+                    anchors.centerIn: parent
+                    visible: {
+                        if (PlayService.currentPlayItem.id === model.id)
+                            return true
+                        if (hoverHandler.hovered)
+                            return true
+                        return false
+                    }
+                }
+
+                MouseArea {
+                    id: imageMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        if (PlayService.playing) {
+                            PlayService.pause()
+                        } else {
+
+                            PlayService.play(model.id)
+                        }
+                    }
+                }
             }
             Column {
                 id: nameColumn
@@ -55,6 +100,7 @@ Item {
                     elide: Qt.ElideRight
                     width: parent.width
                     font.pointSize: 9
+                    color: "gray"
                     text: {
                         let result = ""
                         let ars = model.artists
@@ -82,10 +128,7 @@ Item {
         }
     }
 
-    MouseArea {
-        id: mouseArea
-        hoverEnabled: true
-        anchors.fill: parent
-        onClicked: root.clicked()
+    HoverHandler {
+        id: hoverHandler
     }
 }

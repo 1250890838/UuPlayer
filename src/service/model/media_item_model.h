@@ -80,6 +80,8 @@ class MediaItemModel : public QAbstractListModel {
     ReasonRole,
     UrlRole
   };
+  Q_INVOKABLE MediaItem* itemAt(qint32 index);
+
   MediaItemModel(QObject* parent = nullptr);
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
@@ -97,5 +99,6 @@ class MediaItemModel : public QAbstractListModel {
 };
 }  // namespace model
 
+Q_DECLARE_METATYPE(model::MediaItemModel*);
 Q_DECLARE_METATYPE(model::AlbumData);
 #endif

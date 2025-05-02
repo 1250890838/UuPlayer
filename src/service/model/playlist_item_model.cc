@@ -45,6 +45,8 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const {
     }
     case SubscribedRole:
       return m_items[index.row()]->subscribed();
+    case TracksRole:
+      return QVariant::fromValue(m_items[index.row()]->mediaItemModel());
     default:
       return {};
       break;
@@ -63,7 +65,9 @@ QHash<int, QByteArray> PlaylistItemModel::roleNames() const {
           {PlayCountRole, "playCount"},
           {CreatorRole, "creator"},
           {SubscribersRole, "subscribers"},
-          {SubscribedRole, "subscribed"}};
+          {SubscribedRole, "subscribed"},
+          {TracksRole,"tracks"}
+          };
 }
 
 void PlaylistItemModel::appendItem(const PlaylistItem& item) {

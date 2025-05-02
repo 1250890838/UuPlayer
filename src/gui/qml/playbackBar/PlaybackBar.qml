@@ -35,7 +35,6 @@ Item {
 
             Column {
                 id: nameColumn
-                Layout.alignment: Layout.Left
                 width: 150
                 Label {
                     id: songName
@@ -60,6 +59,8 @@ Item {
 
             Column {
                 id: playbackCenterColumn
+                Layout.fillWidth: true // 占据剩余空间
+                Layout.alignment: Qt.AlignHCenter // 水平居中
                 Row {
                     id: playbackButtons
                     spacing: 25
@@ -112,16 +113,20 @@ Item {
                     }
                 }
                 Row {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: 2
                     Label {
                         id: currentTime
+                        anchors.verticalCenter: parent.verticalCenter
                         text: Utils.formatTime(playbackSlider.value)
-                        width: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.pixelSize: 12
+                        font.pixelSize: 9
+                        color: "gray"
                     }
                     UuSlider {
                         id: playbackSlider
+                        anchors.verticalCenter: parent.verticalCenter
                         width: 310
+                        height: 15
                         from: 0
                         to: PlayService.duration
                         value: PlayService.position
@@ -132,10 +137,10 @@ Item {
                     }
                     Label {
                         id: totalTime
+                        anchors.verticalCenter: parent.verticalCenter
                         text: Utils.formatTime(playbackSlider.to)
-                        width: 50
-                        verticalAlignment: Text.AlignVCenter
-                        font.pixelSize: 12
+                        font.pixelSize: 9
+                        color: "gray"
                     }
                 }
             }

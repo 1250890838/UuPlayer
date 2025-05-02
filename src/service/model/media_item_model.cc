@@ -3,6 +3,11 @@
 #include <qvariant.h>
 namespace model {
 
+MediaItem *MediaItemModel::itemAt(qint32 index)
+{
+  return m_items[index].get();
+}
+
 MediaItemModel::MediaItemModel(QObject* parent) {}
 
 int MediaItemModel::rowCount(const QModelIndex& parent) const {

@@ -142,7 +142,8 @@ class PlaylistItemModel : public QAbstractListModel {
     PlayCountRole,
     CreatorRole,
     SubscribersRole,
-    SubscribedRole
+    SubscribedRole,
+    TracksRole
   };
 
   Q_INVOKABLE PlaylistItem itemAt(quint32 index);
