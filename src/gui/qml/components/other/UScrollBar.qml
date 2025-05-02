@@ -49,6 +49,10 @@ Item {
             if (!currentFlickable)
                 return 0
             if (vertical) {
+                console.log("currentFlickable height:" + currentFlickable.height)
+                console.log("currentFlickable contentHeight:" + currentFlickable.contentHeight)
+                console.log("groove height:" + groove.height)
+
                 return Math.max(
                             20,
                             (currentFlickable.height

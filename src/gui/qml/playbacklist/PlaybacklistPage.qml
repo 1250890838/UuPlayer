@@ -36,6 +36,16 @@ Popup {
         radius: 8
         color: "#fafafa"
 
+        UScrollBar {
+            id: scrollbar
+            width: 10
+            height: flickable.height
+            x: parent.width - 10
+            y: headerRow.height + headerRow.topPadding
+            z: 99
+            currentFlickable: flickable
+        }
+
         Column {
             id: containerColumn
             anchors.fill: parent
@@ -66,25 +76,16 @@ Popup {
                 contentHeight: contentColumn.implicitHeight // 使用实际内容高度
                 boundsBehavior: Flickable.StopAtBounds
                 boundsMovement: Flickable.StopAtBounds
-                width: container.width
+                width: container.width - scrollbar.width - 4 // 为滑条留一定的水平空间
                 height: parent.height - headerRow.height - containerColumn.spacing // 动态计算高度
                 clip: true
                 ScrollBar.vertical: ScrollBar {
                     policy: ScrollBar.AlwaysOff
                 }
 
-                UScrollBar {
-                    id: scrollbar
-                    width: 10
-                    height: parent.height
-                    x: parent.width - 10
-                    y: 0
-                    z: 99
-                    currentFlickable: flickable
-                }
-
                 ColumnLayout {
                     id: contentColumn
+                    anchors.fill: parent
                     Repeater {
                         id: repeater
                         model: PlayService.playbacklist

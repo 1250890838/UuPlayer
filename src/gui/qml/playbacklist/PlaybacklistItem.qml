@@ -20,6 +20,13 @@ Item {
             id: row
             height: parent.height
             spacing: 10
+
+            Item {
+                id: spacer1
+                height: 1
+                width: 10
+            }
+
             RoundedImage {
                 id: coverImage
                 isTopLeftRounded: true
@@ -41,11 +48,13 @@ Item {
                     text: model.name
                     elide: Qt.ElideRight
                     width: parent.width
+                    font.pointSize: 12
                 }
                 Text {
                     id: artistName
                     elide: Qt.ElideRight
                     width: parent.width
+                    font.pointSize: 9
                     text: {
                         let result = ""
                         let ars = model.artists
