@@ -20,7 +20,7 @@ Item {
         id: container
         anchors.fill: parent
         radius: 25
-        color: "red"
+        color: "transparent"
 
         RoundedImage {
             id: image
@@ -48,7 +48,16 @@ Item {
             width: parent.width
             height: mouseArea.containsMouse ? parent.height * 0.4 + 55 : 55
             radius: 10
-            color: "black"
+            gradient: Gradient {
+                GradientStop {
+                    position: 0.0
+                    color: "#f97794"
+                }
+                GradientStop {
+                    position: 1.0
+                    color: "#623aa2"
+                }
+            }
             x: 0
             y: mouseArea.containsMouse ? image.height - parent.height * 0.4 : image.height
             isBottomLeftRounded: true

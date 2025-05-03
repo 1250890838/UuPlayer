@@ -6,10 +6,11 @@ Rectangle {
     property bool isTopRightRounded: false
     property bool isBottomLeftRounded: false
     property bool isBottomRightRounded: false
+    property color rectColor: root.color
 
     Rectangle {
         id: topLeftRect
-        color: root.color
+        color: root.rectColor
         height: root.radius
         width: root.radius
         anchors.top: root.top
@@ -19,7 +20,7 @@ Rectangle {
 
     Rectangle {
         id: topRightRect
-        color: root.color
+        color: root.rectColor
         height: root.radius
         width: root.radius
         anchors.top: root.top
@@ -29,7 +30,7 @@ Rectangle {
 
     Rectangle {
         id: bottomLeftRect
-        color: root.color
+        color: root.rectColor
         height: root.radius
         width: root.radius
         anchors.bottom: root.bottom
@@ -39,7 +40,7 @@ Rectangle {
 
     Rectangle {
         id: bottomRightRect
-        color: root.color
+        color: root.rectColor
         height: root.radius
         width: root.radius
         anchors.bottom: root.bottom

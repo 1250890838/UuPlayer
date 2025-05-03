@@ -78,22 +78,21 @@ Window {
                 }
             }
         }
-    }
 
-    PlaybackBar {
-        id: playbackBar
-        visible: PlayService.num !== 0
-        width: window.width
-        height: 80
-        mediaData: PlayService.currentPlayItem
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 30
+        PlaybackBar {
+            id: playbackBar
+            visible: PlayService.num !== 0
+            Layout.fillWidth: true
+            implicitHeight: 80
+            mediaData: PlayService.currentPlayItem
+            Layout.bottomMargin: 30
+        }
     }
 
     UScrollBar {
         id: globalScrollBar
         width: 10
-        height: parent.height * 4 / 5
+        height: stackView.height
         x: parent.width - 15
         y: parent.height / 10
         z: 99
@@ -104,12 +103,12 @@ Window {
         x: window.width - this.width
         y: 85
         width: 383
-        height: stackView.height - playbackBar.height
+        height: stackView.height
         enter: Transition {
             NumberAnimation {
                 property: "x"
                 from: window.width + 8
-                to: window.width - playbacklistPage.width
+                to: window.width - playbacklistPage.width + 8
                 duration: 300 // 动画时长 300ms
                 easing.type: Easing.OutCubic // 缓动曲线
             }
@@ -118,7 +117,7 @@ Window {
             NumberAnimation {
                 property: "x"
                 to: window.width + 8
-                from: window.width - playbacklistPage.width
+                from: window.width - playbacklistPage.width + 8
                 duration: 300 // 动画时长 300ms
                 easing.type: Easing.OutCubic // 缓动曲线
             }

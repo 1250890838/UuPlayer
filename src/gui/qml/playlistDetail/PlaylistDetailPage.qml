@@ -110,6 +110,14 @@ Flickable {
                             }
                             onReleased: {
                                 scale = 1
+                                for (var i = 0; i < mediaItemsRepeater.mediaIds.length; i++) {
+                                    PlayService.appendMediaId(
+                                                mediaItemsRepeater.mediaIds[i])
+                                    SongService.getSongUrl(
+                                                mediaItemsRepeater.mediaIds[i])
+                                }
+                                PlayService.play(
+                                            mediaItemsRepeater.mediaIds[mediaItemsRepeater.mediaIds.length - 1])
                             }
                         }
                     }
@@ -269,9 +277,13 @@ Flickable {
                     Repeater {
                         id: mediaItemsRepeater
                         model: detail.mediaItemModel
+                        property var mediaIds: []
                         MediaItem {
                             implicitHeight: 55
                             Layout.fillWidth: true
+                            Component.onCompleted: {
+                                mediaItemsRepeater.mediaIds.push(model.id)
+                            }
                         }
                     }
                 }

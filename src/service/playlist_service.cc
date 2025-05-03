@@ -107,6 +107,7 @@ void PlaylistService::onGetHighqualityPlaylists(
 void PlaylistService::onGetSelectivePlaylists(
     network::error_code::ErrorCode code, const QByteArray& data) {
 
+  m_currPlaylists.clear();
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() || doc.isEmpty()) {

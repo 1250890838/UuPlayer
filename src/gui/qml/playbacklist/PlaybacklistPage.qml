@@ -55,6 +55,7 @@ Popup {
                 width: parent.width
                 leftPadding: 20
                 topPadding: 20
+                spacing: 2
                 Label {
                     id: playlistLabel
                     text: qsTr("播放列表")
@@ -64,7 +65,7 @@ Popup {
                 Label {
                     id: playlistSizeLabel
                     text: repeater.count
-                    font.pointSize: 5
+                    font.pointSize: 9
                     anchors.top: playlistLabel.top
                     color: "gray"
                 }
