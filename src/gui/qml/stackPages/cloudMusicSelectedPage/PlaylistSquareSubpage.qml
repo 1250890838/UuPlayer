@@ -81,7 +81,8 @@ Flickable {
                     implicitWidth: 182
                     implicitHeight: 234
                     onClicked: {
-                        let item = PlaylistsService.currPlaylists.itemAt(index)
+                        let item = PlaylistsService.currPlaylists.itemAt(
+                                model.index)
                         window.mainSwitchPage(playlistDetailPage, {
                                                   "detail": item
                                               })

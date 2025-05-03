@@ -3,9 +3,14 @@
 #include <qvariant.h>
 namespace model {
 
-MediaItem *MediaItemModel::itemAt(qint32 index)
+MediaItem MediaItemModel::itemAt(qint32 index)
 {
-  return m_items[index].get();
+  return *m_items[index].get();
+}
+
+quint32 MediaItemModel::count()
+{
+  return m_items.size();
 }
 
 MediaItemModel::MediaItemModel(QObject* parent) {}
@@ -47,6 +52,7 @@ void MediaItemModel::appendItem(const MediaItem& item) {
   beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
   m_items.append(std::make_shared<MediaItem>(item));
   endInsertRows();
+  emit countChanged();
 }
 
 void MediaItemModel::insertItem(const MediaItem& item,quint32 pos){

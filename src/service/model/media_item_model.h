@@ -69,7 +69,7 @@ struct MediaItem {
 };
 
 class MediaItemModel : public QAbstractListModel {
-  Q_OBJECT
+  Q_OBJECT  
  public:
   enum MediaRoles {
     IdRole = Qt::UserRole + 1,
@@ -80,7 +80,10 @@ class MediaItemModel : public QAbstractListModel {
     ReasonRole,
     UrlRole
   };
-  Q_INVOKABLE MediaItem* itemAt(qint32 index);
+  Q_PROPERTY(quint32 count READ count NOTIFY countChanged)
+
+  Q_INVOKABLE MediaItem itemAt(qint32 index);
+  Q_INVOKABLE quint32 count();
 
   MediaItemModel(QObject* parent = nullptr);
   int rowCount(const QModelIndex& parent) const;
@@ -93,12 +96,14 @@ class MediaItemModel : public QAbstractListModel {
   MediaItem* last();
   void clear();
   QList<std::shared_ptr<MediaItem>>& rawData();
-
+ signals:
+  void countChanged();
  private:
-  QList<std::shared_ptr<MediaItem>> m_items;
+  QList<std::shared_ptr<MediaItem>> m_items;  
 };
 }  // namespace model
 
+Q_DECLARE_METATYPE(model::MediaItemModel);
 Q_DECLARE_METATYPE(model::MediaItemModel*);
 Q_DECLARE_METATYPE(model::AlbumData);
 #endif

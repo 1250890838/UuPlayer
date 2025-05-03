@@ -53,30 +53,41 @@ Item {
             y: mouseArea.containsMouse ? image.height - parent.height * 0.4 : image.height
             isBottomLeftRounded: true
             isBottomRightRounded: true
-            Text {
+            Label {
+                id: desc
                 color: "white"
                 font.pointSize: 10.5
-                anchors.margins: 7
-                anchors.fill: parent
-                text: model.name
+                height: 55
+                width: parent.width
+                padding: 7
+                text: root.model.name
                 wrapMode: Text.WordWrap
+                elide: Qt.ElideRight
+                maximumLineCount: 2
             }
 
             Column {
                 spacing: 10
-
+                anchors.top: desc.bottom
+                anchors.topMargin: 10
+                visible: mouseArea.containsMouse
                 Repeater {
                     id: repeater
-                    model: root.model.tracks.rowCount(
-                               ) > 3 ? 3 : root.model.tracks.rowCount()
-                    Text {
+                    model: root.model.tracks.count >= 3 ? 3 : root.model.tracks.count
+                    Label {
+                        leftPadding: 7
+                        rightPadding: 7
+                        elide: Qt.ElideRight
                         text: {
-                            let a = modelData + "." + " " + root.model.tracks.itemAt(
+                            console.log(root.model.tracks.itemAt(
+                                            modelData).name)
+                            let a = (modelData + 1) + " " + root.model.tracks.itemAt(
                                     modelData).name
                             return a
                         }
+                        width: desc.width
                         color: "white"
-                        font.pointSize: 7
+                        font.pointSize: 8.5
                     }
                 }
             }

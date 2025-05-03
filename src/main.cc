@@ -37,6 +37,7 @@ int main(int argc, char* argv[]) {
                                    "service.api", 1, 0, "PlayService",
                                    "Cannot create PlayServiceEnums");
   */
+
   qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Icons.qml"_qs), "assets",
                            1, 0, "Icons");
   qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Skins.qml"_qs), "skins",
