@@ -10,7 +10,11 @@ MediaPlayer::MediaPlayer(QObject *parent) : QMediaPlayer(parent) {
 
 
 void MediaPlayer::play(const QUrl& path) {
-  this->stop();
+  if(path == this->source()){
+    play();
+    return;
+  }
+
   this->setSource(path);
   play();
 }

@@ -54,10 +54,6 @@ void PlayService::setPosition(quint64 position) {
 void PlayService::play(qulonglong id) {
   auto items = m_playbacklistModel.rawData();
 
-  if(m_currentIndex!=-1 && id == items[m_currentIndex]->id){
-    m_player.play();
-    return;
-  }
   for (int i = 0; i < items.size();i++) {
     if (items[i]->id == id) {
       m_player.play(items[i]->url);
@@ -69,10 +65,13 @@ void PlayService::play(qulonglong id) {
 }
 
 void PlayService::pause() {
+  qDebug()<< "PlayService pause called";
   m_player.pause();
 }
 
 void PlayService::next() {
+  qDebug()<< "PlayService next called";
+
   auto items = m_playbacklistModel.rawData();
   m_currentIndex++;
   if (m_currentIndex >= items.size()) {
@@ -90,6 +89,8 @@ void PlayService::next() {
 }
 
 void PlayService::previous() {
+  qDebug()<< "PlayService previous called";
+
   auto items = m_playbacklistModel.rawData();
   m_currentIndex--;
   if (m_currentIndex < 0) {

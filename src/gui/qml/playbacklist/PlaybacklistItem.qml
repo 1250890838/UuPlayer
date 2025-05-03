@@ -75,10 +75,10 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        if (PlayService.playing) {
+                        if (PlayService.playing
+                                && PlayService.currentPlayItem.id === model.id) {
                             PlayService.pause()
                         } else {
-
                             PlayService.play(model.id)
                         }
                     }

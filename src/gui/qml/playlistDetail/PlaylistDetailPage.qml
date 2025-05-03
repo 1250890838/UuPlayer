@@ -106,10 +106,10 @@ Flickable {
                             backgroundColor: "#FC3B5B"
                             hoveredBackgroundColor: "#E33552"
                             onPressed: {
-                                anchors.margins = 2
+                                scale = 0.9
                             }
                             onReleased: {
-                                anchors.margins = 0
+                                scale = 1
                             }
                         }
                     }
@@ -130,10 +130,10 @@ Flickable {
                             backgroundColor: "#eae1e7"
                             hoveredBackgroundColor: "#e2d9df"
                             onPressed: {
-                                anchors.margins = 2
+                                scale = 0.9
                             }
                             onReleased: {
-                                anchors.margins = 0
+                                scale = 1
                             }
                         }
                     }
@@ -154,10 +154,10 @@ Flickable {
                             backgroundColor: "#eae1e7"
                             hoveredBackgroundColor: "#e2d9df"
                             onPressed: {
-                                anchors.margins = 2
+                                scale = 0.9
                             }
                             onReleased: {
-                                anchors.margins = 0
+                                scale = 1
                             }
                         }
                     }
