@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import service.api 1.0
 import assets 1.0
 import components 1.0
+import network.errorcode 1.0
 
 Flickable {
     id: root
@@ -105,6 +106,20 @@ Flickable {
                             radius: 8
                             backgroundColor: "#FC3B5B"
                             hoveredBackgroundColor: "#E33552"
+
+                            function processGetAllSongStatus(status) {
+                                if (status === ErrorCode.NoError) {
+                                    PlayService.play(
+                                                mediaItemsRepeater.mediaIds[0])
+                                }
+                                for (var i = 1; i < mediaItemsRepeater.mediaIds.length; i++) {
+                                    SongService.getSongUrl(
+                                                mediaItemsRepeater.mediaIds[i])
+                                }
+                                SongService.songUrlStatus.disconnect(
+                                            processGetAllSongStatus)
+                            }
+
                             onPressed: {
                                 scale = 0.9
                             }
@@ -116,8 +131,11 @@ Flickable {
                                     SongService.getSongUrl(
                                                 mediaItemsRepeater.mediaIds[i])
                                 }
-                                PlayService.play(
-                                            mediaItemsRepeater.mediaIds[mediaItemsRepeater.mediaIds.length - 1])
+                                SongService.getSongUrl(
+                                            mediaItemsRepeater.mediaIds[0])
+                                var c = SongService.songUrlStatus.connect(
+                                            processGetAllSongStatus)
+                                console.log(c)
                             }
                         }
                     }
