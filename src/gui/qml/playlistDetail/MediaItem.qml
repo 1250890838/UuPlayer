@@ -26,7 +26,8 @@ Item {
         id: container
         anchors.fill: parent
         radius: 8
-        color: mouseArea.containsMouse ? "#ffffff" : "transparent"
+        color: (mouseArea.containsMouse
+                || PlayService.currentPlayItem.id === model.id) ? "#ffffff" : "transparent"
     }
 
     RowLayout {
@@ -57,13 +58,18 @@ Item {
         IconButton {
             id: playButton
             visible: mouseArea.containsMouse
-            icon: Icons.playGrayIcon
+                     || PlayService.currentPlayItem.id === model.id
+            icon: PlayService.playing ? Icons.pauseGrayIcon : Icons.playGrayIcon
             hoveredIcon: Icons.playGrayIcon
             Layout.preferredHeight: index.implicitHeight
             Layout.preferredWidth: headerDummyItem.width
             onClicked: {
-                SongService.getSongUrl(model.id)
-                connectFactory.createObject(this)
+                if (PlayService.playing) {
+                    PlayService.pause()
+                } else {
+                    SongService.getSongUrl(model.id)
+                    connectFactory.createObject(this)
+                }
             }
         }
         Item {

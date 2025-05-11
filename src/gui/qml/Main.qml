@@ -41,6 +41,7 @@ Window {
     }
 
     ColumnLayout {
+        id:windowMainLayout
         anchors.fill: parent
         spacing: 0
         TitleBar {

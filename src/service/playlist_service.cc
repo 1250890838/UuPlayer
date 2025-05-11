@@ -215,24 +215,24 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
     auto fitem = static_cast<model::PlaylistItem*>(item);
     auto model = fitem->mediaItemModel();
     for (const QJsonValue& track : tracks) {
-      model::MediaItem item;
-      item.id = track["id"].toVariant().toLongLong();
-      item.name = track["name"].toString();
+      model::MediaItem* item=new model::MediaItem;
+      item->id = track["id"].toVariant().toLongLong();
+      item->name = track["name"].toString();
       model::AlbumData albumData;
       auto albumObj = track["al"].toObject();
       albumData.setId(albumObj["id"].toVariant().toLongLong());
       albumData.setName(albumObj["name"].toString());
       albumData.setPicUrl(albumObj["picUrl"].toString());
-      item.albumdata = albumData;
+      item->albumdata = albumData;
       auto artistsArr = track["ar"].toArray();
       model::AristData aristData;
       for (const auto& artistValue : artistsArr) {
         auto artistObj = artistValue.toObject();
         aristData.setId(artistObj["id"].toVariant().toLongLong());
         aristData.setName(artistObj["name"].toString());
-        item.artists.append(QVariant::fromValue(aristData));
+        item->artists.append(QVariant::fromValue(aristData));
       }
-      item.duration = track["dt"].toVariant().toLongLong();
+      item->duration = track["dt"].toVariant().toLongLong();
       model->appendItem(item);
     }
   }
@@ -249,26 +249,26 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
       auto fitem = static_cast<model::PlaylistItem*>(item);
       auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
-        model::MediaItem mediaItem;
-        mediaItem.id = track["id"].toVariant().toLongLong();
-        mediaItem.name = track["name"].toString();
+        model::MediaItem* mediaItem = new model::MediaItem;
+        mediaItem->id = track["id"].toVariant().toLongLong();
+        mediaItem->name = track["name"].toString();
         model::AlbumData albumData;
         auto albumObj = track["al"].toObject();
         albumData.setId(albumObj["id"].toVariant().toLongLong());
         albumData.setName(albumObj["name"].toString());
         albumData.setPicUrl(albumObj["picUrl"].toString());
-        mediaItem.albumdata = albumData;
+        mediaItem->albumdata = albumData;
         auto artistsArr = track["ar"].toArray();
         model::AristData aristData;
         for (const auto& artistValue : artistsArr) {
           auto artistObj = artistValue.toObject();
           aristData.setId(artistObj["id"].toVariant().toLongLong());
           aristData.setName(artistObj["name"].toString());
-          mediaItem.artists.append(QVariant::fromValue(aristData));
+          mediaItem->artists.append(QVariant::fromValue(aristData));
         }
-        mediaItem.duration = track["dt"].toVariant().toLongLong();
+        mediaItem->duration = track["dt"].toVariant().toLongLong();
         model->appendItem(mediaItem);
-        g_idToMediaMap[mediaItem.id] = model->last();
+        g_idToMediaMap[mediaItem->id] = model->last();
       }
     }
   }
@@ -286,24 +286,24 @@ void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
       auto fitem = static_cast<model::PlaylistItem*>(item);
       auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
-        model::MediaItem item;
-        item.id = track["id"].toVariant().toLongLong();
-        item.name = track["name"].toString();
+        model::MediaItem* item=new model::MediaItem;
+        item->id = track["id"].toVariant().toLongLong();
+        item->name = track["name"].toString();
         model::AlbumData albumData;
         auto albumObj = track["al"].toObject();
         albumData.setId(albumObj["id"].toVariant().toLongLong());
         albumData.setName(albumObj["name"].toString());
         albumData.setPicUrl(albumObj["picUrl"].toString());
-        item.albumdata = albumData;
+        item->albumdata = albumData;
         auto artistsArr = track["ar"].toArray();
         model::AristData aristData;
         for (const auto& artistValue : artistsArr) {
           auto artistObj = artistValue.toObject();
           aristData.setId(artistObj["id"].toVariant().toLongLong());
           aristData.setName(artistObj["name"].toString());
-          item.artists.append(QVariant::fromValue(aristData));
+          item->artists.append(QVariant::fromValue(aristData));
         }
-        item.duration = track["dt"].toVariant().toLongLong();
+        item->duration = track["dt"].toVariant().toLongLong();
         model->appendItem(item);
       }
     }

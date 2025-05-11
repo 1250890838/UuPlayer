@@ -32,6 +32,9 @@ void service::SongService::onGetSongUrlFinished(
 
 void service::SongService::getSongUrl(qulonglong id) {
   auto mediaItem = g_idToMediaMap[id];
+  if(!mediaItem->url.isEmpty()){
+    return;
+  }
   if (mediaItem != nullptr) {
     m_network.getSongUrl(id, mediaItem);
   }

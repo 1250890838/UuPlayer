@@ -128,8 +128,6 @@ Flickable {
                                 for (var i = 0; i < mediaItemsRepeater.mediaIds.length; i++) {
                                     PlayService.appendMediaId(
                                                 mediaItemsRepeater.mediaIds[i])
-                                    SongService.getSongUrl(
-                                                mediaItemsRepeater.mediaIds[i])
                                 }
                                 SongService.getSongUrl(
                                             mediaItemsRepeater.mediaIds[0])

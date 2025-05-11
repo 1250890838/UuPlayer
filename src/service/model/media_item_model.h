@@ -89,17 +89,17 @@ class MediaItemModel : public QAbstractListModel {
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
-  void insertItem(const MediaItem& item,quint32 pos);
-  void appendItem(const MediaItem& item);
-  void appendItems(const QVector<MediaItem>& items);
+  void insertItem(MediaItem* item,quint32 pos);
+  void appendItem(MediaItem* item);
+  void appendItems(QVector<MediaItem*>& items);
   void removeItem(qint32 pos);
   MediaItem* last();
   void clear();
-  QList<std::shared_ptr<MediaItem>>& rawData();
+  QList<MediaItem*>& rawData();
  signals:
   void countChanged();
  private:
-  QList<std::shared_ptr<MediaItem>> m_items;  
+  QList<MediaItem*> m_items;
 };
 }  // namespace model
 

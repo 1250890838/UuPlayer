@@ -14,6 +14,58 @@ import assets 1.0
 Item {
     id: root
     Rectangle {
+        id: dragItem
+        width: 160
+        height: 40
+        visible: dragHandler.active
+        z: 9
+        x: dragHandler.centroid.position.x - width / 2
+        y: dragHandler.centroid.position.y
+        parent: dragHandler.active ? windowMainLayout : windowMainLayout
+
+        Row {
+            anchors.fill: parent
+            RoundedImage {
+                id: dragItemcoverImage
+                isTopLeftRounded: true
+                isTopRightRounded: true
+                isBottomLeftRounded: true
+                isBottomRightRounded: true
+                radius: 2
+                width: 25
+                height: 25
+                imageUrl: model.album.picUrl
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Column {
+                width: parent.width - dragItemcoverImage.width
+                Text {
+                    text: model.name
+                    elide: Qt.ElideRight
+                    width: parent.width
+                    font.pointSize: 12
+                }
+                Text {
+                    elide: Qt.ElideRight
+                    width: parent.width
+                    font.pointSize: 9
+                    color: "gray"
+                    text: {
+                        let result = ""
+                        let ars = model.artists
+                        for (let t of ars) {
+                            result += t.name
+                            result += ' / '
+                        }
+                        return result.substring(0, result.length - 3)
+                    }
+                }
+            }
+        }
+    }
+
+    Rectangle {
         id: container
         color: {
             let curColor = (hoverHandler.hovered
@@ -81,6 +133,8 @@ Item {
                         } else {
                             PlayService.play(model.id)
                         }
+                        console.log(dragItem)
+                        console.log(dragItem.parent)
                     }
                 }
             }
@@ -126,6 +180,11 @@ Item {
                 text: Utils.millisecondsToTime(model.duration)
             }
         }
+    }
+
+    DragHandler {
+        id: dragHandler
+        target: null
     }
 
     HoverHandler {

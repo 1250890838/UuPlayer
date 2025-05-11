@@ -126,7 +126,7 @@ void PlayService::appendMediaId(qulonglong id) {
   }
 
   model::MediaItem* item = g_idToMediaMap[id];
-  m_playbacklistModel.appendItem(*item);
+  m_playbacklistModel.appendItem(item);
   emit numChanged();
 }
 
@@ -143,7 +143,7 @@ void PlayService::insertNext(qulonglong id) {
     return;
   }
 
-  m_playbacklistModel.insertItem(*g_idToMediaMap[id],m_currentIndex + 1);
+  m_playbacklistModel.insertItem(g_idToMediaMap[id],m_currentIndex + 1);
   m_currentIndex++;
   emit numChanged();
 }

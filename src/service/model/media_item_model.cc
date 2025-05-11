@@ -5,7 +5,7 @@ namespace model {
 
 MediaItem MediaItemModel::itemAt(qint32 index)
 {
-  return *m_items[index].get();
+  return *m_items[index];
 }
 
 quint32 MediaItemModel::count()
@@ -48,24 +48,24 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const {
       {AlbumRole, "album"}, {ArtistRole, "artists"}, {ReasonRole, "reason"}};
 }
 
-void MediaItemModel::appendItem(const MediaItem& item) {
+void MediaItemModel::appendItem(MediaItem* item) {
   beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-  m_items.append(std::make_shared<MediaItem>(item));
+  m_items.append(item);
   endInsertRows();
   emit countChanged();
 }
 
-void MediaItemModel::insertItem(const MediaItem& item,quint32 pos){
+void MediaItemModel::insertItem(MediaItem* item,quint32 pos){
   beginInsertRows(QModelIndex(),pos,pos);
-  m_items.insert(pos,std::make_shared<MediaItem>(item));
+  m_items.insert(pos,item);
   endInsertRows();
 }
 
-void MediaItemModel::appendItems(const QVector<MediaItem>& items) {
+void MediaItemModel::appendItems(QVector<MediaItem*>& items) {
   beginInsertRows(QModelIndex(), m_items.size(),
                   m_items.size() + items.size() - 1);
   for (auto& item : items) {
-    m_items.append(std::make_shared<MediaItem>(item));
+    m_items.append(item);
   }
   endInsertRows();
 }
@@ -78,7 +78,7 @@ void MediaItemModel::removeItem(qint32 pos)
 }
 
 MediaItem* MediaItemModel::last() {
-  return const_cast<MediaItem*>(m_items[m_items.size() - 1].get());
+  return const_cast<MediaItem*>(m_items[m_items.size() - 1]);
 }
 
 void MediaItemModel::clear() {
@@ -87,7 +87,7 @@ void MediaItemModel::clear() {
   endResetModel();
 }
 
-QList<std::shared_ptr<MediaItem> >& MediaItemModel::rawData()
+QList<MediaItem*>& MediaItemModel::rawData()
 {
   return m_items;
 }
