@@ -89,11 +89,15 @@ Popup {
                     anchors.fill: parent
                     Repeater {
                         id: repeater
+                        property bool isOneDragging: false
                         model: PlayService.playbacklist
                         PlaybacklistItem {
                             id: playbacklistItem
                             implicitWidth: flickable.width
                             implicitHeight: 70
+                            onIsDraggingChanged: {
+                                repeater.isOneDragging = isDragging
+                            }
                         }
                     }
                 }
