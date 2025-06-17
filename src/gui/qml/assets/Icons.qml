@@ -44,4 +44,6 @@ Item {
     property url playbackModeListLoopIcon: "qrc:/gui/images/button_playbackmode_listloop.svg"
     property url playbackModeShuffleIcon: "qrc:/gui/images/button_playbackmode_shuffle.svg"
     property url playbackModeSingleLoopIcon: "qrc:/gui/images/button_playbackmode_singleloop.svg"
+    property url downIcon: "qrc:/gui/images/button_down.svg"
+    property url fullscreenIcon: "qrc:/gui/images/button_fullscreen.svg"
 }

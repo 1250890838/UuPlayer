@@ -14,7 +14,9 @@ Item {
         spacing: 5
         Text {
             id: textId
-            font.pointSize: 11
+            font.bold: isCurrentItem
+            font.pointSize: isCurrentItem ? 11 : 10.7
+            color: isCurrentItem ? "black" : "gray"
         }
         Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter

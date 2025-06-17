@@ -20,7 +20,7 @@ const QString apiPlaylistTracks = host + QStringLiteral("/playlist/track/all");
 const QString apiPlaylistComments = host + QStringLiteral("/comment/playlist");
 
 const QString getSongUrl = host + QStringLiteral("/song/url/v1");
-const QString getSongComment = host + QStringLiteral("/lyric");
+const QString getSongLyric = host + QStringLiteral("/lyric");
 const QString getPlaylistComment = host + QStringLiteral("comment/playlist");
 const QString getAlbumComment = host + QStringLiteral("/comment/album");
 }  // namespace network_api

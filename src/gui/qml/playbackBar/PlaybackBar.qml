@@ -31,6 +31,17 @@ Item {
                 implicitWidth: 60
                 imageUrl: mediaData.album.picUrl
                 running: PlayService.playing
+                MouseArea {
+                    id: albumDisplayMouseArea
+                    anchors.fill: parent
+                    onClicked: function () {
+                        if (lyricsViewPage.state === "opened") {
+                            lyricsViewPage.state = "closed"
+                        } else {
+                            lyricsViewPage.state = "opened"
+                        }
+                    }
+                }
             }
 
             Column {

@@ -3,13 +3,11 @@
 #include <qvariant.h>
 namespace model {
 
-MediaItem MediaItemModel::itemAt(qint32 index)
-{
+MediaItem MediaItemModel::itemAt(qint32 index) {
   return *m_items[index];
 }
 
-quint32 MediaItemModel::count()
-{
+quint32 MediaItemModel::count() {
   return m_items.size();
 }
 
@@ -55,9 +53,9 @@ void MediaItemModel::appendItem(MediaItem* item) {
   emit countChanged();
 }
 
-void MediaItemModel::insertItem(MediaItem* item,quint32 pos){
-  beginInsertRows(QModelIndex(),pos,pos);
-  m_items.insert(pos,item);
+void MediaItemModel::insertItem(MediaItem* item, quint32 pos) {
+  beginInsertRows(QModelIndex(), pos, pos);
+  m_items.insert(pos, item);
   endInsertRows();
 }
 
@@ -70,15 +68,17 @@ void MediaItemModel::appendItems(QVector<MediaItem*>& items) {
   endInsertRows();
 }
 
-void MediaItemModel::removeItem(qint32 pos)
-{
-  beginRemoveRows(QModelIndex(),pos,pos);
+void MediaItemModel::removeItem(qint32 pos) {
+  beginRemoveRows(QModelIndex(), pos, pos);
   m_items.remove(pos);
   endRemoveRows();
 }
 
 MediaItem* MediaItemModel::last() {
-  return const_cast<MediaItem*>(m_items[m_items.size() - 1]);
+  if (m_items.size() != 0) {
+    return const_cast<MediaItem*>(m_items[m_items.size() - 1]);
+  }
+  return nullptr;
 }
 
 void MediaItemModel::clear() {
@@ -87,8 +87,7 @@ void MediaItemModel::clear() {
   endResetModel();
 }
 
-QList<MediaItem*>& MediaItemModel::rawData()
-{
+QList<MediaItem*>& MediaItemModel::rawData() {
   return m_items;
 }
 

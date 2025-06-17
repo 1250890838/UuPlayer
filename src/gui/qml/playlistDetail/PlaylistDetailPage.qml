@@ -309,7 +309,6 @@ Flickable {
                 width: parent.width
                 implicitHeight: 200
                 visible: stackLayout.currentIndex === 1
-
                 UTextEdit {
                     id: commentTextEdit
                     radius: 10

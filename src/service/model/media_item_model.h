@@ -55,6 +55,7 @@ struct MediaItem {
   Q_PROPERTY(QVariantList artists MEMBER artists)
   Q_PROPERTY(QString reason MEMBER reason)
   Q_PROPERTY(QUrl url MEMBER url)
+  Q_PROPERTY(QVariantList lyrics MEMBER lyrics)
  public:
   AlbumData album() { return albumdata; }
   void setAlbum(const AlbumData& data) { albumdata = data; }
@@ -66,6 +67,7 @@ struct MediaItem {
   QVariantList artists; // QList<AristData> artists
   QString reason;
   QUrl url;
+  QVariantList lyrics;
 };
 
 class MediaItemModel : public QAbstractListModel {

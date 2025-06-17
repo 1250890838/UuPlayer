@@ -59,12 +59,14 @@ Item {
             id: playButton
             visible: mouseArea.containsMouse
                      || PlayService.currentPlayItem.id === model.id
-            icon: PlayService.playing ? Icons.pauseGrayIcon : Icons.playGrayIcon
+            icon: PlayService.playing && PlayService.currentPlayItem.id
+                  === model.id ? Icons.pauseGrayIcon : Icons.playGrayIcon
             hoveredIcon: Icons.playGrayIcon
             Layout.preferredHeight: index.implicitHeight
             Layout.preferredWidth: headerDummyItem.width
             onClicked: {
-                if (PlayService.playing) {
+                if (PlayService.playing
+                        && PlayService.currentPlayItem.id === model.id) {
                     PlayService.pause()
                 } else {
                     SongService.getSongUrl(model.id)

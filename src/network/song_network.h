@@ -22,6 +22,7 @@ class NETWORK_DLL_EXPORT SongNetwork : public BasicNetwork {
 
  signals:
   void getSongUrlFinished(error_code::ErrorCode code,const QByteArray&,void* item);
+  void getSongLyricFinished(error_code::ErrorCode code,const QByteArray&,qulonglong id);
 };
 }  // namespace network
 #endif  // SONG_NETWORK_H

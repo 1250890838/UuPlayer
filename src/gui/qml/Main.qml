@@ -14,6 +14,7 @@ import "titleBar"
 import "playlistDetail"
 import "playbackBar"
 import "playbacklist"
+import "lyricsView"
 
 Window {
     id: window
@@ -41,7 +42,7 @@ Window {
     }
 
     ColumnLayout {
-        id:windowMainLayout
+        id: windowMainLayout
         anchors.fill: parent
         spacing: 0
         TitleBar {
@@ -96,7 +97,7 @@ Window {
         height: stackView.height
         x: parent.width - 15
         y: parent.height / 10
-        z: 99
+        z: 5
     }
 
     PlaybacklistPage {
@@ -110,8 +111,8 @@ Window {
                 property: "x"
                 from: window.width + 8
                 to: window.width - playbacklistPage.width + 8
-                duration: 300 // 动画时长 300ms
-                easing.type: Easing.OutCubic // 缓动曲线
+                duration: 300
+                easing.type: Easing.OutCubic
             }
         }
         exit: Transition {
@@ -119,8 +120,43 @@ Window {
                 property: "x"
                 to: window.width + 8
                 from: window.width - playbacklistPage.width + 8
-                duration: 300 // 动画时长 300ms
-                easing.type: Easing.OutCubic // 缓动曲线
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+        }
+    }
+
+    LyricsViewPage {
+        id: lyricsViewPage
+        width: window.width
+        height: 0
+        x: 0
+        y: window.height
+        z: 10
+        states: [
+            State {
+                name: "closed"
+                PropertyChanges {
+                    target: lyricsViewPage
+                    height: 0
+                    y: window.height
+                }
+            },
+            State {
+                name: "opened"
+                PropertyChanges {
+                    target: lyricsViewPage
+                    height: window.height
+                    y: 0
+                }
+            }
+        ]
+        transitions: Transition {
+            PropertyAnimation {
+                id: yPropertyAnimation
+                properties: "y,height"
+                easing.type: Easing.InExpo
+                duration: 200
             }
         }
     }

@@ -22,6 +22,7 @@ void PlaylistNetwork::getHighqualityPlaylists(qint32 limit, qint32 tag) {
        emit this->getHighqualityPlaylistsFinished(error_code::OtherError,
                                                  QByteArray());
     }
+    reply->deleteLater();
   });
 }
 
@@ -41,6 +42,7 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, const QString& tag,qin
         emit getSelectivePlaylistsFinished(error_code::OtherError,
                                            QByteArray());
     }
+    reply->deleteLater();
   });
 }
   void PlaylistNetwork::getPlaylistsCatlist() {
@@ -57,6 +59,7 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, const QString& tag,qin
         emit getPlaylistsCatlistFinished(error_code::OtherError,
                                            QByteArray());
       }
+      reply->deleteLater();
   });
 }
 
@@ -74,6 +77,7 @@ void PlaylistNetwork::getPlaylistDetail(qulonglong id,void* item){
       emit getPlaylistDetailFinished(error_code::OtherError,
                                        QByteArray(),item);
     }
+    reply->deleteLater();
   });
 }
 
@@ -91,6 +95,7 @@ void PlaylistNetwork::getPlaylistTracks(qulonglong id,void* item){
       emit getPlaylistTracksFinished(error_code::OtherError,
                                      QByteArray(),item);
     }
+    reply->deleteLater();
   });
 }
 
@@ -108,6 +113,7 @@ void PlaylistNetwork::getPlaylistComments(qulonglong id, void* item) {
       emit getPlaylistCommentsFinished(error_code::OtherError,
                                      QByteArray(),item);
     }
+    reply->deleteLater();
   });
 }
 

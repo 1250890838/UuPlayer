@@ -24,9 +24,9 @@ PlaylistService::PlaylistService(QObject* parent)
     : QObject(parent), m_currLimit(4), m_currOffset(0) {
   using namespace network;
   connect(&m_network, &PlaylistNetwork::getHighqualityPlaylistsFinished, this,
-          &PlaylistService::onGetHighqualityPlaylists);
+          &PlaylistService::onGetHighqualityPlaylists, Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getSelectivePlaylistsFinished, this,
-          &PlaylistService::onGetSelectivePlaylists);
+          &PlaylistService::onGetSelectivePlaylists, Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistsCatlistFinished, this,
           &PlaylistService::onGetPlaylistsCatlist);
   connect(&m_network, &PlaylistNetwork::getPlaylistDetailFinished, this,
@@ -215,7 +215,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
     auto fitem = static_cast<model::PlaylistItem*>(item);
     auto model = fitem->mediaItemModel();
     for (const QJsonValue& track : tracks) {
-      model::MediaItem* item=new model::MediaItem;
+      model::MediaItem* item = new model::MediaItem;
       item->id = track["id"].toVariant().toLongLong();
       item->name = track["name"].toString();
       model::AlbumData albumData;
@@ -267,6 +267,7 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
           mediaItem->artists.append(QVariant::fromValue(aristData));
         }
         mediaItem->duration = track["dt"].toVariant().toLongLong();
+        model->last();
         model->appendItem(mediaItem);
         g_idToMediaMap[mediaItem->id] = model->last();
       }
@@ -286,7 +287,7 @@ void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
       auto fitem = static_cast<model::PlaylistItem*>(item);
       auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
-        model::MediaItem* item=new model::MediaItem;
+        model::MediaItem* item = new model::MediaItem;
         item->id = track["id"].toVariant().toLongLong();
         item->name = track["name"].toString();
         model::AlbumData albumData;

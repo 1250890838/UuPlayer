@@ -4,8 +4,8 @@
 #include <QObject>
 
 namespace service {
-PlayService::PlayService():m_currentIndex(-1) {
- // connect(&m_player, &engine::MediaPlayer::playingChanged, this,
+PlayService::PlayService() : m_currentIndex(-1) {
+  // connect(&m_player, &engine::MediaPlayer::playingChanged, this,
   //        &PlayService::playingChanged);
   connect(&m_player, &engine::MediaPlayer::durationChanged, this,
           &PlayService::durationChanged);
@@ -13,7 +13,8 @@ PlayService::PlayService():m_currentIndex(-1) {
           &PlayService::positionChanged);
   connect(&m_player, &engine::MediaPlayer::playbackStateChanged, this,
           &PlayService::onPlaybackStateChanged);
-  connect(&m_player,&engine::MediaPlayer::mediaStatusChanged,this,&PlayService::onMediaStatusChanged);
+  connect(&m_player, &engine::MediaPlayer::mediaStatusChanged, this,
+          &PlayService::onMediaStatusChanged);
 }
 
 bool PlayService::isPlaying() {
@@ -32,7 +33,6 @@ qint64 PlayService::num() {
   return m_playbacklistModel.rowCount(QModelIndex());
 }
 
-
 void PlayService::setPlaybackMode(PlaybackMode mode) {
   m_playbackMode = mode;
   emit playbackModeChanged();
@@ -42,8 +42,7 @@ PlayService::PlaybackMode PlayService::playbackMode() {
   return m_playbackMode;
 }
 
-model::MediaItemModel *PlayService::playbacklist()
-{
+model::MediaItemModel* PlayService::playbacklist() {
   return &m_playbacklistModel;
 }
 
@@ -54,10 +53,11 @@ void PlayService::setPosition(quint64 position) {
 void PlayService::play(qulonglong id) {
   auto items = m_playbacklistModel.rawData();
 
-  for (int i = 0; i < items.size();i++) {
+  for (int i = 0; i < items.size(); i++) {
     if (items[i]->id == id) {
       m_player.play(items[i]->url);
       m_currentIndex = i;
+      qDebug() << "play media id=" << id << " " << items[i]->url;
       emit currentPlayItemChanged();
       break;
     }
@@ -65,12 +65,12 @@ void PlayService::play(qulonglong id) {
 }
 
 void PlayService::pause() {
-  qDebug()<< "PlayService pause called";
+  qDebug() << "PlayService pause called";
   m_player.pause();
 }
 
 void PlayService::next() {
-  qDebug()<< "PlayService next called";
+  qDebug() << "PlayService next called";
 
   auto items = m_playbacklistModel.rawData();
   m_currentIndex++;
@@ -89,7 +89,7 @@ void PlayService::next() {
 }
 
 void PlayService::previous() {
-  qDebug()<< "PlayService previous called";
+  qDebug() << "PlayService previous called";
 
   auto items = m_playbacklistModel.rawData();
   m_currentIndex--;
@@ -107,8 +107,7 @@ void PlayService::previous() {
   }
 }
 
-void PlayService::play()
-{
+void PlayService::play() {
   m_player.play();
 }
 
@@ -143,7 +142,7 @@ void PlayService::insertNext(qulonglong id) {
     return;
   }
 
-  m_playbacklistModel.insertItem(g_idToMediaMap[id],m_currentIndex + 1);
+  m_playbacklistModel.insertItem(g_idToMediaMap[id], m_currentIndex + 1);
   m_currentIndex++;
   emit numChanged();
 }
@@ -166,11 +165,10 @@ void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {
   }
 }
 
-void PlayService::onMediaStatusChanged(QMediaPlayer::MediaStatus status)
-{
-  if(status == QMediaPlayer::EndOfMedia)
-  {
-    operateForPlaybackMode();;
+void PlayService::onMediaStatusChanged(QMediaPlayer::MediaStatus status) {
+  if (status == QMediaPlayer::EndOfMedia) {
+    operateForPlaybackMode();
+    ;
   }
 }
 
@@ -179,14 +177,14 @@ void PlayService::operateForPlaybackMode() {
   switch (m_playbackMode) {
     case PlaybackMode::Sequentially:
       m_currentIndex++;
-      if(m_currentIndex<items.size()){
+      if (m_currentIndex < items.size()) {
         play(items[m_currentIndex]->id);
       }
       break;
     case PlaybackMode::ListLoop:
       m_currentIndex++;
-      if(m_currentIndex>=items.size()){
-        m_currentIndex=0;
+      if (m_currentIndex >= items.size()) {
+        m_currentIndex = 0;
       }
       play(items[m_currentIndex]->id);
       break;

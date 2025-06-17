@@ -30,9 +30,13 @@ class SERVICE_DLL_EXPORT SongService : public QObject {
   SongService(QObject* parent = nullptr);
  public slots:
   void onGetSongUrlFinished(network::error_code::ErrorCode code,const QByteArray&,void* item);
+  void onGetSongLyricFinished(network::error_code::ErrorCode code,const QByteArray&,qulonglong id);
+ private:
+  QVariantList parseLyricStr(const QString& lyric);
  private:
   network::SongNetwork m_network;
  signals:
   void songUrlStatus(network::error_code::ErrorCode code);
+  void songLyricStatus(network::error_code::ErrorCode code);
 };
 }  // namespace service
