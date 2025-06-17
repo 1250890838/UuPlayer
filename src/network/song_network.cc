@@ -31,7 +31,7 @@ void SongNetwork::getSongLyric(qulonglong id) {
   QUrl url = network_api::getSongLyric + "?" + "id=" + QString::number(id);
   request.setUrl(url);
   auto reply = this->get(request);
-  connect(reply,&QNetworkReply::finished,this,[reply,this,id]{
+  connect(reply, &QNetworkReply::finished, this, [reply, this, id] {
     auto e = reply->error();
     if(e==QNetworkReply::NoError)
     {
@@ -41,7 +41,8 @@ void SongNetwork::getSongLyric(qulonglong id) {
     else{
       emit this->getSongLyricFinished(error_code::OtherError,QByteArray(),id);
     }
-  })
+    reply->deleteLater();
+  });
 }
 
 void SongNetwork::getSongNewLyric(qulonglong id) {}

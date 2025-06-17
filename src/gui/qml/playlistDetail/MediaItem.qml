@@ -70,6 +70,7 @@ Item {
                     PlayService.pause()
                 } else {
                     SongService.getSongUrl(model.id)
+                    SongService.getSongLyric(model.id)
                     connectFactory.createObject(this)
                 }
             }

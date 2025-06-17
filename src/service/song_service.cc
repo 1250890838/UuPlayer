@@ -34,36 +34,39 @@ void service::SongService::onGetSongUrlFinished(
 }
 
 void service::SongService::onGetSongLyricFinished(
-    network::error_code::ErrorCode code, const QByteArray& data, qulonglong id) {
-  if(code == network::error_code::NoError)
-  {
+    network::error_code::ErrorCode code, const QByteArray& data,
+    qulonglong id) {
+  if (code == network::error_code::NoError) {
     auto mediaItem = g_idToMediaMap[id];
-    if(mediaItem!=nullptr)
-    {
+    if (mediaItem != nullptr) {
       QJsonDocument doc = QJsonDocument::fromJson(data);
       auto obj = doc.object();
       auto lyricStr = obj["lrc"].toObject()["lyric"].toString();
-      parseLyricStr(lyricStr);
+      mediaItem->lyrics = parseLyricStr(lyricStr);
     }
   }
   emit songLyricStatus(code);
 }
 
-QVariantList service::SongService::parseLyricStr(const QString& lyric)
-{
+QVariantList service::SongService::parseLyricStr(const QString& lyric) {
+  QRegularExpression regex(R"($$(\d{2}):(\d{2})\.(\d{3})$$\s*(.*))");
   QStringList lines = lyric.split(",");
-  QRegularExpression regex(R"(($$\d+:\d+\.\d+$$)+(.*))");
-  for(const auto& line:lines)
-  {
+  QVariantList result;
+  for (const auto& line : lines) {
     QRegularExpressionMatch match = regex.match(line);
-    if(!match.hasMatch())
-      continue;
-    QString text = match.captured(2).trimmed();
-    if (text.isEmpty()) continue;
-    QRegularExpression timeRegex(R"($$(\d+):(\d+)\.(\d+)$$)");
-    QRegularExpressionMatchIterator timeIt = timeRegex.globalMatch(line);
-
+    if (match.hasMatch()) {
+      int minutes = match.captured(1).toInt();
+      int seconds = match.captured(2).toInt();
+      int milliseconds = match.captured(3).toInt();
+      int totalMs = minutes * 60000 + seconds * 1000 + milliseconds;
+      QString text = match.captured(4).trimmed();
+      QVariantMap map;
+      map["text"] = text;
+      map["end"] = totalMs;
+      result.append(map);
+    }
   }
+  return result;
 }
 
 void service::SongService::getSongUrl(qulonglong id) {
