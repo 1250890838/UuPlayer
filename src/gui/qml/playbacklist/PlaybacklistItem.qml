@@ -13,15 +13,18 @@ import assets 1.0
   */ //edeeef
 Item {
     id: root
+    property alias isDragging: dragArea.drag.active
+    signal dragPointChanged(point p)
+
     Rectangle {
         id: dragItem
         width: 160
         height: 40
-        visible: dragHandler.active
+        visible: dragArea.drag.active
+        Drag.active: dragArea.drag.active
+        Drag.hotSpot.x: 80
+        Drag.hotSpot.y: 20
         z: 9
-        x: dragHandler.centroid.position.x - width / 2
-        y: dragHandler.centroid.position.y
-        parent: dragHandler.active ? windowMainLayout : windowMainLayout
 
         Row {
             anchors.fill: parent
@@ -76,7 +79,7 @@ Item {
         anchors.fill: parent
         Row {
             id: row
-            height: parent.height
+            height: parent.height - 5
             spacing: 10
 
             Item {
@@ -180,11 +183,35 @@ Item {
                 text: Utils.millisecondsToTime(model.duration)
             }
         }
+
+        Rectangle {
+            id: dropIndicator
+            color: "#3498db"
+            DropArea {
+                height: 2
+                width: parent.width - 20
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: repeater.isOneDragging
+                y: 0
+                z: 3 // Above list items
+            }
+        }
     }
 
-    DragHandler {
-        id: dragHandler
-        target: null
+    MouseArea {
+        id: dragArea
+        anchors.fill: parent
+        drag.target: dragItem
+        propagateComposedEvents: true
+
+        onPositionChanged: mouse => {
+                               root.dragPointChanged(Qt.point(mouse.x, mouse.y))
+                           }
+
+        onReleased: {
+            dragItem.x = 0
+            dragItem.y = 0
+        }
     }
 
     HoverHandler {
