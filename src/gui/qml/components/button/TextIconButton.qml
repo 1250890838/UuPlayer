@@ -18,6 +18,8 @@ Item {
     property color hoveredBackgroundColor: "transparent"
     property real radius
     property real margins: 0
+    property int borderWidth: 0
+    property color borderColor: "white"
 
     signal clicked
     signal pressed
@@ -28,6 +30,8 @@ Item {
         anchors.fill: parent
         color: mouseArea.containsMouse ? root.hoveredBackgroundColor : root.backgroundColor
         radius: root.radius
+        border.width: root.borderWidth
+        border.color: root.borderColor
         Row {
             id: row
             spacing: 5

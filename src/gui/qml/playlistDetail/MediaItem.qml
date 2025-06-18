@@ -45,12 +45,25 @@ Item {
             Connections {
                 id: playSongConnection
                 target: SongService
+                property int count: 2
                 function onSongUrlStatus(code) {
                     if (code === ErrorCode.NoError) {
                         PlayService.appendMediaId(model.id)
                         PlayService.play(model.id)
                     }
-                    playSongConnection.destroy()
+                    console.log("song url status" + code)
+                    count--
+                    if (count == 0)
+                        playSongConnection.destroy()
+                }
+                function onSongLyricStatus(code) {
+                    if (code === ErrorCode.NoError) {
+                        lyricsViewPage.updateMedia()
+                    }
+                    console.log("song lyric status" + code)
+                    count--
+                    if (count == 0)
+                        playSongConnection.destroy()
                 }
             }
         }

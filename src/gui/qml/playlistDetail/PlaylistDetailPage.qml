@@ -245,7 +245,6 @@ Flickable {
             Item {
                 id: songsPage
 
-
                 /*
                  *ColumnLayout implicitHeight的stackLayout的部分高度是由stackLayout所有子节点中height最大的那个来确定的
                  *无论这个节点是否是当前stackLayout显示的节点，所以在songsPage这个节点中，我设置了‘如果当前节点不是在栈顶，高度设置为0’，

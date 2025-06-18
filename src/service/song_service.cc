@@ -49,8 +49,8 @@ void service::SongService::onGetSongLyricFinished(
 }
 
 QVariantList service::SongService::parseLyricStr(const QString& lyric) {
-  QRegularExpression regex(R"($$(\d{2}):(\d{2})\.(\d{3})$$\s*(.*))");
-  QStringList lines = lyric.split(",");
+  QRegularExpression regex(R"(\[(\d{2}):(\d{2})\.(\d{2,3})\]\s*(.*))");
+  QStringList lines = lyric.split("\n");
   QVariantList result;
   for (const auto& line : lines) {
     QRegularExpressionMatch match = regex.match(line);
@@ -61,17 +61,19 @@ QVariantList service::SongService::parseLyricStr(const QString& lyric) {
       int totalMs = minutes * 60000 + seconds * 1000 + milliseconds;
       QString text = match.captured(4).trimmed();
       QVariantMap map;
-      map["text"] = text;
+      map["lyric"] = text;
       map["end"] = totalMs;
       result.append(map);
     }
   }
+  qDebug() << "current lyrics line length" << result.size();
   return result;
 }
 
 void service::SongService::getSongUrl(qulonglong id) {
   auto mediaItem = g_idToMediaMap[id];
   if (!mediaItem->url.isEmpty()) {
+    emit songUrlStatus(network::error_code::NoError);
     return;
   }
   if (mediaItem != nullptr) {
@@ -83,6 +85,13 @@ void service::SongService::checkSongEnable(qulonglong id) {}
 
 void service::SongService::getSongComments(qulonglong id) {}
 
-void service::SongService::getSongLyric(qulonglong id) {}
+void service::SongService::getSongLyric(qulonglong id) {
+  auto mediaItem = g_idToMediaMap[id];
+  if (!mediaItem->lyrics.isEmpty()) {
+    emit songLyricStatus(network::error_code::NoError);
+    return;
+  }
+  m_network.getSongLyric(id);
+}
 
 void service::SongService::getSongNewLyric(qulonglong id) {}

@@ -115,6 +115,8 @@ qt_add_qml_module(gui
         QML_FILES qml/playbacklist/PlaybacklistItem.qml
         QML_FILES qml/lyricsView/LyricsViewPage.qml
         RESOURCES images/button_fullscreen.svg images/button_down.svg
+        QML_FILES qml/lyricsView/LyricItem.qml
+        QML_FILES qml/lyricsView/RecordPlayer.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)
