@@ -4,6 +4,7 @@ import QtQuick.Controls
 Item {
     id: root
     property alias text: textId.text
+    property alias additionText: additionTextId.text
     property alias textColor: textId.color
     property bool isCurrentItem: false
     signal clicked
@@ -12,14 +13,23 @@ Item {
     Column {
         id: column
         spacing: 5
-        Text {
-            id: textId
-            font.bold: isCurrentItem
-            font.pointSize: isCurrentItem ? 11 : 10.7
-            color: isCurrentItem ? "black" : "gray"
+        Row {
+            spacing: 3
+            Text {
+                id: textId
+                font.bold: isCurrentItem
+                font.pointSize: isCurrentItem ? 11 : 10.7
+                color: isCurrentItem ? "black" : "gray"
+            }
+            Text {
+                id: additionTextId
+                font.bold: isCurrentItem
+                font.pointSize: textId.font.pointSize - 4
+                anchors.top: parent.top
+            }
         }
         Rectangle {
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
             width: 15
             height: 3.5
             color: "red"

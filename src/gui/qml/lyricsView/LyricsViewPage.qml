@@ -66,11 +66,12 @@ Page {
         anchors.fill: parent
         anchors.margins: 100
         spacing: 100
-        Rectangle {
-            id: testRect
+        RecordPlayer {
+            id: recorder
+            albumImagePath: root.media.album.picUrl
             Layout.preferredWidth: root.width / 3.5
-            Layout.preferredHeight: testRect.width
-            radius: testRect.width / 2
+            Layout.preferredHeight: recorder.width
+            playing: PlayService.playing
         }
 
         Item {
@@ -129,7 +130,6 @@ Page {
                     }
                     onContentYChanged: {
                         if (!autoUpdateIndex) {
-                            // 计算当前可视区域的中间项
                             var middleY = contentY + height / 2
                             var middleIndex = indexAt(width / 2, middleY)
                             if (middleIndex >= 0
@@ -162,7 +162,6 @@ Page {
                         function onPositionChanged(position) {
                             if (lyricsListView.currentIndex === root.media.lyrics.length - 1)
                                 return
-
                             if (lyricsListView.autoUpdateIndex) {
                                 lyricsListView.currentIndex
                                         = Utils.findClosestLowerIndexBinarySearch(

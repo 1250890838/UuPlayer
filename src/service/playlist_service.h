@@ -16,6 +16,9 @@
 namespace service {
 
 extern QMap<qulonglong, model::MediaItem*> g_idToMediaMap;
+extern QMap<qulonglong, model::PlaylistItem*> g_idToPlaylistMap;
+
+
 //从网络获取歌单服务
 class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_OBJECT
@@ -68,6 +71,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
  private:
   network::PlaylistNetwork m_network;
   model::PlaylistItemModel m_currPlaylists;
+  ;
   QVariantMap m_catlist;
 
   qint32 m_currLimit;

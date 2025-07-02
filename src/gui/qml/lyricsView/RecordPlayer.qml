@@ -1,97 +1,71 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import service.api 1.0
+import components 1.0
 
 Item {
-    width: 400
-    height: 400
-
-    // 光盘
-    Rectangle {
-        id: disc
-        width: 200
-        height: 200
-        radius: width / 2
-        color: "transparent"
-        border.color: "gray"
-        anchors.centerIn: parent
-
-        // 光盘纹理（模拟唱片纹路）
-        Repeater {
-            model: 20
-            Rectangle {
-                width: disc.width - 20
-                height: 1
-                color: "black"
-                anchors.centerIn: disc
-                rotation: index * 18 // 每18度画一条线
-            }
-        }
-
-        // 光盘旋转动画
-        RotationAnimation {
-            id: discRotation
-            target: disc
-            from: 0
-            to: 360
-            duration: 2000 // 旋转速度
-            loops: Animation.Infinite
-            running: false // 默认不旋转
-        }
-    }
-
-    // 播放杆（模拟唱臂）
-    Rectangle {
-        id: tonearm
-        width: 120
-        height: 4
-        color: "black"
-        transformOrigin: Item.Left // 以左端为旋转中心
-        x: disc.x + disc.width / 2
-        y: disc.y - 50
-        rotation: -30 // 初始抬起角度
-
-        // 杆的底座（固定点）
-        Rectangle {
-            width: 10
-            height: 10
-            radius: 5
-            color: "silver"
-            anchors.right: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-        }
-    }
-
-    // 播放/停止按钮
-    Button {
-        text: player.playing ? "Stop" : "Play"
-        onClicked: player.playing ? player.stop() : player.play()
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    // 播放器逻辑
+    id: root
+    property url albumImagePath
     property bool playing: false
 
-    function play() {
-        playing = true
-        discRotation.start() // 开始旋转光盘
-        tonearmAnim.to = 0 // 杆子落下到0度（水平）
-        tonearmAnim.start()
+    Canvas {
+        id: canvas
+        anchors.fill: parent
+
+        onPaint: {
+            var ctx = getContext("2d")
+            const gradient = ctx.createRadialGradient(canvas.width / 2,
+                                                      canvas.height / 2, 0,
+                                                      canvas.width / 2,
+                                                      canvas.height / 2,
+                                                      canvas.width / 2)
+            gradient.addColorStop(0, '#1a1a1a')
+            gradient.addColorStop(1, '#0a0a0a')
+
+            ctx.beginPath()
+            ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, 0,
+                    Math.PI * 2)
+            ctx.fillStyle = gradient
+            ctx.fill()
+            ctx.beginPath()
+            ctx.arc(canvas.width / 2, canvas.height / 2, 20, 0, Math.PI * 2)
+            ctx.fillStyle = '#c0c0c0'
+            ctx.fill()
+            drawGrooves(ctx)
+        }
+
+        function drawGrooves(ctx) {
+            ctx.strokeStyle = '#12121280'
+            ctx.lineWidth = 1.5
+            for (var r = 100; r <= canvas.width / 2; r += 5) {
+                ctx.beginPath()
+                ctx.arc(canvas.width / 2, canvas.height / 2, r, 0, Math.PI * 2)
+                ctx.stroke()
+            }
+        }
     }
 
-    function stop() {
-        playing = false
-        discRotation.stop() // 停止旋转光盘
-        tonearmAnim.to = -30 // 杆子抬起
-        tonearmAnim.start()
-    }
+    RoundedImage {
+        id: albumImage
+        property int currentRotation: 0
 
-    // 杆子动画
-    NumberAnimation {
-        id: tonearmAnim
-        target: tonearm
-        property: "rotation"
-        duration: 500 // 动画时长
-        easing.type: Easing.InOutQuad // 平滑缓动
+        anchors.centerIn: parent
+        imageUrl: root.albumImagePath
+        width: parent.width / 3 * 2
+        height: width
+        radius: height / 2
+        isTopLeftRounded: true
+        isTopRightRounded: true
+        isBottomLeftRounded: true
+        isBottomRightRounded: true
+        RotationAnimation on rotation {
+            from: albumImage.rotation
+            to: 360
+            duration: 60000
+            loops: Animation.Infinite
+            running: root.playing
+            onStopped: albumImage.currentRotation = albumImage.rotation
+        }
     }
+    onAlbumImagePathChanged: albumImage.currentRotation = 0
 }

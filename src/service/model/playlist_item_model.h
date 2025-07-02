@@ -153,12 +153,12 @@ class PlaylistItemModel : public QAbstractListModel {
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
-  void appendItem(const PlaylistItem& item);
+  void appendItem(PlaylistItem* item);
   void appendItems(const QVector<PlaylistItem>& items);
   void clear();
 
  private:
-  QList<std::shared_ptr<PlaylistItem>> m_items;
+  QList<PlaylistItem*> m_items;
 };
 }  // namespace model
 

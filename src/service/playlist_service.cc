@@ -19,6 +19,7 @@
 namespace service {
 
 QMap<qulonglong, model::MediaItem*> g_idToMediaMap;
+QMap<qulonglong, model::PlaylistItem*> g_idToPlaylistMap;
 
 PlaylistService::PlaylistService(QObject* parent)
     : QObject(parent), m_currLimit(4), m_currOffset(0) {
@@ -82,19 +83,23 @@ void PlaylistService::onGetHighqualityPlaylists(
         QJsonArray playlists = obj["playlists"].toArray();
         for (const QJsonValue& playlist : playlists) {
           auto o = playlist.toObject();
-          model::PlaylistItem item;
-          item.setId(o["id"].toVariant().toLongLong());
-          item.setName(o["name"].toString());
-          item.setUserId(o["userId"].toVariant().toLongLong());
-          item.setCreateTime(o["createTime"].toVariant().toLongLong());
-          item.setUpdateTime(o["updateTime"].toVariant().toLongLong());
-          item.setCoverUrl(QUrl(o["coverImgUrl"].toString()));
-          item.setDesc(o["description"].toString());
-          item.setTags(formatTags(o["tags"].toArray()));
-          item.setPlayCount(o["playCount"].toVariant().toLongLong());
-          item.setCreator(formatCreator(o["creator"].toObject()));
-          item.setSubscribers(formatSubscribers(o["subscribers"].toArray()));
-          item.setSubscribed(o["subscribed"].toBool());
+          model::PlaylistItem* item = g_idToPlaylistMap.value(
+              o["id"].toVariant().toLongLong(), nullptr);
+          if (item == nullptr) {
+            item = new model::PlaylistItem();
+          }
+          item->setId(o["id"].toVariant().toLongLong());
+          item->setName(o["name"].toString());
+          item->setUserId(o["userId"].toVariant().toLongLong());
+          item->setCreateTime(o["createTime"].toVariant().toLongLong());
+          item->setUpdateTime(o["updateTime"].toVariant().toLongLong());
+          item->setCoverUrl(QUrl(o["coverImgUrl"].toString()));
+          item->setDesc(o["description"].toString());
+          item->setTags(formatTags(o["tags"].toArray()));
+          item->setPlayCount(o["playCount"].toVariant().toLongLong());
+          item->setCreator(formatCreator(o["creator"].toObject()));
+          item->setSubscribers(formatSubscribers(o["subscribers"].toArray()));
+          item->setSubscribed(o["subscribed"].toBool());
           m_currPlaylists.appendItem(item);
         }
       }
@@ -123,23 +128,27 @@ void PlaylistService::onGetSelectivePlaylists(
         QJsonArray playlists = obj["playlists"].toArray();
         for (const QJsonValue& playlist : playlists) {
           auto o = playlist.toObject();
-          model::PlaylistItem item;
-          item.setId(o["id"].toVariant().toLongLong());
-          item.setName(o["name"].toString());
-          item.setUserId(o["userId"].toVariant().toLongLong());
-          item.setCreateTime(o["createTime"].toVariant().toLongLong());
-          item.setUpdateTime(o["updateTime"].toVariant().toLongLong());
-          item.setCoverUrl(QUrl(o["coverImgUrl"].toString()));
-          item.setDesc(o["description"].toString());
-          item.setTags(formatTags(o["tags"].toArray()));
-          item.setPlayCount(o["playCount"].toVariant().toLongLong());
-          item.setCreator(formatCreator(o["creator"].toObject()));
-          item.setSubscribers(formatSubscribers(o["subscribers"].toArray()));
-          item.setSubscribed(o["subscribed"].toBool());
-          item.setSubscribedCount(
+          model::PlaylistItem* item = g_idToPlaylistMap.value(
+              o["id"].toVariant().toLongLong(), nullptr);
+          if (item == nullptr) {
+            item = new model::PlaylistItem();
+          }
+          item->setId(o["id"].toVariant().toLongLong());
+          item->setName(o["name"].toString());
+          item->setUserId(o["userId"].toVariant().toLongLong());
+          item->setCreateTime(o["createTime"].toVariant().toLongLong());
+          item->setUpdateTime(o["updateTime"].toVariant().toLongLong());
+          item->setCoverUrl(QUrl(o["coverImgUrl"].toString()));
+          item->setDesc(o["description"].toString());
+          item->setTags(formatTags(o["tags"].toArray()));
+          item->setPlayCount(o["playCount"].toVariant().toLongLong());
+          item->setCreator(formatCreator(o["creator"].toObject()));
+          item->setSubscribers(formatSubscribers(o["subscribers"].toArray()));
+          item->setSubscribed(o["subscribed"].toBool());
+          item->setSubscribedCount(
               o["subscribedCount"].toVariant().toULongLong());
           m_currPlaylists.appendItem(item);
-          this->getPlaylistTracks(item.id(), m_currPlaylists.last());
+          this->getPlaylistTracks(item->id(), m_currPlaylists.last());
         }
       }
     }
@@ -249,7 +258,11 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
       auto fitem = static_cast<model::PlaylistItem*>(item);
       auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
-        model::MediaItem* mediaItem = new model::MediaItem;
+        model::MediaItem* mediaItem =
+            g_idToMediaMap[track["id"].toVariant().toLongLong()];
+        if (mediaItem == nullptr) {
+          mediaItem = new model::MediaItem();
+        }
         mediaItem->id = track["id"].toVariant().toLongLong();
         mediaItem->name = track["name"].toString();
         model::AlbumData albumData;

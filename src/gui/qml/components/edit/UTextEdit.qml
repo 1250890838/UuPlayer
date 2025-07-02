@@ -8,6 +8,7 @@ Item {
     required property color borderColor
     required property real borderWidth
     required property int maxCharNum
+    property string placeholderText
     property alias textColor: textEdit.color
 
     Rectangle {
@@ -20,6 +21,16 @@ Item {
             anchors.margins: 15
             anchors.fill: parent
             wrapMode: TextEdit.WrapAnywhere
+            Text {
+                id: placeholderText
+                text: "写点什么吧"
+                font: textEdit.font
+                color: "#888888"
+                anchors.top: parent.top
+                anchors.left: parent.left
+                visible: textEdit.text.trim() === ""
+            }
+
             onTextChanged: {
                 // querying textEdit.length faster than textEdit.text.length
                 // as it doesn't require any copying or conversion of the TextEdit's internal string data
