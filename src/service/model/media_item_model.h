@@ -59,6 +59,9 @@ struct MediaItem {
  public:
   AlbumData album() { return albumdata; }
   void setAlbum(const AlbumData& data) { albumdata = data; }
+  MediaItem();
+  MediaItem(const MediaItem& item) = default;
+  MediaItem& operator=(const MediaItem& other);
  public:
   qulonglong id;
   QString name;
