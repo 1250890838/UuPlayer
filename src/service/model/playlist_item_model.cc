@@ -70,19 +70,19 @@ QHash<int, QByteArray> PlaylistItemModel::roleNames() const {
           };
 }
 
-void PlaylistItemModel::appendItem(const PlaylistItem& item) {
+void PlaylistItemModel::appendItem(PlaylistItem* item) {
   beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-  m_items.emplace_back(std::make_shared<PlaylistItem>(item));
+  m_items.emplace_back(item);
   endInsertRows();
 }
 
 void PlaylistItemModel::appendItems(const QVector<PlaylistItem>& items) {
-  beginInsertRows(QModelIndex(), m_items.size(),
-                  m_items.size() + items.size() - 1);
-  for (auto& item : items) {
-    m_items.append(std::make_shared<PlaylistItem>(item));
-  }
-  endInsertRows();
+  //beginInsertRows(QModelIndex(), m_items.size(),
+    //              m_items.size() + items.size() - 1);
+ // for (auto& item : items) {
+  //  m_items.append(std::make_shared<PlaylistItem>(item));
+ // }
+  //endInsertRows();
 }
 
 void PlaylistItemModel::clear() {
@@ -92,7 +92,7 @@ void PlaylistItemModel::clear() {
 }
 
 PlaylistItem* PlaylistItemModel::last() {
-  return m_items.last().get();
+  return m_items.last();
 }
 
 PlaylistItem PlaylistItemModel::itemAt(quint32 index) {
