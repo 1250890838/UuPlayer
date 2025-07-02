@@ -68,7 +68,7 @@ Page {
         spacing: 100
         RecordPlayer {
             id: recorder
-            albumImagePath: root.media.album.picUrl
+            albumImagePath: root.media?.album?.picUrl ?? ""
             Layout.preferredWidth: root.width / 3.5
             Layout.preferredHeight: recorder.width
             playing: PlayService.playing
@@ -83,7 +83,7 @@ Page {
                 spacing: 40
                 Text {
                     id: titleText
-                    text: media.name
+                    text: media?.name ?? ""
                     font.pointSize: 18
                     color: "white"
                 }
@@ -93,7 +93,7 @@ Page {
                     spacing: 20
                     Text {
                         id: albumText
-                        text: "专辑:" + media.album.name
+                        text: "专辑:" + media?.album?.name ?? ""
                         color: "white"
                         elide: Text.ElideRight
                         width: Math.min(albumText.implicitWidth,
@@ -104,7 +104,9 @@ Page {
                         color: "white"
                         elide: Text.ElideRight
                         text: {
-                            let result = ""
+                            if (media === undefined) {
+                                return ""
+                            }
                             for (var i = 0; i < media.artists.length; i++) {
                                 let delimiter = i == 0 ? '' : '/'
                                 let artist = media.artists[i].name
@@ -146,7 +148,7 @@ Page {
                     }
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    model: media.lyrics
+                    model: media?.lyrics ?? []
                     spacing: 20
                     delegate: LyricItem {
                         onClicked: {
