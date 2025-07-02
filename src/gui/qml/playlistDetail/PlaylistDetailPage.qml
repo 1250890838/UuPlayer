@@ -202,15 +202,13 @@ Flickable {
             CTab {
                 id: mediasTab
                 text: "歌曲"
+                additionText: mediaItemsRepeater.count
                 isCurrentItem: tabsRow.currentTab === mediasTab
                 onClicked: {
                     tabsRow.currentTab.isCurrentItem = false
                     tabsRow.currentTab = this
                     tabsRow.currentTab.isCurrentItem = true
                     stackLayout.currentIndex = 0
-                }
-                Text {
-                    id: mediasNum
                 }
             }
             CTab {
@@ -244,6 +242,7 @@ Flickable {
             currentIndex: 0
             Item {
                 id: songsPage
+
 
                 /*
                  *ColumnLayout implicitHeight的stackLayout的部分高度是由stackLayout所有子节点中height最大的那个来确定的
