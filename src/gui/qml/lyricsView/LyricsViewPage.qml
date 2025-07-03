@@ -10,9 +10,6 @@ Page {
     id: root
     property var media
 
-    function updateMedia() {
-        media = PlayService.currentPlayItem
-    }
     background: Rectangle {
         gradient: Gradient {
             orientation: Gradient.Vertical
@@ -104,8 +101,9 @@ Page {
                         color: "white"
                         elide: Text.ElideRight
                         text: {
+                            let result = ""
                             if (media === undefined) {
-                                return ""
+                                return result
                             }
                             for (var i = 0; i < media.artists.length; i++) {
                                 let delimiter = i == 0 ? '' : '/'

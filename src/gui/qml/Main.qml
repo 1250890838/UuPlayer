@@ -133,6 +133,7 @@ Window {
         x: 0
         y: window.height
         z: 10
+        media: PlayService.currentPlayItem
         states: [
             State {
                 name: "closed"
