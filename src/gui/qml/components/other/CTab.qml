@@ -10,6 +10,15 @@ Item {
     signal clicked
     implicitWidth: textId.implicitWidth + 5
     implicitHeight: 35
+
+    Text {
+        id: additionTextId
+        font.bold: isCurrentItem
+        font.pointSize: textId.font.pointSize - 4
+        anchors.left: column.right
+        anchors.leftMargin: 2
+    }
+
     Column {
         id: column
         spacing: 5
@@ -21,15 +30,9 @@ Item {
                 font.pointSize: isCurrentItem ? 11 : 10.7
                 color: isCurrentItem ? "black" : "gray"
             }
-            Text {
-                id: additionTextId
-                font.bold: isCurrentItem
-                font.pointSize: textId.font.pointSize - 4
-                anchors.top: parent.top
-            }
         }
         Rectangle {
-            anchors.left: parent.left
+            anchors.horizontalCenter: parent.horizontalCenter
             width: 15
             height: 3.5
             color: "red"
