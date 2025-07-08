@@ -58,13 +58,12 @@ Flickable {
             }
             CatlistItem {
                 id: moreCatItem
-                text: "更多分类 ˇ"
+                text: catlistDialog.opened ? "更多分类 ^" : "更多分类 ˇ"
                 width: 60
                 height: 30
                 onClicked: {
                     catlistDialog.map = root.catMap
                     catlistDialog.open()
-                    moreCatItem.text = "更多分类 ^"
                 }
             }
         }
@@ -96,7 +95,6 @@ Flickable {
         id: catlistDialog
         y: moreCatItem.y + moreCatItem.height + 25
         x: 45
-        onClosed: moreCatItem.text = "更多分类 ˇ"
     }
     Component.onCompleted: {
         PlaylistsService.getPlaylistsCatlist()
