@@ -7,7 +7,6 @@
 #include <QtGlobal>
 #include <QtQml/QQmlExtensionPlugin>
 
-#include "engine/audio_player.h"
 #include "network/basic_network.h"
 #include "service/login_service.h"
 #include "service/song_service.h"

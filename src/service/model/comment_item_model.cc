@@ -32,7 +32,7 @@ QVariant CommentItemModel::data(const QModelIndex& index, int role) const {
     return QVariant();
   }
   CommentRole frole = static_cast<CommentRole>(role);
-  const model::CommentData& comment = m_data.at(index.row());
+  const CommentData& comment = m_data.at(index.row());
   switch (frole) {
     case IdRole:
       // For IdRole, you can return the index or an actual unique ID if you have one
