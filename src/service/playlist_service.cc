@@ -34,6 +34,8 @@ PlaylistService::PlaylistService(QObject* parent)
           &PlaylistService::onGetPlaylistDetail);
   connect(&m_network, &PlaylistNetwork::getPlaylistTracksFinished, this,
           &PlaylistService::onGetPlaylistTracks);
+  connect(&m_network,&PlaylistNetwork::getPlaylistCommentsFinished,this,
+          &PlaylistService::onGetPlaylistComments);
 }
 
 void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
@@ -302,23 +304,7 @@ void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
       for (const QJsonValue& track : tracks) {
         model::MediaItem* item = new model::MediaItem;
         item->id = track["id"].toVariant().toLongLong();
-        item->name = track["name"].toString();
-        model::AlbumData albumData;
-        auto albumObj = track["al"].toObject();
-        albumData.setId(albumObj["id"].toVariant().toLongLong());
-        albumData.setName(albumObj["name"].toString());
-        albumData.setPicUrl(albumObj["picUrl"].toString());
-        item->albumdata = albumData;
-        auto artistsArr = track["ar"].toArray();
-        model::AristData aristData;
-        for (const auto& artistValue : artistsArr) {
-          auto artistObj = artistValue.toObject();
-          aristData.setId(artistObj["id"].toVariant().toLongLong());
-          aristData.setName(artistObj["name"].toString());
-          item->artists.append(QVariant::fromValue(aristData));
-        }
-        item->duration = track["dt"].toVariant().toLongLong();
-        model->appendItem(item);
+
       }
     }
   }
