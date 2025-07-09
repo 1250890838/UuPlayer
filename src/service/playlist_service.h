@@ -5,6 +5,8 @@
 #include "playlist_network.h"
 #include "service_global.h"
 
+#include "entities/playlist_item.h"
+
 #include <qglobal.h>
 #include <qjsonarray.h>
 #include <qjsonobject.h>
@@ -13,10 +15,11 @@
 #include <qvariant.h>
 #include <QObject>
 
+using namespace entities;
 namespace service {
 
-extern QMap<qulonglong, model::MediaItem*> g_idToMediaMap;
-extern QMap<qulonglong, model::PlaylistItem*> g_idToPlaylistMap;
+extern QMap<qulonglong, MediaItem*> g_idToMediaMap;
+extern QMap<qulonglong, PlaylistItem*> g_idToPlaylistMap;
 
 
 //从网络获取歌单服务
@@ -32,10 +35,10 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_INVOKABLE void getHighqualityPlaylists(qint32 limit = 5, qint32 tag = -1);
   Q_INVOKABLE void getSelectivePlaylists();
   Q_INVOKABLE void getPlaylistsCatlist();
-  Q_INVOKABLE void getPlaylistDetail(qulonglong id, model::PlaylistItem* item);
-  Q_INVOKABLE void getPlaylistTracks(qulonglong id, model::PlaylistItem* item);
+  Q_INVOKABLE void getPlaylistDetail(qulonglong id,PlaylistItem* item);
+  Q_INVOKABLE void getPlaylistTracks(qulonglong id,PlaylistItem* item);
   Q_INVOKABLE void getPlaylistComments(qulonglong id,
-                                       model::PlaylistItem* item);
+                                       PlaylistItem* item);
 
   Q_INVOKABLE void setCurrLimit(qint32 limit) { m_currLimit = limit; }
   Q_INVOKABLE void setCurrCat(const QString& cat) { m_currCat = cat; }
@@ -65,8 +68,8 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
 
  private:
   QStringList formatTags(const QJsonArray& array);
-  model::UserData formatCreator(const QJsonObject& object);
-  QVector<model::UserData> formatSubscribers(const QJsonArray& array);
+  UserData formatCreator(const QJsonObject& object);
+  QVector<UserData> formatSubscribers(const QJsonArray& array);
 
  private:
   network::PlaylistNetwork m_network;

@@ -3,9 +3,12 @@
 
 #include <QAbstractListModel>
 
-#include "comment_data.h"
+#include "entities/comment_data.h"
+
 
 namespace model {
+
+using namespace entities;
 class CommentItemModel : public QAbstractListModel {
   Q_OBJECT
   enum CommentRole {
@@ -31,7 +34,7 @@ class CommentItemModel : public QAbstractListModel {
                 int role = Qt::DisplayRole) const override;
   void appendItem(const CommentData& data);
  private:
-  QList<model::CommentData> m_data;
+  QList<CommentData> m_data;
 };
 }  // namespace model
 #endif  // COMMENT_ITEM_MODEL_H

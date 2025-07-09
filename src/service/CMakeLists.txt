@@ -17,9 +17,12 @@ qt6_add_qml_module(service URI service.api VERSION 1.0 SOURCES
     playlist_service.cc
     song_service.h
     song_service.cc
-    SOURCES model/comment_data.h model/comment_data.cc
+    SOURCES
     SOURCES model/comment_item_model.h model/comment_item_model.cc
     SOURCES play_service.h play_service.cc
+    SOURCES entities/playlist_item.h
+    SOURCES entities/user_item.h
+    SOURCES entities/comment_data.h
 )
 
 target_compile_definitions(service PRIVATE SERVICE_EXPORT_SYMBOLS)

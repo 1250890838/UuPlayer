@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QUrl>
-#include "playlist_item_model.h"
+#include "user_item.h"
 
-namespace model {
+namespace entities {
 
 struct PendantData {
   qulonglong id;

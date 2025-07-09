@@ -18,8 +18,8 @@
 
 namespace service {
 
-QMap<qulonglong, model::MediaItem*> g_idToMediaMap;
-QMap<qulonglong, model::PlaylistItem*> g_idToPlaylistMap;
+QMap<qulonglong, MediaItem*> g_idToMediaMap;
+QMap<qulonglong, PlaylistItem*> g_idToPlaylistMap;
 
 PlaylistService::PlaylistService(QObject* parent)
     : QObject(parent), m_currLimit(4), m_currOffset(0) {
@@ -54,17 +54,17 @@ void PlaylistService::getPlaylistsCatlist() {
 }
 
 void PlaylistService::getPlaylistDetail(qulonglong id,
-                                        model::PlaylistItem* item) {
+                                        PlaylistItem* item) {
   m_network.getPlaylistDetail(id, item);
 }
 
 void PlaylistService::getPlaylistTracks(qulonglong id,
-                                        model::PlaylistItem* item) {
+                                        PlaylistItem* item) {
   m_network.getPlaylistTracks(id, item);
 }
 
 void PlaylistService::getPlaylistComments(qulonglong id,
-                                          model::PlaylistItem* item) {
+                                          PlaylistItem* item) {
   m_network.getPlaylistComments(id, item);
 }
 
@@ -85,10 +85,10 @@ void PlaylistService::onGetHighqualityPlaylists(
         QJsonArray playlists = obj["playlists"].toArray();
         for (const QJsonValue& playlist : playlists) {
           auto o = playlist.toObject();
-          model::PlaylistItem* item = g_idToPlaylistMap.value(
+          PlaylistItem* item = g_idToPlaylistMap.value(
               o["id"].toVariant().toLongLong(), nullptr);
           if (item == nullptr) {
-            item = new model::PlaylistItem();
+            item = new PlaylistItem();
           }
           item->setId(o["id"].toVariant().toLongLong());
           item->setName(o["name"].toString());
@@ -130,10 +130,10 @@ void PlaylistService::onGetSelectivePlaylists(
         QJsonArray playlists = obj["playlists"].toArray();
         for (const QJsonValue& playlist : playlists) {
           auto o = playlist.toObject();
-          model::PlaylistItem* item = g_idToPlaylistMap.value(
+          PlaylistItem* item = g_idToPlaylistMap.value(
               o["id"].toVariant().toLongLong(), nullptr);
           if (item == nullptr) {
-            item = new model::PlaylistItem();
+            item = new PlaylistItem();
           }
           item->setId(o["id"].toVariant().toLongLong());
           item->setName(o["name"].toString());
@@ -168,8 +168,8 @@ QStringList PlaylistService::formatTags(const QJsonArray& array) {
   return tags;
 }
 
-model::UserData PlaylistService::formatCreator(const QJsonObject& object) {
-  model::UserData user;
+UserData PlaylistService::formatCreator(const QJsonObject& object) {
+  UserData user;
   user.setId(object["userId"].toVariant().toLongLong());
   user.setName(object["nickname"].toString());
   user.setAvatarUrl(object["avatarUrl"].toString());
@@ -180,9 +180,9 @@ model::UserData PlaylistService::formatCreator(const QJsonObject& object) {
   return user;
 }
 
-QVector<model::UserData> PlaylistService::formatSubscribers(
+QVector<UserData> PlaylistService::formatSubscribers(
     const QJsonArray& array) {
-  QVector<model::UserData> result;
+  QVector<UserData> result;
   for (const auto& v : array) {
     result.append(formatCreator(v.toObject()));
   }
@@ -223,7 +223,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
     auto obj = doc.object();
     auto playlist = obj["playlist"].toObject();
     auto tracks = playlist["tracks"].toArray();
-    auto fitem = static_cast<model::PlaylistItem*>(item);
+    auto fitem = static_cast<PlaylistItem*>(item);
     auto model = fitem->mediaItemModel();
     for (const QJsonValue& track : tracks) {
       model::MediaItem* item = new model::MediaItem;
@@ -257,7 +257,7 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
     } else {
       auto obj = doc.object();
       QJsonArray tracks = obj["songs"].toArray();
-      auto fitem = static_cast<model::PlaylistItem*>(item);
+      auto fitem = static_cast<PlaylistItem*>(item);
       auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
         model::MediaItem* mediaItem =
@@ -299,7 +299,7 @@ void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
     } else {
       auto obj = doc.object();
       QJsonArray tracks = obj["songs"].toArray();
-      auto fitem = static_cast<model::PlaylistItem*>(item);
+      auto fitem = static_cast<PlaylistItem*>(item);
       auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
         model::MediaItem* item = new model::MediaItem;

@@ -25,6 +25,8 @@ qint64 PlayService::duration() {
   return m_player.duration();
 }
 
+
+
 qint64 PlayService::position() {
   return m_player.position();
 }

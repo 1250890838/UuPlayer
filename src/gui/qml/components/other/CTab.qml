@@ -10,12 +10,15 @@ Item {
     signal clicked
     implicitWidth: textId.implicitWidth + 5
     implicitHeight: 35
+
     Text {
         id: additionTextId
         font.bold: isCurrentItem
         font.pointSize: textId.font.pointSize - 4
         anchors.left: column.right
+        anchors.leftMargin: 2
     }
+
     Column {
         id: column
         spacing: 5
