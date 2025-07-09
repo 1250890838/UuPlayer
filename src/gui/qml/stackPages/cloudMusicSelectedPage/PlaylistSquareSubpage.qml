@@ -58,7 +58,7 @@ Flickable {
             }
             CatlistItem {
                 id: moreCatItem
-                text: catlistDialog.opened ? "更多分类 ^" : "更多分类 ^"
+                text: catlistDialog.opened ? "更多分类 ^" : "更多分类 ˇ"
                 width: 60
                 height: 30
                 onClicked: {

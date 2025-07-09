@@ -152,6 +152,7 @@ model::MediaItem PlayService::currentPlayItem() {
   if (m_currentIndex >= 0 && m_currentIndex < items.size()) {
     return *items[m_currentIndex];
   }
+  //return model::MediaItem();
   return {};
 }
 

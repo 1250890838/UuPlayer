@@ -51,18 +51,16 @@ Item {
                         PlayService.appendMediaId(model.id)
                         PlayService.play(model.id)
                     }
-                    console.log("song url status" + code)
                     count--
-                    if (count == 0)
+                    if (count === 0)
                         playSongConnection.destroy()
                 }
                 function onSongLyricStatus(code) {
                     if (code === ErrorCode.NoError) {
-                        lyricsViewPage.updateMedia()
+                        PlayService.currentPlayItemChanged()
                     }
-                    console.log("song lyric status" + code)
                     count--
-                    if (count == 0)
+                    if (count === 0)
                         playSongConnection.destroy()
                 }
             }
