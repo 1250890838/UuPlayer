@@ -34,6 +34,8 @@ PlaylistService::PlaylistService(QObject* parent)
           &PlaylistService::onGetPlaylistDetail);
   connect(&m_network, &PlaylistNetwork::getPlaylistTracksFinished, this,
           &PlaylistService::onGetPlaylistTracks);
+  connect(&m_network, &PlaylistNetwork::getPlaylistCommentsFinished, this,
+          &PlaylistService::onGetPlaylistComments);
 }
 
 void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
@@ -51,19 +53,16 @@ void PlaylistService::getPlaylistsCatlist() {
   m_network.getPlaylistsCatlist();
 }
 
-void PlaylistService::getPlaylistDetail(qulonglong id,
-                                        PlaylistItem* item) {
+void PlaylistService::getPlaylistDetail(qulonglong id, PlaylistItem* item) {
   m_network.getPlaylistDetail(id, item);
 }
 
-void PlaylistService::getPlaylistTracks(qulonglong id,
-                                        PlaylistItem* item) {
+void PlaylistService::getPlaylistTracks(qulonglong id, PlaylistItem* item) {
   m_network.getPlaylistTracks(id, item);
 }
 
-void PlaylistService::getPlaylistComments(qulonglong id,
-                                          PlaylistItem* item) {
-  m_network.getPlaylistComments(id, item);
+void PlaylistService::getPlaylistComments(qulonglong id) {
+  m_network.getPlaylistComments(id);
 }
 
 void PlaylistService::onGetHighqualityPlaylists(
@@ -87,6 +86,7 @@ void PlaylistService::onGetHighqualityPlaylists(
               o["id"].toVariant().toLongLong(), nullptr);
           if (item == nullptr) {
             item = new PlaylistItem();
+            g_idToPlaylistMap[o["id"].toVariant().toLongLong()] = item;
           }
           item->setId(o["id"].toVariant().toLongLong());
           item->setName(o["name"].toString());
@@ -132,6 +132,7 @@ void PlaylistService::onGetSelectivePlaylists(
               o["id"].toVariant().toLongLong(), nullptr);
           if (item == nullptr) {
             item = new PlaylistItem();
+            g_idToPlaylistMap[o["id"].toVariant().toLongLong()] = item;
           }
           item->setId(o["id"].toVariant().toLongLong());
           item->setName(o["name"].toString());
@@ -178,13 +179,20 @@ UserData PlaylistService::formatCreator(const QJsonObject& object) {
   return user;
 }
 
-QVector<UserData> PlaylistService::formatSubscribers(
-    const QJsonArray& array) {
+QVector<UserData> PlaylistService::formatSubscribers(const QJsonArray& array) {
   QVector<UserData> result;
   for (const auto& v : array) {
     result.append(formatCreator(v.toObject()));
   }
   return result;
+}
+
+UserData PlaylistService::formatUserdDataInComment(const QJsonObject& object) {
+  UserData data;
+  data.setId(object["userId"].toVariant().toULongLong());
+  data.setAvatarUrl(object["avatarUrl"].toString());
+  data.setName(object["nickname"].toString());
+  return data;
 }
 
 void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
@@ -262,6 +270,7 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
             g_idToMediaMap[track["id"].toVariant().toLongLong()];
         if (mediaItem == nullptr) {
           mediaItem = new model::MediaItem();
+          g_idToMediaMap[track["id"].toVariant().toLongLong()] = mediaItem;
         }
         mediaItem->id = track["id"].toVariant().toLongLong();
         mediaItem->name = track["name"].toString();
@@ -280,46 +289,36 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
           mediaItem->artists.append(QVariant::fromValue(aristData));
         }
         mediaItem->duration = track["dt"].toVariant().toLongLong();
-        model->last();
         model->appendItem(mediaItem);
-        g_idToMediaMap[mediaItem->id] = model->last();
       }
     }
   }
 }
 
 void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
-                                            const QByteArray& data,
-                                            void* item) {
+                                            const QByteArray& data,qulonglong id) {
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() || doc.isEmpty()) {
     } else {
       auto obj = doc.object();
-      QJsonArray tracks = obj["songs"].toArray();
-      auto fitem = static_cast<PlaylistItem*>(item);
-      auto model = fitem->mediaItemModel();
-      for (const QJsonValue& track : tracks) {
-        model::MediaItem* item = new model::MediaItem;
-        item->id = track["id"].toVariant().toLongLong();
-        item->name = track["name"].toString();
-        model::AlbumData albumData;
-        auto albumObj = track["al"].toObject();
-        albumData.setId(albumObj["id"].toVariant().toLongLong());
-        albumData.setName(albumObj["name"].toString());
-        albumData.setPicUrl(albumObj["picUrl"].toString());
-        item->albumdata = albumData;
-        auto artistsArr = track["ar"].toArray();
-        model::AristData aristData;
-        for (const auto& artistValue : artistsArr) {
-          auto artistObj = artistValue.toObject();
-          aristData.setId(artistObj["id"].toVariant().toLongLong());
-          aristData.setName(artistObj["name"].toString());
-          item->artists.append(QVariant::fromValue(aristData));
-        }
-        item->duration = track["dt"].toVariant().toLongLong();
-        model->appendItem(item);
+      QJsonArray commentsArr = obj["comments"].toArray();
+      auto fitem = g_idToPlaylistMap[id];
+      QVariantList commentDatas;
+      for (const auto& commentValue : commentsArr) {
+        CommentData tempData;
+        auto commentObj = commentValue.toObject();
+        tempData.setId(commentObj["commentId"].toVariant().toULongLong());
+        tempData.setContent(commentObj["content"].toString());
+        tempData.setLikedCount(
+            commentObj["likedCount"].toVariant().toULongLong());
+        tempData.setTime(commentObj["time"].toVariant().toULongLong());
+        tempData.setUserData(
+            formatUserdDataInComment(commentObj["user"].toObject()));
+        commentDatas.append(QVariant::fromValue(tempData));
       }
+      fitem->setCommentData(commentDatas);
+      emit playlistCommentsStatus(network::error_code::NoError);
     }
   }
 }

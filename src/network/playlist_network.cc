@@ -99,19 +99,19 @@ void PlaylistNetwork::getPlaylistTracks(qulonglong id,void* item){
   });
 }
 
-void PlaylistNetwork::getPlaylistComments(qulonglong id, void* item) {
+void PlaylistNetwork::getPlaylistComments(qulonglong id) {
   QNetworkRequest request;
   QUrl url = network_api::apiPlaylistComments + "?" + "id=" + QString::number(id);
   request.setUrl(url);
   auto reply = this->get(request);
-  connect(reply, &QNetworkReply::finished, this, [reply,item,this]() {
+  connect(reply, &QNetworkReply::finished, this, [reply,id,this]() {
     auto e = reply->error();
     if (e == QNetworkReply::NoError) {
       QByteArray data = reply->readAll();
-      emit getPlaylistCommentsFinished(error_code::NoError, data,item);
+      emit getPlaylistCommentsFinished(error_code::NoError, data,id);
     } else {
       emit getPlaylistCommentsFinished(error_code::OtherError,
-                                     QByteArray(),item);
+                                     QByteArray(),id);
     }
     reply->deleteLater();
   });

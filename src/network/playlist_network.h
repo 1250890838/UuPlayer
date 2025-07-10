@@ -18,7 +18,7 @@ class NETWORK_DLL_EXPORT PlaylistNetwork : public BasicNetwork {
   void getPlaylistsCatlist();
   void getPlaylistDetail(qulonglong id, void* item);
   void getPlaylistTracks(qulonglong id, void* item);
-  void getPlaylistComments(qulonglong id, void* item);
+  void getPlaylistComments(qulonglong id);
  signals:
   void getHighqualityPlaylistsFinished(error_code::ErrorCode code,
                                        const QByteArray&);
@@ -31,7 +31,7 @@ class NETWORK_DLL_EXPORT PlaylistNetwork : public BasicNetwork {
   void getPlaylistTracksFinished(error_code::ErrorCode code, const QByteArray&,
                                  void* item);
   void getPlaylistCommentsFinished(error_code::ErrorCode code,
-                                   const QByteArray&, void* item);
+                                   const QByteArray&,qulonglong id);
 };
 }  // namespace network
 #endif
