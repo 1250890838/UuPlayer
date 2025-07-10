@@ -330,7 +330,10 @@ Flickable {
                     target: PlaylistsService
                     function onPlaylistCommentsStatus(code) {
                         if (code === ErrorCode.NoError) {
+                            detail = PlaylistsService.getPlaylistItemForId(
+                                        detail.id)
                             commentRepeater.model = detail.commentData
+                            console.log(detail.commentData)
                         }
                     }
                 }

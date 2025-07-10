@@ -40,6 +40,8 @@ Item {
 
         Column {
             id: column
+            Layout.preferredHeight: userName.implicitHeight + commentContent.implicitHeight
+                                    + commentTime.implicitHeight + 2 * column.spacing
             Layout.fillWidth: true
             Layout.fillHeight: true
             Label {

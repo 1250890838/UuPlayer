@@ -41,6 +41,8 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_INVOKABLE void setCurrLimit(qint32 limit) { m_currLimit = limit; }
   Q_INVOKABLE void setCurrCat(const QString& cat) { m_currCat = cat; }
   Q_INVOKABLE void setCurrOffset(qint32 offset) { m_currOffset = offset; }
+
+  Q_INVOKABLE PlaylistItem getPlaylistItemForId(qulonglong id) { return *g_idToPlaylistMap[id];}
  signals:
   void highqualityPlaylistsStatus(network::error_code::ErrorCode code);
   void selectivePlaylistsStatus(network::error_code::ErrorCode code);
