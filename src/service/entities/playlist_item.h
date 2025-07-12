@@ -1,6 +1,7 @@
 #ifndef PLAYLIST_ITEM_H
 #define PLAYLIST_ITEM_H
 #include <QObject>
+#include "comment_data.h"
 #include "model/media_item_model.h"
 #include "user_item.h"
 
@@ -24,6 +25,7 @@ class PlaylistItem {
   Q_PROPERTY(QVector<UserData> subscribers READ subscribers)
   Q_PROPERTY(bool subscribed READ subscribed)
   Q_PROPERTY(MediaItemModel* mediaItemModel READ mediaItemModel)
+  Q_PROPERTY(QVariantList commentData READ commentData)
 
  public:
   PlaylistItem()
@@ -50,6 +52,7 @@ class PlaylistItem {
   bool subscribed() const { return m_subscribed; }
   MediaItemModel* mediaItemModel() { return m_mediaItemModel; }
   qulonglong subscribedCount() const { return m_subscribedCount; }
+  QVariantList commentData() const { return m_commentData; }
 
   void setId(qulonglong id) { m_id = id; }
   void setName(const QString& name) { m_name = name; }
@@ -66,6 +69,7 @@ class PlaylistItem {
     m_subscribers = subscribers;
   }
   void setSubscribedCount(qulonglong count) { m_subscribedCount = count; }
+  void setCommentData(const QVariantList& data) { m_commentData = data; }
 
  private:
   qulonglong m_id;
@@ -82,6 +86,7 @@ class PlaylistItem {
   bool m_subscribed;
   qulonglong m_subscribedCount;
   MediaItemModel* m_mediaItemModel;
+  QVariantList m_commentData;
 };
-}
+}  // namespace entities
 #endif  // PLAYLIST_ITEM_H

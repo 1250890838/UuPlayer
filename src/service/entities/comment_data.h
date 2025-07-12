@@ -49,6 +49,9 @@ class CommentData {
   qulonglong m_time;        //评论时间
   QString m_content;        //评论内容
   qulonglong m_likedCount;  //点赞数
+  // TODO:添加被回复数据
 };
 }  // namespace model
+
+Q_DECLARE_METATYPE(entities::CommentData)
 #endif  // COMMENT_DATA_H

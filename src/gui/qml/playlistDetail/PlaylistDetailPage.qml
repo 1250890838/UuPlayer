@@ -220,6 +220,7 @@ Flickable {
                     tabsRow.currentTab = this
                     tabsRow.currentTab.isCurrentItem = true
                     stackLayout.currentIndex = 1
+                    PlaylistsService.getPlaylistComments(detail.id)
                 }
             }
             CTab {
@@ -317,6 +318,24 @@ Flickable {
                     borderColor: "#efeef0"
                     borderWidth: 1
                     maxCharNum: 140
+                }
+                Repeater {
+                    id: commentRepeater
+                    delegate: CommentItem {
+                        width: commentsPage.width
+                    }
+                }
+                Connections {
+                    id: commentsRequiredConnection
+                    target: PlaylistsService
+                    function onPlaylistCommentsStatus(code) {
+                        if (code === ErrorCode.NoError) {
+                            detail = PlaylistsService.getPlaylistItemForId(
+                                        detail.id)
+                            commentRepeater.model = detail.commentData
+                            console.log(detail.commentData)
+                        }
+                    }
                 }
             }
         }

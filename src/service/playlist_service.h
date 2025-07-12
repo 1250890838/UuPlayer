@@ -21,7 +21,6 @@ namespace service {
 extern QMap<qulonglong, MediaItem*> g_idToMediaMap;
 extern QMap<qulonglong, PlaylistItem*> g_idToPlaylistMap;
 
-
 //从网络获取歌单服务
 class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_OBJECT
@@ -35,18 +34,20 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_INVOKABLE void getHighqualityPlaylists(qint32 limit = 5, qint32 tag = -1);
   Q_INVOKABLE void getSelectivePlaylists();
   Q_INVOKABLE void getPlaylistsCatlist();
-  Q_INVOKABLE void getPlaylistDetail(qulonglong id,PlaylistItem* item);
-  Q_INVOKABLE void getPlaylistTracks(qulonglong id,PlaylistItem* item);
-  Q_INVOKABLE void getPlaylistComments(qulonglong id,
-                                       PlaylistItem* item);
+  Q_INVOKABLE void getPlaylistDetail(qulonglong id, PlaylistItem* item);
+  Q_INVOKABLE void getPlaylistTracks(qulonglong id, PlaylistItem* item);
+  Q_INVOKABLE void getPlaylistComments(qulonglong id);
 
   Q_INVOKABLE void setCurrLimit(qint32 limit) { m_currLimit = limit; }
   Q_INVOKABLE void setCurrCat(const QString& cat) { m_currCat = cat; }
   Q_INVOKABLE void setCurrOffset(qint32 offset) { m_currOffset = offset; }
+
+  Q_INVOKABLE PlaylistItem getPlaylistItemForId(qulonglong id) { return *g_idToPlaylistMap[id];}
  signals:
   void highqualityPlaylistsStatus(network::error_code::ErrorCode code);
   void selectivePlaylistsStatus(network::error_code::ErrorCode code);
   void playlistsCatlist(QVariantMap catlist);
+  void playlistCommentsStatus(network::error_code::ErrorCode code);
 
  public slots:
   void onGetHighqualityPlaylists(network::error_code::ErrorCode,
@@ -60,7 +61,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   void onGetPlaylistTracks(network::error_code::ErrorCode,
                            const QByteArray& data, void* item);
   void onGetPlaylistComments(network::error_code::ErrorCode,
-                             const QByteArray& data, void* item);
+                             const QByteArray& data,qulonglong id);
 
  public:
   PlaylistService(QObject* parent = nullptr);
@@ -70,6 +71,8 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   QStringList formatTags(const QJsonArray& array);
   UserData formatCreator(const QJsonObject& object);
   QVector<UserData> formatSubscribers(const QJsonArray& array);
+
+  UserData formatUserdDataInComment(const QJsonObject& object);
 
  private:
   network::PlaylistNetwork m_network;
