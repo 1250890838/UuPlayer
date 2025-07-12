@@ -131,9 +131,8 @@ Flickable {
                                 }
                                 SongService.getSongUrl(
                                             mediaItemsRepeater.mediaIds[0])
-                                var c = SongService.songUrlStatus.connect(
+                                SongService.songUrlStatus.connect(
                                             processGetAllSongStatus)
-                                console.log(c)
                             }
                         }
                     }
@@ -240,7 +239,23 @@ Flickable {
             Layout.rightMargin: 5
             Layout.leftMargin: 5
             Layout.topMargin: 5
+            Layout.fillHeight: false
             currentIndex: 0
+            readonly property Item activeItem: children[currentIndex]
+            //implicitHeight: activeItem ? activeItem.implicitHeight : 0
+            Layout.preferredHeight: stackLayout.implicitHeight
+            onCurrentIndexChanged: {
+                if (currentIndex == 0) {
+                    stackLayout.implicitHeight = songsPage.implicitHeight
+                } else if (currentIndex == 1) {
+                    stackLayout.implicitHeight = commentsPage.implicitHeight
+                }
+                console.log("stack layout height" + stackLayout.height)
+            }
+            onHeightChanged: {
+                console.log("stack layout current height" + stackLayout.height)
+            }
+
             Item {
                 id: songsPage
 
@@ -250,6 +265,7 @@ Flickable {
                  *无论这个节点是否是当前stackLayout显示的节点，所以在songsPage这个节点中，我设置了‘如果当前节点不是在栈顶，高度设置为0’，
                  *以此来消除该节点的高度对整个columnLayout确定高度的影响
                 */
+                //implicitHeight: songsPageColumnLayout.implicitHeight
                 implicitHeight: stackLayout.currentIndex
                                 === 0 ? songsPageColumnLayout.implicitHeight : 0
                 visible: stackLayout.currentIndex === 0
@@ -305,24 +321,38 @@ Flickable {
             }
             Item {
                 id: commentsPage
-                width: parent.width
-                implicitHeight: 200
-                visible: stackLayout.currentIndex === 1
-                UTextEdit {
-                    id: commentTextEdit
-                    radius: 10
-                    width: parent.width
-                    backgroundColor: "#F0EAEA"
-                    height: 85
-                    focus: true
-                    borderColor: "#efeef0"
-                    borderWidth: 1
-                    maxCharNum: 140
+                implicitWidth: parent.width
+                implicitHeight: commentsPageColumn.implicitHeight
+                Layout.fillHeight: false
+                Column {
+                    id: commentsPageColumn
+                    anchors.fill: parent
+                    UTextEdit {
+                        id: commentTextEdit
+                        radius: 10
+                        width: parent.width
+                        backgroundColor: "#F0EAEA"
+                        height: 85
+                        focus: true
+                        borderColor: "#efeef0"
+                        borderWidth: 1
+                        maxCharNum: 140
+                    }
+                    Repeater {
+                        id: commentRepeater
+                        delegate: CommentItem {
+                            width: commentsPage.width
+                        }
+                    }
                 }
-                Repeater {
-                    id: commentRepeater
-                    delegate: CommentItem {
-                        width: commentsPage.width
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("commentsPage.height : " + commentsPage.height)
+                        console.log("commentsPage.implicitHeight :" + commentsPage.implicitHeight)
+                        console.log("commentsPageColumn.height :" + commentsPageColumn.height)
+                        console.log("commentsPageColumn.implicitHeight :"
+                                    + commentsPageColumn.implicitHeight)
                     }
                 }
                 Connections {
@@ -333,7 +363,6 @@ Flickable {
                             detail = PlaylistsService.getPlaylistItemForId(
                                         detail.id)
                             commentRepeater.model = detail.commentData
-                            console.log(detail.commentData)
                         }
                     }
                 }

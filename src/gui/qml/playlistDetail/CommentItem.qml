@@ -26,9 +26,6 @@ Item {
     id: root
     required property var modelData
     implicitHeight: column.implicitHeight
-    Component.onCompleted: {
-        console.log(modelData.userData.avatarUrl)
-    }
     RowLayout {
         anchors.fill: parent
         IconButton {

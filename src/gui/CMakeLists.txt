@@ -66,10 +66,6 @@ set(image_files
     images/qrcode_scan_sample.png
     )
 
-set(cpp_files
-
-)
-
 target_include_directories(gui PRIVATE "./cpp")
 
 qt_add_qml_module(gui
@@ -90,34 +86,34 @@ qt_add_qml_module(gui
         qml/components/qmldir
     IMPORT_PATH
         qml/
-        QML_FILES qml/stackPages/skinPage/SkinPage.qml
-        QML_FILES qml/stackPages/skinPage/SkinItem.qml
-        QML_FILES qml/components/other/CatlistItem.qml
-        QML_FILES qml/stackPages/cloudMusicSelectedPage/CatlistDialog.qml
-        QML_FILES qml/components/other/RoundedImage.qml
-        QML_FILES qml/components/other/RoundedRectangle.qml
-        QML_FILES qml/components/utils.js
-        RESOURCES images/button_normalize.svg
-        RESOURCES images/button_pause.svg images/button_play.svg images/button_subscribed.svg
-        QML_FILES qml/components/other/CTab.qml
-        QML_FILES qml/components/edit/UTextEdit.qml
-        QML_FILES qml/components/other/UScrollBar.qml
-        RESOURCES images/button_pause_gray.svg images/button_play_gray.svg
-        QML_FILES qml/playlistDetail/MediaItem.qml qml/playlistDetail/PlaylistDetailPage.qml
-        QML_FILES qml/playbackBar/PlaybackBar.qml
-        QML_FILES qml/playbackBar/AlbumDisplay.qml
-        RESOURCES images/button_playbackbar_next.svg images/button_playbackbar_play.svg images/button_playbackbar_previous.svg images/button_playbackmode_sequential.svg
-        RESOURCES images/button_playbackbar_pause.svg
-        QML_FILES qml/playbackBar/UuSlider.qml
-        RESOURCES images/button_playbackmode_listloop.svg images/button_playbackmode_shuffle.svg images/button_playbackmode_singleloop.svg
-        QML_FILES qml/playbacklist/PlaybacklistPage.qml
-        RESOURCES images/button_playbackbar_playlist.svg
-        QML_FILES qml/playbacklist/PlaybacklistItem.qml
-        QML_FILES qml/lyricsView/LyricsViewPage.qml
-        RESOURCES images/button_fullscreen.svg images/button_down.svg
-        QML_FILES qml/lyricsView/LyricItem.qml
-        QML_FILES qml/lyricsView/RecordPlayer.qml
-        QML_FILES qml/playlistDetail/CommentItem.qml
+    QML_FILES qml/stackPages/skinPage/SkinPage.qml
+    QML_FILES qml/stackPages/skinPage/SkinItem.qml
+    QML_FILES qml/components/other/CatlistItem.qml
+    QML_FILES qml/stackPages/cloudMusicSelectedPage/CatlistDialog.qml
+    QML_FILES qml/components/other/RoundedImage.qml
+    QML_FILES qml/components/other/RoundedRectangle.qml
+    QML_FILES qml/components/utils.js
+    RESOURCES images/button_normalize.svg
+    RESOURCES images/button_pause.svg images/button_play.svg images/button_subscribed.svg
+    QML_FILES qml/components/other/CTab.qml
+    QML_FILES qml/components/edit/UTextEdit.qml
+    QML_FILES qml/components/other/UScrollBar.qml
+    RESOURCES images/button_pause_gray.svg images/button_play_gray.svg
+    QML_FILES qml/playlistDetail/MediaItem.qml qml/playlistDetail/PlaylistDetailPage.qml
+    QML_FILES qml/playbackBar/PlaybackBar.qml
+    QML_FILES qml/playbackBar/AlbumDisplay.qml
+    RESOURCES images/button_playbackbar_next.svg images/button_playbackbar_play.svg images/button_playbackbar_previous.svg images/button_playbackmode_sequential.svg
+    RESOURCES images/button_playbackbar_pause.svg
+    QML_FILES qml/playbackBar/UuSlider.qml
+    RESOURCES images/button_playbackmode_listloop.svg images/button_playbackmode_shuffle.svg images/button_playbackmode_singleloop.svg
+    QML_FILES qml/playbacklist/PlaybacklistPage.qml
+    RESOURCES images/button_playbackbar_playlist.svg
+    QML_FILES qml/playbacklist/PlaybacklistItem.qml
+    QML_FILES qml/lyricsView/LyricsViewPage.qml
+    RESOURCES images/button_fullscreen.svg images/button_down.svg
+    QML_FILES qml/lyricsView/LyricItem.qml
+    QML_FILES qml/lyricsView/RecordPlayer.qml
+    QML_FILES qml/playlistDetail/CommentItem.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

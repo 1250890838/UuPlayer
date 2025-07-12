@@ -49,10 +49,6 @@ Item {
             if (!currentFlickable)
                 return 0
             if (vertical) {
-                console.log("currentFlickable height:" + currentFlickable.height)
-                console.log("currentFlickable contentHeight:" + currentFlickable.contentHeight)
-                console.log("groove height:" + groove.height)
-
                 return Math.max(
                             20,
                             (currentFlickable.height
@@ -89,6 +85,13 @@ Item {
 
     Connections {
         target: currentFlickable
+        function onContentHeightChanged() {
+            console.log("current flickable content height : " + currentFlickable.contentHeight)
+
+            if (vertical)
+                handle.y = Qt.binding(() => handle.calcHandlePosition())
+        }
+
         function onContentYChanged() {
             if (vertical)
                 handle.y = Qt.binding(() => handle.calcHandlePosition())

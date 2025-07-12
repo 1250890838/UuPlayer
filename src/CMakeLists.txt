@@ -12,8 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(engine)
 add_subdirectory(network)
-add_subdirectory(service)
 add_subdirectory(gui)
+add_subdirectory(service)
 
 qt_add_executable(uu
     main.cc
