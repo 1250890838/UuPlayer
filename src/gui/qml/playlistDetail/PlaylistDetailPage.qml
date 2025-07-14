@@ -241,13 +241,13 @@ Flickable {
             Layout.topMargin: 5
             Layout.fillHeight: false
             currentIndex: 0
-            readonly property Item activeItem: children[currentIndex]
-            //implicitHeight: activeItem ? activeItem.implicitHeight : 0
             Layout.preferredHeight: stackLayout.implicitHeight
             onCurrentIndexChanged: {
                 if (currentIndex == 0) {
+                    console.log("songs page implicit height : " + songsPage.implicitHeight)
                     stackLayout.implicitHeight = songsPage.implicitHeight
                 } else if (currentIndex == 1) {
+                    console.log("comments page implicit height : " + commentsPage.implicitHeight)
                     stackLayout.implicitHeight = commentsPage.implicitHeight
                 }
                 console.log("stack layout height" + stackLayout.height)

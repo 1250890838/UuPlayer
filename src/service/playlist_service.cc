@@ -112,7 +112,9 @@ void PlaylistService::onGetHighqualityPlaylists(
 void PlaylistService::onGetSelectivePlaylists(
     network::error_code::ErrorCode code, const QByteArray& data) {
 
-  m_currPlaylists.clear();
+  if(m_currOffset==0){
+    m_currPlaylists.clear();
+  }
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() || doc.isEmpty()) {
@@ -149,7 +151,8 @@ void PlaylistService::onGetSelectivePlaylists(
           item->setSubscribedCount(
               o["subscribedCount"].toVariant().toULongLong());
           m_currPlaylists.appendItem(item);
-          this->getPlaylistTracks(item->id(), m_currPlaylists.last());
+          item->mediaItemModel()->clear();
+          this->getPlaylistTracks(item->id(), item);
         }
       }
     }
