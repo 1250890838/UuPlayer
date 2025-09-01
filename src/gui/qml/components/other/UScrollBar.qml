@@ -86,8 +86,6 @@ Item {
     Connections {
         target: currentFlickable
         function onContentHeightChanged() {
-            console.log("current flickable content height : " + currentFlickable.contentHeight)
-
             if (vertical)
                 handle.y = Qt.binding(() => handle.calcHandlePosition())
         }
