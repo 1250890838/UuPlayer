@@ -10,7 +10,7 @@ Flickable {
     id: root
     required property var detail
     contentHeight: columnLayout.implicitHeight
-    contentWidth: this.width
+    contentWidth: parent.width
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
@@ -243,8 +243,10 @@ Flickable {
             Item {
                 id: songsPage
                 implicitHeight: songsPageColumnLayout.implicitHeight
+                implicitWidth: songsPageColumnLayout.implicitWidth
                 ColumnLayout {
                     id: songsPageColumnLayout
+                    anchors.fill: parent
                     RowLayout {
                         id: headerLayout
                         Text {
