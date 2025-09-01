@@ -240,6 +240,9 @@ Flickable {
             Layout.leftMargin: 5
             Layout.topMargin: 5
             currentIndex: 0
+            Layout.fillWidth: true
+            implicitHeight: stackLayout.children[stackLayout.currentIndex].implicitHeight
+
             Item {
                 id: songsPage
                 implicitHeight: songsPageColumnLayout.implicitHeight
