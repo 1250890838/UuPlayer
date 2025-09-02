@@ -48,6 +48,9 @@ Item {
             width: parent.width
             height: mouseArea.containsMouse ? parent.height * 0.4 + 55 : 55
             radius: 10
+
+
+            /*
             gradient: Gradient {
                 GradientStop {
                     position: 0.0
@@ -58,6 +61,8 @@ Item {
                     color: "#623aa2"
                 }
             }
+            */
+            color: "#FFB6C1"
             x: 0
             y: mouseArea.containsMouse ? image.height - parent.height * 0.4 : image.height
             isBottomLeftRounded: true
