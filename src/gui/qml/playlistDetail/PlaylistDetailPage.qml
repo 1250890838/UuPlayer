@@ -213,6 +213,7 @@ Flickable {
             CTab {
                 id: commentsTab
                 text: "评论"
+                additionText: commentRepeater.count
                 isCurrentItem: tabsRow.currentTab === commentsTab
                 onClicked: {
                     tabsRow.currentTab.isCurrentItem = false
@@ -303,6 +304,7 @@ Flickable {
                 Column {
                     id: commentsPageColumn
                     anchors.fill: parent
+                    spacing: 20
                     UTextEdit {
                         id: commentTextEdit
                         radius: 10
@@ -314,6 +316,25 @@ Flickable {
                         borderWidth: 1
                         maxCharNum: 140
                     }
+
+                    Row {
+                        spacing: 1
+                        Text {
+                            id: newestCommentsCountText
+                            text: "最新评论"
+                            font.pointSize: 14
+                            font.bold: true
+                            anchors.leftMargin: 8
+                        }
+                        Text {
+                            id: newstCommentsCountAdditionText
+                            text: commentRepeater.count
+                            font.pointSize: 7
+                            font.bold: true
+                            anchors.top: parent.top
+                        }
+                    }
+
                     Repeater {
                         id: commentRepeater
                         delegate: CommentItem {

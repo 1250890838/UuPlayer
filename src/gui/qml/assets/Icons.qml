@@ -46,4 +46,8 @@ Item {
     property url playbackModeSingleLoopIcon: "qrc:/gui/images/button_playbackmode_singleloop.svg"
     property url downIcon: "qrc:/gui/images/button_down.svg"
     property url fullscreenIcon: "qrc:/gui/images/button_fullscreen.svg"
+
+    property url commentItemLikeIcon: "qrc:/gui/images/button_comment_item_like.svg"
+    property url commentItemCommentIcon: "qrc:/gui/images/button_comment_item_comment.svg"
+    property url commentItemShareIcon: "qrc:/gui/images/button_comment_item_share.svg"
 }

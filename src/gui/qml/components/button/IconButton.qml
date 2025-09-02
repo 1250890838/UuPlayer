@@ -1,5 +1,6 @@
 import QtQuick.Controls
 import QtQuick
+import "../other"
 
 Item {
     id: root
@@ -26,12 +27,16 @@ Item {
         color: mouseArea.containsMouse ? root.backgroundHoveredColor : root.backgroundColor
         border.color: root.borderColor
         border.width: root.borderWidth
-        Image {
+        RoundedImage {
             id: image
             anchors.fill: parent
             anchors.margins: root.margins
-            source: mouseArea.containsMouse ? root.hoveredIcon : root.icon
-            fillMode: Image.PreserveAspectFit
+            imageUrl: mouseArea.containsMouse ? root.hoveredIcon : root.icon
+            isTopLeftRounded: true
+            isTopRightRounded: true
+            isBottomLeftRounded: true
+            isBottomRightRounded: true
+            radius: root.radius
         }
     }
 

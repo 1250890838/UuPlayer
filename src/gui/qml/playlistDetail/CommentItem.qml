@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import components 1.0
+import assets 1.0
 
 
 /*
@@ -22,17 +23,26 @@ userdata
   Q_PROPERTY(bool followed READ followed WRITE setFollowed)
   Q_PROPERTY(QString name READ name WRITE setName)
 */
-Item {
+Pane {
     id: root
     required property var modelData
-    implicitHeight: column.implicitHeight
+    implicitHeight: Math.max(column.implicitHeight,
+                             iconButton.implicitHeight) + root.padding * 4
+    padding: 10
+    background: Rectangle {
+        color: "transparent"
+    }
     RowLayout {
-        anchors.fill: parent
+        width: parent.width
+        spacing: 15
         IconButton {
+            id: iconButton
             icon: modelData.userData.avatarUrl
             hoveredIcon: modelData.userData.avatarUrl
-            width: 40
-            height: 40
+            implicitWidth: 40
+            implicitHeight: 40
+            Layout.alignment: Qt.AlignTop
+            radius: this.implicitHeight / 2
         }
 
         Column {
@@ -41,6 +51,7 @@ Item {
                                     + commentTime.implicitHeight + 2 * column.spacing
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: 8
             Label {
                 id: userName
                 text: modelData.userData.name
@@ -51,9 +62,70 @@ Item {
                 text: modelData.content
             }
 
+            Item {
+                id: spacer
+                width: 1
+                height: 1
+            }
+
             Label {
                 id: commentTime
                 text: Utils.convertMillisecondsToDate(modelData.time)
+                font.pointSize: 7
+                color: "gray"
+            }
+        }
+
+        Row {
+            id: buttonGroupRow
+            spacing: 25
+            Layout.alignment: Qt.AlignBottom
+            IconButton {
+                icon: Icons.commentItemLikeIcon
+                hoveredIcon: Icons.commentItemLikeIcon
+                width: 18
+                height: 18
+            }
+            IconButton {
+                icon: Icons.commentItemShareIcon
+                hoveredIcon: Icons.commentItemShareIcon
+                width: 16
+                height: 16
+            }
+            IconButton {
+                icon: Icons.commentItemCommentIcon
+                hoveredIcon: Icons.commentItemCommentIcon
+                width: 16
+                height: 16
+            }
+        }
+    }
+
+    Rectangle {
+        id: fancyDivider
+        width: parent.width
+        height: 1
+        anchors {
+            bottom: parent.bottom
+            leftMargin: 5
+            rightMargin: 5
+        }
+        gradient: Gradient {
+            GradientStop {
+                position: 0.0
+                color: "transparent"
+            }
+            GradientStop {
+                position: 0.4
+                color: "#e0e0e0"
+            }
+            GradientStop {
+                position: 0.6
+                color: "#e0e0e0"
+            }
+            GradientStop {
+                position: 1.0
+                color: "transparent"
             }
         }
     }
