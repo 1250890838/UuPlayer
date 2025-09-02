@@ -33,7 +33,8 @@ Pane {
         color: "transparent"
     }
     RowLayout {
-        width: parent.width
+        anchors.fill: parent
+        anchors.bottomMargin: 18
         spacing: 15
         IconButton {
             id: iconButton
@@ -60,6 +61,7 @@ Pane {
             Label {
                 id: commentContent
                 text: modelData.content
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
             Item {
@@ -80,11 +82,26 @@ Pane {
             id: buttonGroupRow
             spacing: 25
             Layout.alignment: Qt.AlignBottom
-            IconButton {
-                icon: Icons.commentItemLikeIcon
-                hoveredIcon: Icons.commentItemLikeIcon
-                width: 18
-                height: 18
+
+            Item {
+                width: commentItemLikeRow.implicitWidth
+                height: commentItemLikeRow.implicitHeight
+                Row {
+                    id: commentItemLikeRow
+                    anchors.fill: parent
+                    spacing: 5
+                    Text {
+                        text: modelData.likedCount
+                        font.pointSize: 9
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    IconButton {
+                        icon: Icons.commentItemLikeIcon
+                        hoveredIcon: Icons.commentItemLikeIcon
+                        width: 18
+                        height: 18
+                    }
+                }
             }
             IconButton {
                 icon: Icons.commentItemShareIcon
@@ -103,12 +120,13 @@ Pane {
 
     Rectangle {
         id: fancyDivider
-        width: parent.width
         height: 1
         anchors {
             bottom: parent.bottom
-            leftMargin: 5
-            rightMargin: 5
+            left: parent.left
+            right: parent.right
+            leftMargin: 12
+            rightMargin: 12
         }
         gradient: Gradient {
             GradientStop {
