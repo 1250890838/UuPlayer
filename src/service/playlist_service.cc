@@ -264,6 +264,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
       data.setAvatarUrl(subscriberObj["avatarUrl"].toString());
       data.setName(subscriberObj["nickname"].toString());
       data.setBackgroundUrl(subscriberObj["backgroundUrl"].toString());
+      data.setGender(subscriberObj["gender"].toInt());
       list.append(QVariant::fromValue(data));
     }
     fitem->setSubscribers(list);

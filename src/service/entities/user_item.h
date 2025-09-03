@@ -14,6 +14,7 @@ class UserData {
   Q_PROPERTY(qulonglong birthday READ birthday WRITE setBirthday)
   Q_PROPERTY(bool followed READ followed WRITE setFollowed)
   Q_PROPERTY(QString name READ name WRITE setName)
+  Q_PROPERTY(qint8 gender READ gender WRITE setGender)
 
  public:
   UserData() = default;
@@ -32,6 +33,8 @@ class UserData {
   void setBirthday(qulonglong birthday) { m_birthday = birthday; }
   bool followed() const { return m_followed; }
   void setFollowed(bool followed) { m_followed = followed; }
+  qint8 gender() const {return m_gender; }
+  void setGender(qint8 gender) { m_gender = gender; }
 
  private:
   qulonglong m_id;
@@ -41,6 +44,7 @@ class UserData {
   QStringList m_expertTags;
   qulonglong m_birthday;
   bool m_followed;
+  qint8 m_gender;
 };
 
 }
