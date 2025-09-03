@@ -48,7 +48,7 @@ class PlaylistItem {
   QStringList tags() const { return m_tags; }
   UserData creator() const { return m_creator; }
   qulonglong playCount() const { return m_playCount; }
-  QVector<UserData> subscribers() const { return m_subscribers; }
+  QVariantList subscribers() const { return m_subscribers; }
   bool subscribed() const { return m_subscribed; }
   MediaItemModel* mediaItemModel() { return m_mediaItemModel; }
   qulonglong subscribedCount() const { return m_subscribedCount; }
@@ -65,7 +65,7 @@ class PlaylistItem {
   void setTags(const QStringList& tags) { m_tags = tags; }
   void setCreator(const UserData& creator) { m_creator = creator; }
   void setSubscribed(bool b) { m_subscribed = b; }
-  void setSubscribers(const QVector<UserData>& subscribers) {
+  void setSubscribers(const QVariantList& subscribers) {
     m_subscribers = subscribers;
   }
   void setSubscribedCount(qulonglong count) { m_subscribedCount = count; }
@@ -82,7 +82,7 @@ class PlaylistItem {
   QStringList m_tags;
   qulonglong m_playCount;
   UserData m_creator;
-  QVector<UserData> m_subscribers;
+  QVariantList m_subscribers;
   bool m_subscribed;
   qulonglong m_subscribedCount;
   MediaItemModel* m_mediaItemModel;

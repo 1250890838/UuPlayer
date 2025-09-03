@@ -255,6 +255,18 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
       item->duration = track["dt"].toVariant().toLongLong();
       model->appendItem(item);
     }
+    auto subscribers = playlist["subscribers"].toArray();
+    QVariantList list;
+    for (const QJsonValue& subscriber : subscribers) {
+      QJsonObject subscriberObj = subscriber.toObject();
+      UserData data;
+      data.setId(subscriberObj["userId"].toVariant().toLongLong());
+      data.setAvatarUrl(subscriberObj["avatarUrl"].toString());
+      data.setName(subscriberObj["nickname"].toString());
+      data.setBackgroundUrl(subscriberObj["backgroundUrl"].toString());
+      list.append(QVariant::fromValue(data));
+    }
+    fitem->setSubscribers(list);
   }
 }
 
