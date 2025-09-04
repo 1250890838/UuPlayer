@@ -16,7 +16,7 @@ class NETWORK_DLL_EXPORT PlaylistNetwork : public BasicNetwork {
   void getHighqualityPlaylists(qint32 limit, qint32 tag);
   void getSelectivePlaylists(qint32 limit, const QString& tag, qint32 offest);
   void getPlaylistsCatlist();
-  void getPlaylistDetail(qulonglong id, void* item);
+  void getPlaylistDetail(qulonglong id);
   void getPlaylistTracks(qulonglong id, void* item);
   void getPlaylistComments(qulonglong id);
  signals:
@@ -26,8 +26,7 @@ class NETWORK_DLL_EXPORT PlaylistNetwork : public BasicNetwork {
                                      const QByteArray&);
   void getPlaylistsCatlistFinished(error_code::ErrorCode code,
                                    const QByteArray&);
-  void getPlaylistDetailFinished(error_code::ErrorCode code, const QByteArray&,
-                                 void* item);
+  void getPlaylistDetailFinished(error_code::ErrorCode code, const QByteArray&,qulonglong id);
   void getPlaylistTracksFinished(error_code::ErrorCode code, const QByteArray&,
                                  void* item);
   void getPlaylistCommentsFinished(error_code::ErrorCode code,

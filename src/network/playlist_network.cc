@@ -63,19 +63,19 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, const QString& tag,qin
   });
 }
 
-void PlaylistNetwork::getPlaylistDetail(qulonglong id,void* item){
+void PlaylistNetwork::getPlaylistDetail(qulonglong id){
   QNetworkRequest request;
   QUrl url = network_api::apiPlaylistDetail + "?" + "id=" + QString::number(id);
   request.setUrl(url);
   auto reply = this->get(request);
-  connect(reply, &QNetworkReply::finished, this, [reply,item,this]() {
+  connect(reply, &QNetworkReply::finished, this, [reply,id,this]() {
     auto e = reply->error();
     if (e == QNetworkReply::NoError) {
       QByteArray data = reply->readAll();
-      emit getPlaylistDetailFinished(error_code::NoError, data,item);
+      emit getPlaylistDetailFinished(error_code::NoError, data,id);
     } else {
       emit getPlaylistDetailFinished(error_code::OtherError,
-                                       QByteArray(),item);
+                                       QByteArray(),id);
     }
     reply->deleteLater();
   });

@@ -53,8 +53,8 @@ void PlaylistService::getPlaylistsCatlist() {
   m_network.getPlaylistsCatlist();
 }
 
-void PlaylistService::getPlaylistDetail(qulonglong id, PlaylistItem* item) {
-  m_network.getPlaylistDetail(id, item);
+void PlaylistService::getPlaylistDetail(qulonglong id) {
+  m_network.getPlaylistDetail(id);
 }
 
 void PlaylistService::getPlaylistTracks(qulonglong id, PlaylistItem* item) {
@@ -224,13 +224,13 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
 }
 
 void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
-                                          const QByteArray& data, void* item) {
+                                          const QByteArray& data,qulonglong id) {
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     auto obj = doc.object();
     auto playlist = obj["playlist"].toObject();
     auto tracks = playlist["tracks"].toArray();
-    auto fitem = static_cast<PlaylistItem*>(item);
+    auto fitem = g_idToPlaylistMap[id];
     auto model = fitem->mediaItemModel();
     for (const QJsonValue& track : tracks) {
       model::MediaItem* item = new model::MediaItem;
@@ -255,17 +255,23 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
     }
     auto subscribers = playlist["subscribers"].toArray();
     QVariantList list;
+
+    int limit = 30;
     for (const QJsonValue& subscriber : subscribers) {
       QJsonObject subscriberObj = subscriber.toObject();
-      UserData data;
-      data.setId(subscriberObj["userId"].toVariant().toLongLong());
-      data.setAvatarUrl(subscriberObj["avatarUrl"].toString());
-      data.setName(subscriberObj["nickname"].toString());
-      data.setBackgroundUrl(subscriberObj["backgroundUrl"].toString());
-      data.setGender(subscriberObj["gender"].toInt());
-      list.append(QVariant::fromValue(data));
+      UserData userData;
+      userData.setId(subscriberObj["userId"].toVariant().toLongLong());
+      userData.setAvatarUrl(subscriberObj["avatarUrl"].toString());
+      userData.setName(subscriberObj["nickname"].toString());
+      userData.setBackgroundUrl(subscriberObj["backgroundUrl"].toString());
+      userData.setGender(subscriberObj["gender"].toInt());
+      userData.setDesc(subscriberObj["description"].toString());
+      list.append(QVariant::fromValue(userData));
+      if (limit-- <= 0)
+        break;
     }
     fitem->setSubscribers(list);
+    emit playlistSubscribersStatus(network::error_code::NoError);
   }
 }
 

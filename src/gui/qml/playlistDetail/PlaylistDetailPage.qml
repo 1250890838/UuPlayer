@@ -16,6 +16,8 @@ Flickable {
     clip: true
     Component.onCompleted: {
         globalScrollBar.currentFlickable = this
+        PlaylistsService.getPlaylistComments(detail.id)
+        PlaylistsService.getPlaylistDetail(detail.id)
     }
 
     ColumnLayout {
@@ -220,7 +222,6 @@ Flickable {
                     tabsRow.currentTab = this
                     tabsRow.currentTab.isCurrentItem = true
                     stackLayout.currentIndex = 1
-                    PlaylistsService.getPlaylistComments(detail.id)
                 }
             }
             CTab {
@@ -350,6 +351,32 @@ Flickable {
                             detail = PlaylistsService.getPlaylistItemForId(
                                         detail.id)
                             commentRepeater.model = detail.commentData
+                        }
+                    }
+                }
+            }
+            Item {
+                id: subscribersPage
+                implicitWidth: parent.width
+                implicitHeight: subscribersFlow.implicitHeight
+                Flow {
+                    id: subscribersFlow
+                    width: parent.width
+                    spacing: 20
+                    Repeater {
+                        id: subscriberRepeater
+                        model: detail.subscribers
+                        SubscriberItem {}
+                    }
+                }
+                Connections {
+                    id: subscribersRequiredConnection
+                    target: PlaylistsService
+                    function onPlaylistSubscribersStatus(code) {
+                        if (code === ErrorCode.NoError) {
+                            detail = PlaylistsService.getPlaylistItemForId(
+                                        detail.id)
+                            subscriberRepeater.model = detail.subscribers
                         }
                     }
                 }

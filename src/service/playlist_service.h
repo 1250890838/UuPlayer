@@ -34,7 +34,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_INVOKABLE void getHighqualityPlaylists(qint32 limit = 5, qint32 tag = -1);
   Q_INVOKABLE void getSelectivePlaylists();
   Q_INVOKABLE void getPlaylistsCatlist();
-  Q_INVOKABLE void getPlaylistDetail(qulonglong id, PlaylistItem* item);
+  Q_INVOKABLE void getPlaylistDetail(qulonglong id);
   Q_INVOKABLE void getPlaylistTracks(qulonglong id, PlaylistItem* item);
   Q_INVOKABLE void getPlaylistComments(qulonglong id);
 
@@ -48,6 +48,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   void selectivePlaylistsStatus(network::error_code::ErrorCode code);
   void playlistsCatlist(QVariantMap catlist);
   void playlistCommentsStatus(network::error_code::ErrorCode code);
+  void playlistSubscribersStatus(network::error_code::ErrorCode code);
 
  public slots:
   void onGetHighqualityPlaylists(network::error_code::ErrorCode,
@@ -57,7 +58,7 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   void onGetPlaylistsCatlist(network::error_code::ErrorCode,
                              const QByteArray& data);
   void onGetPlaylistDetail(network::error_code::ErrorCode,
-                           const QByteArray& data, void* item);
+                           const QByteArray& data,qulonglong id);
   void onGetPlaylistTracks(network::error_code::ErrorCode,
                            const QByteArray& data, void* item);
   void onGetPlaylistComments(network::error_code::ErrorCode,

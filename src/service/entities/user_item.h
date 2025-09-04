@@ -15,6 +15,7 @@ class UserData {
   Q_PROPERTY(bool followed READ followed WRITE setFollowed)
   Q_PROPERTY(QString name READ name WRITE setName)
   Q_PROPERTY(qint8 gender READ gender WRITE setGender)
+  Q_PROPERTY(QString desc READ desc WRITE setDesc)
 
  public:
   UserData() = default;
@@ -35,6 +36,8 @@ class UserData {
   void setFollowed(bool followed) { m_followed = followed; }
   qint8 gender() const {return m_gender; }
   void setGender(qint8 gender) { m_gender = gender; }
+  QString desc() const { return m_desc; }
+  void setDesc(const QString& desc) { m_desc = desc; }
 
  private:
   qulonglong m_id;
@@ -45,6 +48,7 @@ class UserData {
   qulonglong m_birthday;
   bool m_followed;
   qint8 m_gender;
+  QString m_desc;
 };
 
 }
