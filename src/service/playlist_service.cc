@@ -98,7 +98,6 @@ void PlaylistService::onGetHighqualityPlaylists(
           item->setTags(formatTags(o["tags"].toArray()));
           item->setPlayCount(o["playCount"].toVariant().toLongLong());
           item->setCreator(formatCreator(o["creator"].toObject()));
-          item->setSubscribers(formatSubscribers(o["subscribers"].toArray()));
           item->setSubscribed(o["subscribed"].toBool());
           m_currPlaylists.appendItem(item);
         }
@@ -146,7 +145,6 @@ void PlaylistService::onGetSelectivePlaylists(
           item->setTags(formatTags(o["tags"].toArray()));
           item->setPlayCount(o["playCount"].toVariant().toLongLong());
           item->setCreator(formatCreator(o["creator"].toObject()));
-          item->setSubscribers(formatSubscribers(o["subscribers"].toArray()));
           item->setSubscribed(o["subscribed"].toBool());
           item->setSubscribedCount(
               o["subscribedCount"].toVariant().toULongLong());

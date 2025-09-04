@@ -22,7 +22,7 @@ class PlaylistItem {
   Q_PROPERTY(QStringList tags READ tags)
   Q_PROPERTY(UserData creator READ creator)
   Q_PROPERTY(qulonglong subscribedCount READ subscribedCount)
-  Q_PROPERTY(QVector<UserData> subscribers READ subscribers)
+  Q_PROPERTY(QVariantList subscribers READ subscribers)
   Q_PROPERTY(bool subscribed READ subscribed)
   Q_PROPERTY(MediaItemModel* mediaItemModel READ mediaItemModel)
   Q_PROPERTY(QVariantList commentData READ commentData)
