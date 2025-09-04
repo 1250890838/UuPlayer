@@ -14,12 +14,13 @@ Rectangle {
 
     MultiEffect {
         id: effect
+        blurEnabled: mouseArea.containsMouse
         visible: mouseArea.containsMouse
         source: root
         anchors.fill: root
         shadowBlur: 0.1
-        shadowColor: "pink"
-        shadowEnabled: true
+        shadowColor: "transparent"
+        shadowEnabled: mouseArea.containsMouse
         shadowVerticalOffset: 0
         shadowHorizontalOffset: 0
         shadowOpacity: 0.3
