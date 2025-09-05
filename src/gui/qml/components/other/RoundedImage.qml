@@ -17,6 +17,8 @@ Rectangle {
         anchors.fill: parent
         source: root.imageUrl
         visible: false
+        fillMode: Image.PreserveAspectFit
+        smooth: true
     }
 
     MultiEffect {
@@ -32,7 +34,7 @@ Rectangle {
         height: image.height
         layer.enabled: true
         visible: false
-
+        layer.smooth: true
         RoundedRectangle {
             id: maskRect
             width: image.width
