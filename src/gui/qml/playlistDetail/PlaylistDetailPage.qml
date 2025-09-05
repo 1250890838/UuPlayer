@@ -10,7 +10,7 @@ Flickable {
     id: root
     required property var detail
     contentHeight: columnLayout.implicitHeight
-    contentWidth: parent.width
+    contentWidth: width
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
