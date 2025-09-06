@@ -29,7 +29,7 @@ void service::SongService::onGetSongUrlFinished(
     auto songUrl = dataObj["url"].toString();
     auto media_item = static_cast<model::MediaItem*>(item);
     media_item->url = songUrl;
-    emit songUrlStatus(network::error_code::NoError);
+    emit songUrlStatus(network ::error_code::NoError);
   }
 }
 
