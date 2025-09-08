@@ -33,6 +33,7 @@ Item {
     RowLayout {
         id: rowLayout
         anchors.fill: parent
+        spacing: 10
         Text {
             id: index
             visible: !playButton.visible
@@ -85,11 +86,6 @@ Item {
                     connectFactory.createObject(this)
                 }
             }
-        }
-        Item {
-            id: spacer
-            Layout.preferredWidth: 20
-            Layout.fillHeight: true
         }
         Row {
             Layout.preferredWidth: headerTitleItem.width

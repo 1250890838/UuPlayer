@@ -255,16 +255,12 @@ Flickable {
                     anchors.fill: parent
                     RowLayout {
                         id: headerLayout
+                        spacing: 10
                         Text {
                             id: headerDummyItem
                             text: "#"
-                            Layout.preferredWidth: 20
+                            Layout.preferredWidth: headerDummyItem.implicitWidth + 8
                             font.pointSize: 9
-                        }
-                        Item {
-                            id: spacer
-                            Layout.preferredWidth: 20
-                            Layout.fillHeight: true
                         }
                         Text {
                             id: headerTitleItem
