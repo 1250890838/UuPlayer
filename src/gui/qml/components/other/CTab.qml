@@ -8,7 +8,7 @@ Item {
     property alias textColor: textId.color
     property bool isCurrentItem: false
     signal clicked
-    implicitWidth: textId.implicitWidth + 5
+    implicitWidth: column.implicitWidth + additionTextId.implicitWidth + 5
     implicitHeight: 35
 
     Text {
