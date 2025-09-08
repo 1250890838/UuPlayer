@@ -11,7 +11,7 @@ Item {
         color: root.skinColor
         radius: 8
         width: parent.width
-        height: parent.height - text.implicitHeight - 5
+        height: parent.height - (text.implicitHeight + text.anchors.top)
 
         MouseArea {
             id: mouseArea
