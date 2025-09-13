@@ -33,6 +33,8 @@ Item {
     RowLayout {
         id: rowLayout
         anchors.fill: parent
+        anchors.leftMargin: 25
+        anchors.rightMargin: 25
         spacing: 10
         Text {
             id: index

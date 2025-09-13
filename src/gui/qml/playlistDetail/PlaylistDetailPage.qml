@@ -256,6 +256,8 @@ Flickable {
                     RowLayout {
                         id: headerLayout
                         spacing: 10
+                        Layout.leftMargin: 25
+                        Layout.rightMargin: 25
                         Text {
                             id: headerDummyItem
                             text: "#"
