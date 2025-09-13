@@ -35,7 +35,7 @@ class MetaDataExtractor : public QObject
   QMediaPlayer* m_player;
   QStringList m_fileQueue;
   int m_currentIndex;
-  QList<MetaData> m_metaDatas
+  QList<MetaData> m_metaDatas;
 };
 }
 #endif // METADATAEXTRACTOR_H
