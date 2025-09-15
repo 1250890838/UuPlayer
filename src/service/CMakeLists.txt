@@ -17,6 +17,7 @@ qt6_add_qml_module(service URI service.api VERSION 1.0 SOURCES
     entities/playlist_item.h
     entities/user_item.h
     entities/comment_data.h
+    SOURCES model/mediaitem_filterproxy_model.h model/mediaitem_filterproxy_model.cc
 )
 
 target_compile_definitions(service PRIVATE SERVICE_EXPORT_SYMBOLS)
