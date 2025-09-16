@@ -47,7 +47,7 @@ Item {
             id: connectFactory
             Connections {
                 id: playSongConnection
-                target: SongService
+                target: NetworkSongService
                 property int count: 2
                 function onSongUrlStatus(code) {
                     if (code === ErrorCode.NoError) {
@@ -83,8 +83,8 @@ Item {
                         && PlayService.currentPlayItem.id === model.id) {
                     PlayService.pause()
                 } else {
-                    SongService.getSongUrl(model.id)
-                    SongService.getSongLyric(model.id)
+                    NetworkSongService.getSongUrl(model.id)
+                    NetworkSongService.getSongLyric(model.id)
                     connectFactory.createObject(this)
                 }
             }

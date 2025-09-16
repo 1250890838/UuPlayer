@@ -14,7 +14,7 @@
 namespace service {
 
 // 获取歌曲相关信息服务
-class SERVICE_DLL_EXPORT SongService : public QObject {
+class SERVICE_DLL_EXPORT NetworkSongService : public QObject {
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
@@ -27,7 +27,7 @@ class SERVICE_DLL_EXPORT SongService : public QObject {
   Q_INVOKABLE void getSongNewLyric(qulonglong id);
 
  public:
-  SongService(QObject* parent = nullptr);
+  NetworkSongService(QObject* parent = nullptr);
  public slots:
   void onGetSongUrlFinished(network::error_code::ErrorCode code,const QByteArray&,void* item);
   void onGetSongLyricFinished(network::error_code::ErrorCode code,const QByteArray&,qulonglong id);

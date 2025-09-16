@@ -115,10 +115,10 @@ Flickable {
                                                 mediaItemsRepeater.mediaIds[0])
                                 }
                                 for (var i = 1; i < mediaItemsRepeater.mediaIds.length; i++) {
-                                    SongService.getSongUrl(
+                                    NetworkSongService.getSongUrl(
                                                 mediaItemsRepeater.mediaIds[i])
                                 }
-                                SongService.songUrlStatus.disconnect(
+                                NetworkSongService.songUrlStatus.disconnect(
                                             processGetAllSongStatus)
                             }
 
@@ -131,9 +131,9 @@ Flickable {
                                     PlayService.appendMediaId(
                                                 mediaItemsRepeater.mediaIds[i])
                                 }
-                                SongService.getSongUrl(
+                                NetworkSongService.getSongUrl(
                                             mediaItemsRepeater.mediaIds[0])
-                                SongService.songUrlStatus.connect(
+                                NetworkSongService.songUrlStatus.connect(
                                             processGetAllSongStatus)
                             }
                         }

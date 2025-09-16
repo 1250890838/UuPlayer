@@ -9,14 +9,14 @@
 #include <QJsonValue>
 #include <QRegularExpression>
 
-service::SongService::SongService(QObject* parent) {
+service::NetworkSongService::NetworkSongService(QObject* parent) {
   connect(&m_network, &network::SongNetwork::getSongUrlFinished, this,
-          &SongService::onGetSongUrlFinished);
+          &NetworkSongService::onGetSongUrlFinished);
   connect(&m_network, &network::SongNetwork::getSongLyricFinished, this,
-          &SongService::onGetSongLyricFinished);
+          &NetworkSongService::onGetSongLyricFinished);
 }
 
-void service::SongService::onGetSongUrlFinished(
+void service::NetworkSongService::onGetSongUrlFinished(
     network::error_code::ErrorCode code, const QByteArray& data, void* item) {
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
@@ -33,7 +33,7 @@ void service::SongService::onGetSongUrlFinished(
   }
 }
 
-void service::SongService::onGetSongLyricFinished(
+void service::NetworkSongService::onGetSongLyricFinished(
     network::error_code::ErrorCode code, const QByteArray& data,
     qulonglong id) {
   if (code == network::error_code::NoError) {
@@ -48,7 +48,7 @@ void service::SongService::onGetSongLyricFinished(
   emit songLyricStatus(code);
 }
 
-QVariantList service::SongService::parseLyricStr(const QString& lyric) {
+QVariantList service::NetworkSongService::parseLyricStr(const QString& lyric) {
   QRegularExpression regex(R"(\[(\d{2}):(\d{2})\.(\d{2,3})\]\s*(.*))");
   QStringList lines = lyric.split("\n");
   QVariantList result;
@@ -70,7 +70,7 @@ QVariantList service::SongService::parseLyricStr(const QString& lyric) {
   return result;
 }
 
-void service::SongService::getSongUrl(qulonglong id) {
+void service::NetworkSongService::getSongUrl(qulonglong id) {
   auto mediaItem = g_idToMediaMap[id];
   if (!mediaItem->url.isEmpty()) {
     emit songUrlStatus(network::error_code::NoError);
@@ -81,11 +81,11 @@ void service::SongService::getSongUrl(qulonglong id) {
   }
 }
 
-void service::SongService::checkSongEnable(qulonglong id) {}
+void service::NetworkSongService::checkSongEnable(qulonglong id) {}
 
-void service::SongService::getSongComments(qulonglong id) {}
+void service::NetworkSongService::getSongComments(qulonglong id) {}
 
-void service::SongService::getSongLyric(qulonglong id) {
+void service::NetworkSongService::getSongLyric(qulonglong id) {
   auto mediaItem = g_idToMediaMap[id];
   if (!mediaItem->lyrics.isEmpty()) {
     emit songLyricStatus(network::error_code::NoError);
@@ -94,4 +94,4 @@ void service::SongService::getSongLyric(qulonglong id) {
   m_network.getSongLyric(id);
 }
 
-void service::SongService::getSongNewLyric(qulonglong id) {}
+void service::NetworkSongService::getSongNewLyric(qulonglong id) {}
