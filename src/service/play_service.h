@@ -51,7 +51,7 @@ class PlayService : public QObject {
   Q_INVOKABLE void play();
   Q_INVOKABLE void appendMediaId(qulonglong id);
   Q_INVOKABLE void insertNext(qulonglong id);
-  Q_INVOKABLE model::MediaItem currentPlayItem();
+  Q_INVOKABLE entities::MediaItem currentPlayItem();
  private slots:
   void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
   void onMediaStatusChanged(QMediaPlayer::MediaStatus status);

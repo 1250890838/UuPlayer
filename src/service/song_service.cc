@@ -27,7 +27,7 @@ void service::NetworkSongService::onGetSongUrlFinished(
 
     auto dataObj = dataArr[0].toObject();
     auto songUrl = dataObj["url"].toString();
-    auto media_item = static_cast<model::MediaItem*>(item);
+    auto media_item = static_cast<entities::MediaItem*>(item);
     media_item->url = songUrl;
     emit songUrlStatus(network ::error_code::NoError);
   }

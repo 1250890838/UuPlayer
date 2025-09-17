@@ -126,7 +126,7 @@ void PlayService::appendMediaId(qulonglong id) {
     return;
   }
 
-  model::MediaItem* item = g_idToMediaMap[id];
+  entities::MediaItem* item = g_idToMediaMap[id];
   m_playbacklistModel.appendItem(item);
   emit numChanged();
 }
@@ -149,7 +149,7 @@ void PlayService::insertNext(qulonglong id) {
   emit numChanged();
 }
 
-model::MediaItem PlayService::currentPlayItem() {
+entities::MediaItem PlayService::currentPlayItem() {
   auto items = m_playbacklistModel.rawData();
   if (m_currentIndex >= 0 && m_currentIndex < items.size()) {
     return *items[m_currentIndex];
