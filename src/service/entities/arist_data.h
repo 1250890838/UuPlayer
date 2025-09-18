@@ -21,4 +21,5 @@ class AristData {
   QString m_name;
 };
 }
+Q_DECLARE_METATYPE(entities::AristData);
 #endif // ARIST_DATA_H
