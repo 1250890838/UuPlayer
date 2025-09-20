@@ -15,7 +15,7 @@ Item {
     property color backgroundHoveredColor: "transparent"
     property int borderWidth: 0
     property int radius: 0
-
+    property bool containsMouse: mouseArea.containsMouse
     property real margins: 0
 
     signal clicked
