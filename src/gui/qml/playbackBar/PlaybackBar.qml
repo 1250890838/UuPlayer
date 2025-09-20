@@ -23,6 +23,7 @@ Item {
         RowLayout {
             id: containerRowLayout
             anchors.fill: parent
+            spacing: 20
             anchors.leftMargin: 30
             anchors.rightMargin: 30
             AlbumDisplay {
@@ -166,6 +167,11 @@ Item {
                 onClicked: {
                     playbacklistPage.open()
                 }
+            }
+
+            VolumeControlButton {
+                implicitWidth: 20
+                implicitHeight: 20
             }
         }
     }

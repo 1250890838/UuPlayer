@@ -10,6 +10,9 @@ Slider {
     topPadding: 0
     bottomPadding: 0
     orientation: Qt.Horizontal
+    property bool showOnHover: true
+    property bool reverse: false
+
     background: Rectangle {
         x: {
             if (control.orientation == Qt.Horizontal)
@@ -36,7 +39,7 @@ Slider {
                 return control.availableHeight - handle.height
         }
         radius: 2
-        color: "#dadcdf"
+        color: control.reverse ? "#fc3d4f" : "#dadcdf"
 
         Rectangle {
             width: {
@@ -51,14 +54,19 @@ Slider {
                 else
                     return control.visualPosition * parent.height
             }
-            color: "#fc3d4f"
+            color: control.reverse ? "#dadcdf" : "#fc3d4f"
             radius: 2
         }
     }
 
     handle: Rectangle {
         id: handle
-        visible: control.hovered || control.pressed
+        visible: {
+            if (control.showOnHover)
+                return control.hovered || control.pressed
+            else
+                return true
+        }
         x: {
             if (control.orientation == Qt.Horizontal)
                 return control.leftPadding + control.visualPosition

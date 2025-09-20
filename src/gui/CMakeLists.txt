@@ -117,6 +117,9 @@ qt_add_qml_module(gui
     RESOURCES images/button_comment_item_comment.svg images/button_comment_item_like.svg images/button_comment_item_share.svg
     QML_FILES
     QML_FILES qml/playlistDetail/SubscriberItem.qml
+    RESOURCES
+    QML_FILES qml/playbackBar/VolumeControlButton.qml
+    RESOURCES images/button_playbackbar_volumn_close.svg images/button_playbackbar_volumn_open.svg
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

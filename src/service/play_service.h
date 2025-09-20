@@ -20,6 +20,9 @@ class PlayService : public QObject {
   Q_PROPERTY(qint64 duration READ duration NOTIFY durationChanged)
   Q_PROPERTY(
       qint64 position READ position WRITE setPosition NOTIFY positionChanged)
+  Q_PROPERTY(
+      float volumn READ volumn WRITE setVolumn NOTIFY volumnChanged)
+
   Q_PROPERTY(model::MediaItem currentPlayItem  READ currentPlayItem NOTIFY currentPlayItemChanged)
   Q_PROPERTY(qint64 num READ num NOTIFY numChanged)
   Q_PROPERTY(PlaybackMode playbackMode READ playbackMode WRITE setPlaybackMode NOTIFY playbackModeChanged)
@@ -42,6 +45,8 @@ class PlayService : public QObject {
   PlaybackMode playbackMode();
   model::MediaItemModel* playbacklist();
   void setPlaybackMode(PlaybackMode mode);
+  float volumn();
+  void setVolumn(float volumn);
   // interface
  public:
   Q_INVOKABLE void play(qulonglong id);
@@ -70,6 +75,7 @@ class PlayService : public QObject {
   void currentPlayItemChanged();
   void numChanged();
   void playbackModeChanged();
+  void volumnChanged(float);
 };
 }  // namespace service
 #endif  // PLAY_SERVICE_H

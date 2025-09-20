@@ -40,6 +40,24 @@ void PlayService::setPlaybackMode(PlaybackMode mode) {
   emit playbackModeChanged();
 }
 
+float PlayService::volumn()
+{
+  auto audioOutput = m_player.audioOutput();
+  if(audioOutput!=nullptr){
+    return audioOutput->volume();
+  }
+  return 0.0f;
+}
+
+void PlayService::setVolumn(float volumn)
+{
+  auto audioOutput = m_player.audioOutput();
+  if(audioOutput!=nullptr){
+    audioOutput->setVolume(volumn);
+    emit volumnChanged(volumn);
+  }
+}
+
 PlayService::PlaybackMode PlayService::playbackMode() {
   return m_playbackMode;
 }

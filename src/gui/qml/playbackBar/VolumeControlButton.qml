@@ -1,0 +1,81 @@
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Effects
+import assets 1.0
+import service.api 1.0
+import components 1.0
+
+Item {
+    id: root
+    property size buttonSize: "20x20"
+    property size popupSize: Qt.size(20, 133)
+    property float previousVolumn: 0
+
+    IconButton {
+        id: iconButton
+        icon: Boolean(
+                  volumnSlider.value) ? Icons.playbackBarVolumnOpenIcon : Icons.playbackBarVolumnCloseIcon
+        hoveredIcon: Boolean(
+                         volumnSlider.value) ? Icons.playbackBarVolumnOpenIcon : Icons.playbackBarVolumnCloseIcon
+        width: buttonSize.width
+        height: buttonSize.height
+        onContainsMouseChanged: {
+            if (iconButton.containsMouse)
+                popup.open()
+        }
+        onClicked: {
+            if (PlayService.volumn !== 0) {
+                root.previousVolumn = PlayService.volumn
+                PlayService.volumn = 0
+            } else {
+                PlayService.volumn = root.previousVolumn
+            }
+        }
+    }
+
+    Popup {
+        id: popup
+        y: -popupSize.height - 5
+        width: popupSize.width
+        height: popupSize.height
+        background: Rectangle {
+            id: backgroundRect
+            color: "white"
+            radius: 4
+            MultiEffect {
+                id: effect
+                anchors.fill: parent
+                source: backgroundRect
+                shadowBlur: 0.7
+                shadowColor: "#80000000"
+                shadowEnabled: true
+                shadowVerticalOffset: 0
+                shadowHorizontalOffset: 0
+                shadowOpacity: 0.6
+                shadowScale: 1.0
+            }
+        }
+
+        UuSlider {
+            id: volumnSlider
+            anchors.centerIn: parent
+            width: 6
+            height: 85
+            reverse: true
+            showOnHover: false
+            orientation: Qt.Vertical
+            value: PlayService.volumn
+            onMoved: PlayService.volumn = this.value
+        }
+        Text {
+            id: currVolumnText
+            anchors.top: volumnSlider.bottom
+            anchors.topMargin: 5
+            anchors.horizontalCenter: volumnSlider.horizontalCenter
+            text: Math.round(volumnSlider.value * 100) + "%"
+            font {
+                pointSize: 6
+            }
+        }
+    }
+}
