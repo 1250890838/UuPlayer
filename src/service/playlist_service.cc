@@ -233,17 +233,17 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
     auto fitem = g_idToPlaylistMap[id];
     auto model = fitem->mediaItemModel();
     for (const QJsonValue& track : tracks) {
-      model::MediaItem* item = new model::MediaItem;
+      entities::MediaItem* item = new entities::MediaItem;
       item->id = track["id"].toVariant().toLongLong();
       item->name = track["name"].toString();
-      model::AlbumData albumData;
+      entities::AlbumData albumData;
       auto albumObj = track["al"].toObject();
       albumData.setId(albumObj["id"].toVariant().toLongLong());
       albumData.setName(albumObj["name"].toString());
       albumData.setPicUrl(albumObj["picUrl"].toString());
       item->albumdata = albumData;
       auto artistsArr = track["ar"].toArray();
-      model::AristData aristData;
+      entities::AristData aristData;
       for (const auto& artistValue : artistsArr) {
         auto artistObj = artistValue.toObject();
         aristData.setId(artistObj["id"].toVariant().toLongLong());
@@ -286,22 +286,22 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
       auto fitem = static_cast<PlaylistItem*>(item);
       auto model = fitem->mediaItemModel();
       for (const QJsonValue& track : tracks) {
-        model::MediaItem* mediaItem =
+        entities::MediaItem* mediaItem =
             g_idToMediaMap[track["id"].toVariant().toLongLong()];
         if (mediaItem == nullptr) {
-          mediaItem = new model::MediaItem();
+          mediaItem = new entities::MediaItem();
           g_idToMediaMap[track["id"].toVariant().toLongLong()] = mediaItem;
         }
         mediaItem->id = track["id"].toVariant().toLongLong();
         mediaItem->name = track["name"].toString();
-        model::AlbumData albumData;
+        entities::AlbumData albumData;
         auto albumObj = track["al"].toObject();
         albumData.setId(albumObj["id"].toVariant().toLongLong());
         albumData.setName(albumObj["name"].toString());
         albumData.setPicUrl(albumObj["picUrl"].toString());
         mediaItem->albumdata = albumData;
         auto artistsArr = track["ar"].toArray();
-        model::AristData aristData;
+        entities::AristData aristData;
         for (const auto& artistValue : artistsArr) {
           auto artistObj = artistValue.toObject();
           aristData.setId(artistObj["id"].toVariant().toLongLong());

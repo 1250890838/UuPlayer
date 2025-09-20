@@ -1,6 +1,7 @@
 #ifndef MEDIA_ITEM_H
 #define MEDIA_ITEM_H
 #include <QObject>
+#include <QVariantList>
 #include "album_data.h"
 
 namespace entities {
