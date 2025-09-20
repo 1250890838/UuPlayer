@@ -5,30 +5,74 @@ Slider {
     id: control
     value: 0.5
     padding: 0
+    leftPadding: 0
+    rightPadding: 0
     topPadding: 0
+    bottomPadding: 0
+    orientation: Qt.Horizontal
     background: Rectangle {
-        x: control.leftPadding + handle.width / 2
-        y: control.topPadding + control.availableHeight / 2 - height / 2
-        implicitWidth: 200
-        implicitHeight: 4
-        width: control.availableWidth - handle.width
-        height: implicitHeight
+        x: {
+            if (control.orientation == Qt.Horizontal)
+                return control.leftPadding + handle.width / 2
+            else
+                return control.leftPadding + control.availableWidth / 2 - width / 2
+        }
+        y: {
+            if (control.orientation == Qt.Horizontal)
+                return control.topPadding + control.availableHeight / 2 - height / 2
+            else
+                return control.topPadding + handle.height / 2
+        }
+        width: {
+            if (control.orientation == Qt.Horizontal) {
+                return control.availableWidth - handle.width
+            } else
+                return 4
+        }
+        height: {
+            if (control.orientation == Qt.Horizontal)
+                return 4
+            else
+                return control.availableHeight - handle.height
+        }
         radius: 2
         color: "#dadcdf"
 
         Rectangle {
-            width: control.visualPosition * parent.width
-            height: parent.height
+            width: {
+                if (control.orientation == Qt.Horizontal)
+                    control.visualPosition * parent.width
+                else
+                    return parent.width
+            }
+            height: {
+                if (control.orientation == Qt.Horizontal)
+                    return parent.height
+                else
+                    return control.visualPosition * parent.height
+            }
             color: "#fc3d4f"
             radius: 2
         }
     }
 
     handle: Rectangle {
-        id: hanele
+        id: handle
         visible: control.hovered || control.pressed
-        x: control.leftPadding + control.visualPosition * (control.availableWidth - width)
-        y: control.topPadding + control.availableHeight / 2 - height / 2
+        x: {
+            if (control.orientation == Qt.Horizontal)
+                return control.leftPadding + control.visualPosition
+                        * (control.availableWidth - width)
+            else
+                return control.leftPadding + control.availableWidth / 2 - width / 2
+        }
+        y: {
+            if (control.orientation == Qt.Horizontal)
+                return control.topPadding + control.availableHeight / 2 - height / 2
+            else
+                return control.topPadding + control.visualPosition
+                        * (control.availableHeight - height)
+        }
         implicitWidth: 12
         implicitHeight: 12
         radius: 6
