@@ -9,7 +9,7 @@ Item {
     id: root
     property size buttonSize: "20x20"
     property size popupSize: Qt.size(20, 133)
-    property float previousVolumn: 0
+    property real previousVolumn: 0
 
     IconButton {
         id: iconButton
