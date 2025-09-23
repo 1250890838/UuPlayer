@@ -18,7 +18,7 @@ class SERVICE_DLL_EXPORT NetworkSongService : public QObject {
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
-  QML_NAMED_ELEMENT(SongService)
+  QML_NAMED_ELEMENT(NetworkSongService)
  public:
   Q_INVOKABLE void getSongUrl(qulonglong id);
   Q_INVOKABLE void checkSongEnable(qulonglong id);
