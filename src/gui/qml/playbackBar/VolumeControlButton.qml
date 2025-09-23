@@ -10,7 +10,6 @@ Item {
     property size buttonSize: "20x20"
     property size popupSize: Qt.size(20, 133)
     property real previousVolumn: 0
-
     IconButton {
         id: iconButton
         icon: Boolean(
@@ -42,39 +41,43 @@ Item {
             id: backgroundRect
             color: "white"
             radius: 4
-            MultiEffect {
-                id: effect
-                anchors.fill: parent
-                source: backgroundRect
-                shadowBlur: 0.7
-                shadowColor: "#80000000"
-                shadowEnabled: true
-                shadowVerticalOffset: 0
-                shadowHorizontalOffset: 0
-                shadowOpacity: 0.6
-                shadowScale: 1.0
-            }
         }
 
-        UuSlider {
-            id: volumnSlider
-            anchors.centerIn: parent
-            width: 6
-            height: 85
-            reverse: true
-            showOnHover: false
-            orientation: Qt.Vertical
-            value: PlayService.volumn
-            onMoved: PlayService.volumn = this.value
-        }
-        Text {
-            id: currVolumnText
-            anchors.top: volumnSlider.bottom
-            anchors.topMargin: 5
-            anchors.horizontalCenter: volumnSlider.horizontalCenter
-            text: Math.round(volumnSlider.value * 100) + "%"
-            font {
-                pointSize: 6
+        contentItem: MultiEffect {
+            source: contentRectangle
+            anchors.fill: parent
+            shadowEnabled: true
+            shadowColor: "#80000000"
+            shadowBlur: 0.1
+            shadowVerticalOffset: 0
+            shadowHorizontalOffset: 0
+
+            Rectangle {
+                id: contentRectangle
+                color: "white"
+                radius: 4
+                anchors.fill: parent
+                UuSlider {
+                    id: volumnSlider
+                    anchors.centerIn: parent
+                    width: 6
+                    height: 85
+                    reverse: true
+                    showOnHover: false
+                    orientation: Qt.Vertical
+                    value: PlayService.volumn
+                    onMoved: PlayService.volumn = this.value
+                }
+                Text {
+                    id: currVolumnText
+                    anchors.top: volumnSlider.bottom
+                    anchors.topMargin: 5
+                    anchors.horizontalCenter: volumnSlider.horizontalCenter
+                    text: Math.round(volumnSlider.value * 100) + "%"
+                    font {
+                        pointSize: 6
+                    }
+                }
             }
         }
     }
