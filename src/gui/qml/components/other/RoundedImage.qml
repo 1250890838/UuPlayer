@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Effects
 
 Rectangle {
@@ -11,6 +12,13 @@ Rectangle {
     property alias isBottomRightRounded: maskRect.isBottomRightRounded
     property bool isCircle: false
     color: "transparent"
+
+    BusyIndicator {
+        id: busyIndicator
+        anchors.fill: parent
+        visible: image.status == Image.Loading
+        running: image.status == Image.Loading
+    }
 
     Image {
         id: image
