@@ -5,7 +5,9 @@
 #include <QQmlEngine>
 #include <QSettings>
 #include <QVariantMap>
-#include <local_song_network.h>
+
+#include "local_song_network.h"
+#include "metadata_extractor.h"
 
 class LocalSongService : public QObject
 {
@@ -20,7 +22,7 @@ class LocalSongService : public QObject
   QSettings m_settings;
   network::LocalSongNetwork m_network;
  signals:
-
+  engine::MetaDataExtractor m_mediaMetadataExtractor;
 };
 
 #endif // LOCALSONGSERVICE_H

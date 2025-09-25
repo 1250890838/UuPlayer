@@ -23,6 +23,7 @@ class MetaDataExtractor : public QObject
   ~MetaDataExtractor();
 
   void processFiles(const QStringList &filePaths);
+  QList<MetaData> processResults();
 
  signals:
   void finished();

@@ -19,6 +19,11 @@ void MetaDataExtractor::processFiles(const QStringList &filePaths)
   processNextFile();
 }
 
+QList<MetaData> MetaDataExtractor::processResults()
+{
+  return m_metaDatas;
+}
+
 void MetaDataExtractor::processNextFile()
 {
   if (m_currentIndex >= m_fileQueue.size()) {
