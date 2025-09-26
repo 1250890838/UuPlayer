@@ -1,5 +1,11 @@
 #include "mediaitem_filterproxy_model.h"
 
+namespace model{
+
+MediaItemFilterProxyModel::MediaItemFilterProxyModel()
+{
+
+}
 void MediaItemFilterProxyModel::sortByArtistName(Qt::SortOrder order)
 {
   QHash<int,QByteArray> roleNames = sourceModel()->roleNames();
@@ -36,8 +42,5 @@ void MediaItemFilterProxyModel::sortByAlbumName(Qt::SortOrder order)
   this->setSortRole(role);
   this->sort(0,order);
 }
-
-MediaItemFilterProxyModel::MediaItemFilterProxyModel()
-{
 
 }

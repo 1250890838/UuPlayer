@@ -3,6 +3,7 @@
 
 #include <QSortFilterProxyModel>
 
+namespace model{
 class MediaItemFilterProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
@@ -15,5 +16,5 @@ class MediaItemFilterProxyModel : public QSortFilterProxyModel
  public:
   MediaItemFilterProxyModel();
 };
-
+}
 #endif // MEDIAITEMFILTERPROXYMODEL_H

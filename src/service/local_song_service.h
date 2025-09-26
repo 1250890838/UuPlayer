@@ -8,6 +8,8 @@
 
 #include "local_song_network.h"
 #include "metadata_extractor.h"
+#include "model/mediaitem_filterproxy_model.h"
+#include "model/media_item_model.h"
 
 class LocalSongService : public QObject
 {
@@ -21,6 +23,8 @@ class LocalSongService : public QObject
  private:
   QSettings m_settings;
   network::LocalSongNetwork m_network;
+  model::MediaItemFilterProxyModel m_mediaItemsFilterProxyModel;
+  model::MediaItemModel m_mediaItemsModel;
  signals:
   engine::MetaDataExtractor m_mediaMetadataExtractor;
 };

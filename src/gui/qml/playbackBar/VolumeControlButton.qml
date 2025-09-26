@@ -54,6 +54,7 @@ Item {
 
             Rectangle {
                 id: contentRectangle
+                visible: false
                 color: "white"
                 radius: 4
                 anchors.fill: parent
