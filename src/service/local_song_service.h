@@ -25,8 +25,8 @@ class LocalSongService : public QObject
   network::LocalSongNetwork m_network;
   model::MediaItemFilterProxyModel m_mediaItemsFilterProxyModel;
   model::MediaItemModel m_mediaItemsModel;
- signals:
   engine::MetaDataExtractor m_mediaMetadataExtractor;
+ signals:
 };
 
 #endif // LOCALSONGSERVICE_H
