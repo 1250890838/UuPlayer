@@ -45,4 +45,17 @@ QFileInfoList LocalSongNetwork::mediasInSearchDirs() {
   }
   return result;
 }
+
+void LocalSongNetwork::setMediasSearchDirs(const QMap<QString, bool> &map)
+{
+  m_settings.beginWriteArray("MediaSearchDirs");
+  QMap<QString, bool>::const_iterator v;
+  int i = 0;
+  for (v = map.constBegin(); v != map.constEnd(); ++v) {
+    m_settings.setArrayIndex(i++);
+    m_settings.setValue("isSearched",v.value());
+    m_settings.setValue("searchDir",v.key());
+  }
+  m_settings.endArray();
+}
 }  // namespace network
