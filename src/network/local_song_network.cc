@@ -58,4 +58,18 @@ void LocalSongNetwork::setMediasSearchDirs(const QMap<QString, bool> &map)
   }
   m_settings.endArray();
 }
+
+QMap<QString, bool> LocalSongNetwork::mediasSearchDirs()
+{
+  int size = m_settings.beginReadArray("MediaSearchDirs");
+  QMap<QString,bool> result;
+  for (int i = 0; i < size; i++) {
+    m_settings.setArrayIndex(i);
+    bool isSearched = m_settings.value("isSearched").toBool();
+    QString dir = m_settings.value("searchDir").toString();
+    result[dir] = isSearched;
+  }
+  m_settings.endArray();
+  return result;
+}
 }  // namespace network
