@@ -24,7 +24,8 @@ class LocalMediaItemModel : public QAbstractListModel {
 
   QVariant data(const QModelIndex& index,
                 int role = Qt::DisplayRole) const override;
-
+  void appendItem(const entities::MediaItem& item);
+  void clear();
   // Add data:
   bool insertRows(int row, int count,
                   const QModelIndex& parent = QModelIndex()) override;

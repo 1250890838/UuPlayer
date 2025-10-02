@@ -37,6 +37,20 @@ QVariant LocalMediaItemModel::data(const QModelIndex& index, int role) const {
   }
 }
 
+void LocalMediaItemModel::appendItem(const entities::MediaItem &item)
+{
+  beginInsertRows(QModelIndex(),m_items.size(),m_items.size());
+  m_items.append(item);
+  endInsertRows();
+}
+
+void LocalMediaItemModel::clear()
+{
+  beginResetModel();
+  m_items.clear();
+  endResetModel();
+}
+
 bool LocalMediaItemModel::insertRows(int row, int count,
                                      const QModelIndex& parent) {
   beginInsertRows(parent, row, row + count - 1);
