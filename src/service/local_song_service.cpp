@@ -4,7 +4,9 @@
 #include <QFileInfo>
 
 LocalSongService::LocalSongService(QObject* parent)
-    : QObject{parent} {}
+    : QObject{parent} {
+  setSeachSongsPaths(QVariantMap()); // init
+}
 
 QMap<QString, bool> LocalSongService::variantMapToBoolMap(const QVariantMap &map)
 {
@@ -31,12 +33,18 @@ QVariantMap LocalSongService::songsSearchDirs() {
 }
 
 void LocalSongService::setSeachSongsPaths(const QVariantMap& map) {
-  m_network.setMediasSearchDirs(variantMapToBoolMap(map));
+  if(!map.empty())
+    m_network.setMediasSearchDirs(variantMapToBoolMap(map));
   QFileInfoList infos = m_network.mediasInSearchDirs();
   QStringList paths;
   for(const QFileInfo& info : infos){
   paths.append(info.path());
   }
   m_mediaMetadataExtractor.processFiles(paths);
-  QList<engine::MetaData> datas = m_mediaMetadataExtractor.processResults();
+  QList<entities::MediaItem> items = m_mediaMetadataExtractor.processResults();
+
+  for(const entities::MediaItem& item : items)
+  {
+    m_mediaItemsModel.appendItem(item);
+  }
 }

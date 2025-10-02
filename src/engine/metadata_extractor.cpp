@@ -54,7 +54,9 @@ void MetaDataExtractor::onMetaDataChanged()
   QString album = metaData.value(QMediaMetaData::AlbumTitle).toString();
   qint64 duration = metaData.value(QMediaMetaData::Duration).toLongLong();
   qint64 date = metaData.value(QMediaMetaData::Date).toLongLong();
+  Q_UNUSED(date);
   auto artists = metaData.value(QMediaMetaData::ContributingArtist).toStringList();
+  auto path = metaData.value(QMediaMetaData::Url).toUrl().toString();
 
   entities::MediaItem item{
       .id = s_local_media_id--,
@@ -62,7 +64,7 @@ void MetaDataExtractor::onMetaDataChanged()
       .duration = static_cast<qulonglong>(duration),
       .albumName = album,
       .artists = artists,
-      .dirPath = QString(),
+      .dirPath = path,
       .fileSize = 0
 
   };
