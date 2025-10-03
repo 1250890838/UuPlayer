@@ -52,4 +52,7 @@ Item {
     property url commentItemLikeIcon: "qrc:/gui/images/button_comment_item_like.svg"
     property url commentItemCommentIcon: "qrc:/gui/images/button_comment_item_comment.svg"
     property url commentItemShareIcon: "qrc:/gui/images/button_comment_item_share.svg"
+
+    property url refreshIcon: "qrc:/gui/images/button_refresh.svg"
+    property url moreIcon: "qrc:/gui/images/button_more.svg"
 }

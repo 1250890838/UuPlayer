@@ -16,7 +16,6 @@ set(plain_qml_files
     qml/stackPages/CommunityPage.qml
     qml/stackPages/DownloadManagePage.qml
     qml/stackPages/FavorMusicPage.qml
-    qml/stackPages/LocalMusicPage.qml
     qml/stackPages/PodcastPage.qml
     qml/stackPages/RecentPlayPage.qml
     qml/titleBar/TitleBar.qml
@@ -121,6 +120,8 @@ qt_add_qml_module(gui
     QML_FILES qml/playbackBar/VolumeControlButton.qml
     RESOURCES images/button_playbackbar_volumn_close.svg images/button_playbackbar_volumn_open.svg
     QML_FILES qml/stackPages/localMusicPage/LocalMusicPage.qml
+    RESOURCES images/button_refresh.svg
+    RESOURCES images/button_more.svg
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)
