@@ -24,7 +24,7 @@ class LocalMediaItemModel : public QAbstractListModel {
 
   QVariant data(const QModelIndex& index,
                 int role = Qt::DisplayRole) const override;
-  void appendItem(const entities::MediaItem& item);
+  void appendItem(const entities::LocalMediaItem& item);
   void clear();
   // Add data:
   bool insertRows(int row, int count,
@@ -36,7 +36,7 @@ class LocalMediaItemModel : public QAbstractListModel {
  public:
   QHash<int, QByteArray> roleNames() const override;
  private:
-  QList<entities::MediaItem> m_items;
+  QList<entities::LocalMediaItem> m_items;
 };
 }
 #endif  // LOCAL_MEDIA_ITEM_MODEL_H

@@ -37,7 +37,7 @@ QVariant LocalMediaItemModel::data(const QModelIndex& index, int role) const {
   }
 }
 
-void LocalMediaItemModel::appendItem(const entities::MediaItem &item)
+void LocalMediaItemModel::appendItem(const entities::LocalMediaItem &item)
 {
   beginInsertRows(QModelIndex(),m_items.size(),m_items.size());
   m_items.append(item);

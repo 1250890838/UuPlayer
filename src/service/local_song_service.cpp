@@ -46,9 +46,9 @@ void LocalSongService::setSeachSongsPaths(const QVariantMap& map) {
   paths.append(info.path());
   }
   m_mediaMetadataExtractor.processFiles(paths);
-  QList<entities::MediaItem> items = m_mediaMetadataExtractor.processResults();
+  QList<entities::LocalMediaItem> items = m_mediaMetadataExtractor.processResults();
 
-  for(const entities::MediaItem& item : items)
+  for(const entities::LocalMediaItem& item : items)
   {
     m_mediaItemsModel.appendItem(item);
   }

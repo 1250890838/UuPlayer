@@ -18,7 +18,7 @@ class MetaDataExtractor : public QObject
   ~MetaDataExtractor();
 
   void processFiles(const QStringList &filePaths);
-  QList<entities::MediaItem> processResults();
+  QList<entities::LocalMediaItem> processResults();
 
  signals:
   void finished();
@@ -31,7 +31,7 @@ class MetaDataExtractor : public QObject
   QMediaPlayer* m_player;
   QStringList m_fileQueue;
   int m_currentIndex;
-  QList<entities::MediaItem> m_metaDatas;
+  QList<entities::LocalMediaItem> m_metaDatas;
 };
 }
 #endif // METADATAEXTRACTOR_H

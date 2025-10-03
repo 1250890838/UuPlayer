@@ -19,7 +19,7 @@ void MetaDataExtractor::processFiles(const QStringList &filePaths)
   processNextFile();
 }
 
-QList<entities::MediaItem> MetaDataExtractor::processResults()
+QList<entities::LocalMediaItem> MetaDataExtractor::processResults()
 {
   return m_metaDatas;
 }
@@ -58,7 +58,7 @@ void MetaDataExtractor::onMetaDataChanged()
   auto artists = metaData.value(QMediaMetaData::ContributingArtist).toStringList();
   auto path = metaData.value(QMediaMetaData::Url).toUrl().toString();
 
-  entities::MediaItem item{
+  entities::LocalMediaItem item{
       .id = s_local_media_id--,
       .name = title,
       .duration = static_cast<qulonglong>(duration),
