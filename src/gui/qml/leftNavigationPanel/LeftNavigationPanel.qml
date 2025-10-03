@@ -156,7 +156,7 @@ Item {
                 colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
-                                   "../stackPages/LocalMusicPage.qml"))
+                                   "../stackPages/localMusicPage/LocalMusicPage.qml"))
             }
             NavigationPanelItem {
                 id: musicCloudDisk // 音乐云盘
