@@ -244,6 +244,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
       item->albumdata = albumData;
       auto artistsArr = track["ar"].toArray();
       entities::AristData aristData;
+      item->artists.clear();
       for (const auto& artistValue : artistsArr) {
         auto artistObj = artistValue.toObject();
         aristData.setId(artistObj["id"].toVariant().toLongLong());
