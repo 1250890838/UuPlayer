@@ -16,10 +16,13 @@ class LocalSongService : public QObject
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
+  Q_PROPERTY(model::MediaItemFilterProxyModel* mediaItemModel READ mediaItemModel CONSTANT)
+
   Q_INVOKABLE QVariantMap songsSearchDirs();
   Q_INVOKABLE void setSeachSongsPaths(const QVariantMap& map);
  public:
   explicit LocalSongService(QObject *parent = nullptr);
+  model::MediaItemFilterProxyModel* mediaItemModel();
  private:
   QMap<QString,bool> variantMapToBoolMap(const QVariantMap& map);
   QVariantMap boolMapToVariantMap(const QMap<QString,bool>& map);

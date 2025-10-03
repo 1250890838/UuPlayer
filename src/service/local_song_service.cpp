@@ -8,6 +8,11 @@ LocalSongService::LocalSongService(QObject* parent)
   setSeachSongsPaths(QVariantMap()); // init
 }
 
+model::MediaItemFilterProxyModel *LocalSongService::mediaItemModel()
+{
+  return &m_mediaItemsFilterProxyModel;
+}
+
 QMap<QString, bool> LocalSongService::variantMapToBoolMap(const QVariantMap &map)
 {
   QMap<QString,bool> result;
