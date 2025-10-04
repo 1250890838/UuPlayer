@@ -3,8 +3,8 @@ import QtQuick
 
 Item {
     id: root
-    implicitWidth: row.width
-    implicitHeight: row.height
+    implicitWidth: row.implicitWidth + 2 * margins
+    implicitHeight: row.implicitHeight + 2 * margins
     required property real iconWidth
     required property real iconHeight
     required property url icon
@@ -30,6 +30,7 @@ Item {
         anchors.fill: parent
         color: mouseArea.containsMouse ? root.hoveredBackgroundColor : root.backgroundColor
         radius: root.radius
+
         border.width: root.borderWidth
         border.color: root.borderColor
         Row {

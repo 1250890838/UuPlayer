@@ -122,6 +122,8 @@ qt_add_qml_module(gui
     QML_FILES qml/stackPages/localMusicPage/LocalMusicPage.qml
     RESOURCES images/button_refresh.svg
     RESOURCES images/button_more.svg
+    RESOURCES images/search.svg
+    QML_FILES qml/stackPages/localMusicPage/SearchBox.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)
