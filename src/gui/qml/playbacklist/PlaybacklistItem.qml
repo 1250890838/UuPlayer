@@ -18,8 +18,7 @@ Item {
 
     Rectangle {
         id: dragItem
-        width: 160
-        height: 40
+        anchors.fill: parent
         visible: dragArea.drag.active
         Drag.active: dragArea.drag.active
         Drag.hotSpot.x: 80
@@ -79,6 +78,7 @@ Item {
         anchors.fill: parent
         Row {
             id: row
+            width: parent.width
             height: parent.height - 5
             spacing: 10
 
@@ -144,13 +144,15 @@ Item {
             Column {
                 id: nameColumn
                 anchors.verticalCenter: parent.verticalCenter
-                width: 170
+                width: parent.width - spacer1.width - coverImage.width
+                       - duration.width - 3 * row.spacing
                 Text {
                     id: songName
                     text: model.name
                     elide: Qt.ElideRight
                     width: parent.width
                     font.pointSize: 12
+                    anchors.left: parent.left
                 }
                 Text {
                     id: artistName
@@ -158,6 +160,7 @@ Item {
                     width: parent.width
                     font.pointSize: 9
                     color: "gray"
+                    anchors.left: parent.left
                     text: {
                         let result = ""
                         let ars = model.artists
@@ -170,17 +173,12 @@ Item {
                 }
             }
 
-            Item {
-                id: spacer
-                anchors.verticalCenter: parent.verticalCenter
-                width: 60
-                height: 1
-            }
-
             Text {
                 id: duration
                 anchors.verticalCenter: parent.verticalCenter
                 text: Utils.millisecondsToTime(model.duration)
+                width: implicitWidth + 8
+                horizontalAlignment: Qt.AlignLeft
             }
         }
 

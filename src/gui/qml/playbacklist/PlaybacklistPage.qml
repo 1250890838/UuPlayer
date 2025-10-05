@@ -37,13 +37,14 @@ Popup {
         color: "#fafafa"
 
         UScrollBar {
-            id: scrollbar
+            id: playbacklistScrollBar
             width: 10
-            height: flickable.height
-            x: parent.width - 10
-            y: headerRow.height + headerRow.topPadding
-            z: 99
+            height: flickable.height - 2
+            anchors.right: container.right
+            anchors.rightMargin: 11
+            y: flickable.y - 1
             currentFlickable: flickable
+            z: 5
         }
 
         Column {
@@ -70,20 +71,20 @@ Popup {
                     color: "gray"
                 }
             }
-
             Flickable {
                 id: flickable
                 contentWidth: width
                 contentHeight: contentColumn.implicitHeight // 使用实际内容高度
+                onContentHeightChanged: console.log(
+                                            "content height is " + contentHeight)
                 boundsBehavior: Flickable.StopAtBounds
                 boundsMovement: Flickable.StopAtBounds
-                width: container.width - scrollbar.width - 4 // 为滑条留一定的水平空间
+                width: container.width - playbacklistScrollBar.width - 22 // 为滑条留一定的水平空间
                 height: parent.height - headerRow.height - containerColumn.spacing // 动态计算高度
                 clip: true
                 ScrollBar.vertical: ScrollBar {
                     policy: ScrollBar.AlwaysOff
                 }
-
                 ColumnLayout {
                     id: contentColumn
                     anchors.fill: parent
