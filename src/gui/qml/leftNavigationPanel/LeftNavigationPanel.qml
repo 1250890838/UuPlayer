@@ -16,7 +16,12 @@ Item {
         padding: 25
         background: Rectangle {
             color: Skins.leftNavPaneBackColor
+            MouseArea {
+                anchors.fill: parent
+                onClicked: forceActiveFocus()
+            }
         }
+
         contentItem: Column {
             spacing: 5
             NavigationPanelItem {

@@ -54,6 +54,12 @@ Item {
                     radius: 8
                     backgroundColor: "#fc3d49"
                     hoveredBackgroundColor: "#e33552"
+                    onPressed: {
+                        scale = 0.9
+                    }
+                    onReleased: {
+                        scale = 1
+                    }
                 }
                 IconButton {
                     backgroundColor: "#f0f3f6"
@@ -64,6 +70,12 @@ Item {
                     width: 35
                     height: 35
                     margins: 10
+                    onPressed: {
+                        scale = 0.9
+                    }
+                    onReleased: {
+                        scale = 1
+                    }
                 }
                 IconButton {
                     radius: 6
@@ -74,6 +86,12 @@ Item {
                     width: 35
                     height: 35
                     margins: 10
+                    onPressed: {
+                        scale = 0.9
+                    }
+                    onReleased: {
+                        scale = 1
+                    }
                 }
                 SearchBox {
                     id: searchBox

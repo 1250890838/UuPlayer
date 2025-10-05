@@ -12,6 +12,22 @@ FocusScope {
     implicitHeight: 30
     transitions: [
         Transition {
+            from: "expanded"
+            to: "collapsed"
+            SequentialAnimation {
+                ScriptAction {
+                    script: root.changePlaceHolderTextInTextInput()
+                }
+                NumberAnimation {
+                    properties: "width"
+                    easing.type: Easing.InOutQuad
+                    duration: 300
+                }
+            }
+        },
+        Transition {
+            from: "collapsed"
+            to: "expanded"
             SequentialAnimation {
                 NumberAnimation {
                     properties: "width"

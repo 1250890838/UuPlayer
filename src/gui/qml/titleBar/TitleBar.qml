@@ -16,6 +16,10 @@ Item {
         background: Rectangle {
             id: background
             color: Skins.titlebarRightBackColor
+            MouseArea {
+                anchors.fill: parent
+                onClicked: forceActiveFocus()
+            }
         }
         RowLayout {
             anchors.fill: parent
