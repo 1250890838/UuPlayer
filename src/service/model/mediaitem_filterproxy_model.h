@@ -3,6 +3,21 @@
 
 #include <QSortFilterProxyModel>
 
+namespace sort_option {
+Q_NAMESPACE
+enum SortOption {
+  TitleAsc,
+  TitleDesc,
+  AlbumNameAsc,
+  AlbumNameDesc,
+  DurationAsc,
+  DurationDesc,
+  FileSizeAsc,
+  FileSizeDesc
+};
+Q_ENUM_NS(SortOption)
+}
+
 namespace model{
 class MediaItemFilterProxyModel : public QSortFilterProxyModel
 {
