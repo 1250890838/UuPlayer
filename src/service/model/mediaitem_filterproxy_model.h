@@ -1,10 +1,11 @@
 #ifndef MEDIAITEMFILTERPROXYMODEL_H
 #define MEDIAITEMFILTERPROXYMODEL_H
-
 #include <QSortFilterProxyModel>
 
+#include "..//service_global.h"
+
 namespace sort_option {
-Q_NAMESPACE
+SERVICE_DLL_EXPORT Q_NAMESPACE
 enum SortOption {
   TitleAsc,
   TitleDesc,

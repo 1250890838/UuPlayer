@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
   qmlRegisterUncreatableMetaObject(network::error_code::staticMetaObject,
                                    "network.errorcode", 1, 0, "ErrorCode",
                                    "Error: only error code enums");
-  qmlRegisterUncreatableMetaObject(sort_option::staticMetaObject,"model.sortoption",1,0,"SortOption","Error: only sort option enums")
+  qmlRegisterUncreatableMetaObject(sort_option::staticMetaObject,"model.sortoption",1,0,"SortOption","Error: only sort option enums");
       /*
   qmlRegisterUncreatableMetaObject(service::PlayService::staticMetaObject,  // 元对象
                                    "service.api", 1, 0, "PlayService",
