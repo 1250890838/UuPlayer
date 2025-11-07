@@ -19,6 +19,8 @@ Item {
     property real margins: 0
 
     signal clicked
+    signal pressed
+    signal released
 
     Rectangle {
         id: imageContainer
@@ -47,6 +49,12 @@ Item {
         cursorShape: root.cursorShape
         onClicked: {
             root.clicked()
+        }
+        onPressed: {
+            root.pressed()
+        }
+        onReleased: {
+            root.released()
         }
     }
 }

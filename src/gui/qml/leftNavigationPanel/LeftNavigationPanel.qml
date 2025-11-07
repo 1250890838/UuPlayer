@@ -16,7 +16,12 @@ Item {
         padding: 25
         background: Rectangle {
             color: Skins.leftNavPaneBackColor
+            MouseArea {
+                anchors.fill: parent
+                onClicked: forceActiveFocus()
+            }
         }
+
         contentItem: Column {
             spacing: 5
             NavigationPanelItem {
@@ -156,7 +161,7 @@ Item {
                 colors: ["transparent", Skins.leftNavPanelItemBackHoveredColor, Skins.leftNavPanelItemBackCheckedColor]
                 onClicked: Logic.switchPage(
                                this, Qt.createComponent(
-                                   "../stackPages/LocalMusicPage.qml"))
+                                   "../stackPages/localMusicPage/LocalMusicPage.qml"))
             }
             NavigationPanelItem {
                 id: musicCloudDisk // 音乐云盘

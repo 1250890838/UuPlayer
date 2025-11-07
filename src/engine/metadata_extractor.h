@@ -5,15 +5,10 @@
 #include <QStringList>
 #include <QMediaPlayer>
 #include <QMediaMetaData>
-namespace engine{
 
-struct MetaData{
-  QString title;
-  QString author;
-  QString albumTitle;
-  qint64 duration;
-  qint64 date;
-};
+#include "service/entities/local_media_item.h"
+
+namespace engine{
 
 class MetaDataExtractor : public QObject
 {
@@ -23,7 +18,7 @@ class MetaDataExtractor : public QObject
   ~MetaDataExtractor();
 
   void processFiles(const QStringList &filePaths);
-  QList<MetaData> processResults();
+  QList<entities::LocalMediaItem> processResults();
 
  signals:
   void finished();
@@ -36,7 +31,7 @@ class MetaDataExtractor : public QObject
   QMediaPlayer* m_player;
   QStringList m_fileQueue;
   int m_currentIndex;
-  QList<MetaData> m_metaDatas;
+  QList<entities::LocalMediaItem> m_metaDatas;
 };
 }
 #endif // METADATAEXTRACTOR_H

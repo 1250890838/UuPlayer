@@ -1,7 +1,23 @@
 #ifndef MEDIAITEMFILTERPROXYMODEL_H
 #define MEDIAITEMFILTERPROXYMODEL_H
-
 #include <QSortFilterProxyModel>
+
+#include "..//service_global.h"
+
+namespace sort_option {
+SERVICE_DLL_EXPORT Q_NAMESPACE
+enum SortOption {
+  TitleAsc,
+  TitleDesc,
+  AlbumNameAsc,
+  AlbumNameDesc,
+  DurationAsc,
+  DurationDesc,
+  FileSizeAsc,
+  FileSizeDesc
+};
+Q_ENUM_NS(SortOption)
+}
 
 namespace model{
 class MediaItemFilterProxyModel : public QSortFilterProxyModel

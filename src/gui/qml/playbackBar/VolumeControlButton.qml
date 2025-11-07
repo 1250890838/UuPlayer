@@ -39,13 +39,11 @@ Item {
         height: popupSize.height
         background: Rectangle {
             id: backgroundRect
-            color: "white"
-            radius: 4
+            color: "transparent"
         }
 
         contentItem: MultiEffect {
             source: contentRectangle
-            anchors.fill: parent
             shadowEnabled: true
             shadowColor: "#80000000"
             shadowBlur: 0.1
@@ -54,7 +52,7 @@ Item {
 
             Rectangle {
                 id: contentRectangle
-                visible: false
+                visible: true
                 color: "white"
                 radius: 4
                 anchors.fill: parent

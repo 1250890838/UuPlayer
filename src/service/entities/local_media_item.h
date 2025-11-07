@@ -5,8 +5,8 @@
 
 namespace entities {
 
-struct MediaItem {
-  qulonglong id;
+struct LocalMediaItem {
+  qlonglong id;
   QString name;
   qulonglong duration;
   QString albumName;

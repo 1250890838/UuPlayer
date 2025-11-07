@@ -19,7 +19,7 @@ void MetaDataExtractor::processFiles(const QStringList &filePaths)
   processNextFile();
 }
 
-QList<MetaData> MetaDataExtractor::processResults()
+QList<entities::LocalMediaItem> MetaDataExtractor::processResults()
 {
   return m_metaDatas;
 }
@@ -37,21 +37,38 @@ void MetaDataExtractor::processNextFile()
 
 void MetaDataExtractor::onMetaDataChanged()
 {
+  static qlonglong s_local_media_id = -1;
+  // struct MediaItem {
+  //   qulonglong id;
+  //   QString name;
+  //   qulonglong duration;
+  //   QString albumName;
+  //   QStringList artists;
+  //   QString dirPath;
+  //   qulonglong fileSize;
+  // };
+
   QMediaMetaData metaData = m_player->metaData();
   QString title = metaData.value(QMediaMetaData::Title).toString();
-  QString artist = metaData.value(QMediaMetaData::Author).toString(); // Or Artist
+  // QString artist = metaData.value(QMediaMetaData::Author).toString(); // Or Artist
   QString album = metaData.value(QMediaMetaData::AlbumTitle).toString();
   qint64 duration = metaData.value(QMediaMetaData::Duration).toLongLong();
   qint64 date = metaData.value(QMediaMetaData::Date).toLongLong();
+  Q_UNUSED(date);
+  auto artists = metaData.value(QMediaMetaData::ContributingArtist).toStringList();
+  auto path = metaData.value(QMediaMetaData::Url).toUrl().toString();
 
-  MetaData data{
-      .title = title,
-      .author = artist,
-      .albumTitle = album,
-      .duration = duration,
-      .date = date
+  entities::LocalMediaItem item{
+      .id = s_local_media_id--,
+      .name = title,
+      .duration = static_cast<qulonglong>(duration),
+      .albumName = album,
+      .artists = artists,
+      .dirPath = path,
+      .fileSize = 0
+
   };
-  m_metaDatas.append(data);
+  m_metaDatas.append(item);
   m_currentIndex++;
   processNextFile();
 }
