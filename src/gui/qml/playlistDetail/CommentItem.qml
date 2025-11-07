@@ -60,6 +60,8 @@ Pane {
 
             Label {
                 id: commentContent
+                width: parent.width - 5
+                anchors.left: parent.left
                 text: modelData.content
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
