@@ -14,7 +14,7 @@ QVariantMap LocalSongService::seachSongsInSetPaths() {
   }
   m_mediaMetadataExtractor.processFiles(paths);
   QList<engine::MetaData> datas = m_mediaMetadataExtractor.processResults();
-
+  return{};
 }
 
 void LocalSongService::setSeachSongsPaths(const QVariantMap& map) {
