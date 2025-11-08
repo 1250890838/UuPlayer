@@ -23,19 +23,22 @@ QMap<qulonglong, PlaylistItem*> g_idToPlaylistMap;
 
 PlaylistService::PlaylistService(QObject* parent)
     : QObject(parent), m_currLimit(4), m_currOffset(0) {
+  QThread* netThread = new QThread;
+  m_network.moveToThread(netThread);
   using namespace network;
   connect(&m_network, &PlaylistNetwork::getHighqualityPlaylistsFinished, this,
           &PlaylistService::onGetHighqualityPlaylists, Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getSelectivePlaylistsFinished, this,
           &PlaylistService::onGetSelectivePlaylists, Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistsCatlistFinished, this,
-          &PlaylistService::onGetPlaylistsCatlist);
+          &PlaylistService::onGetPlaylistsCatlist,Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistDetailFinished, this,
-          &PlaylistService::onGetPlaylistDetail);
+          &PlaylistService::onGetPlaylistDetail,Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistTracksFinished, this,
-          &PlaylistService::onGetPlaylistTracks);
+          &PlaylistService::onGetPlaylistTracks,Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistCommentsFinished, this,
-          &PlaylistService::onGetPlaylistComments);
+          &PlaylistService::onGetPlaylistComments,Qt::QueuedConnection);
+  netThread->start();
 }
 
 void PlaylistService::getHighqualityPlaylists(qint32 limit, qint32 tag) {
@@ -150,7 +153,7 @@ void PlaylistService::onGetSelectivePlaylists(
               o["subscribedCount"].toVariant().toULongLong());
           m_currPlaylists.appendItem(item);
           item->mediaItemModel()->clear();
-          this->getPlaylistTracks(item->id(), item);
+         // this->getPlaylistTracks(item->id(), item);
         }
       }
     }
@@ -232,8 +235,14 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
     auto tracks = playlist["tracks"].toArray();
     auto fitem = g_idToPlaylistMap[id];
     auto model = fitem->mediaItemModel();
+    QVector<entities::MediaItem*> mediaItems;
     for (const QJsonValue& track : tracks) {
-      entities::MediaItem* item = new entities::MediaItem;
+      entities::MediaItem* item =
+          g_idToMediaMap[track["id"].toVariant().toLongLong()];
+      if (item == nullptr) {
+        item = new entities::MediaItem();
+        g_idToMediaMap[track["id"].toVariant().toLongLong()] = item;
+      }
       item->id = track["id"].toVariant().toLongLong();
       item->name = track["name"].toString();
       entities::AlbumData albumData;
@@ -252,8 +261,9 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
         item->artists.append(QVariant::fromValue(aristData));
       }
       item->duration = track["dt"].toVariant().toLongLong();
-      model->appendItem(item);
+      mediaItems.append(item);
     }
+    model->appendItems(mediaItems);
     auto subscribers = playlist["subscribers"].toArray();
     QVariantList list;
 
