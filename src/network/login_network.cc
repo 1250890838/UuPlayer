@@ -12,7 +12,8 @@ namespace network {
 void LoginNetwork::getQRCodeKey() {
   QString timeStamp =
       QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch(), 10);
-  QUrl url = QUrl(network_api::apiGetQRCode + "?" + "timestamp=" + timeStamp);
+  QUrl url = QUrl(QString("%1?timestamp=%2")
+                      .arg(network_api::apiGetQRCode, timeStamp));
   qDebug() << url;
   QNetworkRequest request;
   request.setUrl(url);
@@ -38,8 +39,8 @@ void LoginNetwork::getQRCodeKey() {
 void LoginNetwork::createQRCode(const QString& key) {
   QString timeStamp =
       QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch(), 10);
-  QUrl url = QUrl(network_api::apiCreateQRCode + "?" + "key=" + key + "&" +
-                  "qrimg=true" + "&" + "timestamp=" + timeStamp);
+  QUrl url = QUrl(QString("%1?key=%2&qrimg=true&timestamp=%3")
+                      .arg(network_api::apiCreateQRCode, key, timeStamp));
   QNetworkRequest request;
   request.setUrl(url);
   auto reply = this->get(request);
@@ -67,8 +68,8 @@ void LoginNetwork::createQRCode(const QString& key) {
 void LoginNetwork::checkQRCodeScan(const QString& key) {
   QString timeStamp =
       QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch(), 10);
-  QUrl url = QUrl(network_api::apiCheckQRCode + "?" + "key=" + key + "&" +
-                  "timestamp=" + timeStamp);
+  QUrl url = QUrl(QString("%1?key=%2&timestamp=%3")
+                      .arg(network_api::apiCheckQRCode, key, timeStamp));
   QNetworkRequest request;
   request.setUrl(url);
   auto reply = this->get(request);

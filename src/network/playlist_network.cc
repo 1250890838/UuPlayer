@@ -6,10 +6,16 @@
 namespace network {
 void PlaylistNetwork::getHighqualityPlaylists(qint32 limit, qint32 tag) {
   QNetworkRequest request;
-  QUrl url = QUrl(network_api::apiGetHighqualityPlaylists + "?" +
-                  "limit=" + QString::number(limit));
+  QUrl url;
   if (tag != -1) {
-    url.setUrl(url.toString(QUrl::None) + "&" + "tag=" + QString::number(tag));
+    url = QUrl(QString("%1?limit=%2&tag=%3")
+                   .arg(network_api::apiGetHighqualityPlaylists)
+                   .arg(limit)
+                   .arg(tag));
+  } else {
+    url = QUrl(QString("%1?limit=%2")
+                   .arg(network_api::apiGetHighqualityPlaylists)
+                   .arg(limit));
   }
   request.setUrl(url);
   auto reply = this->get(request);
@@ -28,9 +34,11 @@ void PlaylistNetwork::getHighqualityPlaylists(qint32 limit, qint32 tag) {
 
 void PlaylistNetwork::getSelectivePlaylists(qint32 limit, const QString& tag,qint32 offset) {
   QNetworkRequest request;
-  QUrl url = network_api::apiGetSelectivePlaylists + "?" +
-             "limit=" + QString::number(limit) + "&" +
-             "cat=" + tag + "&" + "offset=" + QString::number(offset);
+  QUrl url = QString("%1?limit=%2&cat=%3&offset=%4")
+                 .arg(network_api::apiGetSelectivePlaylists)
+                 .arg(limit)
+                 .arg(tag)
+                 .arg(offset);
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply, this]() {
@@ -65,7 +73,9 @@ void PlaylistNetwork::getSelectivePlaylists(qint32 limit, const QString& tag,qin
 
 void PlaylistNetwork::getPlaylistDetail(qulonglong id){
   QNetworkRequest request;
-  QUrl url = network_api::apiPlaylistDetail + "?" + "id=" + QString::number(id);
+  QUrl url = QString("%1?id=%2")
+                 .arg(network_api::apiPlaylistDetail)
+                 .arg(id);
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply,id,this]() {
@@ -83,7 +93,9 @@ void PlaylistNetwork::getPlaylistDetail(qulonglong id){
 
 void PlaylistNetwork::getPlaylistTracks(qulonglong id,void* item){
   QNetworkRequest request;
-  QUrl url = network_api::apiPlaylistTracks + "?" + "id=" + QString::number(id);
+  QUrl url = QString("%1?id=%2")
+                 .arg(network_api::apiPlaylistTracks)
+                 .arg(id);
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply,item,this]() {
@@ -101,7 +113,9 @@ void PlaylistNetwork::getPlaylistTracks(qulonglong id,void* item){
 
 void PlaylistNetwork::getPlaylistComments(qulonglong id) {
   QNetworkRequest request;
-  QUrl url = network_api::apiPlaylistComments + "?" + "id=" + QString::number(id);
+  QUrl url = QString("%1?id=%2")
+                 .arg(network_api::apiPlaylistComments)
+                 .arg(id);
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply,id,this]() {

@@ -6,8 +6,9 @@ namespace network {
 
 void SongNetwork::getSongUrl(qulonglong id, void* item) {
   QNetworkRequest request;
-  QUrl url = network_api::getSongUrl + "?" + "id=" + QString::number(id) + "&" +
-             "level=standard";
+  QUrl url = QString("%1?id=%2&level=standard")
+                 .arg(network_api::getSongUrl)
+                 .arg(id);
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply, item, this]() {
@@ -28,7 +29,9 @@ void SongNetwork::getSongComments(qulonglong id) {}
 
 void SongNetwork::getSongLyric(qulonglong id) {
   QNetworkRequest request;
-  QUrl url = network_api::getSongLyric + "?" + "id=" + QString::number(id);
+  QUrl url = QString("%1?id=%2")
+                 .arg(network_api::getSongLyric)
+                 .arg(id);
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply, this, id] {
