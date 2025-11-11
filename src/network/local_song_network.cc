@@ -26,6 +26,7 @@ LocalSongNetwork::LocalSongNetwork() : m_settings("uu", "mediaplayer", this) {
 QFileInfoList LocalSongNetwork::mediasInSearchDirs() {
   int size = m_settings.beginReadArray("MediaSearchDirs");
   QStringList dirs;
+  dirs.reserve(size);
   for (int i = 0; i < size; i++) {
     m_settings.setArrayIndex(i);
     bool isSearched = m_settings.value("isSearched").toBool();
@@ -63,6 +64,7 @@ QMap<QString, bool> LocalSongNetwork::mediasSearchDirs()
 {
   int size = m_settings.beginReadArray("MediaSearchDirs");
   QMap<QString,bool> result;
+  result.reserve(size);
   for (int i = 0; i < size; i++) {
     m_settings.setArrayIndex(i);
     bool isSearched = m_settings.value("isSearched").toBool();

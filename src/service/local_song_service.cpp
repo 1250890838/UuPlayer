@@ -16,6 +16,7 @@ model::MediaItemFilterProxyModel *LocalSongService::mediaItemModel()
 QMap<QString, bool> LocalSongService::variantMapToBoolMap(const QVariantMap &map)
 {
   QMap<QString,bool> result;
+  result.reserve(map.size());
   for (auto it = map.constKeyValueBegin(); it != map.constKeyValueEnd(); ++it) {
     const auto& [key, value] = *it;
     result[key] = value.toBool();
@@ -26,6 +27,7 @@ QMap<QString, bool> LocalSongService::variantMapToBoolMap(const QVariantMap &map
 QVariantMap LocalSongService::boolMapToVariantMap(const QMap<QString, bool> &map)
 {
   QMap<QString,QVariant> result;
+  result.reserve(map.size());
   for (auto it = map.constKeyValueBegin(); it != map.constKeyValueEnd(); ++it) {
     const auto& [key, value] = *it;
     result[key] = QVariant::fromValue(value);
@@ -42,8 +44,9 @@ void LocalSongService::setSeachSongsPaths(const QVariantMap& map) {
     m_network.setMediasSearchDirs(variantMapToBoolMap(map));
   QFileInfoList infos = m_network.mediasInSearchDirs();
   QStringList paths;
+  paths.reserve(infos.size());
   for(const QFileInfo& info : infos){
-  paths.append(info.path());
+    paths.append(info.path());
   }
   m_mediaMetadataExtractor.processFiles(paths);
   QList<entities::LocalMediaItem> items = m_mediaMetadataExtractor.processResults();

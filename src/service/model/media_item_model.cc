@@ -60,11 +60,13 @@ void MediaItemModel::insertItem(MediaItem* item, quint32 pos) {
 }
 
 void MediaItemModel::appendItems(QVector<MediaItem*>& items) {
+  if (items.isEmpty()) {
+    return;
+  }
   beginInsertRows(QModelIndex(), m_items.size(),
                   m_items.size() + items.size() - 1);
-  for (auto& item : items) {
-    m_items.append(item);
-  }
+  m_items.reserve(m_items.size() + items.size());
+  m_items.append(items);
   endInsertRows();
 }
 
