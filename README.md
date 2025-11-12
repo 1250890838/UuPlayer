@@ -60,7 +60,7 @@ cd QWindowKit
 
 cmake -B build -S . -DQWINDOWKIT_BUILD_QUICK=ON -DCMAKE_PREFIX_PATH=<QT_DIR> -DCMAKE_INSTALL_PREFIX="./install"
 
-cmake --build build
+cmake --build build --target install --config Debug
 
 ```
 > ⚠<QT_DIR>是你本地的Qt安装目录，如在我电脑上是D:\Qt\Qt6.5.3\6.5.3\msvc2019_64
