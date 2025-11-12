@@ -67,7 +67,7 @@ cmake --build build --target install --config Debug
 
 3. **构建UuPlayer**
 ```powershell
-cd ../src
+cd ../../src
 
 cmake -B build -S . -DCMAKE_PREFIX_PATH=<QT_DIR> -DQWindowKit_DIR="../libs/qwindowkit/install/lib/cmake/QWindowKit"
 
