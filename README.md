@@ -56,6 +56,8 @@ cd UuPlayer
 ```powershell
 cd libs
 
+cd QWindowKit
+
 cmake -B build -S . -DQWINDOWKIT_BUILD_QUICK=ON -DCMAKE_PREFIX_PATH=<QT_DIR> -DCMAKE_INSTALL_PREFIX="./install"
 
 cmake --build build
