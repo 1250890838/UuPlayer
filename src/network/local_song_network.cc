@@ -20,6 +20,7 @@ LocalSongNetwork::LocalSongNetwork() : m_settings("uu", "mediaplayer", this) {
     m_settings.setArrayIndex(1);
     m_settings.setValue("searchDir", downloadPath);
     m_settings.setValue("isSearched", true);
+    m_settings.endArray();
   }
 }
 

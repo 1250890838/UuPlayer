@@ -11,6 +11,16 @@ Item {
         background: Rectangle {
             color: "transparent"
         }
+
+        SelectLocalDirsDialog {
+            id: selectLocalDirsDialog
+            x: 100
+            y: 85
+            width: 445
+            height: 423
+            visible: false
+        }
+
         MouseArea {
             id: mouseArea
             anchors.fill: parent
@@ -38,7 +48,23 @@ Item {
                     font.pointSize: 8
                     color: "gray"
                 }
+                MouseArea {
+                    id: selectSearchLocalMediasDirsMouseArea
+                    width: selectLocalMediasDirsText.implicitWidth
+                    height: selectLocalMediasDirsText.implicitHeight + 8
+                    cursorShape: Qt.PointingHandCursor
+                    Text {
+                        id: selectLocalMediasDirsText
+                        anchors.centerIn: parent
+                        text: qsTr("选择目录>")
+                        color: "#0A4F6E"
+                    }
+                    onClicked: {
+                        selectLocalDirsDialog.open()
+                    }
+                }
             }
+
             Row {
                 id: buttonGroupRow
                 spacing: 12
@@ -64,6 +90,8 @@ Item {
                 IconButton {
                     backgroundColor: "#f0f3f6"
                     backgroundHoveredColor: "#f0f3f6"
+                    borderWidth: 1
+                    borderColor: Qt.darker(this.backgroundColor, 1.2)
                     icon: Icons.refreshIcon
                     hoveredIcon: Icons.refreshIcon
                     radius: 6
@@ -81,6 +109,8 @@ Item {
                     radius: 6
                     backgroundColor: "#f0f3f6"
                     backgroundHoveredColor: "#f0f3f6"
+                    borderWidth: 1
+                    borderColor: Qt.darker(this.backgroundColor, 1.2)
                     icon: Icons.moreIcon
                     hoveredIcon: Icons.moreIcon
                     width: 35

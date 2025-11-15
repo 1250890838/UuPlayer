@@ -125,6 +125,7 @@ qt_add_qml_module(gui
     RESOURCES images/search.svg
     QML_FILES qml/stackPages/localMusicPage/SearchBox.qml
     QML_FILES qml/stackPages/localMusicPage/SortHeaderItem.qml
+    QML_FILES qml/stackPages/localMusicPage/SelectLocalDirsDialog.qml
 )
 
 target_link_libraries(gui PRIVATE Qt6::Quick)

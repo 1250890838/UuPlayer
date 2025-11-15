@@ -1,21 +1,19 @@
 #include "local_song_service.h"
 
-#include <QVariantMap>
 #include <QFileInfo>
+#include <QVariantMap>
 
-LocalSongService::LocalSongService(QObject* parent)
-    : QObject{parent} {
-  setSeachSongsPaths(QVariantMap()); // init
+LocalSongService::LocalSongService(QObject* parent) : QObject{parent} {
+  setSeachSongsPaths(QVariantMap());  // init
 }
 
-model::MediaItemFilterProxyModel *LocalSongService::mediaItemModel()
-{
+model::MediaItemFilterProxyModel* LocalSongService::mediaItemModel() {
   return &m_mediaItemsFilterProxyModel;
 }
 
-QMap<QString, bool> LocalSongService::variantMapToBoolMap(const QVariantMap &map)
-{
-  QMap<QString,bool> result;
+QMap<QString, bool> LocalSongService::variantMapToBoolMap(
+    const QVariantMap& map) {
+  QMap<QString, bool> result;
   for (auto it = map.constKeyValueBegin(); it != map.constKeyValueEnd(); ++it) {
     const auto& [key, value] = *it;
     result[key] = value.toBool();
@@ -23,9 +21,9 @@ QMap<QString, bool> LocalSongService::variantMapToBoolMap(const QVariantMap &map
   return result;
 }
 
-QVariantMap LocalSongService::boolMapToVariantMap(const QMap<QString, bool> &map)
-{
-  QMap<QString,QVariant> result;
+QVariantMap LocalSongService::boolMapToVariantMap(
+    const QMap<QString, bool>& map) {
+  QMap<QString, QVariant> result;
   for (auto it = map.constKeyValueBegin(); it != map.constKeyValueEnd(); ++it) {
     const auto& [key, value] = *it;
     result[key] = QVariant::fromValue(value);
@@ -38,18 +36,18 @@ QVariantMap LocalSongService::songsSearchDirs() {
 }
 
 void LocalSongService::setSeachSongsPaths(const QVariantMap& map) {
-  if(!map.empty())
+  if (!map.empty())
     m_network.setMediasSearchDirs(variantMapToBoolMap(map));
   QFileInfoList infos = m_network.mediasInSearchDirs();
   QStringList paths;
-  for(const QFileInfo& info : infos){
-  paths.append(info.path());
+  for (const QFileInfo& info : infos) {
+    paths.append(info.path());
   }
   m_mediaMetadataExtractor.processFiles(paths);
-  QList<entities::LocalMediaItem> items = m_mediaMetadataExtractor.processResults();
+  QList<entities::LocalMediaItem> items =
+      m_mediaMetadataExtractor.processResults();
 
-  for(const entities::LocalMediaItem& item : items)
-  {
+  for (const entities::LocalMediaItem& item : items) {
     m_mediaItemsModel.appendItem(item);
   }
 }
