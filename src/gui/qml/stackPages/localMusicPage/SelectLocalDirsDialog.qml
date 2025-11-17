@@ -29,4 +29,11 @@ Popup {
         shadowOpacity: 1
         shadowScale: 1.0
     }
+
+    Rectangle {
+        id: container
+        anchors.fill: parent
+        radius: 8
+        color: "#fafafa"
+    }
 }

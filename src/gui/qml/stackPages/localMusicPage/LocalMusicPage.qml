@@ -7,6 +7,7 @@ import components 1.0
 Item {
     id: root
     Pane {
+        id: container
         anchors.fill: parent
         background: Rectangle {
             color: "transparent"
@@ -14,11 +15,10 @@ Item {
 
         SelectLocalDirsDialog {
             id: selectLocalDirsDialog
-            x: 100
-            y: 85
+            x: (container.width - this.width) / 2
+            y: (container.height - this.height) / 2
             width: 445
             height: 423
-            visible: false
         }
 
         MouseArea {
@@ -60,6 +60,7 @@ Item {
                         color: "#0A4F6E"
                     }
                     onClicked: {
+                        console.log("select local dirsDialog opened!")
                         selectLocalDirsDialog.open()
                     }
                 }
