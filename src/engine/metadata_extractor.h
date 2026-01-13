@@ -1,23 +1,22 @@
 #ifndef METADATAEXTRACTOR_H
 #define METADATAEXTRACTOR_H
 
+#include <QMediaMetaData>
+#include <QMediaPlayer>
 #include <QObject>
 #include <QStringList>
-#include <QMediaPlayer>
-#include <QMediaMetaData>
 
 #include "service/entities/local_media_item.h"
 
-namespace engine{
+namespace engine {
 
-class MetaDataExtractor : public QObject
-{
+class MetaDataExtractor : public QObject {
   Q_OBJECT
  public:
-  explicit MetaDataExtractor(QObject *parent = nullptr);
+  explicit MetaDataExtractor(QObject* parent = nullptr);
   ~MetaDataExtractor();
 
-  void processFiles(const QStringList &filePaths);
+  void processFiles(const QStringList& filePaths);
   QList<entities::LocalMediaItem> processResults();
 
  signals:
@@ -33,5 +32,5 @@ class MetaDataExtractor : public QObject
   int m_currentIndex;
   QList<entities::LocalMediaItem> m_metaDatas;
 };
-}
-#endif // METADATAEXTRACTOR_H
+}  // namespace engine
+#endif  // METADATAEXTRACTOR_H

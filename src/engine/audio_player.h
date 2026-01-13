@@ -2,10 +2,10 @@
 #define ENGINE_MEDIAPLAYER_H
 #include "engine_global.h"
 
+#include <QAudioOutput>
 #include <QJSEngine>
 #include <QObject>
 #include <QQmlEngine>
-#include <QAudioOutput>
 
 #include <QList>
 #include <QMediaPlayer>

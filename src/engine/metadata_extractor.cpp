@@ -1,31 +1,26 @@
 #include "metadata_extractor.h"
-#include <QFileInfo>
 #include <QDebug>
-namespace engine{
-MetaDataExtractor::MetaDataExtractor(QObject *parent)
-    : QObject{parent}, m_player(new QMediaPlayer(this)), m_currentIndex(0)
-{
-  connect(m_player, &QMediaPlayer::metaDataChanged, this, &MetaDataExtractor::onMetaDataChanged);
+#include <QFileInfo>
+namespace engine {
+MetaDataExtractor::MetaDataExtractor(QObject* parent)
+    : QObject{parent}, m_player(new QMediaPlayer(this)), m_currentIndex(0) {
+  connect(m_player, &QMediaPlayer::metaDataChanged, this,
+          &MetaDataExtractor::onMetaDataChanged);
 }
 
-MetaDataExtractor::~MetaDataExtractor()
-{
-}
+MetaDataExtractor::~MetaDataExtractor() {}
 
-void MetaDataExtractor::processFiles(const QStringList &filePaths)
-{
+void MetaDataExtractor::processFiles(const QStringList& filePaths) {
   m_fileQueue = filePaths;
   m_currentIndex = 0;
   processNextFile();
 }
 
-QList<entities::LocalMediaItem> MetaDataExtractor::processResults()
-{
+QList<entities::LocalMediaItem> MetaDataExtractor::processResults() {
   return m_metaDatas;
 }
 
-void MetaDataExtractor::processNextFile()
-{
+void MetaDataExtractor::processNextFile() {
   if (m_currentIndex >= m_fileQueue.size()) {
     emit finished();
     return;
@@ -35,8 +30,7 @@ void MetaDataExtractor::processNextFile()
   m_player->setSource(QUrl::fromLocalFile(path));
 }
 
-void MetaDataExtractor::onMetaDataChanged()
-{
+void MetaDataExtractor::onMetaDataChanged() {
   static qlonglong s_local_media_id = -1;
   // struct MediaItem {
   //   qulonglong id;
@@ -55,21 +49,21 @@ void MetaDataExtractor::onMetaDataChanged()
   qint64 duration = metaData.value(QMediaMetaData::Duration).toLongLong();
   qint64 date = metaData.value(QMediaMetaData::Date).toLongLong();
   Q_UNUSED(date);
-  auto artists = metaData.value(QMediaMetaData::ContributingArtist).toStringList();
+  auto artists =
+      metaData.value(QMediaMetaData::ContributingArtist).toStringList();
   auto path = metaData.value(QMediaMetaData::Url).toUrl().toString();
 
-  entities::LocalMediaItem item{
-      .id = s_local_media_id--,
-      .name = title,
-      .duration = static_cast<qulonglong>(duration),
-      .albumName = album,
-      .artists = artists,
-      .dirPath = path,
-      .fileSize = 0
+  entities::LocalMediaItem item{.id = s_local_media_id--,
+                                .name = title,
+                                .duration = static_cast<qulonglong>(duration),
+                                .albumName = album,
+                                .artists = artists,
+                                .dirPath = path,
+                                .fileSize = 0
 
   };
   m_metaDatas.append(item);
   m_currentIndex++;
   processNextFile();
 }
-}
+}  // namespace engine
