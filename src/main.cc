@@ -19,11 +19,6 @@
 Q_IMPORT_QML_PLUGIN(guiPlugin)
 
 int main(int argc, char* argv[]) {
-
-#ifdef Q_OS_WIN
-  HMODULE hLib = LoadLibrary(TEXT("service.dll"));
-#endif
-
   QGuiApplication app(argc, argv);
   QQmlApplicationEngine engine;
   QWK::registerTypes(&engine);
