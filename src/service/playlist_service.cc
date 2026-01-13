@@ -31,13 +31,13 @@ PlaylistService::PlaylistService(QObject* parent)
   connect(&m_network, &PlaylistNetwork::getSelectivePlaylistsFinished, this,
           &PlaylistService::onGetSelectivePlaylists, Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistsCatlistFinished, this,
-          &PlaylistService::onGetPlaylistsCatlist,Qt::QueuedConnection);
+          &PlaylistService::onGetPlaylistsCatlist, Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistDetailFinished, this,
-          &PlaylistService::onGetPlaylistDetail,Qt::QueuedConnection);
+          &PlaylistService::onGetPlaylistDetail, Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistTracksFinished, this,
-          &PlaylistService::onGetPlaylistTracks,Qt::QueuedConnection);
+          &PlaylistService::onGetPlaylistTracks, Qt::QueuedConnection);
   connect(&m_network, &PlaylistNetwork::getPlaylistCommentsFinished, this,
-          &PlaylistService::onGetPlaylistComments,Qt::QueuedConnection);
+          &PlaylistService::onGetPlaylistComments, Qt::QueuedConnection);
   netThread->start();
 }
 
@@ -114,7 +114,7 @@ void PlaylistService::onGetHighqualityPlaylists(
 void PlaylistService::onGetSelectivePlaylists(
     network::error_code::ErrorCode code, const QByteArray& data) {
 
-  if(m_currOffset==0){
+  if (m_currOffset == 0) {
     m_currPlaylists.clear();
   }
   if (code == network::error_code::NoError) {
@@ -153,7 +153,7 @@ void PlaylistService::onGetSelectivePlaylists(
               o["subscribedCount"].toVariant().toULongLong());
           m_currPlaylists.appendItem(item);
           item->mediaItemModel()->clear();
-         // this->getPlaylistTracks(item->id(), item);
+          // this->getPlaylistTracks(item->id(), item);
         }
       }
     }
@@ -227,7 +227,8 @@ void PlaylistService::onGetPlaylistsCatlist(network::error_code::ErrorCode code,
 }
 
 void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
-                                          const QByteArray& data,qulonglong id) {
+                                          const QByteArray& data,
+                                          qulonglong id) {
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     auto obj = doc.object();
@@ -327,7 +328,8 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
 }
 
 void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
-                                            const QByteArray& data,qulonglong id) {
+                                            const QByteArray& data,
+                                            qulonglong id) {
   if (code == network::error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() || doc.isEmpty()) {
