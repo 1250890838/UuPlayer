@@ -6,7 +6,14 @@ add_library(network SHARED
     local_song_network.h local_song_network.cc)
 
 
-target_compile_definitions(network PRIVATE NETWORK_EXPORT_SYMBOLS)
+target_compile_definitions(network PRIVATE NETWORK_EXPORT_SYMBOLS QT_NO_DEBUG_OUTPUT)
+
+target_compile_definitions(network
+    PRIVATE
+        $<$<CONFIG:Release>:QT_NO_DEBUG_OUTPUT>
+        $<$<CONFIG:RelWithDebInfo>:QT_NO_DEBUG_OUTPUT>
+        $<$<CONFIG:MinSizeRel>:QT_NO_DEBUG_OUTPUT>
+)
 
 target_include_directories(network INTERFACE ".")
 
