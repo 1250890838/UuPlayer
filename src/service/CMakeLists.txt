@@ -29,4 +29,12 @@ qt6_add_qml_module(service URI service.api VERSION 1.0 SOURCES
 
 target_compile_definitions(service PRIVATE SERVICE_EXPORT_SYMBOLS)
 
+target_compile_definitions(service
+    PRIVATE
+        $<$<CONFIG:Release>:QT_NO_DEBUG_OUTPUT>
+        $<$<CONFIG:RelWithDebInfo>:QT_NO_DEBUG_OUTPUT>
+        $<$<CONFIG:MinSizeRel>:QT_NO_DEBUG_OUTPUT>
+)
+
+
 target_link_libraries(service PRIVATE Qt6::Core Qt6::Gui Qt6::Concurrent network engine)
