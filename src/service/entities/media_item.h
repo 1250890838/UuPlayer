@@ -22,15 +22,16 @@ struct MediaItem {
   MediaItem();
   MediaItem(const MediaItem& item) = default;
   MediaItem& operator=(const MediaItem& other);
+
  public:
   qulonglong id;
   QString name;
   qulonglong duration;
   AlbumData albumdata;
-  QVariantList artists; // QList<AristData> artists
+  QVariantList artists;  // QList<AristData> artists
   QString reason;
   QUrl url;
   QVariantList lyrics;
 };
-}
-#endif // MEDIA_ITEM_H
+}  // namespace entities
+#endif  // MEDIA_ITEM_H
