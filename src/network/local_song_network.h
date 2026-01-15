@@ -15,6 +15,8 @@ class LocalSongNetwork : public QObject
   QFileInfoList mediasInSearchDirs();
   void setMediasSearchDirs(const QMap<QString,bool>& map);
   QMap<QString,bool> mediasSearchDirs();
+  void clearSearchDirs();
+
  private:
   QSettings m_settings;
 };

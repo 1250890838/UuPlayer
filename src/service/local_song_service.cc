@@ -2,13 +2,18 @@
 
 #include <QFileInfo>
 #include <QVariantMap>
+namespace service {
 
 LocalSongService::LocalSongService(QObject* parent) : QObject{parent} {
-  setSeachSongsPaths(QVariantMap());  // init
+  setSearchSongsPaths(QVariantMap());  // init
 }
 
 model::MediaItemFilterProxyModel* LocalSongService::mediaItemModel() {
   return &m_mediaItemsFilterProxyModel;
+}
+
+void LocalSongService::clearSearchDirs() {
+  m_network.clearSearchDirs();
 }
 
 QMap<QString, bool> LocalSongService::variantMapToBoolMap(
@@ -35,7 +40,7 @@ QVariantMap LocalSongService::songsSearchDirs() {
   return boolMapToVariantMap(map);
 }
 
-void LocalSongService::setSeachSongsPaths(const QVariantMap& map) {
+void LocalSongService::setSearchSongsPaths(const QVariantMap& map) {
   if (!map.empty())
     m_network.setMediasSearchDirs(variantMapToBoolMap(map));
   QFileInfoList infos = m_network.mediasInSearchDirs();
@@ -51,3 +56,4 @@ void LocalSongService::setSeachSongsPaths(const QVariantMap& map) {
     m_mediaItemsModel.appendItem(item);
   }
 }
+}  // namespace service

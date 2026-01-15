@@ -1,6 +1,6 @@
 qt_add_executable(test
-    test_qstring.cc
-    test_qstring.h
+    test_service.cc
+    test_service.h
 )
 
 set_target_properties(test PROPERTIES
@@ -13,5 +13,6 @@ target_link_libraries(test PRIVATE
     Qt6::Gui
     Qt6::Test
     Qt6::Widgets
+    service
 )
 

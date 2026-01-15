@@ -23,7 +23,7 @@ qt6_add_qml_module(service URI service.api VERSION 1.0 SOURCES
     SOURCES entities/arist_data.h
     SOURCES entities/media_item.cc
     SOURCES entities/local_media_item.h
-    SOURCES local_song_service.h local_song_service.cpp
+    SOURCES local_song_service.h local_song_service.cc
     SOURCES model/local_media_item_model.h model/local_media_item_model.cc
 )
 
@@ -36,5 +36,6 @@ target_compile_definitions(service
         $<$<CONFIG:MinSizeRel>:QT_NO_DEBUG_OUTPUT>
 )
 
+target_include_directories(service INTERFACE ".")
 
-target_link_libraries(service PRIVATE Qt6::Core Qt6::Gui Qt6::Concurrent network engine)
+target_link_libraries(service PUBLIC network engine Qt6::Core Qt6::Gui Qt6::Concurrent Qt6::Qml)

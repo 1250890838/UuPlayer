@@ -7,9 +7,10 @@ namespace network {
 
 LocalSongNetwork::LocalSongNetwork() : m_settings("uu", "mediaplayer", this) {
   // init setting
-  if (!m_settings.beginReadArray("MediaSearchDirs")) {
-    m_settings.endArray();
-    m_settings.beginWriteArray("MediaSearchDirs");
+  int size = m_settings.beginReadArray("MediaSearchDirs");
+  m_settings.endArray();
+  if (size == 0) {
+    m_settings.beginWriteArray("MediaSearchDirs", 2);
     QString musicPath =
         QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
     QString downloadPath =
@@ -48,7 +49,7 @@ QFileInfoList LocalSongNetwork::mediasInSearchDirs() {
 }
 
 void LocalSongNetwork::setMediasSearchDirs(const QMap<QString, bool>& map) {
-  m_settings.beginWriteArray("MediaSearchDirs");
+  m_settings.beginWriteArray("MediaSearchDirs", map.count());
   QMap<QString, bool>::const_iterator v;
   int i = 0;
   for (v = map.constBegin(); v != map.constEnd(); ++v) {
@@ -70,5 +71,9 @@ QMap<QString, bool> LocalSongNetwork::mediasSearchDirs() {
   }
   m_settings.endArray();
   return result;
+}
+
+void LocalSongNetwork::clearSearchDirs() {
+  m_settings.remove("MediaSearchDirs");
 }
 }  // namespace network
