@@ -94,6 +94,7 @@ Item {
             spacing: 10
             RoundedImage {
                 id: image
+                sourceSize: Qt.size(36, 36)
                 width: 36
                 height: 36
                 radius: 5

@@ -10,6 +10,7 @@ Rectangle {
     property alias isTopRightRounded: maskRect.isTopRightRounded
     property alias isBottomLeftRounded: maskRect.isBottomLeftRounded
     property alias isBottomRightRounded: maskRect.isBottomRightRounded
+    property alias sourceSize: image.sourceSize
     property bool isCircle: false
     color: "transparent"
 
