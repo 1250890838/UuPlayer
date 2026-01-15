@@ -6,4 +6,3 @@ void TestQString::toUpper() {
 }
 
 QTEST_MAIN(TestQString)
-#include "test_qstring.moc"
