@@ -1,4 +1,4 @@
-add_library(engine SHARED
+qt_add_library(engine SHARED
     audio_player.h
     audio_player.cc
     metadata_extractor.h metadata_extractor.cpp)

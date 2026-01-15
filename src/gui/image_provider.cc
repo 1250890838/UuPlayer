@@ -1,7 +1,7 @@
 #include "image_provider.h"
 #include <QCoreApplication>  // 用于获取主线程上下文（如果需要），这里直接用 network 对象即可
 #include <QNetworkReply>
-#include <QtConcurrent/QtConcurrent>
+#include <QtConcurrent>
 
 namespace gui {
 

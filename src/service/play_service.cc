@@ -81,13 +81,10 @@ void PlayService::play(qulonglong id) {
 }
 
 void PlayService::pause() {
-  qDebug() << "PlayService pause called";
   m_player.pause();
 }
 
 void PlayService::next() {
-  qDebug() << "PlayService next called";
-
   auto items = m_playbacklistModel.rawData();
   m_currentIndex++;
   if (m_currentIndex >= items.size()) {
@@ -105,8 +102,6 @@ void PlayService::next() {
 }
 
 void PlayService::previous() {
-  qDebug() << "PlayService previous called";
-
   auto items = m_playbacklistModel.rawData();
   m_currentIndex--;
   if (m_currentIndex < 0) {

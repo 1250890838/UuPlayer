@@ -1,4 +1,4 @@
-add_library(service SHARED 
+add_library(service SHARED
     model/media_item_model.h
     model/playlist_item_model.h
     model/media_item_model.cc
