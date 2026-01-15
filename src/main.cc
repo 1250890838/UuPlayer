@@ -7,6 +7,7 @@
 #include <QtGlobal>
 #include <QtQml/QQmlExtensionPlugin>
 
+#include "image_provider.h"
 #include "network/basic_network.h"
 #include "service/login_service.h"
 #include "service/model/mediaitem_filterproxy_model.h"
@@ -23,6 +24,7 @@ int main(int argc, char* argv[]) {
   QQmlApplicationEngine engine;
   QWK::registerTypes(&engine);
   engine.addImportPath(u"qrc:/gui/qml"_qs);  // register custom components
+  engine.addImageProvider(QLatin1String("net"), new gui::ImageProvider);
   qmlRegisterUncreatableMetaObject(network::error_code::staticMetaObject,
                                    "network.errorcode", 1, 0, "ErrorCode",
                                    "Error: only error code enums");

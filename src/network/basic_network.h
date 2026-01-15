@@ -23,8 +23,6 @@ class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
   Q_OBJECT
  public:
   BasicNetwork() = default;
-  // QNetworkAccessManager* networkAccessManager() { return m_netAccessManager;}
- protected:
   QNetworkReply* get(const QNetworkRequest&);
   QNetworkReply* post(const QNetworkRequest&, const QByteArray&);
 

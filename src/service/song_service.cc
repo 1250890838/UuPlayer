@@ -1,6 +1,5 @@
 #include "song_service.h"
 
-#include "model/media_item_model.h"
 #include "playlist_service.h"
 
 #include <QJsonArray>
@@ -66,7 +65,6 @@ QVariantList service::NetworkSongService::parseLyricStr(const QString& lyric) {
       result.append(map);
     }
   }
-  qDebug() << "current lyrics line length" << result.size();
   return result;
 }
 

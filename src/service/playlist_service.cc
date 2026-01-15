@@ -250,7 +250,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
       auto albumObj = track["al"].toObject();
       albumData.setId(albumObj["id"].toVariant().toLongLong());
       albumData.setName(albumObj["name"].toString());
-      albumData.setPicUrl(albumObj["picUrl"].toString());
+      albumData.setPicUrl("image://net/" + albumObj["picUrl"].toString());
       item->albumdata = albumData;
       auto artistsArr = track["ar"].toArray();
       entities::AristData aristData;
@@ -310,7 +310,7 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
         auto albumObj = track["al"].toObject();
         albumData.setId(albumObj["id"].toVariant().toLongLong());
         albumData.setName(albumObj["name"].toString());
-        albumData.setPicUrl(albumObj["picUrl"].toString());
+        albumData.setPicUrl("image://net/" + albumObj["picUrl"].toString());
         mediaItem->albumdata = albumData;
         auto artistsArr = track["ar"].toArray();
         entities::AristData aristData;

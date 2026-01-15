@@ -25,6 +25,7 @@ qt6_add_qml_module(service URI service.api VERSION 1.0 SOURCES
     SOURCES entities/local_media_item.h
     SOURCES local_song_service.h local_song_service.cc
     SOURCES model/local_media_item_model.h model/local_media_item_model.cc
+    SOURCES
 )
 
 target_compile_definitions(service PRIVATE SERVICE_EXPORT_SYMBOLS)

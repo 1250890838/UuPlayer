@@ -65,8 +65,6 @@ set(image_files
     images/qrcode_scan_sample.png
     )
 
-target_include_directories(gui PRIVATE "./cpp")
-
 qt_add_qml_module(gui
     URI "gui"
     VERSION 1.0
@@ -126,7 +124,10 @@ qt_add_qml_module(gui
     QML_FILES qml/stackPages/localMusicPage/SearchBox.qml
     QML_FILES qml/stackPages/localMusicPage/SortHeaderItem.qml
     QML_FILES qml/stackPages/localMusicPage/SelectLocalDirsDialog.qml
+    SOURCES image_provider.h image_provider.cc
 )
 
-target_link_libraries(gui PRIVATE Qt6::Quick)
+target_include_directories(gui PUBLIC "./cpp" ".")
+
+target_link_libraries(gui PRIVATE network Qt6::Quick)
 
