@@ -12,7 +12,8 @@ namespace gui {
 class NetworkImageResponse : public QQuickImageResponse {
   Q_OBJECT
  public:
-  NetworkImageResponse(const QString& id, network::BasicNetwork* network);
+  NetworkImageResponse(const QString& id, network::BasicNetwork* network,
+                       QSize requestedSize);
   QQuickTextureFactory* textureFactory() const override;
 
  public slots:
@@ -22,6 +23,7 @@ class NetworkImageResponse : public QQuickImageResponse {
   network::BasicNetwork* m_network = nullptr;
   QImage m_image;
   QNetworkReply* m_reply;
+  QSize m_requestedSize;
 };
 
 class ImageProvider : public QQuickAsyncImageProvider {

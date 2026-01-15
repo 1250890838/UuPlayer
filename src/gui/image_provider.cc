@@ -6,8 +6,9 @@
 namespace gui {
 
 NetworkImageResponse::NetworkImageResponse(const QString& id,
-                                           network::BasicNetwork* network)
-    : m_network(network) {
+                                           network::BasicNetwork* network,
+                                           QSize requestedSize)
+    : m_network(network), m_requestedSize(requestedSize) {
   QUrl url(id);
   QNetworkRequest req(url);
   m_reply = m_network->get(req);
@@ -20,10 +21,13 @@ NetworkImageResponse::NetworkImageResponse(const QString& id,
 void NetworkImageResponse::handleNetFinished() {
   if (m_reply->error() == QNetworkReply::NoError) {
     QByteArray data = m_reply->readAll();
-    m_image.loadFromData(data);
     QtConcurrent::run([this, data]() {
       QImage tempImage;
       tempImage.loadFromData(data);
+      if (m_requestedSize.isValid() && !tempImage.isNull()) {
+        tempImage = tempImage.scaled(m_requestedSize, Qt::KeepAspectRatio,
+                                     Qt::SmoothTransformation);
+      }
       m_image = tempImage;
       emit finished();
     });
@@ -32,7 +36,6 @@ void NetworkImageResponse::handleNetFinished() {
   }
   m_reply->deleteLater();
   m_reply = nullptr;
-  emit finished();
 }
 
 QQuickTextureFactory* NetworkImageResponse::textureFactory() const {
@@ -47,7 +50,6 @@ ImageProvider::~ImageProvider() {
 
 QQuickImageResponse* ImageProvider::requestImageResponse(
     const QString& id, const QSize& requestedSize) {
-  Q_UNUSED(requestedSize);
-  return new NetworkImageResponse(id, m_network);
+  return new NetworkImageResponse(id, m_network, requestedSize);
 }
 }  // namespace gui
