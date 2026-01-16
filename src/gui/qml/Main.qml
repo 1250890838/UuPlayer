@@ -8,7 +8,6 @@ import components 1.0
 import QWindowKit 1.0
 import service.api 1.0
 import "leftNavigationPanel"
-import "stackPages"
 import "stackPages/cloudMusicSelectedPage"
 import "titleBar"
 import "playlistDetail"
@@ -138,17 +137,15 @@ Window {
             State {
                 name: "closed"
                 PropertyChanges {
-                    target: lyricsViewPage
-                    height: 0
-                    y: window.height
+                    lyricsViewPage.height: 0
+                    lyricsViewPage.y: window.height
                 }
             },
             State {
                 name: "opened"
                 PropertyChanges {
-                    target: lyricsViewPage
-                    height: window.height
-                    y: 0
+                    lyricsViewPage.height: window.height
+                    lyricsViewPage.y: 0
                 }
             }
         ]
