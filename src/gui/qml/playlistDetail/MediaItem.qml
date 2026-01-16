@@ -9,8 +9,14 @@ import assets 1.0
 import network.errorcode 1.0
 
 Item {
+    id: root
+    readonly property bool isPlaying: PlayService.playing
+                                      && PlayService.currentPlayItem.id === model.id
+    readonly property bool isActive: mouseArea.containsMouse
+                                     || PlayService.currentPlayItem.id === model.id
     MultiEffect {
         id: effect
+        visible: root.isActive
         source: container
         anchors.fill: container
         shadowBlur: 0.01
@@ -26,8 +32,7 @@ Item {
         id: container
         anchors.fill: parent
         radius: 8
-        color: (mouseArea.containsMouse
-                || PlayService.currentPlayItem.id === model.id) ? "#ffffff" : "transparent"
+        color: root.isActive ? "#ffffff" : "transparent"
     }
 
     RowLayout {
@@ -71,10 +76,8 @@ Item {
 
         IconButton {
             id: playButton
-            visible: mouseArea.containsMouse
-                     || PlayService.currentPlayItem.id === model.id
-            icon: PlayService.playing && PlayService.currentPlayItem.id
-                  === model.id ? Icons.pauseGrayIcon : Icons.playGrayIcon
+            visible: root.isActive
+            icon: root.isPlaying ? Icons.pauseGrayIcon : Icons.playGrayIcon
             hoveredIcon: Icons.playGrayIcon
             Layout.preferredHeight: index.implicitHeight
             Layout.preferredWidth: headerDummyItem.width
@@ -124,15 +127,7 @@ Item {
                     }
                     color: "gray"
                     elide: Text.ElideRight
-                    text: {
-                        let result = ""
-                        let ars = model.artists
-                        for (let t of ars) {
-                            result += t.name
-                            result += ' / '
-                        }
-                        return result.substring(0, result.length - 3)
-                    }
+                    text: model.artists.map(a => a.name).join(' / ')
                 }
             }
         }

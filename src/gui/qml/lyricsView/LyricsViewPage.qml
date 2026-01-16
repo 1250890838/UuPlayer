@@ -37,7 +37,6 @@ Page {
         borderColor: "#404b4b"
         borderWidth: 1
         onClicked: function () {
-            console.log("down button on lyrics view page clicked!")
             root.state = "closed"
         }
         Component.onCompleted: windowAgent.setHitTestVisible(this)
