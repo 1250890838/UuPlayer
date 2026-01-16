@@ -288,7 +288,7 @@ Flickable {
                         id: mediaItemsRepeater
                         model: detail.mediaItemModel
                         property var mediaIds: []
-                        MediaItem {
+                        delegate: MediaItem {
                             implicitHeight: 55
                             Layout.fillWidth: true
                             Component.onCompleted: {

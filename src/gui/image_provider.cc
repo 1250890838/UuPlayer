@@ -17,7 +17,7 @@ NetworkImageResponse::NetworkImageResponse(const QString& id,
         connect(reply, &QNetworkReply::finished, this, [this, reply]() {
           if (reply->error() == QNetworkReply::NoError) {
             QByteArray data = reply->readAll();
-            auto future =  // assign here just for eliminate warning
+            auto future =  // Assigned to suppress compiler warning.
                 QtConcurrent::task([this, data]() {
                   QImage tempImage;
                   tempImage.loadFromData(data);
