@@ -261,7 +261,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
           auto artistObj = artistValue.toObject();
           aristData.setId(artistObj["id"].toVariant().toLongLong());
           aristData.setName(artistObj["name"].toString());
-          item->artists.append(QVariant::fromValue(aristData));
+          item->artists.append(aristData);
         }
         item->duration = track["dt"].toVariant().toLongLong();
         mediaItems.append(item);
@@ -324,7 +324,7 @@ void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
           auto artistObj = artistValue.toObject();
           aristData.setId(artistObj["id"].toVariant().toLongLong());
           aristData.setName(artistObj["name"].toString());
-          mediaItem->artists.append(QVariant::fromValue(aristData));
+          mediaItem->artists.append(aristData);
         }
         mediaItem->duration = track["dt"].toVariant().toLongLong();
         model->appendItem(mediaItem);

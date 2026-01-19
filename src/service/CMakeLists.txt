@@ -39,4 +39,6 @@ target_compile_definitions(service
 
 target_include_directories(service INTERFACE ".")
 
+target_include_directories(service PRIVATE "entities/")
+
 target_link_libraries(service PUBLIC network engine Qt6::Core Qt6::Gui Qt6::Concurrent Qt6::Qml)

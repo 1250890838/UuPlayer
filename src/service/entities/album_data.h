@@ -13,6 +13,7 @@ class AlbumData {
   AlbumData() = default;
   AlbumData(qulonglong id, const QString& name, const QUrl& picUrl);
   ~AlbumData() = default;
+  bool operator==(const AlbumData&) const = default;
   qulonglong id() const { return m_id; }
   void setId(qulonglong id) { m_id = id; }
   QString name() const { return m_name; }
