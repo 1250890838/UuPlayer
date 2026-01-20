@@ -46,7 +46,8 @@ QVariant PlaylistItemModel::data(const QModelIndex& index, int role) const {
     case SubscribedRole:
       return m_items[index.row()]->subscribed();
     case TracksRole:
-      return QVariant::fromValue(m_items[index.row()]->mediaItemModel());
+      return QVariant();  // TODO:
+    //return QVariant::fromValue(m_items[index.row()]->mediaItemModel());
     default:
       return {};
       break;

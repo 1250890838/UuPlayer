@@ -4,10 +4,11 @@
 #include <QVariantList>
 #include "album_item.h"
 #include "arist_item.h"
+#include "entities_global.h"
 
 namespace entities {
 
-struct MediaItem {
+struct ENTITIES_EXPORT MediaItem {
   Q_GADGET
   Q_PROPERTY(qulonglong id MEMBER id)
   Q_PROPERTY(QString name MEMBER name)

@@ -2,9 +2,11 @@
 #define ALBUM_ITEM_H
 #include <QObject>
 #include <QUrl>
+
+#include "entities_global.h"
 namespace entities {
 
-class AlbumData {
+class ENTITIES_EXPORT AlbumData {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id WRITE setId)
   Q_PROPERTY(QString name READ name WRITE setName)

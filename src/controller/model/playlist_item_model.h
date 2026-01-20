@@ -1,5 +1,6 @@
 #ifndef _MODEL_PLAYLIST_ITEM_MODEL_H
 #define _MODEL_PLAYLIST_ITEM_MODEL_H
+#endif
 
 #include "playlist_item.h"
 
@@ -47,4 +48,3 @@ class PlaylistItemModel : public QAbstractListModel {
 };
 }  // namespace model
 
-#endif

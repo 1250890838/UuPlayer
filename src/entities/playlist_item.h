@@ -2,12 +2,13 @@
 #define PLAYLIST_ITEM_H
 #include <QObject>
 #include "comment_item.h"
+#include "entities_global.h"
 #include "media_item.h"
 #include "user_item.h"
 
 namespace entities {
 
-class PlaylistItem {
+class ENTITIES_EXPORT PlaylistItem {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id)
   Q_PROPERTY(QString name READ name)

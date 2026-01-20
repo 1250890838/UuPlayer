@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include "entities_global.h"
 #include "user_item.h"
 
 namespace entities {
@@ -12,7 +13,7 @@ struct PendantData {
   QUrl imageUrl;
 };
 
-class CommentItem {
+class ENTITIES_EXPORT CommentItem {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id)
   Q_PROPERTY(UserItem userData READ userData)

@@ -7,9 +7,10 @@ qt_add_library(entities SHARED
    playlist_item.h
    user_item.h
    comment_item.h
+   entities_global.h
 )
 
-target_compile_definitions(entities PRIVATE CONTROLLER_EXPORT_SYMBOLS)
+target_compile_definitions(entities PRIVATE ENTITIES_EXPORT_SYMBOLS)
 
 target_include_directories(entities INTERFACE ".")
 

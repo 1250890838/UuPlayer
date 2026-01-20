@@ -3,9 +3,11 @@
 #include <QObject>
 #include <QString>
 
+#include "entities_global.h"
+
 namespace entities {
 
-class AristItem {
+class ENTITIES_EXPORT AristItem {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id)
   Q_PROPERTY(QString name READ name)

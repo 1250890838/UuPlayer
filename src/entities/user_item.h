@@ -3,9 +3,11 @@
 #include <QObject>
 #include <QUrl>
 
+#include "entities_global.h"
+
 namespace entities {
 
-class UserItem {
+class ENTITIES_EXPORT UserItem {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id WRITE setId)
   Q_PROPERTY(QUrl avatarUrl READ avatarUrl WRITE setAvatarUrl)
