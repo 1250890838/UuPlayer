@@ -1,5 +1,5 @@
-#ifndef COMMENT_DATA_H
-#define COMMENT_DATA_H
+#ifndef COMMENT_ITEM_H
+#define COMMENT_ITEM_H
 
 #include <QObject>
 #include <QUrl>
@@ -12,23 +12,23 @@ struct PendantData {
   QUrl imageUrl;
 };
 
-class CommentData {
+class CommentItem {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id)
-  Q_PROPERTY(UserData userData READ userData)
+  Q_PROPERTY(UserItem userData READ userData)
   Q_PROPERTY(PendantData pendant READ pendant)
   Q_PROPERTY(qulonglong time READ time)
   Q_PROPERTY(QString content READ content)
   Q_PROPERTY(qulonglong likedCount READ likedCount)
 
  public:
-  CommentData() = default;
+  CommentItem() = default;
 
   qulonglong id() const { return m_id; }
   void setId(qulonglong id) { m_id = id; }
 
-  UserData userData() const { return m_user; }
-  void setUserData(UserData data) { m_user = data; }
+  UserItem userData() const { return m_user; }
+  void setUserData(UserItem data) { m_user = data; }
 
   PendantData pendant() const { return m_pendant; }
   void setPendant(PendantData data) { m_pendant = data; }
@@ -44,7 +44,7 @@ class CommentData {
 
  private:
   qulonglong m_id;
-  UserData m_user;
+  UserItem m_user;
   PendantData m_pendant;    //头像挂饰
   qulonglong m_time;        //评论时间
   QString m_content;        //评论内容
@@ -53,5 +53,5 @@ class CommentData {
 };
 }  // namespace model
 
-Q_DECLARE_METATYPE(entities::CommentData)
-#endif  // COMMENT_DATA_H
+Q_DECLARE_METATYPE(entities::CommentItem)
+#endif  // COMMENT_ITEM_H

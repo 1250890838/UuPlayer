@@ -16,7 +16,6 @@ namespace service {
 // 获取歌曲相关信息服务
 class SERVICE_DLL_EXPORT NetworkSongService : public QObject {
   Q_OBJECT
-  QML_ELEMENT
   QML_SINGLETON
   QML_NAMED_ELEMENT(NetworkSongService)
  public:

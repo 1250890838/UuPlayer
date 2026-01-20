@@ -24,7 +24,6 @@ extern QMap<qulonglong, PlaylistItem*> g_idToPlaylistMap;
 //从网络获取歌单服务
 class SERVICE_DLL_EXPORT PlaylistService : public QObject {
   Q_OBJECT
-  QML_ELEMENT
   QML_SINGLETON
   QML_NAMED_ELEMENT(PlaylistsService)
   Q_PROPERTY(
@@ -70,10 +69,10 @@ class SERVICE_DLL_EXPORT PlaylistService : public QObject {
 
  private:
   QStringList formatTags(const QJsonArray& array);
-  UserData formatCreator(const QJsonObject& object);
-  QVector<UserData> formatSubscribers(const QJsonArray& array);
+  UserItem formatCreator(const QJsonObject& object);
+  QVector<UserItem> formatSubscribers(const QJsonArray& array);
 
-  UserData formatUserdDataInComment(const QJsonObject& object);
+  UserItem formatUserdDataInComment(const QJsonObject& object);
 
  private:
   network::PlaylistNetwork m_network;

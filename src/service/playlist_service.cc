@@ -172,8 +172,8 @@ QStringList PlaylistService::formatTags(const QJsonArray& array) {
   return tags;
 }
 
-UserData PlaylistService::formatCreator(const QJsonObject& object) {
-  UserData user;
+UserItem PlaylistService::formatCreator(const QJsonObject& object) {
+  UserItem user;
   user.setId(object["userId"].toVariant().toLongLong());
   user.setName(object["nickname"].toString());
   user.setAvatarUrl(object["avatarUrl"].toString());
@@ -184,16 +184,16 @@ UserData PlaylistService::formatCreator(const QJsonObject& object) {
   return user;
 }
 
-QVector<UserData> PlaylistService::formatSubscribers(const QJsonArray& array) {
-  QVector<UserData> result;
+QVector<UserItem> PlaylistService::formatSubscribers(const QJsonArray& array) {
+  QVector<UserItem> result;
   for (const auto& v : array) {
     result.append(formatCreator(v.toObject()));
   }
   return result;
 }
 
-UserData PlaylistService::formatUserdDataInComment(const QJsonObject& object) {
-  UserData data;
+UserItem PlaylistService::formatUserdDataInComment(const QJsonObject& object) {
+  UserItem data;
   data.setId(object["userId"].toVariant().toULongLong());
   data.setAvatarUrl(object["avatarUrl"].toString());
   data.setName(object["nickname"].toString());
@@ -276,7 +276,7 @@ void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,
       int limit = 30;
       for (const QJsonValue& subscriber : subscribers) {
         QJsonObject subscriberObj = subscriber.toObject();
-        UserData userData;
+        UserItem userData;
         userData.setId(subscriberObj["userId"].toVariant().toLongLong());
         userData.setAvatarUrl(subscriberObj["avatarUrl"].toString());
         userData.setName(subscriberObj["nickname"].toString());
@@ -345,7 +345,7 @@ void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
       auto fitem = g_idToPlaylistMap[id];
       QVariantList commentDatas;
       for (const auto& commentValue : commentsArr) {
-        CommentData tempData;
+        CommentItem tempData;
         auto commentObj = commentValue.toObject();
         tempData.setId(commentObj["commentId"].toVariant().toULongLong());
         tempData.setContent(commentObj["content"].toString());
@@ -356,7 +356,7 @@ void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
             formatUserdDataInComment(commentObj["user"].toObject()));
         commentDatas.append(QVariant::fromValue(tempData));
       }
-      fitem->setCommentData(commentDatas);
+      fitem->setCommentItems(commentDatas);
       emit playlistCommentsStatus(network::error_code::NoError);
     }
   }

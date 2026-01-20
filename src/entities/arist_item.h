@@ -1,20 +1,18 @@
-#ifndef ARIST_DATA_H
-#define ARIST_DATA_H
+#ifndef ARIST_ITEM_H
+#define ARIST_ITEM_H
 #include <QObject>
-#include <QQmlEngine>
 #include <QString>
 
 namespace entities {
 
-class AristData {
+class AristItem {
   Q_GADGET
-  QML_VALUE_TYPE(aristData)
   Q_PROPERTY(qulonglong id READ id)
   Q_PROPERTY(QString name READ name)
  public:
-  AristData() = default;
-  ~AristData() = default;
-  AristData& operator=(const AristData& other) = default;
+  AristItem() = default;
+  ~AristItem() = default;
+  AristItem& operator=(const AristItem& other) = default;
   qulonglong id() const { return m_id; }
   void setId(qulonglong id) { m_id = id; }
   QString name() const { return m_name; }
@@ -25,5 +23,5 @@ class AristData {
   QString m_name;
 };
 }
-Q_DECLARE_METATYPE(entities::AristData);
-#endif  // ARIST_DATA_H
+Q_DECLARE_METATYPE(entities::AristItem);
+#endif  // ARIST_ITEM_H

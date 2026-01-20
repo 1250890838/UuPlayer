@@ -6,7 +6,7 @@
 #include <QObject>
 #include <QStringList>
 
-#include "service/entities/local_media_item.h"
+#include "local_media_item.h"
 
 namespace engine {
 

@@ -1,5 +1,5 @@
-#ifndef ALBUM_DATA_H
-#define ALBUM_DATA_H
+#ifndef ALBUM_ITEM_H
+#define ALBUM_ITEM_H
 #include <QObject>
 #include <QUrl>
 namespace entities {
@@ -28,4 +28,4 @@ class AlbumData {
 };
 }
 Q_DECLARE_METATYPE(entities::AlbumData);
-#endif // ALBUM_DATA_H
+#endif  // ALBUM_ITEM_H

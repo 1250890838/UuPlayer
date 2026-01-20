@@ -5,7 +5,7 @@
 
 namespace entities {
 
-class UserData {
+class UserItem {
   Q_GADGET
   Q_PROPERTY(qulonglong id READ id WRITE setId)
   Q_PROPERTY(QUrl avatarUrl READ avatarUrl WRITE setAvatarUrl)
@@ -18,8 +18,8 @@ class UserData {
   Q_PROPERTY(QString desc READ desc WRITE setDesc)
 
  public:
-  UserData() = default;
-  ~UserData() = default;
+  UserItem() = default;
+  ~UserItem() = default;
   qulonglong id() const { return m_id; }
   void setId(qulonglong id) { m_id = id; }
   QString name() const { return m_name; }
@@ -50,6 +50,5 @@ class UserData {
   qint8 m_gender;
   QString m_desc;
 };
-
 }
 #endif  // USER_ITEM_H
