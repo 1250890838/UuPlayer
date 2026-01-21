@@ -4,20 +4,12 @@
 #include <qobject.h>
 #include <qtmetamacros.h>
 #include "network_global.h"
+#include "types.h"
 
 #include <QNetworkAccessManager>
+using entities;
 
 namespace network {
-namespace error_code {
-NETWORK_DLL_EXPORT Q_NAMESPACE enum ErrorCode {
-  NoError = 0,
-  ConnectionRefusedError,
-  TimeoutError,
-  JsonContentError,
-  OtherError
-};
-Q_ENUM_NS(ErrorCode)
-}  // namespace error_code
 
 class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
   Q_OBJECT

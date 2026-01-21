@@ -1,6 +1,6 @@
 #include "song_service.h"
 
-#include "playlist_service.h"
+#include "recommended_playlist_service.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>

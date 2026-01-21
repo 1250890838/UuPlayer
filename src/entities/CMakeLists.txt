@@ -8,6 +8,7 @@ qt_add_library(entities SHARED
    user_item.h
    comment_item.h
    entities_global.h
+   types.h
 )
 
 target_compile_definitions(entities PRIVATE ENTITIES_EXPORT_SYMBOLS)

@@ -1,5 +1,5 @@
 #include "play_service.h"
-#include "playlist_service.h"
+#include "recommended_playlist_service.h"
 
 #include <QObject>
 
@@ -33,7 +33,7 @@ qint64 PlayService::num() {
   return m_playbacklistModel.rowCount(QModelIndex());
 }
 
-void PlayService::setPlaybackMode(PlaybackMode mode) {
+void PlayService::setPlaybackMode(PlayMode mode) {
   m_playbackMode = mode;
   emit playbackModeChanged();
 }
@@ -54,7 +54,7 @@ void PlayService::setVolumn(float volumn) {
   }
 }
 
-PlayService::PlaybackMode PlayService::playbackMode() {
+PlayMode PlayService::playbackMode() {
   return m_playbackMode;
 }
 
@@ -163,7 +163,6 @@ entities::MediaItem PlayService::currentPlayItem() {
   if (m_currentIndex >= 0 && m_currentIndex < items.size()) {
     return *items[m_currentIndex];
   }
-  //return model::MediaItem();
   return {};
 }
 

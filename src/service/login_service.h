@@ -8,10 +8,8 @@ namespace service {
 // 获取登录相关服务
 class SERVICE_DLL_EXPORT LoginService : public QObject {
   Q_OBJECT
-  QML_SINGLETON
-  QML_NAMED_ELEMENT(LoginService)
  public:
-  Q_INVOKABLE void getQRCodeImage();
+  void getQRCodeImage();
  signals:
   void qrCodeImageStatus(network::error_code::ErrorCode);
   void qrCodeImageData(const QString& base64);

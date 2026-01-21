@@ -17,4 +17,4 @@ target_compile_definitions(network
 
 target_include_directories(network INTERFACE ".")
 
-target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Qml)
+target_link_libraries(network PUBLIC entities Qt6::Core Qt6::Network Qt6::Qml)

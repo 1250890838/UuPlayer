@@ -3,18 +3,17 @@
 
 #include "audio_player.h"
 #include "model/media_item_model.h"
+#include "types.h"
 
 #include <QList>
 #include <QObject>
 
+using namespace entities;
 // 播放服务、存储播放列表
 
 namespace service {
 class PlayService : public QObject {
   Q_OBJECT
-  QML_SINGLETON
-  QML_NAMED_ELEMENT(PlayService)
-
   Q_PROPERTY(bool playing READ isPlaying NOTIFY playingChanged)
   Q_PROPERTY(qint64 duration READ duration NOTIFY durationChanged)
   Q_PROPERTY(
@@ -27,13 +26,6 @@ class PlayService : public QObject {
   Q_PROPERTY(PlaybackMode playbackMode READ playbackMode WRITE setPlaybackMode NOTIFY playbackModeChanged)
   Q_PROPERTY(model::MediaItemModel* playbacklist READ playbacklist CONSTANT)
  public:
-  enum class PlaybackMode {
-    Sequentially,
-    ListLoop,
-    SingleLoop,
-    Shuffle
-  };
-  Q_ENUM(PlaybackMode) // 注册枚举到元对象系统
  public:
   PlayService();
   bool isPlaying();
@@ -41,9 +33,9 @@ class PlayService : public QObject {
   qint64 position();
   void setPosition(quint64 position);
   qint64 num();
-  PlaybackMode playbackMode();
+  PlayMode playbackMode();
   model::MediaItemModel* playbacklist();
-  void setPlaybackMode(PlaybackMode mode);
+  void setPlaybackMode(PlayMode mode);
   float volumn();
   void setVolumn(float volumn);
   // interface
@@ -65,7 +57,7 @@ class PlayService : public QObject {
   model::MediaItemModel m_playbacklistModel;
   engine::MediaPlayer m_player;
  // QList<model::MediaItem*> m_medias;
-  PlaybackMode m_playbackMode;
+  PlayMode m_playbackMode;
   quint32 m_currentIndex;
  signals:
   void playingChanged(bool b);
