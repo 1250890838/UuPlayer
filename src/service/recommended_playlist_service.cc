@@ -6,7 +6,7 @@
 
 #include <QJsonArray>
 #include <QJsonDocument>
-#include "playlist_network.h"
+#include "recommended_playlist_network.h"
 
 #include <QJsonObject>
 #include <QJsonValue>
@@ -21,110 +21,98 @@ RecommendedPlaylistService::RecommendedPlaylistService(QObject* parent)
   QThread* netThread = new QThread;
   m_network.moveToThread(netThread);
   using namespace network;
-  connect(&m_network, &PlaylistNetwork::getHighqualityPlaylistsFinished, this,
-          &RecommendedPlaylistService::onGetHighqualityFinished,
+  connect(&m_network, &RecommendedPlaylistNetwork::getHighqualityDataFinished,
+          this, &RecommendedPlaylistService::onGetHighqualityFinished,
           Qt::QueuedConnection);
-  connect(&m_network, &PlaylistNetwork::getTopPlaylistsFinished, this,
+  connect(&m_network, &RecommendedPlaylistNetwork::getTopDataFinished, this,
           &RecommendedPlaylistService::onGetTopFinished, Qt::QueuedConnection);
-  connect(&m_network, &PlaylistNetwork::getPlaylistsCatlistFinished, this,
-          &RecommendedPlaylistService::onGetCatlistFinished,
+  connect(&m_network, &RecommendedPlaylistNetwork::getPlaylistsCatlistFinished,
+          this, &RecommendedPlaylistService::onGetCategoriesFinished,
           Qt::QueuedConnection);
   netThread->start();
 }
 
 void RecommendedPlaylistService::getHighquality(const QString& tag,
                                                 qint32 offset, qint32 limit) {
-  m_network.getHighqualityPlaylists(tag, offset, limit);
+  m_network.getHighqualityData(tag, offset, limit);
 }
 
 void RecommendedPlaylistService::getTop(const QString& tag, qint32 offset,
                                         qint32 limit) {
-  m_network.getTopPlaylists(tag, offset, limit);
+  m_network.getTopData(tag, offset, limit);
 }
 
 void RecommendedPlaylistService::getCategories() {
-  m_network.getPlaylistsCatlist();
+  m_network.getCategoriesData();
+}
+
+// 公共的 JSON 解析方法
+PlaylistItemListPtr RecommendedPlaylistService::parsePlaylistData(
+    error_code::ErrorCode code, const QByteArray& data) {
+
+  PlaylistItemListPtr ptr(nullptr);
+
+  if (code != error_code::NoError) {
+    return ptr;
+  }
+
+  QJsonDocument doc = QJsonDocument::fromJson(data);
+  if (doc.isNull() || doc.isEmpty()) {
+    return ptr;
+  }
+
+  auto obj = doc.object();
+  if (obj["code"].toInt() != 200) {
+    return ptr;
+  }
+
+  ptr = PlaylistItemListPtr::create();
+  QJsonArray playlists = obj["playlists"].toArray();
+
+  for (const QJsonValue& playlist : playlists) {
+    ptr->append(parsePlaylistItem(playlist.toObject()));
+  }
+
+  return ptr;
+}
+
+PlaylistItem RecommendedPlaylistService::parsePlaylistItem(
+    const QJsonObject& o) {
+  PlaylistItem item;
+  item.setId(o["id"].toVariant().toLongLong());
+  item.setName(o["name"].toString());
+  item.setUserId(o["userId"].toVariant().toLongLong());
+  item.setCreateTime(o["createTime"].toVariant().toLongLong());
+  item.setUpdateTime(o["updateTime"].toVariant().toLongLong());
+  item.setCoverUrl(QUrl(o["coverImgUrl"].toString()));
+  item.setDesc(o["description"].toString());
+  item.setTags(formatTags(o["tags"].toArray()));
+  item.setPlayCount(o["playCount"].toVariant().toLongLong());
+  item.setCreator(formatCreator(o["creator"].toObject()));
+  item.setSubscribed(o["subscribed"].toBool());
+  return item;
+}
+
+error_code::ErrorCode RecommendedPlaylistService::getActualErrorCode(
+    error_code::ErrorCode networkCode, const PlaylistItemListPtr& ptr) {
+
+  if (networkCode == error_code::NoError && (!ptr || ptr->isEmpty())) {
+    return error_code::JsonContentError;
+  }
+
+  return networkCode;
 }
 
 void RecommendedPlaylistService::onGetHighqualityFinished(
-    error_code::ErrorCode code,
-
-    const QByteArray& data) {
-  error_code::ErrorCode result_code = code;
-  PlaylistItemListPtr ptr(nullptr);
-  if (code == error_code::NoError) {
-    QJsonDocument doc = QJsonDocument::fromJson(data);
-    if (doc.isNull() && doc.isEmpty()) {
-
-    } else {
-      auto obj = doc.object();
-      if (obj["code"].toInt() != 200) {
-        result_code = error_code::JsonContentError;
-      } else {
-        ptr = PlaylistItemListPtr::create();
-        QJsonArray playlists = obj["playlists"].toArray();
-        for (const QJsonValue& playlist : playlists) {
-          auto o = playlist.toObject();
-          PlaylistItem item;
-          item.setId(o["id"].toVariant().toLongLong());
-          item.setName(o["name"].toString());
-          item.setUserId(o["userId"].toVariant().toLongLong());
-          item.setCreateTime(o["createTime"].toVariant().toLongLong());
-          item.setUpdateTime(o["updateTime"].toVariant().toLongLong());
-          item.setCoverUrl(QUrl(o["coverImgUrl"].toString()));
-          item.setDesc(o["description"].toString());
-          item.setTags(formatTags(o["tags"].toArray()));
-          item.setPlayCount(o["playCount"].toVariant().toLongLong());
-          item.setCreator(formatCreator(o["creator"].toObject()));
-          item.setSubscribed(o["subscribed"].toBool());
-          ptr->append(item);
-        }
-        result_code = error_code::NoError;
-      }
-    }
-  } else {
-    result_code = error_code::JsonContentError;
-  }
-  emit getHighqualityFinished(result_code, ptr);
+    error_code::ErrorCode code, const QByteArray& data) {
+  PlaylistItemListPtr ptr = parsePlaylistData(code, data);
+  emit getHighqualityFinished(getActualErrorCode(code, ptr), ptr);
 }
+
 void RecommendedPlaylistService::onGetTopFinished(error_code::ErrorCode code,
                                                   const QByteArray& data) {
-  error_code::ErrorCode result_code = code;
-  PlaylistItemListPtr ptr(nullptr);
-  if (code == error_code::NoError) {
-    QJsonDocument doc = QJsonDocument::fromJson(data);
-    if (doc.isNull() && doc.isEmpty()) {
-
-    } else {
-      auto obj = doc.object();
-      if (obj["code"].toInt() != 200) {
-        result_code = error_code::JsonContentError;
-      } else {
-        ptr = PlaylistItemListPtr::create();
-        QJsonArray playlists = obj["playlists"].toArray();
-        for (const QJsonValue& playlist : playlists) {
-          auto o = playlist.toObject();
-          PlaylistItem item;
-          item.setId(o["id"].toVariant().toLongLong());
-          item.setName(o["name"].toString());
-          item.setUserId(o["userId"].toVariant().toLongLong());
-          item.setCreateTime(o["createTime"].toVariant().toLongLong());
-          item.setUpdateTime(o["updateTime"].toVariant().toLongLong());
-          item.setCoverUrl(QUrl(o["coverImgUrl"].toString()));
-          item.setDesc(o["description"].toString());
-          item.setTags(formatTags(o["tags"].toArray()));
-          item.setPlayCount(o["playCount"].toVariant().toLongLong());
-          item.setCreator(formatCreator(o["creator"].toObject()));
-          item.setSubscribed(o["subscribed"].toBool());
-          ptr->append(item);
-        }
-        result_code = error_code::NoError;
-      }
-    }
-  } else {
-    result_code = error_code::JsonContentError;
-  }
-  emit getTopFinsihed(result_code, ptr);
+  PlaylistItemListPtr ptr = parsePlaylistData(code, data);
+  emit getTopFinished(getActualErrorCode(code, ptr), ptr);  // 修正拼写
 }
 
 QStringList RecommendedPlaylistService::formatTags(const QJsonArray& array) {
@@ -156,7 +144,7 @@ QVector<UserItem> RecommendedPlaylistService::formatSubscribers(
   return result;
 }
 
-UserItem RecommendedPlaylistService::formatUserdDataInComment(
+UserItem RecommendedPlaylistService::formatUserDataInComment(
     const QJsonObject& object) {
   UserItem data;
   data.setId(object["userId"].toVariant().toULongLong());
@@ -165,7 +153,7 @@ UserItem RecommendedPlaylistService::formatUserdDataInComment(
   return data;
 }
 
-void RecommendedPlaylistService::onGetCatlistFinished(
+void RecommendedPlaylistService::onGetCategoriesFinished(
     error_code::ErrorCode code, const QByteArray& data) {
   QMap<QString, QStringList> result;
   if (code == error_code::NoError) {

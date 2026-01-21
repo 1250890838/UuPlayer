@@ -1,11 +1,10 @@
 #ifndef RECOMMENDED_PLAYLIST_SERVICE_H
 #define RECOMMENDED_PLAYLIST_SERVICE_H
 
-#include "model/playlist_item_model.h"
-#include "playlist_network.h"
-#include "service_global.h"
-
 #include "entities/playlist_item.h"
+#include "model/playlist_item_model.h"
+#include "recommended_playlist_network.h"
+#include "service_global.h"
 
 #include <qglobal.h>
 #include <qjsonarray.h>
@@ -28,17 +27,24 @@ class SERVICE_DLL_EXPORT RecommendedPlaylistService : public QObject {
   void getHighquality(const QString& tag, qint32 offset, qint32 limit);
   void getTop(const QString& tag, qint32 offset, qint32 limit);
   void getCategories();
+
+ private:
+  error_code::ErrorCode getActualErrorCode(error_code::ErrorCode networkCode,
+                                           const PlaylistItemListPtr& ptr);
+  PlaylistItemListPtr parsePlaylistData(error_code::ErrorCode code,
+                                        const QByteArray& data);
+  PlaylistItem parsePlaylistItem(const QJsonObject& o);
  signals:
   void getHighqualityFinished(error_code::ErrorCode code,
                               PlaylistItemListPtr data);
-  void getTopFinsihed(error_code::ErrorCode code, PlaylistItemListPtr data);
+  void getTopFinished(error_code::ErrorCode code, PlaylistItemListPtr data);
   void getCategoriesFinished(error_code::ErrorCode code,
                              QMap<QString, QStringList> categoriesMap);
 
  public slots:
   void onGetHighqualityFinished(error_code::ErrorCode, const QByteArray& data);
   void onGetTopFinished(error_code::ErrorCode, const QByteArray& data);
-  void onGetCatlistFinished(error_code::ErrorCode, const QByteArray& data);
+  void onGetCategoriesFinished(error_code::ErrorCode, const QByteArray& data);
 
  public:
   RecommendedPlaylistService(QObject* parent = nullptr);
@@ -47,9 +53,10 @@ class SERVICE_DLL_EXPORT RecommendedPlaylistService : public QObject {
   QStringList formatTags(const QJsonArray& array);
   UserItem formatCreator(const QJsonObject& object);
   QVector<UserItem> formatSubscribers(const QJsonArray& array);
-  UserItem formatUserdDataInComment(const QJsonObject& object);
+  UserItem formatUserDataInComment(const QJsonObject& object);
+
  private:
-  network::PlaylistNetwork m_network;
+  network::RecommendedPlaylistNetwork m_network;
 };
 }  // namespace service
 #endif

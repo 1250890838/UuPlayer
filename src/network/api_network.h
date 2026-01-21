@@ -13,7 +13,7 @@ const QString apiCreateQRCode = host + QStringLiteral("/login/qr/create");
 const QString apiCheckQRCode = host + QStringLiteral("/login/qr/check");
 const QString apiGetHighqualityPlaylists =
     host + QStringLiteral("/top/playlist/highquality");
-const QString apiGetSelectivePlaylists = host + QStringLiteral("/top/playlist");
+const QString apiGetTopPlaylists = host + QStringLiteral("/top/playlist");
 const QString apiCatlist = host + QStringLiteral("/playlist/catlist");
 const QString apiPlaylistDetail = host + QStringLiteral("/playlist/detail");
 const QString apiPlaylistTracks = host + QStringLiteral("/playlist/track/all");

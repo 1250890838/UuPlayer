@@ -1,52 +1,65 @@
-#include "playlist_network.h"
-#include <qnetworkreply.h>
+#include "recommended_playlist_network.h"
+#include <QNetworkReply>
 #include "api_network.h"
 #include "basic_network.h"
 
 namespace network {
-void PlaylistNetwork::getHighqualityPlaylists(const QString& tag, qint32 offset,
-                                              qint32 limit) {
-  QNetworkRequest request;
-  QUrl url = QUrl(network_api::apiGetHighqualityPlaylists + "?" +
-                  "limit=" + QString::number(limit));
-  if (tag != -1) {
-    url.setUrl(url.toString(QUrl::None) + "&" + "tag=" + QString::number(tag));
-  }
-  request.setUrl(url);
-  auto reply = this->get(request);
-  connect(reply, &QNetworkReply::finished, this, [reply, this]() {
-    auto e = reply->error();
-    if (e == QNetworkReply::NoError) {
-      QByteArray data = reply->readAll();
-      emit getHighqualityPlaylistsFinished(error_code::NoError, data);
-    } else {
-      emit this->getHighqualityPlaylistsFinished(error_code::OtherError,
-                                                 QByteArray());
-    }
-    reply->deleteLater();
-  });
+void RecommendedPlaylistNetwork::getHighqualityData(const QString& tag,
+                                                    qint32 offset,
+                                                    qint32 limit) {
+  getPlaylistData(network_api::apiGetHighqualityPlaylists, tag, offset, limit,
+                  &RecommendedPlaylistNetwork::getHighqualityDataFinished);
 }
 
-void PlaylistNetwork::getTopPlaylists(const QString& tag, qint32 offset,
-                                      qint32 limit) {
-  QNetworkRequest request;
-  QUrl url = network_api::apiGetSelectivePlaylists + "?" +
-             "limit=" + QString::number(limit) + "&" + "cat=" + tag + "&" +
-             "offset=" + QString::number(offset);
-  request.setUrl(url);
-  auto reply = this->get(request);
-  connect(reply, &QNetworkReply::finished, this, [reply, this]() {
-    auto e = reply->error();
-    if (e == QNetworkReply::NoError) {
-      QByteArray data = reply->readAll();
-      emit getTopPlaylistsFinished(error_code::NoError, data);
-    } else {
-      emit getTopPlaylistsFinished(error_code::OtherError, QByteArray());
-    }
-    reply->deleteLater();
-  });
+void RecommendedPlaylistNetwork::getTopData(const QString& tag, qint32 offset,
+                                            qint32 limit) {
+  getPlaylistData(network_api::apiGetTopPlaylists, tag, offset, limit,
+                  &RecommendedPlaylistNetwork::getTopDataFinished);
 }
-void PlaylistNetwork::getPlaylistsCatlist() {
+
+void RecommendedPlaylistNetwork::getPlaylistData(
+    const QString& apiUrl, const QString& tag, qint32 offset, qint32 limit,
+    void (RecommendedPlaylistNetwork::*finishedSignal)(error_code::ErrorCode,
+                                                       const QByteArray&)) {
+
+  QNetworkRequest request;
+  QUrl url = apiUrl + "?" + "limit=" + QString::number(limit) + "&" +
+             "cat=" + tag + "&" + "offset=" + QString::number(offset);
+  request.setUrl(url);
+
+  auto reply = this->get(request);
+  connect(reply, &QNetworkReply::finished, this,
+          [reply, this, finishedSignal]() {
+            handleNetworkReply(reply, finishedSignal);
+          });
+}
+
+void RecommendedPlaylistNetwork::handleNetworkReply(
+    QNetworkReply* reply,
+    void (RecommendedPlaylistNetwork::*finishedSignal)(error_code::ErrorCode,
+                                                       const QByteArray&)) {
+
+  auto e = reply->error();
+  if (e == QNetworkReply::NoError) {
+    QByteArray data = reply->readAll();
+    emit(this->*finishedSignal)(error_code::NoError, data);
+  } else {
+    error_code::ErrorCode code;
+    switch (e) {
+      case QNetworkReply::ConnectionRefusedError:
+      case QNetworkReply::TimeoutError:
+        code = error_code::ConnectionRefusedError;
+        break;
+      default:
+        code = error_code::OtherError;
+        break;
+    }
+    emit(this->*finishedSignal)(code, QByteArray());
+  }
+  reply->deleteLater();
+}
+
+void RecommendedPlaylistNetwork::getCategoriesData() {
   QNetworkRequest request;
   QUrl url = network_api::apiCatlist;
   request.setUrl(url);

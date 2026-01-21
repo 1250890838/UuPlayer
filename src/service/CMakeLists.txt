@@ -7,6 +7,7 @@ qt_add_library(service SHARED
     song_service.cc
     play_service.h play_service.cc
     local_song_service.h local_song_service.cc
+    playlist_tracks_service.h playlist_tracks_service.cc
 )
 
 target_compile_definitions(service PRIVATE SERVICE_EXPORT_SYMBOLS)

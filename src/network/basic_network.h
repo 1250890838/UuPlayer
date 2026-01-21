@@ -7,7 +7,7 @@
 #include "types.h"
 
 #include <QNetworkAccessManager>
-using entities;
+using namespace entities;
 
 namespace network {
 
