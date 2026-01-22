@@ -18,7 +18,7 @@ using namespace entities;
 namespace service {
 
 using PlaylistItemList = QList<PlaylistItem>;
-using PlaylistItemListPtr = QSharedPointer<QList<PlaylistItem>>;
+using PlaylistItemListPtr = QSharedPointer<PlaylistItemList>;
 
 // 获取推荐歌单，获取歌单标签列表
 class SERVICE_DLL_EXPORT RecommendedPlaylistService : public QObject {

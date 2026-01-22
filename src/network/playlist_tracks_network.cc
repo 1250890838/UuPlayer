@@ -6,9 +6,15 @@
 namespace network {
 PlaylistTracksNetwork::PlaylistTracksNetwork() {}
 
-void PlaylistTracksNetwork::getTracks(qulonglong id) {
+void PlaylistTracksNetwork::getTracks(qulonglong id, quint32 offset,
+                                      quint32 limit) {
   QNetworkRequest request;
-  QUrl url = network_api::apiPlaylistTracks + "?" + "id=" + QString::number(id);
+  QUrl url = network_api::apiPlaylistTracks + "?" +
+             "id=" + QString::number(id) + "&" +
+             "offset=" + QString::number(offset);
+  if (limit != -1) {
+    url = url.toString() + "&" + "limit=" + QString::number(limit);
+  }
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply, this]() {
