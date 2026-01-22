@@ -59,6 +59,4 @@ void SongLyricNetwork::handleNetworkReply(
   reply->deleteLater();
 }
 
-}
-
 }  // namespace network

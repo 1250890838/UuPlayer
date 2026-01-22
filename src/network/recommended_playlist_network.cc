@@ -25,7 +25,6 @@ void RecommendedPlaylistNetwork::getPlaylistData(
   QUrl url = apiUrl + "?" + "limit=" + QString::number(limit) + "&" +
              "cat=" + tag + "&" + "offset=" + QString::number(offset);
   request.setUrl(url);
-
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this,
           [reply, this, finishedSignal]() {
