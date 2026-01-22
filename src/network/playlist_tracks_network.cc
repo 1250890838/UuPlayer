@@ -18,13 +18,9 @@ void PlaylistTracksNetwork::getTracks(qulonglong id, quint32 offset,
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this, [reply, this]() {
-    auto e = reply->error();
-    if (e == QNetworkReply::NoError) {
-      QByteArray data = reply->readAll();
-      emit getPlaylistTracksFinished(error_code::NoError, data);
-    } else {
-      emit getPlaylistTracksFinished(error_code::OtherError, QByteArray());
-    }
+    auto code = handleReplyErrorCode(reply);
+    QByteArray data = reply->readAll();
+    emit getPlaylistTracksFinished(code, data);
     reply->deleteLater();
   });
 }

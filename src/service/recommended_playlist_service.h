@@ -1,8 +1,7 @@
 #ifndef RECOMMENDED_PLAYLIST_SERVICE_H
 #define RECOMMENDED_PLAYLIST_SERVICE_H
 
-#include "entities/playlist_item.h"
-#include "model/playlist_item_model.h"
+#include "playlist_item.h"
 #include "recommended_playlist_network.h"
 #include "service_global.h"
 

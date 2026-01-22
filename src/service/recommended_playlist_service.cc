@@ -18,18 +18,13 @@ namespace service {
 
 RecommendedPlaylistService::RecommendedPlaylistService(QObject* parent)
     : QObject(parent) {
-  QThread* netThread = new QThread;
-  m_network.moveToThread(netThread);
   using namespace network;
   connect(&m_network, &RecommendedPlaylistNetwork::getHighqualityDataFinished,
-          this, &RecommendedPlaylistService::onGetHighqualityFinished,
-          Qt::QueuedConnection);
+          this, &RecommendedPlaylistService::onGetHighqualityFinished);
   connect(&m_network, &RecommendedPlaylistNetwork::getTopDataFinished, this,
-          &RecommendedPlaylistService::onGetTopFinished, Qt::QueuedConnection);
+          &RecommendedPlaylistService::onGetTopFinished);
   connect(&m_network, &RecommendedPlaylistNetwork::getPlaylistsCatlistFinished,
-          this, &RecommendedPlaylistService::onGetCategoriesFinished,
-          Qt::QueuedConnection);
-  netThread->start();
+          this, &RecommendedPlaylistService::onGetCategoriesFinished);
 }
 
 void RecommendedPlaylistService::getHighquality(const QString& tag,
@@ -46,33 +41,25 @@ void RecommendedPlaylistService::getCategories() {
   m_network.getCategoriesData();
 }
 
-// 公共的 JSON 解析方法
 PlaylistItemListPtr RecommendedPlaylistService::parsePlaylistData(
     error_code::ErrorCode code, const QByteArray& data) {
-
   PlaylistItemListPtr ptr(nullptr);
-
   if (code != error_code::NoError) {
     return ptr;
   }
-
   QJsonDocument doc = QJsonDocument::fromJson(data);
   if (doc.isNull() || doc.isEmpty()) {
     return ptr;
   }
-
   auto obj = doc.object();
   if (obj["code"].toInt() != 200) {
     return ptr;
   }
-
   ptr = PlaylistItemListPtr::create();
   QJsonArray playlists = obj["playlists"].toArray();
-
   for (const QJsonValue& playlist : playlists) {
     ptr->append(parsePlaylistItem(playlist.toObject()));
   }
-
   return ptr;
 }
 
@@ -99,7 +86,6 @@ error_code::ErrorCode RecommendedPlaylistService::getActualErrorCode(
   if (networkCode == error_code::NoError && (!ptr || ptr->isEmpty())) {
     return error_code::JsonContentError;
   }
-
   return networkCode;
 }
 
@@ -240,75 +226,6 @@ void RecommendedPlaylistService::onGetCategoriesFinished(
 //      emit playlistSubscribersStatus(network::error_code::NoError);
 //    }
 //  });
-//}
-
-//void PlaylistService::onGetPlaylistTracks(network::error_code::ErrorCode code,
-//                                          const QByteArray& data, void* item) {
-//  if (code == network::error_code::NoError) {
-//    QJsonDocument doc = QJsonDocument::fromJson(data);
-//    if (doc.isNull() || doc.isEmpty()) {
-//    } else {
-//      auto obj = doc.object();
-//      QJsonArray tracks = obj["songs"].toArray();
-//      auto fitem = static_cast<PlaylistItem*>(item);
-//      auto model = fitem->mediaItemModel();
-//      for (const QJsonValue& track : tracks) {
-//        entities::MediaItem* mediaItem =
-//            g_idToMediaMap[track["id"].toVariant().toLongLong()];
-//        if (mediaItem == nullptr) {
-//          mediaItem = new entities::MediaItem();
-//          g_idToMediaMap[track["id"].toVariant().toLongLong()] = mediaItem;
-//        }
-//        mediaItem->id = track["id"].toVariant().toLongLong();
-//        mediaItem->name = track["name"].toString();
-//        entities::AlbumData albumData;
-//        auto albumObj = track["al"].toObject();
-//        albumData.setId(albumObj["id"].toVariant().toLongLong());
-//        albumData.setName(albumObj["name"].toString());
-//        albumData.setPicUrl("image://net/" + albumObj["picUrl"].toString());
-//        mediaItem->albumdata = albumData;
-//        auto artistsArr = track["ar"].toArray();
-//        entities::AristData aristData;
-//        for (const auto& artistValue : artistsArr) {
-//          auto artistObj = artistValue.toObject();
-//          aristData.setId(artistObj["id"].toVariant().toLongLong());
-//          aristData.setName(artistObj["name"].toString());
-//          mediaItem->artists.append(aristData);
-//        }
-//        mediaItem->duration = track["dt"].toVariant().toLongLong();
-//        model->appendItem(mediaItem);
-//      }
-//    }
-//  }
-//}
-
-//void PlaylistService::onGetPlaylistComments(network::error_code::ErrorCode code,
-//                                            const QByteArray& data,
-//                                            qulonglong id) {
-//  if (code == network::error_code::NoError) {
-//    QJsonDocument doc = QJsonDocument::fromJson(data);
-//    if (doc.isNull() || doc.isEmpty()) {
-//    } else {
-//      auto obj = doc.object();
-//      QJsonArray commentsArr = obj["comments"].toArray();
-//      auto fitem = g_idToPlaylistMap[id];
-//      QVariantList commentDatas;
-//      for (const auto& commentValue : commentsArr) {
-//        CommentItem tempData;
-//        auto commentObj = commentValue.toObject();
-//        tempData.setId(commentObj["commentId"].toVariant().toULongLong());
-//        tempData.setContent(commentObj["content"].toString());
-//        tempData.setLikedCount(
-//            commentObj["likedCount"].toVariant().toULongLong());
-//        tempData.setTime(commentObj["time"].toVariant().toULongLong());
-//        tempData.setUserData(
-//            formatUserdDataInComment(commentObj["user"].toObject()));
-//        commentDatas.append(QVariant::fromValue(tempData));
-//      }
-//      fitem->setCommentItems(commentDatas);
-//      emit playlistCommentsStatus(network::error_code::NoError);
-//    }
-//  }
 //}
 
 }  // namespace service

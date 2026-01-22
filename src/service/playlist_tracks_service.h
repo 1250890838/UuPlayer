@@ -5,11 +5,12 @@
 
 #include "media_item.h"
 #include "playlist_tracks_network.h"
+#include "service_global.h"
 
 using MediaItemList = QList<MediaItem>;
 using MediaItemListPtr = QSharedPointer<MediaItemList>;
 
-class PlaylistTracksService : public QObject {
+class SERVICE_DLL_EXPORT PlaylistTracksService : public QObject {
   Q_OBJECT
  public:
   explicit PlaylistTracksService(QObject* parent = nullptr);

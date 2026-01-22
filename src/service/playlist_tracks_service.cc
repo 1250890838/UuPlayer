@@ -8,8 +8,8 @@
 
 PlaylistTracksService::PlaylistTracksService(QObject* parent)
     : QObject{parent} {
-  connect(&m_network,
-          &network::PlaylistTracksNetwork::getPlaylistTracksFinished, this,
+  using namespace network;
+  connect(&m_network, &PlaylistTracksNetwork::getPlaylistTracksFinished, this,
           &PlaylistTracksService::onGetTracksFinished);
 }
 

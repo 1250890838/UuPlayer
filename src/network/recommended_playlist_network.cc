@@ -21,7 +21,6 @@ void RecommendedPlaylistNetwork::getPlaylistData(
     const QString& apiUrl, const QString& tag, qint32 offset, qint32 limit,
     void (RecommendedPlaylistNetwork::*finishedSignal)(error_code::ErrorCode,
                                                        const QByteArray&)) {
-
   QNetworkRequest request;
   QUrl url = apiUrl + "?" + "limit=" + QString::number(limit) + "&" +
              "cat=" + tag + "&" + "offset=" + QString::number(offset);
@@ -39,23 +38,9 @@ void RecommendedPlaylistNetwork::handleNetworkReply(
     void (RecommendedPlaylistNetwork::*finishedSignal)(error_code::ErrorCode,
                                                        const QByteArray&)) {
 
-  auto e = reply->error();
-  if (e == QNetworkReply::NoError) {
-    QByteArray data = reply->readAll();
-    emit(this->*finishedSignal)(error_code::NoError, data);
-  } else {
-    error_code::ErrorCode code;
-    switch (e) {
-      case QNetworkReply::ConnectionRefusedError:
-      case QNetworkReply::TimeoutError:
-        code = error_code::ConnectionRefusedError;
-        break;
-      default:
-        code = error_code::OtherError;
-        break;
-    }
-    emit(this->*finishedSignal)(code, QByteArray());
-  }
+  error_code::ErrorCode code = BasicNetwork::handleReplyErrorCode(reply);
+  QByteArray data = reply->readAll();
+  emit(this->*finishedSignal)(error_code::NoError, data);
   reply->deleteLater();
 }
 
@@ -88,43 +73,6 @@ void RecommendedPlaylistNetwork::getCategoriesData() {
 //      emit getPlaylistDetailFinished(error_code::NoError, data, id);
 //    } else {
 //      emit getPlaylistDetailFinished(error_code::OtherError, QByteArray(), id);
-//    }
-//    reply->deleteLater();
-//  });
-//}
-
-//void PlaylistNetwork::getPlaylistTracks(qulonglong id, void* item) {
-//  QNetworkRequest request;
-//  QUrl url = network_api::apiPlaylistTracks + "?" + "id=" + QString::number(id);
-//  request.setUrl(url);
-//  auto reply = this->get(request);
-//  connect(reply, &QNetworkReply::finished, this, [reply, item, this]() {
-//    auto e = reply->error();
-//    if (e == QNetworkReply::NoError) {
-//      QByteArray data = reply->readAll();
-//      emit getPlaylistTracksFinished(error_code::NoError, data, item);
-//    } else {
-//      emit getPlaylistTracksFinished(error_code::OtherError, QByteArray(),
-//                                     item);
-//    }
-//    reply->deleteLater();
-//  });
-//}
-
-//void PlaylistNetwork::getPlaylistComments(qulonglong id) {
-//  QNetworkRequest request;
-//  QUrl url =
-//      network_api::apiPlaylistComments + "?" + "id=" + QString::number(id);
-//  request.setUrl(url);
-//  auto reply = this->get(request);
-//  connect(reply, &QNetworkReply::finished, this, [reply, id, this]() {
-//    auto e = reply->error();
-//    if (e == QNetworkReply::NoError) {
-//      QByteArray data = reply->readAll();
-//      emit getPlaylistCommentsFinished(error_code::NoError, data, id);
-//    } else {
-//      emit getPlaylistCommentsFinished(error_code::OtherError, QByteArray(),
-//                                       id);
 //    }
 //    reply->deleteLater();
 //  });

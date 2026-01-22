@@ -18,6 +18,9 @@ class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
   QNetworkReply* get(const QNetworkRequest&);
   QNetworkReply* post(const QNetworkRequest&, const QByteArray&);
 
+ protected:
+  error_code::ErrorCode handleReplyErrorCode(QNetworkReply* reply);
+
  private:
   static QNetworkAccessManager m_netAccessManager;
 };

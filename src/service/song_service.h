@@ -1,4 +1,4 @@
-#include "song_network.h"
+#include "song_lyric_network.h"
 #include "model/media_item_model.h"
 
 #include <qglobal.h>
