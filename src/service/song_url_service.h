@@ -10,6 +10,10 @@ class SongUrlService : public QObject
   Q_OBJECT
  public:
   explicit SongUrlService(QObject* parent = nullptr);
+ private slots:
+  void onReady(error_code::ErrorCode code, const QByteArray& data);
+ signals:
+  void ready(error_code::ErrorCode code, const QUrl& url);
 
  private:
   network::SongUrlNetwork m_network;

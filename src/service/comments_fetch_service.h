@@ -13,21 +13,20 @@ class CommentsFetchService : public QObject {
   Q_OBJECT
  public:
   explicit CommentsFetchService(QObject* parent = nullptr);
-  void getMusic(qulonglong id, quint32 offset, quint32 limit);
-  void getAlbum(qulonglong id, quint32 offset, quint32 limit);
-  void getPlaylist(qulonglong id, quint32 offset, quint32 limit);
-  void getMv(qulonglong id, quint32 offset, quint32 limit);
+  void fetchMusic(qulonglong id, quint32 offset, quint32 limit);
+  void fetchAlbum(qulonglong id, quint32 offset, quint32 limit);
+  void fetchPlaylist(qulonglong id, quint32 offset, quint32 limit);
+  void fetchMv(qulonglong id, quint32 offset, quint32 limit);
  public slots:
-  void onGetMusicFinished(error_code::ErrorCode code, const QByteArray& data);
-  void onGetAlbumFinished(error_code::ErrorCode code, const QByteArray& data);
-  void onGetPlaylistFinished(error_code::ErrorCode code,
-                             const QByteArray& data);
-  void onGetMvFinished(error_code::ErrorCode code, const QByteArray& data);
+  void onMusicReady(error_code::ErrorCode code, const QByteArray& data);
+  void onAlbumReady(error_code::ErrorCode code, const QByteArray& data);
+  void onPlaylistReady(error_code::ErrorCode code, const QByteArray& data);
+  void onMvReady(error_code::ErrorCode code, const QByteArray& data);
  signals:
-  void getMusicFinished(error_code::ErrorCode code, CommentItemListPtr data);
-  void getAlbumFinished(error_code::ErrorCode code, CommentItemListPtr data);
-  void getPlaylistFinished(error_code::ErrorCode code, CommentItemListPtr data);
-  void getMvFinished(error_code::ErrorCode code, CommentItemListPtr data);
+  void musicReady(error_code::ErrorCode code, CommentItemListPtr data);
+  void albumReady(error_code::ErrorCode code, CommentItemListPtr data);
+  void playlistReady(error_code::ErrorCode code, CommentItemListPtr data);
+  void mvReady(error_code::ErrorCode code, CommentItemListPtr data);
 
  private:
   CommentItemListPtr parseCommentsData(error_code::ErrorCode code,

@@ -19,25 +19,25 @@ namespace service {
 RecommendedPlaylistService::RecommendedPlaylistService(QObject* parent)
     : QObject(parent) {
   using namespace network;
-  connect(&m_network, &RecommendedPlaylistNetwork::highqualityReady,
-          this, &RecommendedPlaylistService::onGetHighqualityFinished);
+  connect(&m_network, &RecommendedPlaylistNetwork::highqualityReady, this,
+          &RecommendedPlaylistService::onHighqualityReady);
   connect(&m_network, &RecommendedPlaylistNetwork::topReady, this,
-          &RecommendedPlaylistService::onGetTopFinished);
-  connect(&m_network, &RecommendedPlaylistNetwork::CategoriesReady,
-          this, &RecommendedPlaylistService::onGetCategoriesFinished);
+          &RecommendedPlaylistService::onTopReady);
+  connect(&m_network, &RecommendedPlaylistNetwork::CategoriesReady, this,
+          &RecommendedPlaylistService::onCategoriesReady);
 }
 
-void RecommendedPlaylistService::getHighquality(const QString& tag,
-                                                qint32 offset, qint32 limit) {
+void RecommendedPlaylistService::fetchHighquality(const QString& tag,
+                                                  qint32 offset, qint32 limit) {
   m_network.fetchHighquality(tag, offset, limit);
 }
 
-void RecommendedPlaylistService::getTop(const QString& tag, qint32 offset,
-                                        qint32 limit) {
+void RecommendedPlaylistService::fetchTop(const QString& tag, qint32 offset,
+                                          qint32 limit) {
   m_network.fetchTop(tag, offset, limit);
 }
 
-void RecommendedPlaylistService::getCategories() {
+void RecommendedPlaylistService::fetchCategories() {
   m_network.fetchCategories();
 }
 
@@ -89,16 +89,16 @@ error_code::ErrorCode RecommendedPlaylistService::getActualErrorCode(
   return networkCode;
 }
 
-void RecommendedPlaylistService::onGetHighqualityFinished(
-    error_code::ErrorCode code, const QByteArray& data) {
+void RecommendedPlaylistService::onHighqualityReady(error_code::ErrorCode code,
+                                                    const QByteArray& data) {
   PlaylistItemListPtr ptr = parsePlaylistData(code, data);
-  emit getHighqualityFinished(getActualErrorCode(code, ptr), ptr);
+  emit highqualityReady(getActualErrorCode(code, ptr), ptr);
 }
 
-void RecommendedPlaylistService::onGetTopFinished(error_code::ErrorCode code,
-                                                  const QByteArray& data) {
+void RecommendedPlaylistService::onTopReady(error_code::ErrorCode code,
+                                            const QByteArray& data) {
   PlaylistItemListPtr ptr = parsePlaylistData(code, data);
-  emit getTopFinished(getActualErrorCode(code, ptr), ptr);  // 修正拼写
+  emit topReady(getActualErrorCode(code, ptr), ptr);  // 修正拼写
 }
 
 QStringList RecommendedPlaylistService::formatTags(const QJsonArray& array) {
@@ -139,8 +139,8 @@ UserItem RecommendedPlaylistService::formatUserDataInComment(
   return data;
 }
 
-void RecommendedPlaylistService::onGetCategoriesFinished(
-    error_code::ErrorCode code, const QByteArray& data) {
+void RecommendedPlaylistService::onCategoriesReady(error_code::ErrorCode code,
+                                                   const QByteArray& data) {
   QMap<QString, QStringList> result;
   if (code == error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
@@ -159,7 +159,7 @@ void RecommendedPlaylistService::onGetCategoriesFinished(
       result.insert(category, list);
     }
   }
-  emit getCategoriesFinished(code, result);
+  emit categoriesReady(code, result);
 }
 
 //void PlaylistService::onGetPlaylistDetail(network::error_code::ErrorCode code,

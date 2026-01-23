@@ -23,9 +23,9 @@ using PlaylistItemListPtr = QSharedPointer<PlaylistItemList>;
 class SERVICE_DLL_EXPORT RecommendedPlaylistService : public QObject {
   Q_OBJECT
  public:
-  void getHighquality(const QString& tag, qint32 offset, qint32 limit);
-  void getTop(const QString& tag, qint32 offset, qint32 limit);
-  void getCategories();
+  void fetchHighquality(const QString& tag, qint32 offset, qint32 limit);
+  void fetchTop(const QString& tag, qint32 offset, qint32 limit);
+  void fetchCategories();
 
  private:
   error_code::ErrorCode getActualErrorCode(error_code::ErrorCode networkCode,
@@ -34,16 +34,15 @@ class SERVICE_DLL_EXPORT RecommendedPlaylistService : public QObject {
                                         const QByteArray& data);
   PlaylistItem parsePlaylistItem(const QJsonObject& o);
  signals:
-  void getHighqualityFinished(error_code::ErrorCode code,
-                              PlaylistItemListPtr data);
-  void getTopFinished(error_code::ErrorCode code, PlaylistItemListPtr data);
-  void getCategoriesFinished(error_code::ErrorCode code,
-                             QMap<QString, QStringList> categoriesMap);
+  void highqualityReady(error_code::ErrorCode code, PlaylistItemListPtr data);
+  void topReady(error_code::ErrorCode code, PlaylistItemListPtr data);
+  void categoriesReady(error_code::ErrorCode code,
+                       QMap<QString, QStringList> categoriesMap);
 
  public slots:
-  void onGetHighqualityFinished(error_code::ErrorCode, const QByteArray& data);
-  void onGetTopFinished(error_code::ErrorCode, const QByteArray& data);
-  void onGetCategoriesFinished(error_code::ErrorCode, const QByteArray& data);
+  void onHighqualityReady(error_code::ErrorCode, const QByteArray& data);
+  void onTopReady(error_code::ErrorCode, const QByteArray& data);
+  void onCategoriesReady(error_code::ErrorCode, const QByteArray& data);
 
  public:
   RecommendedPlaylistService(QObject* parent = nullptr);

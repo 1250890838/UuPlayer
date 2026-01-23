@@ -8,44 +8,45 @@
 CommentsFetchService::CommentsFetchService(QObject* parent) : QObject{parent} {
   using namespace network;
   connect(&m_network, &CommentsFetchNetwork::albumReady, this,
-          &CommentsFetchService::onGetAlbumFinished);
+          &CommentsFetchService::onAlbumReady);
   connect(&m_network, &CommentsFetchNetwork::playlistReady, this,
-          &CommentsFetchService::onGetPlaylistFinished);
+          &CommentsFetchService::onPlaylistReady);
   connect(&m_network, &CommentsFetchNetwork::musicReady, this,
-          &CommentsFetchService::onGetMusicFinished);
+          &CommentsFetchService::onMusicReady);
   connect(&m_network, &CommentsFetchNetwork::mvReady, this,
-          &CommentsFetchService::onGetMvFinished);
+          &CommentsFetchService::onMvReady);
 }
 
-void CommentsFetchService::getMusic(qulonglong id, quint32 offset,
-                                    quint32 limit) {
+void CommentsFetchService::fetchMusic(qulonglong id, quint32 offset,
+                                      quint32 limit) {
   m_network.fetchMusic(id, offset, limit);
 }
 
-void CommentsFetchService::getAlbum(qulonglong id, quint32 offset,
-                                    quint32 limit) {
+void CommentsFetchService::fetchAlbum(qulonglong id, quint32 offset,
+                                      quint32 limit) {
   m_network.fetchAlbum(id, offset, limit);
 }
 
-void CommentsFetchService::getPlaylist(qulonglong id, quint32 offset,
-                                       quint32 limit) {
+void CommentsFetchService::fetchPlaylist(qulonglong id, quint32 offset,
+                                         quint32 limit) {
   m_network.fetchPlaylist(id, offset, limit);
 }
 
-void CommentsFetchService::getMv(qulonglong id, quint32 offset, quint32 limit) {
+void CommentsFetchService::fetchMv(qulonglong id, quint32 offset,
+                                   quint32 limit) {
   m_network.fetchMv(id, offset, limit);
 }
 
-void CommentsFetchService::onGetMusicFinished(error_code::ErrorCode code,
-                                              const QByteArray& data) {
+void CommentsFetchService::onMusicReady(error_code::ErrorCode code,
+                                        const QByteArray& data) {
   auto ptr = parseCommentsData(code, data);
-  emit getMusicFinished(getActualErrorCode(code, ptr), ptr);
+  emit musicReady(getActualErrorCode(code, ptr), ptr);
 }
 
-void CommentsFetchService::onGetAlbumFinished(error_code::ErrorCode code,
-                                              const QByteArray& data) {
+void CommentsFetchService::onAlbumReady(error_code::ErrorCode code,
+                                        const QByteArray& data) {
   auto ptr = parseCommentsData(code, data);
-  emit getAlbumFinished(getActualErrorCode(code, ptr), ptr);
+  emit albumReady(getActualErrorCode(code, ptr), ptr);
 }
 
 UserItem CommentsFetchService::formatUserdDataInComment(
@@ -57,16 +58,16 @@ UserItem CommentsFetchService::formatUserdDataInComment(
   return item;
 }
 
-void CommentsFetchService::onGetPlaylistFinished(error_code::ErrorCode code,
-                                                 const QByteArray& data) {
-  auto ptr = parseCommentsData(code, data);
-  emit getPlaylistFinished(getActualErrorCode(code, ptr), ptr);
-}
-
-void CommentsFetchService::onGetMvFinished(error_code::ErrorCode code,
+void CommentsFetchService::onPlaylistReady(error_code::ErrorCode code,
                                            const QByteArray& data) {
   auto ptr = parseCommentsData(code, data);
-  emit getMvFinished(getActualErrorCode(code, ptr), ptr);
+  emit playlistReady(getActualErrorCode(code, ptr), ptr);
+}
+
+void CommentsFetchService::onMvReady(error_code::ErrorCode code,
+                                     const QByteArray& data) {
+  auto ptr = parseCommentsData(code, data);
+  emit mvReady(getActualErrorCode(code, ptr), ptr);
 }
 
 error_code::ErrorCode CommentsFetchService::getActualErrorCode(
