@@ -17,4 +17,4 @@ qt_add_qml_module(
 
 target_compile_definitions(controller PRIVATE CONTROLLER_EXPORT_SYMBOLS)
 
-target_link_libraries(controller PUBLIC entities Qt6::Core Qt6::Gui Qt6::Qml)
+target_link_libraries(controller PUBLIC entities service Qt6::Core Qt6::Gui Qt6::Qml)
