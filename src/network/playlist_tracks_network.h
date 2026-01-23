@@ -8,9 +8,9 @@ class NETWORK_DLL_EXPORT PlaylistTracksNetwork : public BasicNetwork {
   Q_OBJECT
  public:
   PlaylistTracksNetwork();
-  void getTracks(qulonglong id, quint32 offset, quint32 limit);
+  void fetch(qulonglong id, quint32 offset, quint32 limit);
  signals:
-  void getPlaylistTracksFinished(error_code::ErrorCode, const QByteArray& data);
+  void ready(error_code::ErrorCode, const QByteArray& data);
 };
 }  // namespace network
 #endif // PLAYLISTTRACKSNETWORK_H

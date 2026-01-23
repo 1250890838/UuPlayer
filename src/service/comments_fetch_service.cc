@@ -7,33 +7,33 @@
 
 CommentsFetchService::CommentsFetchService(QObject* parent) : QObject{parent} {
   using namespace network;
-  connect(&m_network, &CommentsFetchNetwork::getAlbumFinished, this,
+  connect(&m_network, &CommentsFetchNetwork::albumReady, this,
           &CommentsFetchService::onGetAlbumFinished);
-  connect(&m_network, &CommentsFetchNetwork::getPlaylistFinished, this,
+  connect(&m_network, &CommentsFetchNetwork::playlistReady, this,
           &CommentsFetchService::onGetPlaylistFinished);
-  connect(&m_network, &CommentsFetchNetwork::getMusicFinished, this,
+  connect(&m_network, &CommentsFetchNetwork::musicReady, this,
           &CommentsFetchService::onGetMusicFinished);
-  connect(&m_network, &CommentsFetchNetwork::getMvFinished, this,
+  connect(&m_network, &CommentsFetchNetwork::mvReady, this,
           &CommentsFetchService::onGetMvFinished);
 }
 
 void CommentsFetchService::getMusic(qulonglong id, quint32 offset,
                                     quint32 limit) {
-  m_network.getMusic(id, offset, limit);
+  m_network.fetchMusic(id, offset, limit);
 }
 
 void CommentsFetchService::getAlbum(qulonglong id, quint32 offset,
                                     quint32 limit) {
-  m_network.getAlbum(id, offset, limit);
+  m_network.fetchAlbum(id, offset, limit);
 }
 
 void CommentsFetchService::getPlaylist(qulonglong id, quint32 offset,
                                        quint32 limit) {
-  m_network.getPlaylist(id, offset, limit);
+  m_network.fetchPlaylist(id, offset, limit);
 }
 
 void CommentsFetchService::getMv(qulonglong id, quint32 offset, quint32 limit) {
-  m_network.getMv(id, offset, limit);
+  m_network.fetchMv(id, offset, limit);
 }
 
 void CommentsFetchService::onGetMusicFinished(error_code::ErrorCode code,

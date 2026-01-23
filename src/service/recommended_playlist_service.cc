@@ -19,26 +19,26 @@ namespace service {
 RecommendedPlaylistService::RecommendedPlaylistService(QObject* parent)
     : QObject(parent) {
   using namespace network;
-  connect(&m_network, &RecommendedPlaylistNetwork::getHighqualityDataFinished,
+  connect(&m_network, &RecommendedPlaylistNetwork::highqualityReady,
           this, &RecommendedPlaylistService::onGetHighqualityFinished);
-  connect(&m_network, &RecommendedPlaylistNetwork::getTopDataFinished, this,
+  connect(&m_network, &RecommendedPlaylistNetwork::topReady, this,
           &RecommendedPlaylistService::onGetTopFinished);
-  connect(&m_network, &RecommendedPlaylistNetwork::getPlaylistsCatlistFinished,
+  connect(&m_network, &RecommendedPlaylistNetwork::CategoriesReady,
           this, &RecommendedPlaylistService::onGetCategoriesFinished);
 }
 
 void RecommendedPlaylistService::getHighquality(const QString& tag,
                                                 qint32 offset, qint32 limit) {
-  m_network.getHighqualityData(tag, offset, limit);
+  m_network.fetchHighquality(tag, offset, limit);
 }
 
 void RecommendedPlaylistService::getTop(const QString& tag, qint32 offset,
                                         qint32 limit) {
-  m_network.getTopData(tag, offset, limit);
+  m_network.fetchTop(tag, offset, limit);
 }
 
 void RecommendedPlaylistService::getCategories() {
-  m_network.getCategoriesData();
+  m_network.fetchCategories();
 }
 
 PlaylistItemListPtr RecommendedPlaylistService::parsePlaylistData(

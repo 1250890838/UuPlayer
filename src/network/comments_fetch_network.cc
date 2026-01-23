@@ -7,33 +7,33 @@
 namespace network {
 CommentsFetchNetwork::CommentsFetchNetwork() {}
 
-void CommentsFetchNetwork::getMusic(qulonglong id, quint32 offset,
-                                    quint32 limit) {
-  getComments(network_api::apiMusicComment, id, offset, limit,
-              &CommentsFetchNetwork::getMusicFinished);
+void CommentsFetchNetwork::fetchMusic(qulonglong id, quint32 offset,
+                                      quint32 limit) {
+  fetchHelper(network_api::apiMusicComment, id, offset, limit,
+              &CommentsFetchNetwork::musicReady);
 }
 
-void CommentsFetchNetwork::getAlbum(qulonglong id, quint32 offset,
-                                    quint32 limit) {
-  getComments(network_api::apiAlbumComment, id, offset, limit,
-              &CommentsFetchNetwork::getAlbumFinished);
+void CommentsFetchNetwork::fetchAlbum(qulonglong id, quint32 offset,
+                                      quint32 limit) {
+  fetchHelper(network_api::apiAlbumComment, id, offset, limit,
+              &CommentsFetchNetwork::albumReady);
 }
 
-void CommentsFetchNetwork::getPlaylist(qulonglong id, quint32 offset,
-                                       quint32 limit) {
-  getComments(network_api::apiPlaylistComment, id, offset, limit,
-              &CommentsFetchNetwork::getPlaylistFinished);
+void CommentsFetchNetwork::fetchPlaylist(qulonglong id, quint32 offset,
+                                         quint32 limit) {
+  fetchHelper(network_api::apiPlaylistComment, id, offset, limit,
+              &CommentsFetchNetwork::playlistReady);
 }
 
-void CommentsFetchNetwork::getMv(qulonglong id, quint32 offset, quint32 limit) {
-  getComments(network_api::apiMvComment, id, offset, limit,
-              &CommentsFetchNetwork::getMvFinished);
+void CommentsFetchNetwork::fetchMv(qulonglong id, quint32 offset,
+                                   quint32 limit) {
+  fetchHelper(network_api::apiMvComment, id, offset, limit,
+              &CommentsFetchNetwork::mvReady);
 }
 
-void CommentsFetchNetwork::getComments(
+void CommentsFetchNetwork::fetchHelper(
     const QString& apiUrl, qulonglong id, quint32 offset, quint32 limit,
-    void (CommentsFetchNetwork::*finishedSignal)(error_code::ErrorCode,
-                                                 const QByteArray&)) {
+    NetworkReadySignal<CommentsFetchNetwork> signal) {
   QNetworkRequest request;
   QUrl url = apiUrl + "?" + "id=" + QString::number(id) + "&" +
              "limit=" + QString::number(limit) + "&" +
@@ -41,18 +41,14 @@ void CommentsFetchNetwork::getComments(
   request.setUrl(url);
   auto reply = this->get(request);
   connect(reply, &QNetworkReply::finished, this,
-          [reply, this, finishedSignal]() {
-            handleNetworkReply(reply, finishedSignal);
-          });
+          [reply, this, signal]() { handleNetworkReply(reply, signal); });
 }
 
 void CommentsFetchNetwork::handleNetworkReply(
-    QNetworkReply* reply,
-    void (CommentsFetchNetwork::*finishedSignal)(error_code::ErrorCode,
-                                                 const QByteArray&)) {
+    QNetworkReply* reply, NetworkReadySignal<CommentsFetchNetwork> signal) {
   auto code = BasicNetwork::handleReplyErrorCode(reply);
   auto data = reply->readAll();
-  emit(this->*finishedSignal)(code, data);
+  emit(this->*signal)(code, data);
   reply->deleteLater();
 }
 }  // namespace network

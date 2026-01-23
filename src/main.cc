@@ -11,7 +11,7 @@
 #include "network/basic_network.h"
 #include "service/login_service.h"
 #include "service/model/mediaitem_filterproxy_model.h"
-#include "service/song_service.h"
+#include "service/song_lyric_service.h"
 
 #ifdef Q_OS_WIN
 #include <Windows.h>

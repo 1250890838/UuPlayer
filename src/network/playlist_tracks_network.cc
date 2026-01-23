@@ -6,8 +6,8 @@
 namespace network {
 PlaylistTracksNetwork::PlaylistTracksNetwork() {}
 
-void PlaylistTracksNetwork::getTracks(qulonglong id, quint32 offset,
-                                      quint32 limit) {
+void PlaylistTracksNetwork::fetch(qulonglong id, quint32 offset,
+                                  quint32 limit) {
   QNetworkRequest request;
   QUrl url = network_api::apiPlaylistTracks + "?" +
              "id=" + QString::number(id) + "&" +
@@ -20,7 +20,7 @@ void PlaylistTracksNetwork::getTracks(qulonglong id, quint32 offset,
   connect(reply, &QNetworkReply::finished, this, [reply, this]() {
     auto code = handleReplyErrorCode(reply);
     QByteArray data = reply->readAll();
-    emit getPlaylistTracksFinished(code, data);
+    emit ready(code, data);
     reply->deleteLater();
   });
 }

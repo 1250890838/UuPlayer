@@ -7,6 +7,9 @@
 #include "playlist_tracks_network.h"
 #include "service_global.h"
 
+namespace service {
+
+using namespace entities;
 using MediaItemList = QList<MediaItem>;
 using MediaItemListPtr = QSharedPointer<MediaItemList>;
 
@@ -18,7 +21,7 @@ class SERVICE_DLL_EXPORT PlaylistTracksService : public QObject {
     * @brief Get tracks from playlist by ID
     * @param limit Max tracks to return (-1 means get ALL tracks)
     */
-  void getTracks(qulonglong id, quint32 offset = 0, quint32 limit = -1);
+  void fetch(qulonglong id, quint32 offset = 0, quint32 limit = -1);
  private slots:
   void onGetTracksFinished(error_code::ErrorCode code, const QByteArray& data);
 
@@ -31,10 +34,11 @@ class SERVICE_DLL_EXPORT PlaylistTracksService : public QObject {
   MediaItem parseTrackObject(const QJsonObject& trackObj);
   MediaItemListPtr parseTracksArray(const QJsonArray& tracksArray);
  signals:
-  void getTracksFinished(error_code::ErrorCode code, MediaItemListPtr data);
+  void ready(error_code::ErrorCode code, MediaItemListPtr data);
 
  private:
   network::PlaylistTracksNetwork m_network;
 };
+}  // namespace service
 
 #endif  // PLAYLISTTRACKSSERVICE_H

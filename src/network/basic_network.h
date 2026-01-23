@@ -1,15 +1,16 @@
 #ifndef BASIC_NETWORK_H
 #define BASIC_NETWORK_H
-#include <QtQml/qqmlengine.h>
-#include <qobject.h>
-#include <qtmetamacros.h>
+#include <QObject>
+#include "api_network.h"
 #include "network_global.h"
 #include "types.h"
 
 #include <QNetworkAccessManager>
-using namespace entities;
 
 namespace network {
+template <typename T>
+using NetworkReadySignal = void (T::*)(error_code::ErrorCode,
+                                       const QByteArray&);
 
 class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
   Q_OBJECT

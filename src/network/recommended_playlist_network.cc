@@ -4,20 +4,19 @@
 #include "basic_network.h"
 
 namespace network {
-void RecommendedPlaylistNetwork::getHighqualityData(const QString& tag,
-                                                    qint32 offset,
-                                                    qint32 limit) {
-  getPlaylistData(network_api::apiGetHighqualityPlaylists, tag, offset, limit,
-                  &RecommendedPlaylistNetwork::getHighqualityDataFinished);
+void RecommendedPlaylistNetwork::fetchHighquality(const QString& tag,
+                                                  qint32 offset, qint32 limit) {
+  fetchHelper(network_api::apiGetHighqualityPlaylists, tag, offset, limit,
+              &RecommendedPlaylistNetwork::highqualityReady);
 }
 
-void RecommendedPlaylistNetwork::getTopData(const QString& tag, qint32 offset,
-                                            qint32 limit) {
-  getPlaylistData(network_api::apiGetTopPlaylists, tag, offset, limit,
-                  &RecommendedPlaylistNetwork::getTopDataFinished);
+void RecommendedPlaylistNetwork::fetchTop(const QString& tag, qint32 offset,
+                                          qint32 limit) {
+  fetchHelper(network_api::apiGetTopPlaylists, tag, offset, limit,
+              &RecommendedPlaylistNetwork::topReady);
 }
 
-void RecommendedPlaylistNetwork::getPlaylistData(
+void RecommendedPlaylistNetwork::fetchHelper(
     const QString& apiUrl, const QString& tag, qint32 offset, qint32 limit,
     void (RecommendedPlaylistNetwork::*finishedSignal)(error_code::ErrorCode,
                                                        const QByteArray&)) {
@@ -43,7 +42,7 @@ void RecommendedPlaylistNetwork::handleNetworkReply(
   reply->deleteLater();
 }
 
-void RecommendedPlaylistNetwork::getCategoriesData() {
+void RecommendedPlaylistNetwork::fetchCategories() {
   QNetworkRequest request;
   QUrl url = network_api::apiCatlist;
   request.setUrl(url);
@@ -52,9 +51,9 @@ void RecommendedPlaylistNetwork::getCategoriesData() {
     auto e = reply->error();
     if (e == QNetworkReply::NoError) {
       QByteArray data = reply->readAll();
-      emit getPlaylistsCatlistFinished(error_code::NoError, data);
+      emit CategoriesReady(error_code::NoError, data);
     } else {
-      emit getPlaylistsCatlistFinished(error_code::OtherError, QByteArray());
+      emit CategoriesReady(error_code::OtherError, QByteArray());
     }
     reply->deleteLater();
   });

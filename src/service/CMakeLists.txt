@@ -3,8 +3,8 @@ qt_add_library(service SHARED
     recommended_playlist_service.h
     login_service.cc
     recommended_playlist_service.cc
-    song_service.h
-    song_service.cc
+    song_lyric_service.h
+    song_lyric_service.cc
     play_service.h play_service.cc
     local_song_service.h local_song_service.cc
     playlist_tracks_service.h playlist_tracks_service.cc

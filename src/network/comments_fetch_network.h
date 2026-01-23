@@ -10,24 +10,21 @@ class NETWORK_DLL_EXPORT CommentsFetchNetwork : public BasicNetwork {
   Q_OBJECT
  public:
   CommentsFetchNetwork();
-  void getMusic(qulonglong id, quint32 offset, quint32 limit);
-  void getAlbum(qulonglong id, quint32 offset, quint32 limit);
-  void getPlaylist(qulonglong id, quint32 offset, quint32 limit);
-  void getMv(qulonglong id, quint32 offset, quint32 limit);
+  void fetchMusic(qulonglong id, quint32 offset, quint32 limit);
+  void fetchAlbum(qulonglong id, quint32 offset, quint32 limit);
+  void fetchPlaylist(qulonglong id, quint32 offset, quint32 limit);
+  void fetchMv(qulonglong id, quint32 offset, quint32 limit);
 
  private:
-  void getComments(const QString& apiUrl, qulonglong id, quint32 offset,
-                   quint32 limit,
-                   void (CommentsFetchNetwork::*finishedSignal)(
-                       error_code::ErrorCode, const QByteArray&));
+  void fetchHelper(const QString& apiUrl, qulonglong id, quint32 offset,
+                   quint32 limit, NetworkReadySignal<CommentsFetchNetwork>);
   void handleNetworkReply(QNetworkReply* reply,
-                          void (CommentsFetchNetwork::*finishedSignal)(
-                              error_code::ErrorCode, const QByteArray&));
+                          NetworkReadySignal<CommentsFetchNetwork>);
  signals:
-  void getMusicFinished(error_code::ErrorCode code, const QByteArray& data);
-  void getAlbumFinished(error_code::ErrorCode code, const QByteArray& data);
-  void getPlaylistFinished(error_code::ErrorCode code, const QByteArray& data);
-  void getMvFinished(error_code::ErrorCode code, const QByteArray& data);
+  void musicReady(error_code::ErrorCode code, const QByteArray& data);
+  void albumReady(error_code::ErrorCode code, const QByteArray& data);
+  void playlistReady(error_code::ErrorCode code, const QByteArray& data);
+  void mvReady(error_code::ErrorCode code, const QByteArray& data);
 };
 }  // namespace network
 #endif // COMMENTSFETCHNETWORK_H

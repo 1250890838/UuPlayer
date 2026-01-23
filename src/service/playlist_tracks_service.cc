@@ -6,22 +6,24 @@
 
 #include "media_item.h"
 
+namespace service {
+
 PlaylistTracksService::PlaylistTracksService(QObject* parent)
     : QObject{parent} {
   using namespace network;
-  connect(&m_network, &PlaylistTracksNetwork::getPlaylistTracksFinished, this,
+  connect(&m_network, &PlaylistTracksNetwork::ready, this,
           &PlaylistTracksService::onGetTracksFinished);
 }
 
-void PlaylistTracksService::getTracks(qulonglong id, quint32 offset,
-                                      quint32 limit) {
-  m_network.getTracks(id, offset, limit);
+void PlaylistTracksService::fetch(qulonglong id, quint32 offset,
+                                  quint32 limit) {
+  m_network.fetch(id, offset, limit);
 }
 
 void PlaylistTracksService::onGetTracksFinished(error_code::ErrorCode code,
                                                 const QByteArray& data) {
   MediaItemListPtr ptr = parseTracksData(code, data);
-  emit getTracksFinished(code, ptr);
+  emit ready(code, ptr);
 }
 
 MediaItemListPtr PlaylistTracksService::parseTracksData(
@@ -86,3 +88,4 @@ AristItem PlaylistTracksService::parseArtistObject(
   artist.setName(artistObj["name"].toString());
   return artist;
 }
+}  // namespace service
