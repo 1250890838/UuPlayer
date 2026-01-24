@@ -31,7 +31,7 @@ void PlaylistAlbumDetailNetwork::fetchHelper(
   connect(reply, &QNetworkReply::finished, this, [reply, signal, this]() {
     auto code = handleReplyErrorCode(reply);
     auto data = reply->readAll();
-    emit (*signal)(code, data);
+    emit(this->*signal)(code, data);
     reply->deleteLater();
   });
 }
