@@ -6,7 +6,8 @@ qt_add_library(network SHARED
     local_song_network.h local_song_network.cc
     playlist_tracks_network.h playlist_tracks_network.cc
     comments_fetch_network.h comments_fetch_network.cc
-    song_url_network.h song_url_network.cc)
+    song_url_network.h song_url_network.cc
+    playlistalbum_detailnetwork.h playlistalbum_detailnetwork.cc)
 
 
 target_compile_definitions(network PRIVATE NETWORK_EXPORT_SYMBOLS)

@@ -16,6 +16,7 @@ const QString apiGetHighqualityPlaylists =
 const QString apiGetTopPlaylists = host + QStringLiteral("/top/playlist");
 const QString apiCatlist = host + QStringLiteral("/playlist/catlist");
 const QString apiPlaylistDetail = host + QStringLiteral("/playlist/detail");
+const QString apiAlbumDetail = host + QStringLiteral("/album/detail");
 const QString apiPlaylistTracks = host + QStringLiteral("/playlist/track/all");
 const QString apiPlaylistComments = host + QStringLiteral("/comment/playlist");
 

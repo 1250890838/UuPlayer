@@ -59,21 +59,4 @@ void RecommendedPlaylistNetwork::fetchCategories() {
   });
 }
 
-//void PlaylistNetwork::getPlaylistDetail(qulonglong id) {
-//  QNetworkRequest request;
-//  QUrl url = network_api::apiPlaylistDetail + "?" + "id=" + QString::number(id);
-//  request.setUrl(url);
-//  auto reply = this->get(request);
-//  connect(reply, &QNetworkReply::finished, this, [reply, id, this]() {
-//    auto e = reply->error();
-//    if (e == QNetworkReply::NoError) {
-//      QByteArray data = reply->readAll();
-//      emit getPlaylistDetailFinished(error_code::NoError, data, id);
-//    } else {
-//      emit getPlaylistDetailFinished(error_code::OtherError, QByteArray(), id);
-//    }
-//    reply->deleteLater();
-//  });
-//}
-
 }  // namespace network

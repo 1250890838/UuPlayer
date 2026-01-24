@@ -1,6 +1,5 @@
 #ifndef _MODEL_PLAYLIST_ITEM_MODEL_H
 #define _MODEL_PLAYLIST_ITEM_MODEL_H
-#endif
 
 #include "playlist_item.h"
 
@@ -33,18 +32,18 @@ class PlaylistItemModel : public QAbstractListModel {
   };
 
   Q_INVOKABLE PlaylistItem itemAt(quint32 index);
-  Q_INVOKABLE PlaylistItem* last();
+  Q_INVOKABLE PlaylistItem last();
 
   PlaylistItemModel(QObject* parent = nullptr);
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
-  void appendItem(PlaylistItem* item);
+  void appendItem(PlaylistItem item);
   void appendItems(const QVector<PlaylistItem>& items);
   void clear();
 
  private:
-  QList<PlaylistItem*> m_items;
+  QList<PlaylistItem> m_items;
 };
 }  // namespace model
-
+#endif
