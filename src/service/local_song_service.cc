@@ -9,7 +9,8 @@ LocalSongService::LocalSongService(QObject* parent) : QObject{parent} {
 }
 
 model::MediaItemFilterProxyModel* LocalSongService::mediaItemModel() {
-  return &m_mediaItemsFilterProxyModel;
+  //  return &m_mediaItemsFilterProxyModel;
+  return nullptr;
 }
 
 void LocalSongService::clearSearchDirs() {
@@ -52,8 +53,8 @@ void LocalSongService::setSearchSongsPaths(const QVariantMap& map) {
   QList<entities::LocalMediaItem> items =
       m_mediaMetadataExtractor.processResults();
 
-  for (const entities::LocalMediaItem& item : items) {
-    m_mediaItemsModel.appendItem(item);
-  }
+  //  for (const entities::LocalMediaItem& item : items) {
+  //    m_mediaItemsModel.appendItem(item);
+  //  }
 }
 }  // namespace service

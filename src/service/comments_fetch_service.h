@@ -6,6 +6,9 @@
 #include "comment_item.h"
 #include "comments_fetch_network.h"
 
+namespace service {
+
+using namespace entities;
 using CommentItemList = QList<CommentItem>;
 using CommentItemListPtr = QSharedPointer<CommentItemList>;
 
@@ -38,5 +41,5 @@ class CommentsFetchService : public QObject {
  private:
   network::CommentsFetchNetwork m_network;
 };
-
+}  // namespace service
 #endif  // COMMENTSFETCHSERVICE_H

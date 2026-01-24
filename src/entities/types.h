@@ -2,14 +2,16 @@
 #define TYPES_H
 #include <QObject>
 
+#include "entities_global.h"
+
 namespace play_mode {
-Q_NAMESPACE
+Q_NAMESPACE_EXPORT(ENTITIES_EXPORT)
 enum PlayMode { Sequentially, ListLoop, SingleLoop, Shuffle };
 Q_ENUM_NS(PlayMode)
 }  // namespace play_mode
 
 namespace error_code {
-Q_NAMESPACE
+Q_NAMESPACE_EXPORT(ENTITIES_EXPORT)
 enum ErrorCode {
   NoError = 0,
   ConnectionRefusedError,
@@ -21,7 +23,7 @@ Q_ENUM_NS(ErrorCode)
 }  // namespace error_code
 
 namespace sound_level {
-Q_NAMESPACE
+Q_NAMESPACE_EXPORT(ENTITIES_EXPORT)
 enum SoundQualityLevel {
   Standard,
   Higher,

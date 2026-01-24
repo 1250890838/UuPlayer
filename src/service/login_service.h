@@ -11,15 +11,14 @@ class SERVICE_DLL_EXPORT LoginService : public QObject {
  public:
   void getQRCodeImage();
  signals:
-  void qrCodeImageStatus(network::error_code::ErrorCode);
+  void qrCodeImageStatus(error_code::ErrorCode);
   void qrCodeImageData(const QString& base64);
   void loginSuccess();
  public slots:
-  void onGetQRCodeKeyFinished(network::error_code::ErrorCode,
-                              const QByteArray& data);
-  void onCreateQRCodeImageFinished(network::error_code::ErrorCode,
+  void onGetQRCodeKeyFinished(error_code::ErrorCode, const QByteArray& data);
+  void onCreateQRCodeImageFinished(error_code::ErrorCode,
                                    const QByteArray& data);
-  void onCheckQRCodeScanStatusFinished(network::error_code::ErrorCode,
+  void onCheckQRCodeScanStatusFinished(error_code::ErrorCode,
                                        const QByteArray& data);
 
  public:

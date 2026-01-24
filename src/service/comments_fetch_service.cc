@@ -5,6 +5,8 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+namespace service {
+
 CommentsFetchService::CommentsFetchService(QObject* parent) : QObject{parent} {
   using namespace network;
   connect(&m_network, &CommentsFetchNetwork::albumReady, this,
@@ -103,3 +105,4 @@ CommentItemListPtr CommentsFetchService::parseCommentsData(
   }
   return ptr;
 }
+}  // namespace service

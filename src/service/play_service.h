@@ -12,19 +12,11 @@ using namespace entities;
 // 播放服务、存储播放列表
 
 namespace service {
+
+using namespace play_mode;
 class PlayService : public QObject {
   Q_OBJECT
-  Q_PROPERTY(bool playing READ isPlaying NOTIFY playingChanged)
-  Q_PROPERTY(qint64 duration READ duration NOTIFY durationChanged)
-  Q_PROPERTY(
-      qint64 position READ position WRITE setPosition NOTIFY positionChanged)
-  Q_PROPERTY(
-      float volumn READ volumn WRITE setVolumn NOTIFY volumnChanged)
 
-  Q_PROPERTY(model::MediaItem currentPlayItem  READ currentPlayItem NOTIFY currentPlayItemChanged)
-  Q_PROPERTY(qint64 num READ num NOTIFY numChanged)
-  Q_PROPERTY(PlaybackMode playbackMode READ playbackMode WRITE setPlaybackMode NOTIFY playbackModeChanged)
-  Q_PROPERTY(model::MediaItemModel* playbacklist READ playbacklist CONSTANT)
  public:
  public:
   PlayService();
@@ -38,23 +30,22 @@ class PlayService : public QObject {
   void setPlaybackMode(PlayMode mode);
   float volumn();
   void setVolumn(float volumn);
-  // interface
- public:
-  Q_INVOKABLE void play(qulonglong id);
-  Q_INVOKABLE void pause();
-  Q_INVOKABLE void next();
-  Q_INVOKABLE void previous();
-  Q_INVOKABLE void play();
-  Q_INVOKABLE void appendMediaId(qulonglong id);
-  Q_INVOKABLE void insertNext(qulonglong id);
-  Q_INVOKABLE entities::MediaItem currentPlayItem();
+  // interface public:
+  void play(qulonglong id);
+  void pause();
+  void next();
+  void previous();
+  void play();
+  void appendMediaId(qulonglong id);
+  void insertNext(qulonglong id);
+  entities::MediaItem currentPlayItem();
  private slots:
   void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
   void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
  private:
   void operateForPlaybackMode();
  private:
-  model::MediaItemModel m_playbacklistModel;
+  //model::MediaItemModel m_playbacklistModel;
   engine::MediaPlayer m_player;
  // QList<model::MediaItem*> m_medias;
   PlayMode m_playbackMode;

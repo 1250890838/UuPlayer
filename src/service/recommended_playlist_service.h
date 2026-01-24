@@ -13,9 +13,9 @@
 #include <qvariant.h>
 #include <QObject>
 
-using namespace entities;
 namespace service {
 
+using namespace entities;
 using PlaylistItemList = QList<PlaylistItem>;
 using PlaylistItemListPtr = QSharedPointer<PlaylistItemList>;
 

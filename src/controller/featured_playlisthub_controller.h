@@ -19,19 +19,22 @@ class FeaturedPlaylistHubController : public QObject {
   Q_PROPERTY(PlaylistItemModel* currPlaylistItems READ currPlaylistItems)
   Q_PROPERTY(QVariantMap categories READ categories NOTIFY categoriesChanged)
  public:
+  static FeaturedPlaylistHubController* create(QQmlEngine* qmlEngine,
+                                               QJSEngine* jsEngine);
+
   Q_INVOKABLE void fetchPlaylistItems(const QString& tag);
   Q_INVOKABLE void fetchCategories();
 
  public:
-  FeaturedPlaylistHubController();
+  FeaturedPlaylistHubController(RecommendedPlaylistService*);
   PlaylistItemModel* currPlaylistItems();
   QVariantMap categories();
-
  signals:
   void categoriesChanged();
+ private slots:
 
  private:
-  RecommendedPlaylistService m_recommendedPlaylistService;
+  RecommendedPlaylistService* m_recommendedPlaylistService;
 
   PlaylistItemModel m_playlistItemModel;
 };

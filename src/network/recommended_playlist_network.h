@@ -8,7 +8,6 @@
 #include <qtmetamacros.h>
 #include <qurl.h>
 
-using namespace entities;
 namespace network {
 class NETWORK_DLL_EXPORT RecommendedPlaylistNetwork : public BasicNetwork {
   Q_OBJECT
