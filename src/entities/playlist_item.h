@@ -24,6 +24,7 @@ class ENTITIES_EXPORT PlaylistItem {
   Q_PROPERTY(QList<UserItem> subscribers READ subscribers)
   Q_PROPERTY(bool subscribed READ subscribed)
   Q_PROPERTY(QList<CommentItem> commentItems READ commentItems)
+  Q_PROPERTY(QList<MediaItem> mediaItem READ mediaItems)
 
  public:
   PlaylistItem()
@@ -50,6 +51,7 @@ class ENTITIES_EXPORT PlaylistItem {
   bool subscribed() const { return m_subscribed; }
   qulonglong subscribedCount() const { return m_subscribedCount; }
   QList<CommentItem> commentItems() const { return m_commentItems; }
+  QList<MediaItem> mediaItems() const { return m_mediaItems; }
 
   void setId(qulonglong id) { m_id = id; }
   void setName(const QString& name) { m_name = name; }
@@ -69,6 +71,7 @@ class ENTITIES_EXPORT PlaylistItem {
   void setCommentItems(const QList<CommentItem>& data) {
     m_commentItems = data;
   }
+  void setMediaItems(const QList<MediaItem>& data) { m_mediaItems = data; }
 
  private:
   qulonglong m_id;
@@ -84,7 +87,7 @@ class ENTITIES_EXPORT PlaylistItem {
   QList<UserItem> m_subscribers;
   bool m_subscribed;
   qulonglong m_subscribedCount;
-  QVector<MediaItem> m_mediaItems;
+  QList<MediaItem> m_mediaItems;
   QList<CommentItem> m_commentItems;
 };
 }  // namespace entities

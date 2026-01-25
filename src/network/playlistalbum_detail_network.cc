@@ -1,4 +1,4 @@
-#include "playlistalbum_detailnetwork.h"
+#include "playlistalbum_detail_network.h"
 
 #include <QNetworkReply>
 
