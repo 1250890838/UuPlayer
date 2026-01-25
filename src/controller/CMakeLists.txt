@@ -8,7 +8,7 @@ add_library(controller SHARED
 
 qt_add_qml_module(
    controller
-   URI controller
+   URI Controller
    SOURCES featured_featured_controller.h featured_featured_controller.cc
    SOURCES featured_playlisthub_controller.h featured_playlisthub_controller.cc
    SOURCES playlistdetails_controller.h playlistdetails_controller.cc

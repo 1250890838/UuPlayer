@@ -6,7 +6,7 @@ import components 1.0
 import gui 1.0
 import service.api 1.0
 //import service 1.0
-import network.errorcode 1.0
+import Controller
 
 Window {
     id: root

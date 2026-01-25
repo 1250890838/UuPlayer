@@ -2,11 +2,30 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import components 1.0
-import service.api 1.0
+import Controller 1.0
 
 Flickable {
     id: root
     property var catMap
+
+    QtObject {
+        id: fetchAttributes
+        property string name
+        property int offset: repeater2.count
+        property int limit: 8
+    }
+
+    Connections {
+        target: FeaturedPlaylistHubController
+        function onCategoriesChanged() {
+            fetchAttributes.name = FeaturedPlaylistHubController.categories[(Object.keys(
+                                                                                 map)[0])][0]
+            FeaturedPlaylistHubController.fetchPlaylistItems(
+                        fetchAttributes.name, fetchAttributes.offset,
+                        fetchAttributes.limit)
+        }
+    }
+
     contentHeight: columnLayout.implicitHeight
     contentWidth: this.width
     boundsBehavior: Flickable.StopAtBounds
@@ -15,22 +34,13 @@ Flickable {
 
     onContentYChanged: {
         if (root.contentY + root.height >= root.contentHeight) {
-            PlaylistsService.getSelectivePlaylists()
+            fetchAttributes.offset += fetchAttributes.limit
+            FeaturedPlaylistHubController.fetchPlaylistItems(
+                        fetchAttributes.name, fetchAttributes.offset,
+                        fetchAttributes.limit)
         }
     }
 
-    Connections {
-        target: PlaylistsService
-        ignoreUnknownSignals: true
-        function onPlaylistsCatlist(map) {
-            root.catMap = map
-            repeater.model = map[(Object.keys(map)[0])].slice(0, 6)
-            PlaylistsService.setCurrCat(map[(Object.keys(map)[0])][0])
-            PlaylistsService.setCurrLimit(12)
-            PlaylistsService.setCurrOffset(0)
-            PlaylistsService.getSelectivePlaylists()
-        }
-    }
     ColumnLayout {
         id: columnLayout
         anchors.fill: parent
@@ -42,6 +52,9 @@ Flickable {
             spacing: 10
             Repeater {
                 id: repeater
+                model: FeaturedPlaylistHubController.categories[(Object.keys(
+                                                                     map)[0])].slice(
+                           0, 6)
                 delegate: CatlistItem {
                     required property string modelData
                     text: modelData
@@ -50,9 +63,11 @@ Flickable {
                     height: 30
                     onClicked: {
                         columnLayout.currentCatItem = this
-                        PlaylistsService.setCurrOffset(0)
-                        PlaylistsService.setCurrCat(this.text)
-                        PlaylistsService.getSelectivePlaylists()
+                        fetchAttributes.name = modelData
+                        FeaturedPlaylistHubController.fetchPlaylistItems(
+                                    fetchAttributes.name,
+                                    fetchAttributes.offset,
+                                    fetchAttributes.limit)
                     }
                 }
             }
@@ -62,7 +77,6 @@ Flickable {
                 width: 60
                 height: 30
                 onClicked: {
-                    catlistDialog.map = root.catMap
                     catlistDialog.open()
                 }
             }
@@ -93,11 +107,12 @@ Flickable {
 
     CatlistDialog {
         id: catlistDialog
+        map: FeaturedPlaylistHubController.categories
         y: moreCatItem.y + moreCatItem.height + 25
         x: 45
     }
     Component.onCompleted: {
-        PlaylistsService.getPlaylistsCatlist()
         globalScrollBar.currentFlickable = this
+        FeaturedPlaylistHubController.fetchCategories()
     }
 }
