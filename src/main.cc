@@ -25,12 +25,18 @@ int main(int argc, char* argv[]) {
   QWK::registerTypes(&engine);
   engine.addImportPath(u"qrc:/gui/qml"_qs);  // register custom components
   engine.addImageProvider(QLatin1String("net"), new gui::ImageProvider);
-  qmlRegisterUncreatableMetaObject(network::error_code::staticMetaObject,
-                                   "network.errorcode", 1, 0, "ErrorCode",
+  qmlRegisterUncreatableMetaObject(error_code::staticMetaObject, "App.Enums", 1,
+                                   0, "ErrorCode",
                                    "Error: only error code enums");
-  qmlRegisterUncreatableMetaObject(sort_option::staticMetaObject,
-                                   "model.sortoption", 1, 0, "SortOption",
+  qmlRegisterUncreatableMetaObject(sort_option::staticMetaObject, "App.Enums",
+                                   1, 0, "SortOption",
                                    "Error: only sort option enums");
+  qmlRegisterUncreatableMetaObject(sound_level::staticMetaObject, "App.Enums",
+                                   1, 0, "SoundLevel",
+                                   "Error: only sound level enums");
+  qmlRegisterUncreatableMetaObject(play_mode::staticMetaObject, "App.Enums", 1,
+                                   0, "PlayMode",
+                                   "Error: only play mode enums");
 
   qmlRegisterSingletonType(QUrl(u"qrc:/gui/qml/assets/Icons.qml"_qs), "assets",
                            1, 0, "Icons");

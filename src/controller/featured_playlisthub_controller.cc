@@ -19,9 +19,8 @@ FeaturedPlaylistHubController::FeaturedPlaylistHubController(
 
 FeaturedPlaylistHubController* FeaturedPlaylistHubController::create(
     QQmlEngine* qmlEngine, QJSEngine* jsEngine) {
-  auto service =
-      ServiceManager::instance().getInstance<RecommendedPlaylistService>();
-  auto ctr = new FeaturedPlaylistHubController(service);
+  auto ctr = new FeaturedPlaylistHubController(
+      ServiceManager::instance().getInstance<RecommendedPlaylistService>());
   return ctr;
 }
 
@@ -43,9 +42,8 @@ PlaylistItemModel* FeaturedPlaylistHubController::currPlaylistItems() {
 void FeaturedPlaylistHubController::onTopReady(error_code::ErrorCode code,
                                                PlaylistItemListPtr data) {
   if (code == error_code::NoError && !data.isNull()) {
-    for (const auto& item : *data) {
+    for (const auto& item : *data)
       m_playlistItemModel.appendItem(item);
-    }
   }
 }
 

@@ -2,9 +2,10 @@
 #define SONGURLNETWORK_H
 
 #include "basic_network.h"
+#include "network_global.h"
 
 namespace network {
-class SongUrlNetwork : public BasicNetwork {
+class NETWORK_DLL_EXPORT SongUrlNetwork : public BasicNetwork {
   Q_OBJECT
  public:
   SongUrlNetwork();

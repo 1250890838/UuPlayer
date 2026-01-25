@@ -5,6 +5,7 @@
 
 #include "comment_item.h"
 #include "comments_fetch_network.h"
+#include "service_global.h"
 
 namespace service {
 
@@ -12,7 +13,7 @@ using namespace entities;
 using CommentItemList = QList<CommentItem>;
 using CommentItemListPtr = QSharedPointer<CommentItemList>;
 
-class CommentsFetchService : public QObject {
+class SERVICE_DLL_EXPORT CommentsFetchService : public QObject {
   Q_OBJECT
  public:
   explicit CommentsFetchService(QObject* parent = nullptr);

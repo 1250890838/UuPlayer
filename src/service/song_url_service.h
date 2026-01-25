@@ -3,10 +3,10 @@
 
 #include <QObject>
 
+#include "service_global.h"
 #include "song_url_network.h"
 
-class SongUrlService : public QObject
-{
+class SERVICE_DLL_EXPORT SongUrlService : public QObject {
   Q_OBJECT
  public:
   explicit SongUrlService(QObject* parent = nullptr);

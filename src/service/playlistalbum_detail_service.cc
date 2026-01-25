@@ -7,7 +7,59 @@
 
 namespace service {
 PlaylistAlbumDetailService::PlaylistAlbumDetailService(QObject* parent)
-    : QObject{parent} {}
+    : QObject{parent} {
+  using namespace network;
+  connect(&m_network, &PlaylistAlbumDetailNetwork::playlistReady, this,
+          &PlaylistAlbumDetailService::onPlaylistReady);
+}
+
+void PlaylistAlbumDetailService::fetchPlaylist(qulonglong id) {
+  m_network.fetchPlaylist(id);
+}
+
+auto PlaylistAlbumDetailService::formatSubscribers(
+    const QJsonArray& subscribers) {
+  QList<UserItem> list;
+  for (const QJsonValue& subscriber : subscribers) {
+    QJsonObject subscriberObj = subscriber.toObject();
+    UserItem userData;
+    userData.setId(subscriberObj["userId"].toVariant().toLongLong());
+    userData.setAvatarUrl(subscriberObj["avatarUrl"].toString());
+    userData.setName(subscriberObj["nickname"].toString());
+    userData.setBackgroundUrl(subscriberObj["backgroundUrl"].toString());
+    userData.setGender(subscriberObj["gender"].toInt());
+    userData.setDesc(subscriberObj["description"].toString());
+    list.append(userData);
+  }
+  return list;
+}
+
+auto PlaylistAlbumDetailService::formatTracks(const QJsonArray& tracks) {
+  QList<MediaItem> mediaItems;
+  for (const QJsonValue& track : tracks) {
+    MediaItem item;
+    item.id = track["id"].toVariant().toLongLong();
+    item.name = track["name"].toString();
+    AlbumData albumData;
+    auto albumObj = track["al"].toObject();
+    albumData.setId(albumObj["id"].toVariant().toLongLong());
+    albumData.setName(albumObj["name"].toString());
+    albumData.setPicUrl("image://net/" + albumObj["picUrl"].toString());
+    item.albumdata = albumData;
+    auto artistsArr = track["ar"].toArray();
+    AristItem aristData;
+    item.artists.clear();
+    for (const auto& artistValue : artistsArr) {
+      auto artistObj = artistValue.toObject();
+      aristData.setId(artistObj["id"].toVariant().toLongLong());
+      aristData.setName(artistObj["name"].toString());
+      item.artists.append(aristData);
+    }
+    item.duration = track["dt"].toVariant().toLongLong();
+    mediaItems.append(item);
+  }
+  return mediaItems;
+}
 
 void PlaylistAlbumDetailService::onPlaylistReady(error_code::ErrorCode code,
                                                  const QByteArray& data) {
@@ -34,49 +86,31 @@ void PlaylistAlbumDetailService::onPlaylistReady(error_code::ErrorCode code,
       ptr->setSubscribers(formatSubscribers(playlist["subscribers"].toArray()));
       ptr->setSubscribedCount(
           playlist["subscribedCount"].toVariant().toULongLong());
-      ptr->
-
-          auto tracks = playlist["tracks"].toArray();
-      QVector<MediaItem> mediaItems;
-      for (const QJsonValue& track : tracks) {
-        MediaItem item;
-        item.id = track["id"].toVariant().toLongLong();
-        item.name = track["name"].toString();
-        AlbumData albumData;
-        auto albumObj = track["al"].toObject();
-        albumData.setId(albumObj["id"].toVariant().toLongLong());
-        albumData.setName(albumObj["name"].toString());
-        albumData.setPicUrl("image://net/" + albumObj["picUrl"].toString());
-        item.albumdata = albumData;
-        auto artistsArr = track["ar"].toArray();
-        AristItem aristData;
-        item.artists.clear();
-        for (const auto& artistValue : artistsArr) {
-          auto artistObj = artistValue.toObject();
-          aristData.setId(artistObj["id"].toVariant().toLongLong());
-          aristData.setName(artistObj["name"].toString());
-          item.artists.append(aristData);
-        }
-        item.duration = track["dt"].toVariant().toLongLong();
-        mediaItems.append(item);
-      }
-      ptr->setMediaItems(mediaItems);
-      auto subscribers = playlist["subscribers"].toArray();
-      QList<UserItem> list;
-      for (const QJsonValue& subscriber : subscribers) {
-        QJsonObject subscriberObj = subscriber.toObject();
-        UserItem userData;
-        userData.setId(subscriberObj["userId"].toVariant().toLongLong());
-        userData.setAvatarUrl(subscriberObj["avatarUrl"].toString());
-        userData.setName(subscriberObj["nickname"].toString());
-        userData.setBackgroundUrl(subscriberObj["backgroundUrl"].toString());
-        userData.setGender(subscriberObj["gender"].toInt());
-        userData.setDesc(subscriberObj["description"].toString());
-        list.append(userData);
-      }
-      ptr->setSubscribers(list);
+      ptr->setMediaItems(formatTracks(playlist["tracks"].toArray()));
+      ptr->setSubscribers(formatSubscribers(playlist["subscribers"].toArray()));
     }
   }
   emit playlistReady(code, ptr);
 }
+
+QStringList PlaylistAlbumDetailService::formatTags(const QJsonArray& array) {
+  QStringList tags;
+  for (const QJsonValue& value : array) {
+    tags.append(value.toString());
+  }
+  return tags;
+}
+
+UserItem PlaylistAlbumDetailService::formatCreator(const QJsonObject& object) {
+  UserItem user;
+  user.setId(object["userId"].toVariant().toLongLong());
+  user.setName(object["nickname"].toString());
+  user.setAvatarUrl(object["avatarUrl"].toString());
+  user.setBackgroundUrl(object["backgroundUrl"].toString());
+  user.setExpertTags(formatTags(object["expertTags"].toArray()));
+  user.setBirthday(object["birthday"].toVariant().toLongLong());
+  user.setFollowed(object["followed"].toBool());
+  return user;
+}
+
 }  // namespace service

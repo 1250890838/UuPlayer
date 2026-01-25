@@ -9,9 +9,10 @@
 #include "local_song_network.h"
 #include "metadata_extractor.h"
 #include "model/mediaitem_filterproxy_model.h"
+#include "service_global.h"
 
 namespace service {
-class LocalSongService : public QObject {
+class SERVICE_DLL_EXPORT LocalSongService : public QObject {
   Q_OBJECT
  public:
   QVariantMap songsSearchDirs();

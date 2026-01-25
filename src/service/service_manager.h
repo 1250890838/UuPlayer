@@ -8,8 +8,10 @@
 #include <QSharedPointer>
 #include <typeindex>
 
+#include "service_global.h"
+
 namespace service {
-class ServiceManager : QObject {
+class SERVICE_DLL_EXPORT ServiceManager : QObject {
   Q_OBJECT
 
  public:

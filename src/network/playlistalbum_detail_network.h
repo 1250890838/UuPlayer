@@ -2,11 +2,11 @@
 #define PLAYLISTALBUMDETAILNETWORK_H
 
 #include "basic_network.h"
+#include "network_global.h"
 
 // 获取专辑/歌单详情
 namespace network {
-class PlaylistAlbumDetailNetwork : public BasicNetwork
-{
+class NETWORK_DLL_EXPORT PlaylistAlbumDetailNetwork : public BasicNetwork {
   Q_OBJECT
  public:
   PlaylistAlbumDetailNetwork();

@@ -3,6 +3,7 @@
 
 #include "audio_player.h"
 #include "model/media_item_model.h"
+#include "service_global.h"
 #include "types.h"
 
 #include <QList>
@@ -14,7 +15,7 @@ using namespace entities;
 namespace service {
 
 using namespace play_mode;
-class PlayService : public QObject {
+class SERVICE_DLL_EXPORT PlayService : public QObject {
   Q_OBJECT
 
  public:

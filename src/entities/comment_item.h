@@ -24,6 +24,7 @@ class ENTITIES_EXPORT CommentItem {
 
  public:
   CommentItem() = default;
+  bool operator==(const CommentItem& other) const { return id() == other.id(); }
 
   qulonglong id() const { return m_id; }
   void setId(qulonglong id) { m_id = id; }

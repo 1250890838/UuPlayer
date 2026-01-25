@@ -4,7 +4,7 @@
 namespace model {
 
 MediaItem MediaItemModel::itemAt(qint32 index) {
-  return *m_items[index];
+  return m_items[index];
 }
 
 quint32 MediaItemModel::count() {
@@ -24,17 +24,17 @@ QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
   auto item = m_items[index.row()];
   switch (role) {
     case IdRole:
-      return item->id;
+      return item.id;
     case NameRole:
-      return item->name;
+      return item.name;
     case DurationRole:
-      return item->duration;
+      return item.duration;
     case AlbumRole:
-      return QVariant::fromValue(item->albumdata);
+      return QVariant::fromValue(item.albumdata);
     case ArtistRole:
-      return QVariant::fromValue(item->artists);
+      return QVariant::fromValue(item.artists);
     case ReasonRole:
-      return item->reason;
+      return item.reason;
     default:
       return QVariant();
   }
@@ -46,23 +46,23 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const {
       {AlbumRole, "album"}, {ArtistRole, "artists"}, {ReasonRole, "reason"}};
 }
 
-void MediaItemModel::appendItem(MediaItem* item) {
+void MediaItemModel::appendItem(MediaItem item) {
   beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
   m_items.append(item);
   endInsertRows();
   emit countChanged();
 }
 
-void MediaItemModel::insertItem(MediaItem* item, quint32 pos) {
+void MediaItemModel::insertItem(MediaItem item, quint32 pos) {
   beginInsertRows(QModelIndex(), pos, pos);
   m_items.insert(pos, item);
   endInsertRows();
 }
 
-void MediaItemModel::appendItems(QVector<MediaItem*>& items) {
+void MediaItemModel::appendItems(QVector<MediaItem>& items) {
   beginInsertRows(QModelIndex(), m_items.size(),
                   m_items.size() + items.size() - 1);
-  for (auto& item : items) {
+  for (const auto& item : items) {
     m_items.append(item);
   }
   endInsertRows();
@@ -74,11 +74,11 @@ void MediaItemModel::removeItem(qint32 pos) {
   endRemoveRows();
 }
 
-MediaItem* MediaItemModel::last() {
+MediaItem MediaItemModel::last() {
   if (m_items.size() != 0) {
-    return const_cast<MediaItem*>(m_items[m_items.size() - 1]);
+    return m_items[m_items.size() - 1];
   }
-  return nullptr;
+  return {};
 }
 
 void MediaItemModel::clear() {
@@ -87,10 +87,8 @@ void MediaItemModel::clear() {
   endResetModel();
 }
 
-QList<MediaItem*>& MediaItemModel::rawData() {
+QList<MediaItem>& MediaItemModel::rawData() {
   return m_items;
 }
-
-
 
 }  // namespace model

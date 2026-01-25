@@ -18,9 +18,9 @@ class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
-  Q_PROPERTY(PlaylistItemModel* currPlaylistItems READ currPlaylistItems)
+  Q_PROPERTY(PlaylistItemModel* currPlaylistItems READ currPlaylistItems FINAL)
   Q_PROPERTY(QVariantMap categories READ categories NOTIFY categoriesChanged
-                 BINDABLE bindableCategories)
+                 BINDABLE bindableCategories FINAL)
  public:
   static FeaturedPlaylistHubController* create(QQmlEngine* qmlEngine,
                                                QJSEngine* jsEngine);
@@ -46,9 +46,7 @@ class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
   Q_OBJECT_BINDABLE_PROPERTY(FeaturedPlaylistHubController, QVariantMap,
                              m_categories,
                              &FeaturedPlaylistHubController::categoriesChanged);
-
   RecommendedPlaylistService* m_recommendedPlaylistService;
-
   PlaylistItemModel m_playlistItemModel;
 };
 }  // namespace controller
