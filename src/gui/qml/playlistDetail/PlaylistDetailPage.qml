@@ -8,7 +8,7 @@ import App.Enums 1.0
 
 Flickable {
     id: root
-    required property int playlistId
+    required property var playlistId
     contentHeight: columnLayout.implicitHeight
     contentWidth: width
     boundsBehavior: Flickable.StopAtBounds

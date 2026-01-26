@@ -18,7 +18,8 @@ class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
-  Q_PROPERTY(PlaylistItemModel* currPlaylistItems READ currPlaylistItems FINAL)
+  Q_PROPERTY(PlaylistItemModel* currPlaylistItems READ currPlaylistItems NOTIFY
+                 currPlaylistItemsChanged FINAL)
   Q_PROPERTY(QVariantMap categories READ categories NOTIFY categoriesChanged
                  BINDABLE bindableCategories FINAL)
  public:
@@ -27,6 +28,7 @@ class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
 
   Q_INVOKABLE void fetchPlaylistItems(const QString& tag, quint32 offset,
                                       quint32 limit);
+  Q_INVOKABLE void clearPlaylistItems();
   Q_INVOKABLE void fetchCategories();
 
  public:
@@ -37,6 +39,7 @@ class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
 
  signals:
   void categoriesChanged();
+  void currPlaylistItemsChanged();
  private slots:
   void onTopReady(error_code::ErrorCode code, PlaylistItemListPtr data);
   void onCategoriesReady(error_code::ErrorCode code,

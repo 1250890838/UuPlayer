@@ -23,7 +23,7 @@ class ENTITIES_EXPORT PlaylistItem {
   Q_PROPERTY(qulonglong subscribedCount READ subscribedCount)
   Q_PROPERTY(QList<UserItem> subscribers READ subscribers)
   Q_PROPERTY(bool subscribed READ subscribed)
-  Q_PROPERTY(QList<MediaItem> mediaItem READ mediaItems)
+  Q_PROPERTY(QList<MediaItem> mediaItems READ mediaItems)
 
  public:
   PlaylistItem()

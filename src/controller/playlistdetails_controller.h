@@ -20,18 +20,19 @@ class PlaylistDetailsController : public QObject {
   QML_ELEMENT
   QML_SINGLETON
   Q_PROPERTY(PlaylistItem playlist READ playlist NOTIFY playlistChanged FINAL)
-  Q_PROPERTY(MediaItemModel* medias READ medias FINAL);
+  Q_PROPERTY(MediaItemModel* medias READ medias NOTIFY mediasChanged FINAL)
   Q_PROPERTY(
       QList<CommentItem> comments READ comments NOTIFY commentsChanged FINAL)
+
  public:
+  static PlaylistDetailsController* create(QQmlEngine* qmlEngine,
+                                           QJSEngine* jsEngine);
+
   Q_INVOKABLE void fetchDetail(qulonglong id);
   Q_INVOKABLE void fetchComments(qulonglong id, quint32 offset, quint32 limit);
 
-  static PlaylistDetailsController* create(QQmlEngine* qmlEngine,
-                                           QJSEngine* jsEngine);
-  explicit PlaylistDetailsController(
-      PlaylistAlbumDetailService* detailService = nullptr,
-      CommentsFetchService* commentsService = nullptr);
+  PlaylistDetailsController(PlaylistAlbumDetailService* detailService,
+                            CommentsFetchService* commentsService);
   PlaylistItem playlist() { return m_playlist.value(); }
   QList<CommentItem> comments() { return m_comments.value(); }
   MediaItemModel* medias() { return &m_mediasModel; }
@@ -41,6 +42,7 @@ class PlaylistDetailsController : public QObject {
  signals:
   void playlistChanged();
   void commentsChanged();
+  void mediasChanged();
 
  private:
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, PlaylistItem,

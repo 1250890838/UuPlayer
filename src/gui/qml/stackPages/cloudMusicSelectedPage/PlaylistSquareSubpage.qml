@@ -18,8 +18,8 @@ Flickable {
     Connections {
         target: FeaturedPlaylistHubController
         function onCategoriesChanged() {
-            fetchAttributes.name = FeaturedPlaylistHubController.categories[(Object.keys(
-                                                                                 map)[0])][0]
+            fetchAttributes.name = Object.values(
+                        FeaturedPlaylistHubController.categories)[0][0]
             FeaturedPlaylistHubController.fetchPlaylistItems(
                         fetchAttributes.name, fetchAttributes.offset,
                         fetchAttributes.limit)
@@ -52,8 +52,8 @@ Flickable {
             spacing: 10
             Repeater {
                 id: repeater
-                model: FeaturedPlaylistHubController.categories[(Object.keys(
-                                                                     FeaturedPlaylistHubController.categories)[0])].slice(
+                model: Object.values(
+                           FeaturedPlaylistHubController.categories)[0].slice(
                            0, 6)
                 delegate: CatlistItem {
                     required property string modelData
@@ -62,8 +62,12 @@ Flickable {
                     width: 65
                     height: 30
                     onClicked: {
+                        if (selected)
+                            return
                         columnLayout.currentCatItem = this
                         fetchAttributes.name = modelData
+                        fetchAttributes.offset = 0
+                        FeaturedPlaylistHubController.clearPlaylistItems()
                         FeaturedPlaylistHubController.fetchPlaylistItems(
                                     fetchAttributes.name,
                                     fetchAttributes.offset,
@@ -94,8 +98,6 @@ Flickable {
                     implicitWidth: 182
                     implicitHeight: 234
                     onClicked: {
-                        let item = PlaylistsService.currPlaylists.itemAt(
-                                model.index)
                         window.mainSwitchPage(playlistDetailPage, {
                                                   "playlistId": model.id
                                               })

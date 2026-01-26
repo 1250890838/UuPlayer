@@ -31,6 +31,10 @@ void FeaturedPlaylistHubController::fetchPlaylistItems(const QString& tag,
   m_recommendedPlaylistService->fetchTop(tag, offset, limit);
 }
 
+void FeaturedPlaylistHubController::clearPlaylistItems() {
+  m_playlistItemModel.clear();
+}
+
 void FeaturedPlaylistHubController::fetchCategories() {
   m_recommendedPlaylistService->fetchCategories();
 }
