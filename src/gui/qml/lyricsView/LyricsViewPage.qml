@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts
 import assets 1.0
-import service.api 1.0
+import controller
 import components 1.0
 
 // Lyrics View Page show lyrics

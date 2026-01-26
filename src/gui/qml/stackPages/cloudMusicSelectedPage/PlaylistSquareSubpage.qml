@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import components 1.0
-import Controller 1.0
+import controller
 
 Flickable {
     id: root
@@ -11,7 +11,7 @@ Flickable {
     QtObject {
         id: fetchAttributes
         property string name
-        property int offset: repeater2.count
+        property int offset: 0
         property int limit: 8
     }
 
@@ -53,7 +53,7 @@ Flickable {
             Repeater {
                 id: repeater
                 model: FeaturedPlaylistHubController.categories[(Object.keys(
-                                                                     map)[0])].slice(
+                                                                     FeaturedPlaylistHubController.categories)[0])].slice(
                            0, 6)
                 delegate: CatlistItem {
                     required property string modelData
@@ -89,7 +89,7 @@ Flickable {
             rowSpacing: 20
             Repeater {
                 id: repeater2
-                model: PlaylistsService.currPlaylists
+                model: FeaturedPlaylistHubController.currPlaylistItems
                 delegate: PlaylistItem {
                     implicitWidth: 182
                     implicitHeight: 234
@@ -97,7 +97,7 @@ Flickable {
                         let item = PlaylistsService.currPlaylists.itemAt(
                                 model.index)
                         window.mainSwitchPage(playlistDetailPage, {
-                                                  "detail": item
+                                                  "playlistId": model.id
                                               })
                     }
                 }

@@ -2,10 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 
-import service.api 1.0
+import controller
 import components 1.0
 import assets 1.0
-import network.errorcode 1.0
+import App.Enums 1.0
 
 Item {
     id: root

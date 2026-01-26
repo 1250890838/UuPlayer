@@ -1,14 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import service.api 1.0
+import controller
 import assets 1.0
 import components 1.0
-import network.errorcode 1.0
+import App.Enums 1.0
 
 Flickable {
     id: root
-    required property var detail
+    required property int playlistId
     contentHeight: columnLayout.implicitHeight
     contentWidth: width
     boundsBehavior: Flickable.StopAtBounds
@@ -16,8 +16,8 @@ Flickable {
     clip: true
     Component.onCompleted: {
         globalScrollBar.currentFlickable = this
-        PlaylistsService.getPlaylistComments(detail.id)
-        PlaylistsService.getPlaylistDetail(detail.id)
+        PlaylistDetailsController.fetchDetail(root.playlistId)
+        PlaylistDetailsController.fetchComments(root.playlistId)
     }
 
     ColumnLayout {
@@ -286,7 +286,7 @@ Flickable {
 
                     Repeater {
                         id: mediaItemsRepeater
-                        model: detail.mediaItemModel
+                        model: PlaylistDetailsController.medias
                         property var mediaIds: []
                         delegate: MediaItem {
                             implicitHeight: 55
@@ -337,22 +337,23 @@ Flickable {
 
                     Repeater {
                         id: commentRepeater
+                        model: PlaylistDetailsController.comments
                         delegate: CommentItem {
                             width: commentsPage.width
                         }
                     }
                 }
-                Connections {
-                    id: commentsRequiredConnection
-                    target: PlaylistsService
-                    function onPlaylistCommentsStatus(code) {
-                        if (code === ErrorCode.NoError) {
-                            detail = PlaylistsService.getPlaylistItemForId(
-                                        detail.id)
-                            commentRepeater.model = detail.commentData
-                        }
-                    }
-                }
+                //                Connections {
+                //                    id: commentsRequiredConnection
+                //                    target: PlaylistsService
+                //                    function onPlaylistCommentsStatus(code) {
+                //                        if (code === ErrorCode.NoError) {
+                //                            detail = PlaylistsService.getPlaylistItemForId(
+                //                                        detail.id)
+                //                            commentRepeater.model = detail.commentData
+                //                        }
+                //                    }
+                //                }
             }
             Item {
                 id: subscribersPage
@@ -364,21 +365,21 @@ Flickable {
                     spacing: 20
                     Repeater {
                         id: subscriberRepeater
-                        model: detail.subscribers
+                        //model: detail.subscribers
                         SubscriberItem {}
                     }
                 }
-                Connections {
-                    id: subscribersRequiredConnection
-                    target: PlaylistsService
-                    function onPlaylistSubscribersStatus(code) {
-                        if (code === ErrorCode.NoError) {
-                            detail = PlaylistsService.getPlaylistItemForId(
-                                        detail.id)
-                            subscriberRepeater.model = detail.subscribers
-                        }
-                    }
-                }
+                //                Connections {
+                //                    id: subscribersRequiredConnection
+                //                    target: PlaylistsService
+                //                    function onPlaylistSubscribersStatus(code) {
+                //                        if (code === ErrorCode.NoError) {
+                //                            detail = PlaylistsService.getPlaylistItemForId(
+                //                                        detail.id)
+                //                            subscriberRepeater.model = detail.subscribers
+                //                        }
+                //                    }
+                //                }
             }
         }
     }

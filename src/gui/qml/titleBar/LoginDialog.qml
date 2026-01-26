@@ -4,7 +4,7 @@ import QtQuick.Effects
 import assets 1.0
 import components 1.0
 import gui 1.0
-import service.api 1.0
+import controller
 //import service 1.0
 import Controller
 

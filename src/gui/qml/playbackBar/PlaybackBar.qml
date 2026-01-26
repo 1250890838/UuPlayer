@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import components 1.0
-import service.api 1.0
+import controller
 import assets 1.0
 
 Item {

@@ -4,7 +4,7 @@ import QtQuick.Effects
 import QtQuick.Layouts
 
 import components 1.0
-import service.api 1.0
+import controller
 
 Popup {
     id: popup

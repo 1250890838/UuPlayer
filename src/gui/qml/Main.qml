@@ -6,7 +6,7 @@ import assets 1.0
 import skins 1.0
 import components 1.0
 import QWindowKit 1.0
-import Controller
+import controller
 import "leftNavigationPanel"
 import "stackPages/cloudMusicSelectedPage"
 import "titleBar"

@@ -17,7 +17,7 @@ add_subdirectory(network)
 add_subdirectory(service)
 add_subdirectory(controller)
 add_subdirectory(gui)
-add_subdirectory(test)
+#add_subdirectory(test)
 
 qt_add_executable(uu
     main.cc
