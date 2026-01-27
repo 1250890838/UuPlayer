@@ -27,7 +27,6 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void setPosition(quint64 position);
   qint64 num();
   PlayMode playbackMode();
-  model::MediaItemModel* playbacklist();
   void setPlaybackMode(PlayMode mode);
   float volumn();
   void setVolumn(float volumn);
@@ -46,9 +45,8 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
  private:
   void operateForPlaybackMode();
  private:
-  //model::MediaItemModel m_playbacklistModel;
   engine::MediaPlayer m_player;
- // QList<model::MediaItem*> m_medias;
+  QList<MediaItem> m_medias;
   PlayMode m_playbackMode;
   quint32 m_currentIndex;
  signals:

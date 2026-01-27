@@ -15,12 +15,16 @@ Flickable {
         property int limit: 8
     }
 
+    FeaturedPlaylistHubController {
+        id: hubController
+    }
+
     Connections {
-        target: FeaturedPlaylistHubController
+        target: hubController
         function onCategoriesChanged() {
-            fetchAttributes.name = Object.values(
-                        FeaturedPlaylistHubController.categories)[0][0]
-            FeaturedPlaylistHubController.fetchPlaylistItems(
+            fetchAttributes.name = Object.values(hubController.categories
+                                                 ?? {})[0][0] ?? "清晨"
+            hubControllerhubController.fetchPlaylistItems(
                         fetchAttributes.name, fetchAttributes.offset,
                         fetchAttributes.limit)
         }
@@ -35,9 +39,9 @@ Flickable {
     onContentYChanged: {
         if (root.contentY + root.height >= root.contentHeight) {
             fetchAttributes.offset += fetchAttributes.limit
-            FeaturedPlaylistHubController.fetchPlaylistItems(
-                        fetchAttributes.name, fetchAttributes.offset,
-                        fetchAttributes.limit)
+            hubController.fetchPlaylistItems(fetchAttributes.name,
+                                             fetchAttributes.offset,
+                                             fetchAttributes.limit)
         }
     }
 
@@ -52,9 +56,7 @@ Flickable {
             spacing: 10
             Repeater {
                 id: repeater
-                model: Object.values(
-                           FeaturedPlaylistHubController.categories)[0].slice(
-                           0, 6)
+                model: Object.values(hubController.categories)[0].slice(0, 6)
                 delegate: CatlistItem {
                     required property string modelData
                     text: modelData
@@ -67,8 +69,8 @@ Flickable {
                         columnLayout.currentCatItem = this
                         fetchAttributes.name = modelData
                         fetchAttributes.offset = 0
-                        FeaturedPlaylistHubController.clearPlaylistItems()
-                        FeaturedPlaylistHubController.fetchPlaylistItems(
+                        hubController.clearPlaylistItems()
+                        hubController.fetchPlaylistItems(
                                     fetchAttributes.name,
                                     fetchAttributes.offset,
                                     fetchAttributes.limit)
@@ -93,7 +95,7 @@ Flickable {
             rowSpacing: 20
             Repeater {
                 id: repeater2
-                model: FeaturedPlaylistHubController.currPlaylistItems
+                model: hubController.currPlaylistItems
                 delegate: PlaylistItem {
                     implicitWidth: 182
                     implicitHeight: 234
@@ -109,12 +111,12 @@ Flickable {
 
     CatlistDialog {
         id: catlistDialog
-        map: FeaturedPlaylistHubController.categories
+        map: hubController.categories
         y: moreCatItem.y + moreCatItem.height + 25
         x: 45
     }
     Component.onCompleted: {
         globalScrollBar.currentFlickable = this
-        FeaturedPlaylistHubController.fetchCategories()
+        hubController.fetchCategories()
     }
 }

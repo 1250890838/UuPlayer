@@ -7,12 +7,19 @@
 SongUrlService::SongUrlService(QObject *parent)
     : QObject{parent}
 {
-  
+  using namespace network;
+  connect(&m_network, &SongUrlNetwork::ready, this, &SongUrlService::onReady);
+}
+
+void SongUrlService::fetch(qulonglong id,
+                           sound_level::SoundQualityLevel level) {
+  m_network.fetch(id, level);
 }
 
 void SongUrlService::onReady(error_code::ErrorCode code,
                              const QByteArray& data) {
   QUrl resultUrl;
+  qulonglong id = 0;
   if (code == error_code::NoError) {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     auto obj = doc.object();
@@ -23,9 +30,10 @@ void SongUrlService::onReady(error_code::ErrorCode code,
       if (dataArr.empty())
         return;
       auto dataObj = dataArr[0].toObject();
+      id = dataObj["id"].toVariant().toULongLong();
       auto songUrl = dataObj["url"].toString();
       resultUrl = songUrl;
     }
   }
-  emit ready(code, resultUrl);
+  emit ready(code, resultUrl, id);
 }

@@ -16,10 +16,13 @@ Flickable {
     clip: true
     Component.onCompleted: {
         globalScrollBar.currentFlickable = this
-        PlaylistDetailsController.fetchDetail(root.playlistId)
-        PlaylistDetailsController.fetchComments(root.playlistId)
+        detailsController.fetchDetail(root.playlistId)
+        detailsController.fetchComments(root.playlistId)
     }
 
+    PlaylistDetailsController {
+        id: detailsController
+    }
     ColumnLayout {
         id: columnLayout
         anchors.fill: parent
@@ -286,7 +289,7 @@ Flickable {
 
                     Repeater {
                         id: mediaItemsRepeater
-                        model: PlaylistDetailsController.medias
+                        model: detailsController.medias
                         property var mediaIds: []
                         delegate: MediaItem {
                             implicitHeight: 55
@@ -337,7 +340,7 @@ Flickable {
 
                     Repeater {
                         id: commentRepeater
-                        model: PlaylistDetailsController.comments
+                        model: detailsController.comments
                         delegate: CommentItem {
                             width: commentsPage.width
                         }

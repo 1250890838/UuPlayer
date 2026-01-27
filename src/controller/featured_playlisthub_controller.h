@@ -17,7 +17,6 @@ using namespace service;
 class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
   Q_OBJECT
   QML_ELEMENT
-  QML_SINGLETON
   Q_PROPERTY(PlaylistItemModel* currPlaylistItems READ currPlaylistItems NOTIFY
                  currPlaylistItemsChanged FINAL)
   Q_PROPERTY(QVariantMap categories READ categories NOTIFY categoriesChanged
@@ -49,7 +48,7 @@ class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
   Q_OBJECT_BINDABLE_PROPERTY(FeaturedPlaylistHubController, QVariantMap,
                              m_categories,
                              &FeaturedPlaylistHubController::categoriesChanged);
-  RecommendedPlaylistService* m_recommendedPlaylistService;
+  QPointer<RecommendedPlaylistService> m_recommendedPlaylistService;
   PlaylistItemModel m_playlistItemModel;
 };
 }  // namespace controller

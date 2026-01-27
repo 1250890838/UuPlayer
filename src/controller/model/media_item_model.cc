@@ -1,6 +1,8 @@
 #include "media_item_model.h"
 #include <qobject.h>
 #include <qvariant.h>
+#include <algorithm>
+
 namespace model {
 
 MediaItem MediaItemModel::itemAt(qint32 index) {
@@ -92,3 +94,114 @@ QList<MediaItem>& MediaItemModel::rawData() {
 }
 
 }  // namespace model
+
+bool model::MediaItemModel::setData(const QModelIndex& index,
+                                    const QVariant& value, int role) {
+  if (!index.isValid())
+    return false;
+  auto i = index.row();
+  if (m_items.size() <= i)
+    return false;
+  MediaRoles r = static_cast<MediaRoles>(role);
+  if (r > UrlRole || r < NameRole)
+    return false;
+  auto typeId = value.typeId();
+  switch (r) {
+    case NameRole:
+      if (typeId == QMetaType::QString)
+        m_items[i].name = value.toString();
+      else
+        return false;
+      break;
+    case DurationRole:
+      if (typeId == QMetaType::ULongLong)
+        m_items[i].duration = value.toULongLong();
+      else
+        return false;
+      break;
+    case AlbumRole:
+      if (typeId == qMetaTypeId<AlbumData>())
+        m_items[i].albumdata = value.value<AlbumData>();
+      else
+        return false;
+      break;
+    case ArtistRole:
+      if (typeId == qMetaTypeId<QList<AristItem>>())
+        m_items[i].artists = value.value<QList<AristItem>>();
+      else
+        return false;
+      break;
+    case ReasonRole:
+      if (typeId == QMetaType::QString)
+        m_items[i].reason = value.toString();
+      else
+        return false;
+      break;
+    case UrlRole:
+      if (typeId == QMetaType::QUrl)
+        m_items[i].url = value.toUrl();
+      else
+        return false;
+      break;
+    default:
+      return false;
+  }
+  emit dataChanged(index, index, {role});
+  return true;
+}
+
+bool model::MediaItemModel::setDataForId(qulonglong id, const QVariant& value,
+                                         int role) {
+
+  auto item =
+      std::find_if(m_items.begin(), m_items.end(),
+                   [id](const MediaItem& item) { return item.id == id; });
+
+  if (item == m_items.end())
+    return false;
+  MediaRoles r = static_cast<MediaRoles>(role);
+  if (r > UrlRole || r < NameRole)
+    return false;
+  auto typeId = value.typeId();
+  switch (r) {
+    case NameRole:
+      if (typeId == QMetaType::QString)
+        item->name = value.toString();
+      else
+        return false;
+      break;
+    case DurationRole:
+      if (typeId == QMetaType::ULongLong)
+        item->duration = value.toULongLong();
+      else
+        return false;
+      break;
+    case AlbumRole:
+      if (typeId == qMetaTypeId<AlbumData>())
+        item->albumdata = value.value<AlbumData>();
+      else
+        return false;
+      break;
+    case ArtistRole:
+      if (typeId == qMetaTypeId<QList<AristItem>>())
+        item->artists = value.value<QList<AristItem>>();
+      else
+        return false;
+      break;
+    case ReasonRole:
+      if (typeId == QMetaType::QString)
+        item->reason = value.toString();
+      else
+        return false;
+      break;
+    case UrlRole:
+      if (typeId == QMetaType::QUrl)
+        item->url = value.toUrl();
+      else
+        return false;
+      break;
+    default:
+      return false;
+  }
+  return true;
+}

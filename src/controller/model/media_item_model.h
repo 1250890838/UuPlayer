@@ -45,6 +45,11 @@ class MediaItemModel : public QAbstractListModel {
   void countChanged();
  private:
   QList<MediaItem> m_items;
+
+  // QAbstractItemModel interface
+ public:
+  bool setData(const QModelIndex& index, const QVariant& value, int role);
+  bool setDataForId(qulonglong id, const QVariant& value, int role);
 };
 }  // namespace model
 

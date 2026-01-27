@@ -27,8 +27,8 @@ FeaturedPlaylistHubController* FeaturedPlaylistHubController::create(
 void FeaturedPlaylistHubController::fetchPlaylistItems(const QString& tag,
                                                        quint32 offset,
                                                        quint32 limit) {
-
-  m_recommendedPlaylistService->fetchTop(tag, offset, limit);
+  if (m_recommendedPlaylistService)
+    m_recommendedPlaylistService->fetchTop(tag, offset, limit);
 }
 
 void FeaturedPlaylistHubController::clearPlaylistItems() {
@@ -36,7 +36,8 @@ void FeaturedPlaylistHubController::clearPlaylistItems() {
 }
 
 void FeaturedPlaylistHubController::fetchCategories() {
-  m_recommendedPlaylistService->fetchCategories();
+  if (m_recommendedPlaylistService)
+    m_recommendedPlaylistService->fetchCategories();
 }
 
 PlaylistItemModel* FeaturedPlaylistHubController::currPlaylistItems() {

@@ -55,15 +55,6 @@ void PlayService::setVolumn(float volumn) {
   }
 }
 
-PlayMode PlayService::playbackMode() {
-  return m_playbackMode;
-}
-
-model::MediaItemModel* PlayService::playbacklist() {
-  //  return &m_playbacklistModel;
-  return nullptr;
-}
-
 void PlayService::setPosition(quint64 position) {
   m_player.setPosition(position);
 }
