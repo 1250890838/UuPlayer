@@ -5,10 +5,12 @@ namespace controller {
 
 PlaylistDetailsController::PlaylistDetailsController(
     PlaylistAlbumDetailService* detailService,
-    CommentsFetchService* commentsService, SongUrlService* songUrlService)
+    CommentsFetchService* commentsService, SongUrlService* songUrlService,
+    PlayService* playService)
     : m_detailService(detailService),
       m_commentsService(commentsService),
-      m_songUrlService(songUrlService) {
+      m_songUrlService(songUrlService),
+      m_playService(playService) {
   connect(m_detailService, &PlaylistAlbumDetailService::playlistReady, this,
           &PlaylistDetailsController::onDetailReady);
   connect(m_commentsService, &CommentsFetchService::playlistReady, this,
@@ -34,6 +36,8 @@ void PlaylistDetailsController::onMediaUrlReady(error_code::ErrorCode code,
                                                 const QUrl& url,
                                                 qulonglong id) {
   m_mediasModel.setDataForId(id, url, MediaItemModel::UrlRole);
+  m_playService->appendMediaItem(m_mediasModel.getItemForId(id));
+  emit mediaUrlReady(code, id);
 }
 
 void PlaylistDetailsController::fetchDetail(qulonglong id) {

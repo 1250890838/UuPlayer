@@ -6,24 +6,35 @@
 namespace model {
 
 MediaItem MediaItemModel::itemAt(qint32 index) {
-  return m_items[index];
+  auto items = currentData();
+  return (*items)[index];
 }
 
 quint32 MediaItemModel::count() {
-  return m_items.size();
+  auto items = currentData();
+  return items->size();
 }
 
 MediaItemModel::MediaItemModel(QObject* parent) {}
 
+void MediaItemModel::setExternalData(QList<MediaItem>* externalSource) {
+  beginResetModel();
+  m_externalSource = externalSource;
+  endResetModel();
+  emit countChanged();
+}
+
 int MediaItemModel::rowCount(const QModelIndex& parent) const {
-  return m_items.size();
+  auto items = currentData();
+  return items->size();
 }
 
 QVariant MediaItemModel::data(const QModelIndex& index, int role) const {
-  if (index.row() < 0 || index.row() >= m_items.size()) {
+  auto items = currentData();
+  if (index.row() < 0 || index.row() >= items->size()) {
     return QVariant();
   }
-  auto item = m_items[index.row()];
+  auto item = (*items)[index.row()];
   switch (role) {
     case IdRole:
       return item.id;
@@ -49,58 +60,95 @@ QHash<int, QByteArray> MediaItemModel::roleNames() const {
 }
 
 void MediaItemModel::appendItem(MediaItem item) {
-  beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-  m_items.append(item);
+  auto items = currentData();
+  beginInsertRows(QModelIndex(), items->size(), items->size());
+  items->append(item);
   endInsertRows();
   emit countChanged();
 }
 
 void MediaItemModel::insertItem(MediaItem item, quint32 pos) {
+  auto items = currentData();
   beginInsertRows(QModelIndex(), pos, pos);
-  m_items.insert(pos, item);
+  items->insert(pos, item);
   endInsertRows();
 }
 
 void MediaItemModel::appendItems(QVector<MediaItem>& items) {
-  beginInsertRows(QModelIndex(), m_items.size(),
-                  m_items.size() + items.size() - 1);
+  auto data = currentData();
+  beginInsertRows(QModelIndex(), data->size(), data->size() + items.size() - 1);
   for (const auto& item : items) {
-    m_items.append(item);
+    data->append(item);
   }
   endInsertRows();
 }
 
 void MediaItemModel::removeItem(qint32 pos) {
+  auto items = currentData();
   beginRemoveRows(QModelIndex(), pos, pos);
-  m_items.remove(pos);
+  items->remove(pos);
   endRemoveRows();
 }
 
 MediaItem MediaItemModel::last() {
-  if (m_items.size() != 0) {
-    return m_items[m_items.size() - 1];
+  auto items = currentData();
+  if (items->size() != 0) {
+    return (*items)[items->size() - 1];
   }
   return {};
 }
 
 void MediaItemModel::clear() {
+  auto items = currentData();
   beginResetModel();
-  m_items.clear();
+  items->clear();
   endResetModel();
 }
 
-QList<MediaItem>& MediaItemModel::rawData() {
-  return m_items;
+void MediaItemModel::itemsBeginArrived(const QModelIndex& parent, int first,
+                                       int last) {
+  beginInsertRows(parent, first, last);
+}
+
+void MediaItemModel::itemsEndArrived() {
+  endInsertRows();
+}
+
+void MediaItemModel::itemsBeginRemoved(const QModelIndex& parent, int first,
+                                       int last) {
+  beginRemoveRows(parent, first, last);
+}
+
+void MediaItemModel::itemsEndRemoved() {
+  endRemoveRows();
+}
+
+MediaItem MediaItemModel::getItemForId(qulonglong id) {
+  auto items = currentData();
+  for (const auto& item : *items) {
+    if (item.id == id)
+      return item;
+  }
+  return {};
+}
+
+QList<MediaItem>* MediaItemModel::currentData() {
+  return m_externalSource ? m_externalSource : &m_internalItems;
+}
+
+const QList<MediaItem>* MediaItemModel::currentData() const {
+  return m_externalSource ? m_externalSource : &m_internalItems;
 }
 
 }  // namespace model
 
 bool model::MediaItemModel::setData(const QModelIndex& index,
                                     const QVariant& value, int role) {
+  auto items = currentData();
   if (!index.isValid())
     return false;
   auto i = index.row();
-  if (m_items.size() <= i)
+  if (items->size() <= i)
     return false;
   MediaRoles r = static_cast<MediaRoles>(role);
   if (r > UrlRole || r < NameRole)
@@ -109,37 +157,37 @@ bool model::MediaItemModel::setData(const QModelIndex& index,
   switch (r) {
     case NameRole:
       if (typeId == QMetaType::QString)
-        m_items[i].name = value.toString();
+        (*items)[i].name = value.toString();
       else
         return false;
       break;
     case DurationRole:
       if (typeId == QMetaType::ULongLong)
-        m_items[i].duration = value.toULongLong();
+        (*items)[i].duration = value.toULongLong();
       else
         return false;
       break;
     case AlbumRole:
       if (typeId == qMetaTypeId<AlbumData>())
-        m_items[i].albumdata = value.value<AlbumData>();
+        (*items)[i].albumdata = value.value<AlbumData>();
       else
         return false;
       break;
     case ArtistRole:
       if (typeId == qMetaTypeId<QList<AristItem>>())
-        m_items[i].artists = value.value<QList<AristItem>>();
+        (*items)[i].artists = value.value<QList<AristItem>>();
       else
         return false;
       break;
     case ReasonRole:
       if (typeId == QMetaType::QString)
-        m_items[i].reason = value.toString();
+        (*items)[i].reason = value.toString();
       else
         return false;
       break;
     case UrlRole:
       if (typeId == QMetaType::QUrl)
-        m_items[i].url = value.toUrl();
+        (*items)[i].url = value.toUrl();
       else
         return false;
       break;
@@ -152,12 +200,12 @@ bool model::MediaItemModel::setData(const QModelIndex& index,
 
 bool model::MediaItemModel::setDataForId(qulonglong id, const QVariant& value,
                                          int role) {
-
+  auto items = currentData();
   auto item =
-      std::find_if(m_items.begin(), m_items.end(),
+      std::find_if(items->begin(), items->end(),
                    [id](const MediaItem& item) { return item.id == id; });
 
-  if (item == m_items.end())
+  if (item == items->end())
     return false;
   MediaRoles r = static_cast<MediaRoles>(role);
   if (r > UrlRole || r < NameRole)

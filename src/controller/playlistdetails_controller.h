@@ -6,6 +6,7 @@
 #include <QQmlEngine>
 
 #include "comments_fetch_service.h"
+#include "play_service.h"
 #include "playlistalbum_detail_service.h"
 #include "song_url_service.h"
 
@@ -35,7 +36,8 @@ class PlaylistDetailsController : public QObject {
 
   PlaylistDetailsController(PlaylistAlbumDetailService* detailService,
                             CommentsFetchService* commentsService,
-                            SongUrlService* songUrlService);
+                            SongUrlService* songUrlService,
+                            PlayService* playService);
   PlaylistItem playlist() { return m_playlist.value(); }
   QList<CommentItem> comments() { return m_comments.value(); }
   MediaItemModel* medias() { return &m_mediasModel; }
@@ -48,6 +50,7 @@ class PlaylistDetailsController : public QObject {
   void playlistChanged();
   void commentsChanged();
   void mediasChanged();
+  void mediaUrlReady(error_code::ErrorCode code, qulonglong id);
 
  private:
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, PlaylistItem,
@@ -59,6 +62,7 @@ class PlaylistDetailsController : public QObject {
   QPointer<PlaylistAlbumDetailService> m_detailService;
   QPointer<CommentsFetchService> m_commentsService;
   QPointer<SongUrlService> m_songUrlService;
+  QPointer<PlayService> m_playService;
 
   MediaItemModel m_mediasModel;
 };

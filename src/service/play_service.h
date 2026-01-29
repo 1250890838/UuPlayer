@@ -2,7 +2,7 @@
 #define PLAY_SERVICE_H
 
 #include "audio_player.h"
-#include "model/media_item_model.h"
+#include "media_item.h"
 #include "service_global.h"
 #include "types.h"
 
@@ -18,7 +18,6 @@ using namespace play_mode;
 class SERVICE_DLL_EXPORT PlayService : public QObject {
   Q_OBJECT
 
- public:
  public:
   PlayService();
   bool isPlaying();
@@ -36,9 +35,10 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void next();
   void previous();
   void play();
-  void appendMediaId(qulonglong id);
+  void appendMediaItem(const MediaItem& item);
   void insertNext(qulonglong id);
-  entities::MediaItem currentPlayItem();
+  MediaItem currentPlayItem();
+  QList<MediaItem>* mediasPtr() { return &m_medias; }
  private slots:
   void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
   void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
@@ -57,6 +57,10 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void numChanged();
   void playbackModeChanged();
   void volumnChanged(float);
+  void beginInsertItems(const QModelIndex& parent, int first, int last);
+  void endInsertItems();
+  void beginRemoveItems(const QModelIndex& parent, int first, int last);
+  void endRemoveItems();
 };
 }  // namespace service
 #endif  // PLAY_SERVICE_H

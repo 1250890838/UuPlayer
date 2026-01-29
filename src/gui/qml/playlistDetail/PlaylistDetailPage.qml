@@ -114,7 +114,7 @@ Flickable {
 
                             function processGetAllSongStatus(status) {
                                 if (status === ErrorCode.NoError) {
-                                    PlayService.play(
+                                    PlayController.play(
                                                 mediaItemsRepeater.mediaIds[0])
                                 }
                                 for (var i = 1; i < mediaItemsRepeater.mediaIds.length; i++) {

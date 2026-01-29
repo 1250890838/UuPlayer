@@ -30,8 +30,7 @@ qint64 PlayService::position() {
 }
 
 qint64 PlayService::num() {
-  //return m_playbacklistModel.rowCount(QModelIndex());
-  return 0;
+  return m_medias.count();
 }
 
 void PlayService::setPlaybackMode(PlayMode mode) {
@@ -60,17 +59,14 @@ void PlayService::setPosition(quint64 position) {
 }
 
 void PlayService::play(qulonglong id) {
-  //  auto items = m_playbacklistModel.rawData();
-
-  //  for (int i = 0; i < items.size(); i++) {
-  //    if (items[i]->id == id) {
-  //      m_player.play(items[i]->url);
-  //      m_currentIndex = i;
-  //      qDebug() << "play media id=" << id << " " << items[i]->url;
-  //      emit currentPlayItemChanged();
-  //      break;
-  //    }
-  //  }
+  for (int i = 0; i < m_medias.size(); i++) {
+    if (m_medias[i].id == id) {
+      m_player.play(m_medias[i].url);
+      m_currentIndex = i;
+      emit currentPlayItemChanged();
+      break;
+    }
+  }
 }
 
 void PlayService::pause() {
@@ -78,59 +74,49 @@ void PlayService::pause() {
 }
 
 void PlayService::next() {
-  //  auto items = m_playbacklistModel.rawData();
-  //  m_currentIndex++;
-  //  if (m_currentIndex >= items.size()) {
-  //    m_currentIndex = 0;
-  //  }
+  m_currentIndex++;
+  if (m_currentIndex >= m_medias.size()) {
+    m_currentIndex = 0;
+  }
 
-  //  if (m_currentIndex >= items.size()) {
-  //    m_currentIndex = -1;
-  //  }
+  if (m_currentIndex >= m_medias.size()) {
+    m_currentIndex = -1;
+  }
 
-  //  if (m_currentIndex != -1) {
-  //    auto& media = items[m_currentIndex];
-  //    this->play(media->id);
-  //  }
+  if (m_currentIndex != -1) {
+    auto& media = m_medias[m_currentIndex];
+    this->play(media.id);
+  }
 }
 
 void PlayService::previous() {
-  //  auto items = m_playbacklistModel.rawData();
-  //  m_currentIndex--;
-  //  if (m_currentIndex < 0) {
-  //    m_currentIndex = 0;
-  //  }
+  m_currentIndex--;
+  if (m_currentIndex < 0) {
+    m_currentIndex = 0;
+  }
 
-  //  if (m_currentIndex >= items.size()) {
-  //    m_currentIndex = -1;
-  //  }
+  if (m_currentIndex >= m_medias.size()) {
+    m_currentIndex = -1;
+  }
 
-  //  if (m_currentIndex != -1) {
-  //    auto media = items[m_currentIndex];
-  //    this->play(media->id);
-  //  }
+  if (m_currentIndex != -1) {
+    auto media = m_medias[m_currentIndex];
+    this->play(media.id);
+  }
 }
 
 void PlayService::play() {
   m_player.play();
 }
 
-void PlayService::appendMediaId(qulonglong id) {
-  //  // 先检查歌曲是否已在列表
-  //  auto items = m_playbacklistModel.rawData();
-  //  for (auto& media : items) {
-  //    if (media->id == id) {
-  //      return;
-  //    }
-  //  }
-
-  //  if (g_idToMediaMap[id] == Q_NULLPTR) {
-  //    return;
-  //  }
-
-  //  entities::MediaItem* item = g_idToMediaMap[id];
-  //  m_playbacklistModel.appendItem(item);
-  //  emit numChanged();
+void PlayService::appendMediaItem(const MediaItem& item) {
+  for (const auto& media : m_medias) {
+    if (media.id == item.id)  // 如果已有，直接返回即可
+      return;
+  }
+  emit beginInsertItems(QModelIndex(), m_medias.size(), m_medias.size());
+  m_medias.append(item);
+  emit endInsertItems();
 }
 
 void PlayService::insertNext(qulonglong id) {
@@ -152,10 +138,9 @@ void PlayService::insertNext(qulonglong id) {
 }
 
 entities::MediaItem PlayService::currentPlayItem() {
-  //  auto items = m_playbacklistModel.rawData();
-  //  if (m_currentIndex >= 0 && m_currentIndex < items.size()) {
-  //    return *items[m_currentIndex];
-  //  }
+  if (m_currentIndex >= 0 && m_currentIndex < m_medias.size()) {
+    return m_medias[m_currentIndex];
+  }
   return {};
 }
 
@@ -172,33 +157,31 @@ void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {
 void PlayService::onMediaStatusChanged(QMediaPlayer::MediaStatus status) {
   if (status == QMediaPlayer::EndOfMedia) {
     operateForPlaybackMode();
-    ;
   }
 }
 
 void PlayService::operateForPlaybackMode() {
-  //  auto items = m_playbacklistModel.rawData();
-  //  switch (m_playbackMode) {
-  //    case PlaybackMode::Sequentially:
-  //      m_currentIndex++;
-  //      if (m_currentIndex < items.size()) {
-  //        play(items[m_currentIndex]->id);
-  //      }
-  //      break;
-  //    case PlaybackMode::ListLoop:
-  //      m_currentIndex++;
-  //      if (m_currentIndex >= items.size()) {
-  //        m_currentIndex = 0;
-  //      }
-  //      play(items[m_currentIndex]->id);
-  //      break;
-  //    case PlaybackMode::SingleLoop:
-  //      play(items[m_currentIndex]->id);
-  //      break;
-  //    case PlaybackMode::Shuffle:
-  //      break;
-  //    default:
-  //      break;
-  //  }
+  switch (m_playbackMode) {
+    case play_mode::Sequentially:
+      m_currentIndex++;
+      if (m_currentIndex < m_medias.size()) {
+        play(m_medias[m_currentIndex].id);
+      }
+      break;
+    case play_mode::ListLoop:
+      m_currentIndex++;
+      if (m_currentIndex >= m_medias.size()) {
+        m_currentIndex = 0;
+      }
+      play(m_medias[m_currentIndex].id);
+      break;
+    case play_mode::SingleLoop:
+      play(m_medias[m_currentIndex].id);
+      break;
+    case play_mode::Shuffle:
+      break;
+    default:
+      break;
+  }
 }
 }  // namespace service

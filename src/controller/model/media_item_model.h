@@ -6,8 +6,6 @@
 #include <QString>
 #include <QUrl>
 
-#include "album_item.h"
-#include "arist_item.h"
 #include "media_item.h"
 using namespace entities;
 
@@ -25,12 +23,15 @@ class MediaItemModel : public QAbstractListModel {
     ReasonRole,
     UrlRole
   };
-  Q_PROPERTY(quint32 count READ count NOTIFY countChanged)
-
+  Q_PROPERTY(quint32 count READ count NOTIFY countChanged FINAL)
   Q_INVOKABLE MediaItem itemAt(qint32 index);
   Q_INVOKABLE quint32 count();
 
   MediaItemModel(QObject* parent = nullptr);
+  void setExternalData(QList<MediaItem>* externalSource);
+  bool isExternal() const { return m_externalSource != nullptr; }
+  bool setData(const QModelIndex& index, const QVariant& value, int role);
+  bool setDataForId(qulonglong id, const QVariant& value, int role);
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
@@ -40,16 +41,22 @@ class MediaItemModel : public QAbstractListModel {
   void removeItem(qint32 pos);
   MediaItem last();
   void clear();
-  QList<MediaItem>& rawData();
+  QList<MediaItem>* currentData();
+  const QList<MediaItem>* currentData() const;
+  void itemsBeginArrived(const QModelIndex& parent, int first, int last);
+  void itemsEndArrived();
+  void itemsBeginRemoved(const QModelIndex& parent, int first, int last);
+  void itemsEndRemoved();
+  MediaItem getItemForId(qulonglong id);
+
  signals:
   void countChanged();
- private:
-  QList<MediaItem> m_items;
+  void itemsChanged();
 
+ private:
+  QList<MediaItem> m_internalItems;
+  QList<MediaItem>* m_externalSource;
   // QAbstractItemModel interface
- public:
-  bool setData(const QModelIndex& index, const QVariant& value, int role);
-  bool setDataForId(qulonglong id, const QVariant& value, int role);
 };
 }  // namespace model
 
