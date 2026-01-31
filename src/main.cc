@@ -10,7 +10,7 @@
 #include "image_provider.h"
 #include "network/basic_network.h"
 #include "service/login_service.h"
-#include "service/model/mediaitem_filterproxy_model.h"
+//#include "service/model/mediaitem_filterproxy_model.h"
 #include "service/song_lyric_service.h"
 
 #ifdef Q_OS_WIN
@@ -28,9 +28,9 @@ int main(int argc, char* argv[]) {
   qmlRegisterUncreatableMetaObject(error_code::staticMetaObject, "App.Enums", 1,
                                    0, "ErrorCode",
                                    "Error: only error code enums");
-  qmlRegisterUncreatableMetaObject(sort_option::staticMetaObject, "App.Enums",
-                                   1, 0, "SortOption",
-                                   "Error: only sort option enums");
+  // qmlRegisterUncreatableMetaObject(sort_option::staticMetaObject, "App.Enums",
+  //                                  1, 0, "SortOption",
+  //                                  "Error: only sort option enums");
   qmlRegisterUncreatableMetaObject(sound_level::staticMetaObject, "App.Enums",
                                    1, 0, "SoundLevel",
                                    "Error: only sound level enums");

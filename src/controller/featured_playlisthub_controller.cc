@@ -7,21 +7,17 @@
 
 namespace controller {
 
-FeaturedPlaylistHubController::FeaturedPlaylistHubController(
-    RecommendedPlaylistService* playlistService)
-    : m_recommendedPlaylistService(playlistService) {
-  connect(m_recommendedPlaylistService, &RecommendedPlaylistService::topReady,
-          this, &FeaturedPlaylistHubController::onTopReady);
-  connect(m_recommendedPlaylistService,
-          &RecommendedPlaylistService::categoriesReady, this,
-          &FeaturedPlaylistHubController::onCategoriesReady);
-}
+FeaturedPlaylistHubController::FeaturedPlaylistHubController() {
+  m_recommendedPlaylistService =
+      ServiceManager::instance().getInstance<RecommendedPlaylistService>();
 
-FeaturedPlaylistHubController* FeaturedPlaylistHubController::create(
-    QQmlEngine* qmlEngine, QJSEngine* jsEngine) {
-  auto ctr = new FeaturedPlaylistHubController(
-      ServiceManager::instance().getInstance<RecommendedPlaylistService>());
-  return ctr;
+  if (m_recommendedPlaylistService) {
+    connect(m_recommendedPlaylistService, &RecommendedPlaylistService::topReady,
+            this, &FeaturedPlaylistHubController::onTopReady);
+    connect(m_recommendedPlaylistService,
+            &RecommendedPlaylistService::categoriesReady, this,
+            &FeaturedPlaylistHubController::onCategoriesReady);
+  }
 }
 
 void FeaturedPlaylistHubController::fetchPlaylistItems(const QString& tag,

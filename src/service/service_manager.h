@@ -54,7 +54,7 @@ class SERVICE_DLL_EXPORT ServiceManager : QObject {
   ServiceManager(const ServiceManager&) = delete;
   ServiceManager& operator=(const ServiceManager&) = delete;
 
-  QHash<std::type_index, QSharedPointer<QObject>> m_instances;
+  QHash<std::type_index, QObject*> m_instances;
 };
 }  // namespace service
 #endif // SERVICEMANAGER_H

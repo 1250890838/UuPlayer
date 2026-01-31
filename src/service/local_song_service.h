@@ -8,7 +8,7 @@
 
 #include "local_song_network.h"
 #include "metadata_extractor.h"
-#include "model/mediaitem_filterproxy_model.h"
+//#include "model/mediaitem_filterproxy_model.h"
 #include "service_global.h"
 
 namespace service {
@@ -20,7 +20,7 @@ class SERVICE_DLL_EXPORT LocalSongService : public QObject {
 
  public:
   explicit LocalSongService(QObject* parent = nullptr);
-  model::MediaItemFilterProxyModel* mediaItemModel();
+  //model::MediaItemFilterProxyModel* mediaItemModel();
   void clearSearchDirs();
 
  private:

@@ -15,7 +15,7 @@ quint32 MediaItemModel::count() {
   return items->size();
 }
 
-MediaItemModel::MediaItemModel(QObject* parent) {}
+MediaItemModel::MediaItemModel(QObject* parent) : m_externalSource(nullptr) {}
 
 void MediaItemModel::setExternalData(QList<MediaItem>* externalSource) {
   beginResetModel();

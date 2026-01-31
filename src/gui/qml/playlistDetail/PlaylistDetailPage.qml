@@ -31,7 +31,7 @@ Flickable {
             RoundedImage {
                 id: coverImage
                 radius: 10
-                imageUrl: detail.coverUrl
+                imageUrl: detailsController.coverUrl
                 width: 170
                 height: 170
                 isTopLeftRounded: true
@@ -44,7 +44,7 @@ Flickable {
                 spacing: 10
                 Text {
                     id: name
-                    text: detail.name
+                    text: detailsController.name
                     font {
                         bold: true
                         pointSize: 16
@@ -53,7 +53,7 @@ Flickable {
                 Text {
                     id: desc
                     width: 548
-                    text: detail.desc
+                    text: detailsController.desc
                     font.pointSize: 9
                     height: font.pointSize + 2
                     color: "#54534d"
@@ -65,7 +65,7 @@ Flickable {
                     RoundedImage {
                         id: avatarImage
                         radius: 12.5
-                        imageUrl: detail.creator.avatarUrl
+                        imageUrl: detailsController.creatorCoverUrl
                         width: 25
                         height: 25
                         isTopLeftRounded: true
@@ -76,7 +76,7 @@ Flickable {
                     spacing: 10
                     Text {
                         id: avatarName
-                        text: detail.creator.name
+                        text: detailsController.creatorName
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Text {
@@ -149,7 +149,7 @@ Flickable {
                             anchors.fill: parent
                             iconWidth: 16
                             iconHeight: 16
-                            text: detail.subscribedCount
+                            text: detailsController.subscribedCount
                             textColor: "black"
                             textPointSize: 8.5
                             textBold: true

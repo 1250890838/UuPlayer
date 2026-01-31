@@ -31,7 +31,7 @@ Item {
                 implicitHeight: 60
                 implicitWidth: 60
                 imageUrl: mediaData.album.picUrl
-                running: PlayService.playing
+                running: PlayController.isPlaying
                 MouseArea {
                     id: albumDisplayMouseArea
                     anchors.fill: parent
@@ -83,7 +83,7 @@ Item {
                         width: 28
                         height: 28
                         anchors.verticalCenter: parent.verticalCenter
-                        onClicked: PlayService.previous()
+                        onClicked: PlayController.previous()
                     }
                     IconButton {
                         id: playbackButton
@@ -94,9 +94,9 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         onClicked: {
                             if (PlayService.playing)
-                                PlayService.pause()
+                                PlayController.pause()
                             else
-                                PlayService.play()
+                                PlayController.play()
                         }
                     }
                     IconButton {
@@ -105,7 +105,7 @@ Item {
                         width: 21
                         height: 21
                         anchors.verticalCenter: parent.verticalCenter
-                        onClicked: PlayService.next()
+                        onClicked: PlayController.next()
                     }
                     IconButton {
                         property var currentMode: playbackModes[0]
@@ -140,9 +140,9 @@ Item {
                         width: 310
                         height: 15
                         from: 0
-                        to: PlayService.duration
-                        value: PlayService.position
-                        onMoved: PlayService.position = this.value
+                        to: PlayController.duration
+                        value: PlayController.position
+                        onMoved: PlayController.position = this.value
                         HoverHandler {
                             cursorShape: Qt.PointingHandCursor
                         }

@@ -64,8 +64,8 @@ Item {
                     reverse: true
                     showOnHover: false
                     orientation: Qt.Vertical
-                    value: PlayService.volumn
-                    onMoved: PlayService.volumn = this.value
+                    value: PlayController.volumn
+                    onMoved: PlayController.volumn = this.value
                 }
                 Text {
                     id: currVolumnText

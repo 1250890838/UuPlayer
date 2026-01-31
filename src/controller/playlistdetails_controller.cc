@@ -3,18 +3,21 @@
 #include "service_manager.h"
 namespace controller {
 
-PlaylistDetailsController::PlaylistDetailsController(
-    PlaylistAlbumDetailService* detailService,
-    CommentsFetchService* commentsService, SongUrlService* songUrlService,
-    PlayService* playService)
-    : m_detailService(detailService),
-      m_commentsService(commentsService),
-      m_songUrlService(songUrlService),
-      m_playService(playService) {
-  connect(m_detailService, &PlaylistAlbumDetailService::playlistReady, this,
+PlaylistDetailsController::PlaylistDetailsController() {
+  m_detailService =
+      ServiceManager::instance().getInstance<PlaylistAlbumDetailService>();
+  m_commentsService =
+      ServiceManager::instance().getInstance<CommentsFetchService>();
+  m_songUrlService = ServiceManager::instance().getInstance<SongUrlService>();
+  m_playService = ServiceManager::instance().getInstance<PlayService>();
+
+  if(m_detailService)
+    connect(m_detailService, &PlaylistAlbumDetailService::playlistReady, this,
           &PlaylistDetailsController::onDetailReady);
-  connect(m_commentsService, &CommentsFetchService::playlistReady, this,
+  if(m_commentsService)
+    connect(m_commentsService, &CommentsFetchService::playlistReady, this,
           &PlaylistDetailsController::onCommentsReady);
+  if(m_songUrlService)
   connect(m_songUrlService, &SongUrlService::ready, this,
           &PlaylistDetailsController::onMediaUrlReady);
 }
@@ -22,6 +25,12 @@ PlaylistDetailsController::PlaylistDetailsController(
 void PlaylistDetailsController::onDetailReady(error_code::ErrorCode code,
                                               PlaylistItemPtr data) {
   m_playlist.setValue(*data.get());
+  m_name.setValue(data->name());
+  m_desc.setValue(data->desc());
+  m_creatorName.setValue(data->creator().name());
+  m_coverUrl.setValue(data->coverUrl());
+  m_creatorCoverUrl.setValue(data->creator().avatarUrl());
+  m_subscribedCount.setValue(data->subscribedCount());
   for (const auto& item : data->mediaItems()) {
     m_mediasModel.appendItem(item);
   }
@@ -37,6 +46,7 @@ void PlaylistDetailsController::onMediaUrlReady(error_code::ErrorCode code,
                                                 qulonglong id) {
   m_mediasModel.setDataForId(id, url, MediaItemModel::UrlRole);
   m_playService->appendMediaItem(m_mediasModel.getItemForId(id));
+  m_playService->play(id);
   emit mediaUrlReady(code, id);
 }
 
@@ -55,14 +65,6 @@ void PlaylistDetailsController::fetchMediaUrl(
     qulonglong id, sound_level::SoundQualityLevel level) {
   if (m_songUrlService)
     m_songUrlService->fetch(id, level);
-}
-
-PlaylistDetailsController* PlaylistDetailsController::create(
-    QQmlEngine* qmlEngine, QJSEngine* jsEngine) {
-  return new PlaylistDetailsController(
-      ServiceManager::instance().getInstance<PlaylistAlbumDetailService>(),
-      ServiceManager::instance().getInstance<CommentsFetchService>(),
-      ServiceManager::instance().getInstance<SongUrlService>());
 }
 
 }  // namespace controller

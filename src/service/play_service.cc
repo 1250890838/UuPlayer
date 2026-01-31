@@ -2,6 +2,7 @@
 #include "recommended_playlist_service.h"
 
 #include <QObject>
+#include <QModelIndex>
 
 namespace service {
 PlayService::PlayService() : m_currentIndex(-1) {

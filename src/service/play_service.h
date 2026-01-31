@@ -9,12 +9,12 @@
 #include <QList>
 #include <QObject>
 
-using namespace entities;
 // 播放服务、存储播放列表
 
 namespace service {
-
 using namespace play_mode;
+using namespace entities;
+
 class SERVICE_DLL_EXPORT PlayService : public QObject {
   Q_OBJECT
 

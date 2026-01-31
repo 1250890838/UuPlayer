@@ -17,7 +17,7 @@ PlayController::PlayController(PlayService* service) : m_service(service) {
   connect(m_service, &PlayService::playbackModeChanged, this,
           &PlayController::playmodeChanged);
   connect(m_service, &PlayService::positionChanged, this,
-          &PlayController::positionChnaged);
+          &PlayController::positionChanged);
   connect(m_service, &PlayService::volumnChanged, this,
           &PlayController::volumnChanged);
   connect(m_service, &PlayService::durationChanged, this,
@@ -30,6 +30,23 @@ PlayController* PlayController::create(QQmlEngine* qmlEngine,
   auto service = ServiceManager::instance().getInstance<PlayService>();
   auto controller = new PlayController(service);
   controller->m_mediasModel.setExternalData(service->mediasPtr());
+  return controller;
+}
+
+void PlayController::play(qulonglong id) {
+  m_service->play(id);
+}
+
+void PlayController::pause() {
+  m_service->pause();
+}
+
+void PlayController::next() {
+  m_service->next();
+}
+
+void PlayController::previous() {
+  m_service->previous();
 }
 
 }  // namespace controller

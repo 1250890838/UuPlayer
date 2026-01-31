@@ -24,9 +24,9 @@ Flickable {
         function onCategoriesChanged() {
             fetchAttributes.name = Object.values(hubController.categories
                                                  ?? {})[0][0] ?? "清晨"
-            hubControllerhubController.fetchPlaylistItems(
-                        fetchAttributes.name, fetchAttributes.offset,
-                        fetchAttributes.limit)
+            hubController.fetchPlaylistItems(fetchAttributes.name,
+                                             fetchAttributes.offset,
+                                             fetchAttributes.limit)
         }
     }
 
@@ -56,7 +56,7 @@ Flickable {
             spacing: 10
             Repeater {
                 id: repeater
-                model: Object.values(hubController.categories)[0].slice(0, 6)
+                model: Object.values(hubController.categories)[0]?.slice(0, 6)
                 delegate: CatlistItem {
                     required property string modelData
                     text: modelData

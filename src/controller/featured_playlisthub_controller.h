@@ -22,16 +22,13 @@ class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
   Q_PROPERTY(QVariantMap categories READ categories NOTIFY categoriesChanged
                  BINDABLE bindableCategories FINAL)
  public:
-  static FeaturedPlaylistHubController* create(QQmlEngine* qmlEngine,
-                                               QJSEngine* jsEngine);
-
   Q_INVOKABLE void fetchPlaylistItems(const QString& tag, quint32 offset,
                                       quint32 limit);
   Q_INVOKABLE void clearPlaylistItems();
   Q_INVOKABLE void fetchCategories();
 
  public:
-  FeaturedPlaylistHubController(RecommendedPlaylistService*);
+  FeaturedPlaylistHubController();
   PlaylistItemModel* currPlaylistItems();
   QVariantMap categories() { return m_categories.value(); }
   QBindable<QVariantMap> bindableCategories() { return &m_categories; }

@@ -9,10 +9,10 @@ import App.Enums 1.0
 
 Item {
     id: root
-    readonly property bool isPlaying: PlayService.playing
-                                      && PlayService.currentPlayItem.id === model.id
+    readonly property bool isPlaying: PlayController.isPlaying
+                                      && PlayController.currMediaItem.id === model.id
     readonly property bool isActive: mouseArea.containsMouse
-                                     || PlayService.currentPlayItem.id === model.id
+                                     || PlayController.currMediaItem.id === model.id
     MultiEffect {
         id: effect
         visible: root.isActive
@@ -47,32 +47,31 @@ Item {
             Layout.preferredWidth: headerDummyItem.width
         }
 
-        Component {
-            id: connectFactory
-            Connections {
-                id: playSongConnection
-                target: NetworkSongService
-                property int count: 2
-                function onSongUrlStatus(code) {
-                    if (code === ErrorCode.NoError) {
-                        PlayService.appendMediaId(model.id)
-                        PlayService.play(model.id)
-                    }
-                    count--
-                    if (count === 0)
-                        playSongConnection.destroy()
-                }
-                function onSongLyricStatus(code) {
-                    if (code === ErrorCode.NoError) {
-                        PlayService.currentPlayItemChanged()
-                    }
-                    count--
-                    if (count === 0)
-                        playSongConnection.destroy()
-                }
-            }
-        }
-
+        // Component {
+        //     id: connectFactory
+        //     Connections {
+        //         id: playSongConnection
+        //         target: NetworkSongService
+        //         property int count: 2
+        //         function onSongUrlStatus(code) {
+        //             if (code === ErrorCode.NoError) {
+        //                 PlayService.appendMediaId(model.id)
+        //                 PlayService.play(model.id)
+        //             }
+        //             count--
+        //             if (count === 0)
+        //                 playSongConnection.destroy()
+        //         }
+        //         function onSongLyricStatus(code) {
+        //             if (code === ErrorCode.NoError) {
+        //                 PlayService.currentPlayItemChanged()
+        //             }
+        //             count--
+        //             if (count === 0)
+        //                 playSongConnection.destroy()
+        //         }
+        //     }
+        //}
         IconButton {
             id: playButton
             visible: root.isActive
@@ -81,13 +80,12 @@ Item {
             Layout.preferredHeight: index.implicitHeight
             Layout.preferredWidth: headerDummyItem.width
             onClicked: {
-                if (PlayService.playing
-                        && PlayService.currentPlayItem.id === model.id) {
-                    PlayService.pause()
+                if (PlayController.playing
+                        && PlayController.currPlayItem.id === model.id) {
+                    PlayController.pause()
                 } else {
-                    NetworkSongService.getSongUrl(model.id)
-                    NetworkSongService.getSongLyric(model.id)
-                    connectFactory.createObject(this)
+                    detailsController.fetchMediaUrl(model.id,
+                                                    SoundLevel.Standard)
                 }
             }
         }
