@@ -22,6 +22,10 @@ PlayController::PlayController(PlayService* service) : m_service(service) {
           &PlayController::volumnChanged);
   connect(m_service, &PlayService::durationChanged, this,
           &PlayController::durationChanged);
+  connect(m_service, &PlayService::currentPlayItemChanged, this,
+          &PlayController::currMediaItemChanged);
+  connect(m_service, &PlayService::currentLyricChanged, this,
+          &PlayController::lyricChanged);
 }
 
 PlayController* PlayController::create(QQmlEngine* qmlEngine,
@@ -35,6 +39,10 @@ PlayController* PlayController::create(QQmlEngine* qmlEngine,
 
 void PlayController::play(qulonglong id) {
   m_service->play(id);
+}
+
+void PlayController::play() {
+  m_service->play();
 }
 
 void PlayController::pause() {

@@ -32,6 +32,7 @@ class MediaItemModel : public QAbstractListModel {
   bool isExternal() const { return m_externalSource != nullptr; }
   bool setData(const QModelIndex& index, const QVariant& value, int role);
   bool setDataForId(qulonglong id, const QVariant& value, int role);
+
   int rowCount(const QModelIndex& parent) const;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;

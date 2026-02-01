@@ -10,6 +10,8 @@ PlaylistDetailsController::PlaylistDetailsController() {
       ServiceManager::instance().getInstance<CommentsFetchService>();
   m_songUrlService = ServiceManager::instance().getInstance<SongUrlService>();
   m_playService = ServiceManager::instance().getInstance<PlayService>();
+  m_songLyricService =
+      ServiceManager::instance().getInstance<SongLyricService>();
 
   if(m_detailService)
     connect(m_detailService, &PlaylistAlbumDetailService::playlistReady, this,
@@ -20,6 +22,8 @@ PlaylistDetailsController::PlaylistDetailsController() {
   if(m_songUrlService)
   connect(m_songUrlService, &SongUrlService::ready, this,
           &PlaylistDetailsController::onMediaUrlReady);
+  connect(m_songLyricService, &SongLyricService::standardReady, this,
+          &PlaylistDetailsController::onLyricReady);
 }
 
 void PlaylistDetailsController::onDetailReady(error_code::ErrorCode code,
@@ -31,6 +35,7 @@ void PlaylistDetailsController::onDetailReady(error_code::ErrorCode code,
   m_coverUrl.setValue(data->coverUrl());
   m_creatorCoverUrl.setValue(data->creator().avatarUrl());
   m_subscribedCount.setValue(data->subscribedCount());
+  m_createTime.setValue(data->createTime());
   for (const auto& item : data->mediaItems()) {
     m_mediasModel.appendItem(item);
   }
@@ -38,7 +43,9 @@ void PlaylistDetailsController::onDetailReady(error_code::ErrorCode code,
 
 void PlaylistDetailsController::onCommentsReady(error_code::ErrorCode code,
                                                 CommentItemListPtr data) {
-  m_comments.setValue(*data.get());
+  auto temp = m_comments.value().toList();
+  temp.append(*data);
+  m_comments.setValue(temp);
 }
 
 void PlaylistDetailsController::onMediaUrlReady(error_code::ErrorCode code,
@@ -50,9 +57,21 @@ void PlaylistDetailsController::onMediaUrlReady(error_code::ErrorCode code,
   emit mediaUrlReady(code, id);
 }
 
+void PlaylistDetailsController::onLyricReady(error_code::ErrorCode code,
+                                             qulonglong id,
+                                             const QVariantList& data) {
+  m_playService->setLyric(data);
+  emit m_playService->currentLyricChanged();
+}
+
 void PlaylistDetailsController::fetchDetail(qulonglong id) {
   if (m_detailService)
     m_detailService->fetchPlaylist(id);
+}
+
+void PlaylistDetailsController::fetchLyric(qulonglong id) {
+  if(m_songLyricService)
+    m_songLyricService->fetchStandard(id);
 }
 
 void PlaylistDetailsController::fetchComments(qulonglong id, quint32 offset,

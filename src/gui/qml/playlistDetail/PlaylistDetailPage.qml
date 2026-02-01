@@ -14,14 +14,22 @@ Flickable {
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
+
     Component.onCompleted: {
         globalScrollBar.currentFlickable = this
         detailsController.fetchDetail(root.playlistId)
-        detailsController.fetchComments(root.playlistId)
+        detailsController.fetchComments(root.playlistId,
+                                        detailsController.offset,
+                                        detailsController.limit)
     }
 
     PlaylistDetailsController {
         id: detailsController
+        property int offset: 0
+        readonly property int limit: 10
+        onCommentsChanged: {
+            offset += limit
+        }
     }
     ColumnLayout {
         id: columnLayout
@@ -84,7 +92,7 @@ Flickable {
                         color: "gray"
                         font.pointSize: 8.5
                         text: Utils.convertMillisecondsToDate(
-                                  detail.createTime) + qsTr("创建")
+                                  PlayController.createTime) + qsTr("创建")
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }

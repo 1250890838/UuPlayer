@@ -9,6 +9,7 @@
 #include "play_service.h"
 #include "playlistalbum_detail_service.h"
 #include "song_url_service.h"
+#include "song_lyric_service.h"
 
 #include "model/media_item_model.h"
 
@@ -28,12 +29,18 @@ class PlaylistDetailsController : public QObject {
   Q_PROPERTY(QString name READ name NOTIFY nameChanged FINAL)
   Q_PROPERTY(QString desc READ desc NOTIFY descChanged FINAL)
   Q_PROPERTY(QUrl coverUrl READ coverUrl NOTIFY coverUrlChanged FINAL)
-  Q_PROPERTY(QString creatorName READ creatorName NOTIFY creatorNameChanged FINAL)
-  Q_PROPERTY(QUrl creatorCoverUrl READ creatorCoverUrl NOTIFY creatorCoverUrlChanged FINAL)
-  Q_PROPERTY(qulonglong subscribedCount READ subscribedCount NOTIFY subscribedCountChanged FINAL)
+  Q_PROPERTY(
+      QString creatorName READ creatorName NOTIFY creatorNameChanged FINAL)
+  Q_PROPERTY(QUrl creatorCoverUrl READ creatorCoverUrl NOTIFY
+                 creatorCoverUrlChanged FINAL)
+  Q_PROPERTY(qulonglong subscribedCount READ subscribedCount NOTIFY
+                 subscribedCountChanged FINAL)
+  Q_PROPERTY(
+      qulonglong createTime READ createTime NOTIFY createTimeChanged FINAL)
 
  public:
   Q_INVOKABLE void fetchDetail(qulonglong id);
+  Q_INVOKABLE void fetchLyric(qulonglong id);
   Q_INVOKABLE void fetchComments(qulonglong id, quint32 offset, quint32 limit);
   Q_INVOKABLE void fetchMediaUrl(qulonglong id,
                                  sound_level::SoundQualityLevel level);
@@ -48,12 +55,14 @@ class PlaylistDetailsController : public QObject {
   QString creatorName() { return m_creatorName.value(); }
   QUrl creatorCoverUrl() { return m_creatorCoverUrl.value(); }
   qulonglong subscribedCount() { return m_subscribedCount.value(); }
+  qulonglong createTime() { return m_createTime.value(); }
 
  private slots:
   void onDetailReady(error_code::ErrorCode code, PlaylistItemPtr data);
   void onCommentsReady(error_code::ErrorCode code, CommentItemListPtr data);
   void onMediaUrlReady(error_code::ErrorCode code, const QUrl& url,
                        qulonglong id);
+  void onLyricReady(error_code::ErrorCode code, qulonglong id,const QVariantList& data);
  signals:
   void playlistChanged();
   void commentsChanged();
@@ -65,6 +74,7 @@ class PlaylistDetailsController : public QObject {
   void creatorNameChanged();
   void creatorCoverUrlChanged();
   void subscribedCountChanged();
+  void createTimeChanged();
 
  private:
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, PlaylistItem,
@@ -79,19 +89,26 @@ class PlaylistDetailsController : public QObject {
                              &PlaylistDetailsController::nameChanged);
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QString, m_desc,
                              &PlaylistDetailsController::descChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QUrl, m_creatorCoverUrl,
-                             &PlaylistDetailsController::creatorCoverUrlChanged);
+  Q_OBJECT_BINDABLE_PROPERTY(
+      PlaylistDetailsController, QUrl, m_creatorCoverUrl,
+      &PlaylistDetailsController::creatorCoverUrlChanged);
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QString, m_creatorName,
                              &PlaylistDetailsController::creatorNameChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, qulonglong, m_subscribedCount,
-                             &PlaylistDetailsController::subscribedCountChanged);
+  Q_OBJECT_BINDABLE_PROPERTY(
+      PlaylistDetailsController, qulonglong, m_subscribedCount,
+      &PlaylistDetailsController::subscribedCountChanged);
+  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, qulonglong,
+                             m_createTime,
+                             &PlaylistDetailsController::createTimeChanged);
 
   QPointer<PlaylistAlbumDetailService> m_detailService;
   QPointer<CommentsFetchService> m_commentsService;
   QPointer<SongUrlService> m_songUrlService;
   QPointer<PlayService> m_playService;
+  QPointer<SongLyricService> m_songLyricService;
 
   MediaItemModel m_mediasModel;
+  quint8 m_stateCounter = 0;
 };
 }  // namespace controller
 #endif  // PLAYLISTDETAILS_H

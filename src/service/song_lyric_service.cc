@@ -11,26 +11,24 @@
 namespace service {
 SongLyricService::SongLyricService(QObject* parent) {
   using namespace network;
-  connect(&m_network, &SongLyricNetwork::lyricReady, this,
-          &SongLyricService::onLyricReady);
   connect(&m_network, &SongLyricNetwork::verbatimReady, this,
           &SongLyricService::onVerbatimReady);
 }
 
 void SongLyricService::onLyricReady(error_code::ErrorCode code,
                                     const QByteArray& data) {
-  QVariantList result;
-  if (code == error_code::NoError) {
-    QJsonDocument doc = QJsonDocument::fromJson(data);
-    auto obj = doc.object();
-    if (doc.isNull() || doc.isEmpty() || obj.isEmpty())
-      code = error_code::JsonContentError;
-    else {
-      auto lyricStr = obj["lrc"].toObject()["lyric"].toString();
-      result = parseLyricStr(lyricStr);
-    }
-  }
-  emit standardReady(code, result);
+  // QVariantList result;
+  // if (code == error_code::NoError) {
+  //   QJsonDocument doc = QJsonDocument::fromJson(data);
+  //   auto obj = doc.object();
+  //   if (doc.isNull() || doc.isEmpty() || obj.isEmpty())
+  //     code = error_code::JsonContentError;
+  //   else {
+  //     auto lyricStr = obj["lrc"].toObject()["lyric"].toString();
+  //     result = parseLyricStr(lyricStr);
+  //   }
+  // }
+  // emit standardReady(code, result);
 }
 
 void SongLyricService::onVerbatimReady(error_code::ErrorCode code,
@@ -62,6 +60,23 @@ QVariantList SongLyricService::parseLyricStr(const QString& lyric) {
 
 void SongLyricService::fetchStandard(qulonglong id) {
   m_network.fetchStandard(id);
+  connect(
+      &m_network, &network::SongLyricNetwork::lyricReady, this,
+      [this, id](error_code::ErrorCode code, const QByteArray& data) {
+        QVariantList result;
+        if (code == error_code::NoError) {
+          QJsonDocument doc = QJsonDocument::fromJson(data);
+          auto obj = doc.object();
+          if (doc.isNull() || doc.isEmpty() || obj.isEmpty())
+            code = error_code::JsonContentError;
+          else {
+            auto lyricStr = obj["lrc"].toObject()["lyric"].toString();
+            result = parseLyricStr(lyricStr);
+          }
+        }
+        emit standardReady(code, id, result);
+      },
+      Qt::SingleShotConnection);
 }
 
 void SongLyricService::fetchVerbatim(qulonglong id) {

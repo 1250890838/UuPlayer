@@ -91,7 +91,7 @@ Popup {
                     Repeater {
                         id: repeater
                         property bool isOneDragging: false
-                        model: PlayService.playbacklist
+                        model: PlayController.medias
                         PlaybacklistItem {
                             id: playbacklistItem
                             implicitWidth: flickable.width

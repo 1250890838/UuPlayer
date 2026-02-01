@@ -71,7 +71,7 @@ Item {
         id: container
         color: {
             let curColor = (hoverHandler.hovered
-                            || PlayService.currentPlayItem.id
+                            || PlayController.currMediaItem.id
                             === model.id) ? "#edeeef" : "transparent"
             return curColor
         }
@@ -110,13 +110,13 @@ Item {
 
                 Image {
                     id: onCoverImage
-                    source: (PlayService.currentPlayItem.id === model.id
-                             && PlayService.playing) ? Icons.pauseIcon : Icons.playIcon
+                    source: (PlayController.currMediaItem.id === model.id
+                             && PlayController.isPlaying) ? Icons.pauseIcon : Icons.playIcon
                     width: 15
                     height: 15
                     anchors.centerIn: parent
                     visible: {
-                        if (PlayService.currentPlayItem.id === model.id)
+                        if (PlayController.currMediaItem.id === model.id)
                             return true
                         if (hoverHandler.hovered)
                             return true
@@ -130,14 +130,12 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        if (PlayService.playing
-                                && PlayService.currentPlayItem.id === model.id) {
-                            PlayService.pause()
+                        if (PlayController.isPlaying
+                                && PlayController.currMediaItem.id === model.id) {
+                            PlayController.pause()
                         } else {
-                            PlayService.play(model.id)
+                            PlayController.play(model.id)
                         }
-                        console.log(dragItem)
-                        console.log(dragItem.parent)
                     }
                 }
             }

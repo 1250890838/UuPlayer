@@ -32,7 +32,7 @@ class SERVICE_DLL_EXPORT SongLyricService : public QObject {
  private:
   network::SongLyricNetwork m_network;
  signals:
-  void standardReady(error_code::ErrorCode code, const QVariantList& data);
-  void verbatimReady(error_code::ErrorCode code, const QVariantList& data);
+  void standardReady(error_code::ErrorCode code, qulonglong id,const QVariantList& data);
+  void verbatimReady(error_code::ErrorCode code, qulonglong id,const QVariantList& data);
 };
 }  // namespace service

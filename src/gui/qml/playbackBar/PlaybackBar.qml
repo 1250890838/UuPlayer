@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import components 1.0
 import controller
+import App.Enums
 import assets 1.0
 
 Item {
@@ -87,13 +88,13 @@ Item {
                     }
                     IconButton {
                         id: playbackButton
-                        icon: PlayService.playing ? Icons.playbackBarPauseIcon : Icons.playbackBarPlayIcon
+                        icon: PlayController.isPlaying ? Icons.playbackBarPauseIcon : Icons.playbackBarPlayIcon
                         hoveredIcon: this.icon
                         width: 41
                         height: 41
                         anchors.verticalCenter: parent.verticalCenter
                         onClicked: {
-                            if (PlayService.playing)
+                            if (PlayController.isPlaying)
                                 PlayController.pause()
                             else
                                 PlayController.play()
@@ -109,7 +110,7 @@ Item {
                     }
                     IconButton {
                         property var currentMode: playbackModes[0]
-                        property var playbackModes: [PlayService.Sequentially, PlayService.ListLoop, PlayService.SingleLoop, PlayService.Shuffle]
+                        property var playbackModes: [PlayMode.Sequentially, PlayMode.ListLoop, PlayMode.SingleLoop, PlayMode.Shuffle]
                         property var playbackModeIcons: [Icons.playbackModeSequentialIcon, Icons.playbackModeListLoopIcon, Icons.playbackModeSingleLoopIcon, Icons.playbackModeShuffleIcon]
                         icon: playbackModeIcons[currentMode]
                         hoveredIcon: playbackModeIcons[currentMode]

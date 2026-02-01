@@ -8,6 +8,8 @@
 
 #include <QList>
 #include <QObject>
+#include <QVariantList>
+#include <QObjectBindableProperty>
 
 // 播放服务、存储播放列表
 
@@ -38,17 +40,9 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void appendMediaItem(const MediaItem& item);
   void insertNext(qulonglong id);
   MediaItem currentPlayItem();
+  QVariantList currentLyric() { return m_lyricData.value(); }
+  void setLyric(const QVariantList& data) { m_lyricData.setValue(data); }
   QList<MediaItem>* mediasPtr() { return &m_medias; }
- private slots:
-  void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
-  void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
- private:
-  void operateForPlaybackMode();
- private:
-  engine::MediaPlayer m_player;
-  QList<MediaItem> m_medias;
-  PlayMode m_playbackMode;
-  quint32 m_currentIndex;
  signals:
   void playingChanged(bool b);
   void durationChanged(qint64 duration);
@@ -61,6 +55,19 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void endInsertItems();
   void beginRemoveItems(const QModelIndex& parent, int first, int last);
   void endRemoveItems();
+  void currentLyricChanged();
+ private slots:
+  void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
+  void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
+ private:
+  void operateForPlaybackMode();
+ private:
+  Q_OBJECT_BINDABLE_PROPERTY(PlayService, QVariantList, m_lyricData,
+                             &PlayService::currentLyricChanged);
+  engine::MediaPlayer m_player;
+  QList<MediaItem> m_medias;
+  PlayMode m_playbackMode;
+  quint32 m_currentIndex;
 };
 }  // namespace service
 #endif  // PLAY_SERVICE_H

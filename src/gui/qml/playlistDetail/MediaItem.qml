@@ -86,6 +86,7 @@ Item {
                 } else {
                     detailsController.fetchMediaUrl(model.id,
                                                     SoundLevel.Standard)
+                    detailsController.fetchLyric(model.id)
                 }
             }
         }

@@ -132,7 +132,7 @@ Window {
         x: 0
         y: window.height
         z: 10
-        //media: PlayService.currentPlayItem
+        media: PlayController.currMediaItem
         states: [
             State {
                 name: "closed"
