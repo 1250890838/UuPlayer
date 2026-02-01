@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts
 import assets 1.0
-import service.api 1.0
+import controller
 import components 1.0
 
 // Lyrics View Page show lyrics
@@ -67,7 +67,7 @@ Page {
             albumImagePath: root.media?.album?.picUrl ?? ""
             Layout.preferredWidth: root.width / 3.5
             Layout.preferredHeight: recorder.width
-            playing: PlayService.playing
+            playing: PlayController.isPlaying
         }
 
         Item {
@@ -145,26 +145,28 @@ Page {
                     }
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    model: media?.lyrics ?? []
+                    model: PlayController.lyric ?? []
                     spacing: 20
                     delegate: LyricItem {
                         onClicked: {
                             lyricsListView.autoUpdateIndex = true
                             restoreAutoUpdateTimer.stop()
-                            PlayService.position = this.modelData.end
+                            PlayController.position = this.modelData.end
                         }
                     }
 
                     Connections {
                         // ms
-                        target: PlayService
-                        function onPositionChanged(position) {
-                            if (lyricsListView.currentIndex === root.media.lyrics.length - 1)
+                        target: PlayController
+                        function onPositionChanged() {
+                            let position = PlayController.position
+                            if (lyricsListView.currentIndex === PlayController.lyric.length - 1)
                                 return
                             if (lyricsListView.autoUpdateIndex) {
                                 lyricsListView.currentIndex
                                         = Utils.findClosestLowerIndexBinarySearch(
-                                            root.media.lyrics, position)
+                                            PlayController.lyric, position)
+                                console.log(lyricsListView.currentIndex)
                                 lyricsListView.positionViewAtIndex(
                                             lyricsListView.currentIndex,
                                             ListView.Center)

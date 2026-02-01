@@ -80,32 +80,31 @@ Item {
                 maximumLineCount: 2
             }
 
-            Column {
-                spacing: 10
-                anchors.top: desc.bottom
-                anchors.topMargin: 10
-                visible: mouseArea.containsMouse
-                Repeater {
-                    id: repeater
-                    model: root.model.tracks.count >= 3 ? 3 : root.model.tracks.count
-                    Label {
-                        leftPadding: 7
-                        rightPadding: 7
-                        elide: Qt.ElideRight
-                        text: {
-                            console.log(root.model.tracks.itemAt(
-                                            modelData).name)
-                            let a = (modelData + 1) + " " + root.model.tracks.itemAt(
-                                    modelData).name
-                            return a
-                        }
-                        width: desc.width
-                        color: "white"
-                        font.pointSize: 8.5
-                    }
-                }
-            }
-
+            //            Column {
+            //                spacing: 10
+            //                anchors.top: desc.bottom
+            //                anchors.topMargin: 10
+            //                visible: mouseArea.containsMouse
+            //                Repeater {
+            //                    id: repeater
+            //                    model: root.model.tracks.count >= 3 ? 3 : root.model.tracks.count
+            //                    Label {
+            //                        leftPadding: 7
+            //                        rightPadding: 7
+            //                        elide: Qt.ElideRight
+            //                        text: {
+            //                            console.log(root.model.tracks.itemAt(
+            //                                            modelData).name)
+            //                            let a = (modelData + 1) + " " + root.model.tracks.itemAt(
+            //                                    modelData).name
+            //                            return a
+            //                        }
+            //                        width: desc.width
+            //                        color: "white"
+            //                        font.pointSize: 8.5
+            //                    }
+            //                }
+            //            }
             Behavior on y {
                 NumberAnimation {
                     duration: 200

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import components 1.0
-import service.api 1.0
+import App.Enums 1.0
 
 Page {
     id: root

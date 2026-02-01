@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
 import assets 1.0
-import service.api 1.0
+import controller
 import components 1.0
 
 Item {
@@ -64,8 +64,8 @@ Item {
                     reverse: true
                     showOnHover: false
                     orientation: Qt.Vertical
-                    value: PlayService.volumn
-                    onMoved: PlayService.volumn = this.value
+                    value: PlayController.volumn
+                    onMoved: PlayController.volumn = this.value
                 }
                 Text {
                     id: currVolumnText

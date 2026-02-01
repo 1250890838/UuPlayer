@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import components 1.0
-import service.api 1.0
+import controller
+import App.Enums
 import assets 1.0
 
 Item {
@@ -31,7 +32,7 @@ Item {
                 implicitHeight: 60
                 implicitWidth: 60
                 imageUrl: mediaData.album.picUrl
-                running: PlayService.playing
+                running: PlayController.isPlaying
                 MouseArea {
                     id: albumDisplayMouseArea
                     anchors.fill: parent
@@ -83,20 +84,20 @@ Item {
                         width: 28
                         height: 28
                         anchors.verticalCenter: parent.verticalCenter
-                        onClicked: PlayService.previous()
+                        onClicked: PlayController.previous()
                     }
                     IconButton {
                         id: playbackButton
-                        icon: PlayService.playing ? Icons.playbackBarPauseIcon : Icons.playbackBarPlayIcon
+                        icon: PlayController.isPlaying ? Icons.playbackBarPauseIcon : Icons.playbackBarPlayIcon
                         hoveredIcon: this.icon
                         width: 41
                         height: 41
                         anchors.verticalCenter: parent.verticalCenter
                         onClicked: {
-                            if (PlayService.playing)
-                                PlayService.pause()
+                            if (PlayController.isPlaying)
+                                PlayController.pause()
                             else
-                                PlayService.play()
+                                PlayController.play()
                         }
                     }
                     IconButton {
@@ -105,11 +106,11 @@ Item {
                         width: 21
                         height: 21
                         anchors.verticalCenter: parent.verticalCenter
-                        onClicked: PlayService.next()
+                        onClicked: PlayController.next()
                     }
                     IconButton {
                         property var currentMode: playbackModes[0]
-                        property var playbackModes: [PlayService.Sequentially, PlayService.ListLoop, PlayService.SingleLoop, PlayService.Shuffle]
+                        property var playbackModes: [PlayMode.Sequentially, PlayMode.ListLoop, PlayMode.SingleLoop, PlayMode.Shuffle]
                         property var playbackModeIcons: [Icons.playbackModeSequentialIcon, Icons.playbackModeListLoopIcon, Icons.playbackModeSingleLoopIcon, Icons.playbackModeShuffleIcon]
                         icon: playbackModeIcons[currentMode]
                         hoveredIcon: playbackModeIcons[currentMode]
@@ -140,9 +141,9 @@ Item {
                         width: 310
                         height: 15
                         from: 0
-                        to: PlayService.duration
-                        value: PlayService.position
-                        onMoved: PlayService.position = this.value
+                        to: PlayController.duration
+                        value: PlayController.position
+                        onMoved: PlayController.position = this.value
                         HoverHandler {
                             cursorShape: Qt.PointingHandCursor
                         }

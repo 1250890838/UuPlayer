@@ -6,7 +6,7 @@ import assets 1.0
 import skins 1.0
 import components 1.0
 import QWindowKit 1.0
-import service.api 1.0
+import controller
 import "leftNavigationPanel"
 import "stackPages/cloudMusicSelectedPage"
 import "titleBar"
@@ -82,10 +82,10 @@ Window {
 
         PlaybackBar {
             id: playbackBar
-            visible: PlayService.num !== 0
+            visible: PlayController.currMediaItem.id !== 0
             Layout.fillWidth: true
             implicitHeight: 80
-            mediaData: PlayService.currentPlayItem
+            mediaData: PlayController.currMediaItem
             Layout.bottomMargin: 30
         }
     }
@@ -132,7 +132,7 @@ Window {
         x: 0
         y: window.height
         z: 10
-        media: PlayService.currentPlayItem
+        media: PlayController.currMediaItem
         states: [
             State {
                 name: "closed"

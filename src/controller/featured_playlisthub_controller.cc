@@ -1,0 +1,61 @@
+#include "featured_playlisthub_controller.h"
+
+#include <QMap>
+#include <QVariant>
+
+#include "service_manager.h"
+
+namespace controller {
+
+FeaturedPlaylistHubController::FeaturedPlaylistHubController() {
+  m_recommendedPlaylistService =
+      ServiceManager::instance().getInstance<RecommendedPlaylistService>();
+
+  if (m_recommendedPlaylistService) {
+    connect(m_recommendedPlaylistService, &RecommendedPlaylistService::topReady,
+            this, &FeaturedPlaylistHubController::onTopReady);
+    connect(m_recommendedPlaylistService,
+            &RecommendedPlaylistService::categoriesReady, this,
+            &FeaturedPlaylistHubController::onCategoriesReady);
+  }
+}
+
+void FeaturedPlaylistHubController::fetchPlaylistItems(const QString& tag,
+                                                       quint32 offset,
+                                                       quint32 limit) {
+  if (m_recommendedPlaylistService)
+    m_recommendedPlaylistService->fetchTop(tag, offset, limit);
+}
+
+void FeaturedPlaylistHubController::clearPlaylistItems() {
+  m_playlistItemModel.clear();
+}
+
+void FeaturedPlaylistHubController::fetchCategories() {
+  if (m_recommendedPlaylistService)
+    m_recommendedPlaylistService->fetchCategories();
+}
+
+PlaylistItemModel* FeaturedPlaylistHubController::currPlaylistItems() {
+  return &m_playlistItemModel;
+}
+
+void FeaturedPlaylistHubController::onTopReady(error_code::ErrorCode code,
+                                               PlaylistItemListPtr data) {
+  if (code == error_code::NoError && !data.isNull()) {
+    for (const auto& item : *data)
+      m_playlistItemModel.appendItem(item);
+  }
+}
+
+void FeaturedPlaylistHubController::onCategoriesReady(
+    error_code::ErrorCode code, QMap<QString, QStringList> categoriesMap) {
+  if (code == error_code::NoError) {
+    QVariantMap result;
+    for (const auto& [key, list] : categoriesMap.asKeyValueRange()) {
+      result.insert(key, list);
+    }
+    m_categories.setValue(result);
+  }
+}
+}  // namespace controller

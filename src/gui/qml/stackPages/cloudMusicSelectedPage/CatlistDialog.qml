@@ -3,7 +3,7 @@ import QtQuick.Effects
 import QtQuick.Controls
 import components 1.0
 import skins 1.0
-import service.api 1.0
+import controller
 
 Popup {
     id: root
@@ -89,9 +89,12 @@ Popup {
                     width: 80
                     height: 30
                     onClicked: {
-                        PlaylistsService.setCurrOffset(0)
-                        PlaylistsService.setCurrCat(this.text)
-                        PlaylistsService.getSelectivePlaylists()
+                        fetchAttributes.name = modelData
+                        fetchAttributes.offset = 0
+                        FeaturedPlaylistHubController.fetchPlaylistItems(
+                                    fetchAttributes.name,
+                                    fetchAttributes.offset,
+                                    fetchAttributes.limit)
                     }
                 }
             }

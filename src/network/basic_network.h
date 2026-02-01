@@ -1,23 +1,16 @@
 #ifndef BASIC_NETWORK_H
 #define BASIC_NETWORK_H
-#include <QtQml/qqmlengine.h>
-#include <qobject.h>
-#include <qtmetamacros.h>
+#include <QObject>
+#include "api_network.h"
 #include "network_global.h"
+#include "types.h"
 
 #include <QNetworkAccessManager>
 
 namespace network {
-namespace error_code {
-NETWORK_DLL_EXPORT Q_NAMESPACE enum ErrorCode {
-  NoError = 0,
-  ConnectionRefusedError,
-  TimeoutError,
-  JsonContentError,
-  OtherError
-};
-Q_ENUM_NS(ErrorCode)
-}  // namespace error_code
+template <typename T>
+using NetworkReadySignal = void (T::*)(error_code::ErrorCode,
+                                       const QByteArray&);
 
 class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
   Q_OBJECT
@@ -25,6 +18,9 @@ class NETWORK_DLL_EXPORT BasicNetwork : public QObject {
   BasicNetwork() = default;
   QNetworkReply* get(const QNetworkRequest&);
   QNetworkReply* post(const QNetworkRequest&, const QByteArray&);
+
+ protected:
+  error_code::ErrorCode handleReplyErrorCode(QNetworkReply* reply);
 
  private:
   static QNetworkAccessManager m_netAccessManager;

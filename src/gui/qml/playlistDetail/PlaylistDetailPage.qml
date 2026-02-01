@@ -1,25 +1,36 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import service.api 1.0
+import controller
 import assets 1.0
 import components 1.0
-import network.errorcode 1.0
+import App.Enums 1.0
 
 Flickable {
     id: root
-    required property var detail
+    required property var playlistId
     contentHeight: columnLayout.implicitHeight
     contentWidth: width
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
+
     Component.onCompleted: {
         globalScrollBar.currentFlickable = this
-        PlaylistsService.getPlaylistComments(detail.id)
-        PlaylistsService.getPlaylistDetail(detail.id)
+        detailsController.fetchDetail(root.playlistId)
+        detailsController.fetchComments(root.playlistId,
+                                        detailsController.offset,
+                                        detailsController.limit)
     }
 
+    PlaylistDetailsController {
+        id: detailsController
+        property int offset: 0
+        readonly property int limit: 10
+        onCommentsChanged: {
+            offset += limit
+        }
+    }
     ColumnLayout {
         id: columnLayout
         anchors.fill: parent
@@ -28,7 +39,7 @@ Flickable {
             RoundedImage {
                 id: coverImage
                 radius: 10
-                imageUrl: detail.coverUrl
+                imageUrl: detailsController.coverUrl
                 width: 170
                 height: 170
                 isTopLeftRounded: true
@@ -41,7 +52,7 @@ Flickable {
                 spacing: 10
                 Text {
                     id: name
-                    text: detail.name
+                    text: detailsController.name
                     font {
                         bold: true
                         pointSize: 16
@@ -50,7 +61,7 @@ Flickable {
                 Text {
                     id: desc
                     width: 548
-                    text: detail.desc
+                    text: detailsController.desc
                     font.pointSize: 9
                     height: font.pointSize + 2
                     color: "#54534d"
@@ -62,7 +73,7 @@ Flickable {
                     RoundedImage {
                         id: avatarImage
                         radius: 12.5
-                        imageUrl: detail.creator.avatarUrl
+                        imageUrl: detailsController.creatorCoverUrl
                         width: 25
                         height: 25
                         isTopLeftRounded: true
@@ -73,7 +84,7 @@ Flickable {
                     spacing: 10
                     Text {
                         id: avatarName
-                        text: detail.creator.name
+                        text: detailsController.creatorName
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Text {
@@ -81,7 +92,7 @@ Flickable {
                         color: "gray"
                         font.pointSize: 8.5
                         text: Utils.convertMillisecondsToDate(
-                                  detail.createTime) + qsTr("创建")
+                                  PlayController.createTime) + qsTr("创建")
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }
@@ -111,7 +122,7 @@ Flickable {
 
                             function processGetAllSongStatus(status) {
                                 if (status === ErrorCode.NoError) {
-                                    PlayService.play(
+                                    PlayController.play(
                                                 mediaItemsRepeater.mediaIds[0])
                                 }
                                 for (var i = 1; i < mediaItemsRepeater.mediaIds.length; i++) {
@@ -146,7 +157,7 @@ Flickable {
                             anchors.fill: parent
                             iconWidth: 16
                             iconHeight: 16
-                            text: detail.subscribedCount
+                            text: detailsController.subscribedCount
                             textColor: "black"
                             textPointSize: 8.5
                             textBold: true
@@ -286,7 +297,7 @@ Flickable {
 
                     Repeater {
                         id: mediaItemsRepeater
-                        model: detail.mediaItemModel
+                        model: detailsController.medias
                         property var mediaIds: []
                         delegate: MediaItem {
                             implicitHeight: 55
@@ -337,22 +348,23 @@ Flickable {
 
                     Repeater {
                         id: commentRepeater
+                        model: detailsController.comments
                         delegate: CommentItem {
                             width: commentsPage.width
                         }
                     }
                 }
-                Connections {
-                    id: commentsRequiredConnection
-                    target: PlaylistsService
-                    function onPlaylistCommentsStatus(code) {
-                        if (code === ErrorCode.NoError) {
-                            detail = PlaylistsService.getPlaylistItemForId(
-                                        detail.id)
-                            commentRepeater.model = detail.commentData
-                        }
-                    }
-                }
+                //                Connections {
+                //                    id: commentsRequiredConnection
+                //                    target: PlaylistsService
+                //                    function onPlaylistCommentsStatus(code) {
+                //                        if (code === ErrorCode.NoError) {
+                //                            detail = PlaylistsService.getPlaylistItemForId(
+                //                                        detail.id)
+                //                            commentRepeater.model = detail.commentData
+                //                        }
+                //                    }
+                //                }
             }
             Item {
                 id: subscribersPage
@@ -364,21 +376,21 @@ Flickable {
                     spacing: 20
                     Repeater {
                         id: subscriberRepeater
-                        model: detail.subscribers
+                        //model: detail.subscribers
                         SubscriberItem {}
                     }
                 }
-                Connections {
-                    id: subscribersRequiredConnection
-                    target: PlaylistsService
-                    function onPlaylistSubscribersStatus(code) {
-                        if (code === ErrorCode.NoError) {
-                            detail = PlaylistsService.getPlaylistItemForId(
-                                        detail.id)
-                            subscriberRepeater.model = detail.subscribers
-                        }
-                    }
-                }
+                //                Connections {
+                //                    id: subscribersRequiredConnection
+                //                    target: PlaylistsService
+                //                    function onPlaylistSubscribersStatus(code) {
+                //                        if (code === ErrorCode.NoError) {
+                //                            detail = PlaylistsService.getPlaylistItemForId(
+                //                                        detail.id)
+                //                            subscriberRepeater.model = detail.subscribers
+                //                        }
+                //                    }
+                //                }
             }
         }
     }
