@@ -92,7 +92,7 @@ Flickable {
                         color: "gray"
                         font.pointSize: 8.5
                         text: Utils.convertMillisecondsToDate(
-                                  PlayController.createTime) + qsTr("创建")
+                                  detailsController.createTime) + qsTr("创建")
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }
