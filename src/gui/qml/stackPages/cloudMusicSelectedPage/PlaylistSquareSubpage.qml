@@ -7,7 +7,7 @@ import controller
 Flickable {
     id: root
     property var catMap
-
+    property bool loading: false
     QtObject {
         id: fetchAttributes
         property string name
@@ -30,14 +30,16 @@ Flickable {
         }
     }
 
-    contentHeight: columnLayout.implicitHeight
+    contentHeight: columnLayout.implicitHeight + 20
     contentWidth: this.width
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.StopAtBounds
     clip: true
 
     onContentYChanged: {
-        if (root.contentY + root.height >= root.contentHeight) {
+        const threshold = 10
+        if (!loading
+                && root.contentY + root.height >= root.contentHeight - threshold) {
             fetchAttributes.offset += fetchAttributes.limit
             hubController.fetchPlaylistItems(fetchAttributes.name,
                                              fetchAttributes.offset,
