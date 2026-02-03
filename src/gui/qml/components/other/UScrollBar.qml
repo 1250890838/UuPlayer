@@ -24,7 +24,8 @@ Item {
 
     Rectangle {
         id: handle
-        color: dragArea.containsMouse ? handleActiveColor : handleColor
+        color: dragArea.containsMouse
+               || dragArea.pressed ? handleActiveColor : handleColor
         radius: vertical ? width / 2 : height / 2
 
         x: vertical ? handleMargin : calcHandlePosition()
@@ -32,17 +33,31 @@ Item {
         width: vertical ? parent.width - 2 * handleMargin : calcHandleSize()
         height: vertical ? calcHandleSize() : parent.height - 2 * handleMargin
 
-        function calcHandlePosition() {
+        function scrollRange() {
             if (!currentFlickable)
                 return 0
-            if (vertical) {
-                return (currentFlickable.contentY / (currentFlickable.contentHeight
-                                                     - currentFlickable.height))
-                        * (groove.height - handle.height)
-            }
-            return (currentFlickable.contentX / (currentFlickable.contentWidth
-                                                 - currentFlickable.width))
-                    * (groove.width - handle.width)
+            return vertical ? Math.max(0, currentFlickable.contentHeight
+                                       - currentFlickable.height) : Math.max(
+                                  0,
+                                  currentFlickable.contentWidth - currentFlickable.width)
+        }
+
+        function trackRange() {
+            return vertical ? Math.max(
+                                  0, groove.height - handle.height) : Math.max(
+                                  0, groove.width - handle.width)
+        }
+
+        function calcHandlePosition() {
+            if (!currentFlickable)
+                return handleMargin
+            const sr = scrollRange()
+            const tr = trackRange()
+            if (sr <= 0 || tr <= 0)
+                return handleMargin
+
+            const pos = vertical ? currentFlickable.contentY : currentFlickable.contentX
+            return handleMargin + (pos / sr) * tr
         }
 
         function calcHandleSize() {
@@ -64,39 +79,32 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             preventStealing: true
-            drag.target: parent
-            drag.axis: vertical ? Drag.YAxis : Drag.XAxis
-            drag.minimumX: vertical ? handle.x : handleMargin
-            drag.maximumX: vertical ? handle.x : groove.width - handle.width - handleMargin
-            drag.minimumY: vertical ? handleMargin : handle.y
-            drag.maximumY: vertical ? groove.height - handle.height - handleMargin : handle.y
 
             onPositionChanged: {
+                if (!pressed || !currentFlickable)
+                    return
+
+                const sr = handle.scrollRange()
+                const tr = handle.trackRange()
+                if (sr <= 0 || tr <= 0)
+                    return
+
                 if (vertical) {
-                    currentFlickable.contentY = (handle.y / (groove.height - handle.height))
-                            * (currentFlickable.contentHeight - currentFlickable.height)
+                    const handleY = Math.min(
+                                      handleMargin + tr, Math.max(
+                                          handleMargin,
+                                          handle.y + mouseY - handle.height / 2))
+                    const ratio = (handleY - handleMargin) / tr
+                    currentFlickable.contentY = ratio * sr
                 } else {
-                    currentFlickable.contentX = (handle.x / (groove.width - handle.width))
-                            * (currentFlickable.contentWidth - currentFlickable.width)
+                    const handleX = Math.min(
+                                      handleMargin + tr, Math.max(
+                                          handleMargin,
+                                          handle.x + mouseX - handle.width / 2))
+                    const ratio = (handleX - handleMargin) / tr
+                    currentFlickable.contentX = ratio * sr
                 }
             }
-        }
-    }
-
-    Connections {
-        target: currentFlickable
-        function onContentHeightChanged() {
-            if (vertical)
-                handle.y = Qt.binding(() => handle.calcHandlePosition())
-        }
-
-        function onContentYChanged() {
-            if (vertical)
-                handle.y = Qt.binding(() => handle.calcHandlePosition())
-        }
-        function onContentXChanged() {
-            if (!vertical)
-                handle.x = Qt.binding(() => handle.calcHandlePosition())
         }
     }
 }
