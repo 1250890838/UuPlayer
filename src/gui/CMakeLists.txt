@@ -125,6 +125,8 @@ qt_add_qml_module(gui
     QML_FILES qml/stackPages/localMusicPage/SortHeaderItem.qml
     QML_FILES qml/stackPages/localMusicPage/SelectLocalDirsDialog.qml
     SOURCES image_provider.h image_provider.cc
+    SOURCES image_store.h image_store.cc
+    SOURCES theme_manager.h theme_manager.cc
 )
 
 target_include_directories(gui PUBLIC "./cpp" ".")
