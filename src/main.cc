@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
   auto* themeManager = new gui::ThemeManager(imageStore);
   themeManager->setParent(&engine);
   engine.rootContext()->setContextProperty("ThemeManager", themeManager);
+
   engine.addImageProvider(QLatin1String("net"), new gui::ImageProvider(imageStore));
 
   qmlRegisterUncreatableMetaObject(error_code::staticMetaObject, "App.Enums", 1,

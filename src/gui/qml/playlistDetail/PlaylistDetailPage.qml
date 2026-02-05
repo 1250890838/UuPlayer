@@ -9,6 +9,7 @@ import App.Enums 1.0
 Flickable {
     id: root
     required property var playlistId
+
     contentHeight: columnLayout.implicitHeight
     contentWidth: width
     boundsBehavior: Flickable.StopAtBounds
@@ -30,10 +31,14 @@ Flickable {
         onCommentsChanged: {
             offset += limit
         }
+        onCoverUrlChanged: {
+            ThemeManager.applyThemeFromUrl(detailsController.coverUrl)
+        }
     }
     ColumnLayout {
         id: columnLayout
         anchors.fill: parent
+        anchors.margins: 20
         Row {
             spacing: 20
             RoundedImage {

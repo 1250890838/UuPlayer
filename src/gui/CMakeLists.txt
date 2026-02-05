@@ -131,5 +131,5 @@ qt_add_qml_module(gui
 
 target_include_directories(gui PUBLIC "./cpp" ".")
 
-target_link_libraries(gui PRIVATE network Qt6::Quick Qt6::Concurrent)
+target_link_libraries(gui PRIVATE network Qt6::Quick Qt6::Concurrent Qt6::Gui)
 

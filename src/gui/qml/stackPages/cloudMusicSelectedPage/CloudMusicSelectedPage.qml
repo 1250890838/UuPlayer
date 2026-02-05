@@ -6,6 +6,10 @@ import App.Enums 1.0
 
 Page {
     id: root
+    topPadding: 15
+    bottomPadding: 15
+    leftPadding: 10
+    rightPadding: 10
     background: Rectangle {
         color: "transparent"
     }

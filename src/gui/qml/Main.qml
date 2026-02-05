@@ -61,13 +61,21 @@ Window {
                 id: columnLayout
                 StackView {
                     id: stackView
-                    Layout.margins: 25
-                    padding: (window.width - navigationPanel.width - this.width) / 2
+                    padding: 20
                     Layout.alignment: Qt.AlignCenter
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     background: Rectangle {
-                        color: Skins.bodyBackColor
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 0
+                                color: ThemeManager.contentAreaGradientStops[0]
+                            }
+                            GradientStop {
+                                position: 1
+                                color: ThemeManager.contentAreaGradientStops[1]
+                            }
+                        }
                     }
                     popEnter: null
                     popExit: null

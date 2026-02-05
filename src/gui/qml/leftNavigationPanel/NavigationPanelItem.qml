@@ -19,13 +19,14 @@ Item {
         id: container
         anchors.fill: parent
         color: {
-            if (currentItem == root)
+            if (currentItem == root) {
                 return root.colors[2]
-            else if (mouseArea.containsMouse)
+            } else if (mouseArea.containsMouse)
                 return root.colors[1]
             else
                 return root.colors[0]
         }
+
         Row {
             spacing: 10
             padding: 0

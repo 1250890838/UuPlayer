@@ -21,7 +21,7 @@ struct ImageKey {
 };
 
 inline bool operator==(const ImageKey &a, const ImageKey &b) {
-  return a.url == b.url && a.size == b.size;
+  return a.url == b.url;
 }
 
 inline size_t qHash(const ImageKey& k, size_t seed = 0) noexcept {
