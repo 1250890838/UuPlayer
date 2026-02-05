@@ -12,7 +12,7 @@ Flickable {
         id: fetchAttributes
         property string name
         property int offset: 0
-        property int limit: 8
+        property int limit: 12
     }
 
     FeaturedPlaylistHubController {

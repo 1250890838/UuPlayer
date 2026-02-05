@@ -15,7 +15,16 @@ Item {
         padding: 0
         background: Rectangle {
             id: background
-            color: Skins.titlebarRightBackColor
+            gradient: Gradient {
+                GradientStop {
+                    position: 0
+                    color: ThemeManager.titlebarRightGradientStops[0]
+                }
+                GradientStop {
+                    position: 1
+                    color: ThemeManager.titlebarRightGradientStops[1]
+                }
+            }
             MouseArea {
                 anchors.fill: parent
                 onClicked: forceActiveFocus()
@@ -28,7 +37,16 @@ Item {
                 Layout.preferredWidth: 205
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignLeft
-                color: Skins.titlebarLeftBackColor
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: ThemeManager.titlebarLeftGradientStops[0]
+                    }
+                    GradientStop {
+                        position: 1
+                        color: ThemeManager.titlebarLeftGradientStops[1]
+                    }
+                }
                 Row {
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 10
@@ -136,5 +154,6 @@ Item {
             }
         }
     }
+
     Component.onCompleted: windowAgent.setTitleBar(this)
 }

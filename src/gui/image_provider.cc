@@ -1,61 +1,38 @@
 #include "image_provider.h"
-#include <qtconcurrenttask.h>
-#include <QNetworkReply>
+
+#include <QMetaObject>
+#include <QDebug>
 
 namespace gui {
 
-NetworkImageResponse::NetworkImageResponse(const QString& id,
-                                           network::BasicNetwork* network,
-                                           QSize requestedSize)
-    : m_requestedSize(requestedSize) {
-  QUrl url(id);
-  QNetworkRequest req(url);
-  QMetaObject::invokeMethod(
-      network,
-      [this, req, network]() {
-        QNetworkReply* reply = network->get(req);
-        connect(reply, &QNetworkReply::finished, this, [this, reply]() {
-          if (reply->error() == QNetworkReply::NoError) {
-            QByteArray data = reply->readAll();
-            auto future =  // Assigned to suppress compiler warning.
-                QtConcurrent::task([this, data]() {
-                  QImage tempImage;
-                  tempImage.loadFromData(data);
-                  if (m_requestedSize.isValid() && !tempImage.isNull()) {
-                    tempImage =
-                        tempImage.scaled(m_requestedSize, Qt::KeepAspectRatio,
-                                         Qt::SmoothTransformation);
-                  }
-                  m_image = tempImage;
-                  emit finished();
-                })
-                    .withPriority(QThread::HighPriority)
-                    .spawn();
-          } else {
-            qDebug() << "Network Error:" << reply->errorString();
-            emit finished();
-          }
-          reply->deleteLater();
-        });
-      },
-      Qt::QueuedConnection);
+NetworkImageResponse::NetworkImageResponse(const QString& id, ImageStore* store, QSize requestedSize)
+    : m_url(id), m_requestedSize(requestedSize), m_store(store) {
+  QObject::connect(m_store, &ImageStore::imageReady, this, &NetworkImageResponse::onReady);
+  QObject::connect(m_store, &ImageStore::imageFailed, this, &NetworkImageResponse::onFailed);
+  m_store->request(m_url, m_requestedSize);
 }
 
-void NetworkImageResponse::handleNetFinished() {}
+void NetworkImageResponse::onReady(const QString& url, const QSize& size) {
+  if (url != m_url || size != m_requestedSize) return;
+  m_image = m_store->get(m_url, m_requestedSize);
+  QMetaObject::invokeMethod(this, [this]() { emit finished(); }, Qt::QueuedConnection);
+}
+
+void NetworkImageResponse::onFailed(const QString& url, const QSize& size, const QString& reason) {
+  if (url != m_url || size != m_requestedSize) return;
+  qDebug() << "ImageProvider failed:" << reason << "url=" << m_url;
+  QMetaObject::invokeMethod(this, [this]() { emit finished(); }, Qt::QueuedConnection);
+}
 
 QQuickTextureFactory* NetworkImageResponse::textureFactory() const {
   return QQuickTextureFactory::textureFactoryForImage(m_image);
 }
 
-ImageProvider::ImageProvider() : m_network(new network::BasicNetwork()) {}
+ImageProvider::ImageProvider(ImageStore* store) : m_store(store) {}
 
-ImageProvider::~ImageProvider() {
-  delete m_network;
+QQuickImageResponse* ImageProvider::requestImageResponse(const QString& id,
+                                                         const QSize& requestedSize) {
+  return new NetworkImageResponse(id, m_store, requestedSize);
 }
 
-QQuickImageResponse* ImageProvider::requestImageResponse(
-    const QString& id, const QSize& requestedSize) {
-  return new NetworkImageResponse(id, m_network, requestedSize);
-}
-
-}  // namespace gui
+} // namespace gui

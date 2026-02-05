@@ -1,39 +1,44 @@
 #ifndef IMAGEPROVIDER_H
 #define IMAGEPROVIDER_H
-#endif
 
-#include <QNetworkReply>
 #include <QQuickAsyncImageProvider>
+#include <QQuickImageResponse>
+#include <QQuickTextureFactory>
+#include <QObject>
+#include <QImage>
+#include <QSize>
 
-#include "basic_network.h"
+#include "image_store.h"
 
 namespace gui {
 
 class NetworkImageResponse : public QQuickImageResponse {
   Q_OBJECT
  public:
-  NetworkImageResponse(const QString& id, network::BasicNetwork* network,
-                       QSize requestedSize);
+  NetworkImageResponse(const QString& id, ImageStore* store, QSize requestedSize);
   QQuickTextureFactory* textureFactory() const override;
 
- public slots:
-  void handleNetFinished();
+ private slots:
+  void onReady(const QString& url, const QSize& size);
+  void onFailed(const QString& url, const QSize& size, const QString& reason);
 
  private:
-  network::BasicNetwork* m_network = nullptr;
-  QImage m_image;
-  QNetworkReply* m_reply;
+  QString m_url;
   QSize m_requestedSize;
+  ImageStore* m_store = nullptr; // 不拥有
+  QImage m_image;
 };
 
 class ImageProvider : public QQuickAsyncImageProvider {
  public:
-  ImageProvider();
-  ~ImageProvider();
-  QQuickImageResponse* requestImageResponse(
-      const QString& id, const QSize& requestedSize) override;
+  explicit ImageProvider(ImageStore* store);
+  QQuickImageResponse* requestImageResponse(const QString& id,
+                                            const QSize& requestedSize) override;
 
  private:
-  network::BasicNetwork* m_network = nullptr;
+  ImageStore* m_store = nullptr; // 不拥有
 };
+
 }  // namespace gui
+
+#endif // IMAGEPROVIDER_H

@@ -132,6 +132,8 @@ Item {
         Text {
             id: albumName
             Layout.preferredWidth: headerAlbumItem.width
+            elide: Text.ElideRight
+            wrapMode: Text.NoWrap
             text: model.album.name
             font {
                 pointSize: 8
