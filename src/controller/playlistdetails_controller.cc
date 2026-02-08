@@ -13,15 +13,15 @@ PlaylistDetailsController::PlaylistDetailsController() {
   m_songLyricService =
       ServiceManager::instance().getInstance<SongLyricService>();
 
-  if(m_detailService)
+  if (m_detailService)
     connect(m_detailService, &PlaylistAlbumDetailService::playlistReady, this,
-          &PlaylistDetailsController::onDetailReady);
-  if(m_commentsService)
+            &PlaylistDetailsController::onDetailReady);
+  if (m_commentsService)
     connect(m_commentsService, &CommentsFetchService::playlistReady, this,
-          &PlaylistDetailsController::onCommentsReady);
-  if(m_songUrlService)
-  connect(m_songUrlService, &SongUrlService::ready, this,
-          &PlaylistDetailsController::onMediaUrlReady);
+            &PlaylistDetailsController::onCommentsReady);
+  if (m_songUrlService)
+    connect(m_songUrlService, &SongUrlService::ready, this,
+            &PlaylistDetailsController::onMediaUrlReady);
   connect(m_songLyricService, &SongLyricService::standardReady, this,
           &PlaylistDetailsController::onLyricReady);
 }
@@ -51,10 +51,12 @@ void PlaylistDetailsController::onCommentsReady(error_code::ErrorCode code,
 void PlaylistDetailsController::onMediaUrlReady(error_code::ErrorCode code,
                                                 const QUrl& url,
                                                 qulonglong id) {
-  m_mediasModel.setDataForId(id, url, MediaItemModel::UrlRole);
-  m_playService->appendMediaItem(m_mediasModel.getItemForId(id));
-  m_playService->play(id);
-  emit mediaUrlReady(code, id);
+  if (code == error_code::NoError) {
+    m_mediasModel.setDataForId(id, url, MediaItemModel::UrlRole);
+    m_playService->appendMediaItem(m_mediasModel.getItemForId(id));
+    m_playService->play(id);
+    emit mediaUrlReady(code, id);
+  }
 }
 
 void PlaylistDetailsController::onLyricReady(error_code::ErrorCode code,
@@ -70,7 +72,7 @@ void PlaylistDetailsController::fetchDetail(qulonglong id) {
 }
 
 void PlaylistDetailsController::fetchLyric(qulonglong id) {
-  if(m_songLyricService)
+  if (m_songLyricService)
     m_songLyricService->fetchStandard(id);
 }
 
