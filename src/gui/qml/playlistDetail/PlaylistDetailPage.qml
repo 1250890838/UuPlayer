@@ -22,6 +22,7 @@ Flickable {
         detailsController.fetchComments(root.playlistId,
                                         detailsController.offset,
                                         detailsController.limit)
+        detailsController.fetchSubscribers(root.playlistId)
     }
 
     PlaylistDetailsController {
@@ -381,7 +382,7 @@ Flickable {
                     spacing: 20
                     Repeater {
                         id: subscriberRepeater
-                        //model: detail.subscribers
+                        model: detailsController.subscribers
                         SubscriberItem {}
                     }
                 }
