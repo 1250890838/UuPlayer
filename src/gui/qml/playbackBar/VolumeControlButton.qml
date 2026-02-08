@@ -25,9 +25,9 @@ Item {
         onClicked: {
             if (PlayService.volumn !== 0) {
                 root.previousVolumn = PlayService.volumn
-                PlayService.volumn = 0
+                PlayController.volumn = 0
             } else {
-                PlayService.volumn = root.previousVolumn
+                PlayController.volumn = root.previousVolumn
             }
         }
     }
