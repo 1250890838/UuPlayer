@@ -22,6 +22,7 @@ class ENTITIES_EXPORT UserItem {
  public:
   UserItem() = default;
   ~UserItem() = default;
+  bool operator==(const UserItem& other) const { return id() == other.id(); }
   qulonglong id() const { return m_id; }
   void setId(qulonglong id) { m_id = id; }
   QString name() const { return m_name; }
@@ -36,7 +37,7 @@ class ENTITIES_EXPORT UserItem {
   void setBirthday(qulonglong birthday) { m_birthday = birthday; }
   bool followed() const { return m_followed; }
   void setFollowed(bool followed) { m_followed = followed; }
-  qint8 gender() const {return m_gender; }
+  qint8 gender() const { return m_gender; }
   void setGender(qint8 gender) { m_gender = gender; }
   QString desc() const { return m_desc; }
   void setDesc(const QString& desc) { m_desc = desc; }
@@ -52,5 +53,5 @@ class ENTITIES_EXPORT UserItem {
   qint8 m_gender;
   QString m_desc;
 };
-}
+}  // namespace entities
 #endif  // USER_ITEM_H

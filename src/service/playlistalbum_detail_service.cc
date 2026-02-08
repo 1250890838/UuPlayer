@@ -11,10 +11,18 @@ PlaylistAlbumDetailService::PlaylistAlbumDetailService(QObject* parent)
   using namespace network;
   connect(&m_network, &PlaylistAlbumDetailNetwork::playlistReady, this,
           &PlaylistAlbumDetailService::onPlaylistReady);
+  connect(&m_network, &PlaylistAlbumDetailNetwork::playlistSubscribersReady,
+          this, &PlaylistAlbumDetailService::onPlaylistSubscribers);
 }
 
 void PlaylistAlbumDetailService::fetchPlaylist(qulonglong id) {
   m_network.fetchPlaylist(id);
+}
+
+void PlaylistAlbumDetailService::fetchPlaylistSubscribers(qulonglong id,
+                                                          quint32 offset,
+                                                          quint32 limit) {
+  m_network.fetchPlaylistSubscribers(id, offset, limit);
 }
 
 auto PlaylistAlbumDetailService::formatSubscribers(
@@ -91,6 +99,22 @@ void PlaylistAlbumDetailService::onPlaylistReady(error_code::ErrorCode code,
     }
   }
   emit playlistReady(code, ptr);
+}
+
+void PlaylistAlbumDetailService::onPlaylistSubscribers(
+    error_code::ErrorCode code, const QByteArray& data) {
+  UserItemsPtr ptr(nullptr);
+  if (code == error_code::NoError) {
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonObject obj = doc.object();
+    if (doc.isEmpty() || obj.isEmpty() || obj["code"].toInt() != 200)
+      code = error_code::JsonContentError;
+    else {
+      ptr =
+          UserItemsPtr::create(formatSubscribers(obj["subscribers"].toArray()));
+    }
+  }
+  emit playlistSubscribersReady(code, ptr);
 }
 
 QStringList PlaylistAlbumDetailService::formatTags(const QJsonArray& array) {

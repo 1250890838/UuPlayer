@@ -14,6 +14,7 @@ class NETWORK_DLL_EXPORT PlaylistAlbumDetailNetwork : public BasicNetwork {
   QT_DEPRECATED_X("not used")
   void fetchPlaylistTracks(qulonglong id);
   void fetchAlbum(qulonglong id);
+  void fetchPlaylistSubscribers(qulonglong id, quint32 offset, quint32 limit);
 
  private:
   void fetchHelper(const QString& apiUrl, qulonglong id,
@@ -21,6 +22,8 @@ class NETWORK_DLL_EXPORT PlaylistAlbumDetailNetwork : public BasicNetwork {
  signals:
   void playlistReady(error_code::ErrorCode code, const QByteArray& data);
   void albumReady(error_code::ErrorCode code, const QByteArray& data);
+  void playlistSubscribersReady(error_code::ErrorCode code,
+                                const QByteArray& data);
 };
 }  // namespace network
 #endif // PLAYLISTALBUMDETAILNETWORK_H

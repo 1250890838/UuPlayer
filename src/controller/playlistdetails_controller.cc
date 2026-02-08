@@ -13,17 +13,22 @@ PlaylistDetailsController::PlaylistDetailsController() {
   m_songLyricService =
       ServiceManager::instance().getInstance<SongLyricService>();
 
-  if (m_detailService)
+  if (m_detailService) {
     connect(m_detailService, &PlaylistAlbumDetailService::playlistReady, this,
             &PlaylistDetailsController::onDetailReady);
+    connect(m_detailService,
+            &PlaylistAlbumDetailService::playlistSubscribersReady, this,
+            &PlaylistDetailsController::onSubsribersReady);
+  }
   if (m_commentsService)
     connect(m_commentsService, &CommentsFetchService::playlistReady, this,
             &PlaylistDetailsController::onCommentsReady);
-  if (m_songUrlService)
+  if (m_songUrlService) {
     connect(m_songUrlService, &SongUrlService::ready, this,
             &PlaylistDetailsController::onMediaUrlReady);
-  connect(m_songLyricService, &SongLyricService::standardReady, this,
-          &PlaylistDetailsController::onLyricReady);
+    connect(m_songLyricService, &SongLyricService::standardReady, this,
+            &PlaylistDetailsController::onLyricReady);
+  }
 }
 
 void PlaylistDetailsController::onDetailReady(error_code::ErrorCode code,
@@ -62,8 +67,19 @@ void PlaylistDetailsController::onMediaUrlReady(error_code::ErrorCode code,
 void PlaylistDetailsController::onLyricReady(error_code::ErrorCode code,
                                              qulonglong id,
                                              const QVariantList& data) {
-  m_playService->setLyric(data);
-  emit m_playService->currentLyricChanged();
+  if (code == error_code::NoError) {
+    m_playService->setLyric(data);
+    emit m_playService->currentLyricChanged();
+  }
+}
+
+void PlaylistDetailsController::onSubsribersReady(error_code::ErrorCode code,
+                                                  UserItemsPtr data) {
+  if (code == error_code::NoError) {
+    auto temp = m_subscribers.value().toList();
+    temp.append(*data);
+    m_subscribers.setValue(temp);
+  }
 }
 
 void PlaylistDetailsController::fetchDetail(qulonglong id) {
@@ -84,8 +100,19 @@ void PlaylistDetailsController::fetchComments(qulonglong id, quint32 offset,
 
 void PlaylistDetailsController::fetchMediaUrl(
     qulonglong id, sound_level::SoundQualityLevel level) {
-  if (m_songUrlService)
+
+  auto it = std::find_if(m_playService->mediasPtr()->constBegin(),
+                         m_playService->mediasPtr()->constEnd(),
+                         [id](const MediaItem& item) { return item.id == id; });
+  if (m_songUrlService && it == m_playService->mediasPtr()->constEnd())
     m_songUrlService->fetch(id, level);
+  else if (m_songUrlService && it != m_playService->mediasPtr()->constEnd())
+    m_playService->play(it->id);
+}
+
+void PlaylistDetailsController::fetchSubscribers(qulonglong id, quint32 offset,
+                                                 quint32 limit) {
+  m_detailService->fetchPlaylistSubscribers(id, offset, limit);
 }
 
 }  // namespace controller

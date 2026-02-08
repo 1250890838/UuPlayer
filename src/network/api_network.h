@@ -19,6 +19,8 @@ const QString apiPlaylistDetail = host + QStringLiteral("/playlist/detail");
 const QString apiAlbumDetail = host + QStringLiteral("/album/detail");
 const QString apiPlaylistTracks = host + QStringLiteral("/playlist/track/all");
 const QString apiPlaylistComments = host + QStringLiteral("/comment/playlist");
+const QString apiPlaylistSubscribers =
+    host + QStringLiteral("/playlist/subscribers");
 
 const QString apiSongUrl = host + QStringLiteral("/song/url/v1");
 const QString apiSongLyric = host + QStringLiteral("/lyric");

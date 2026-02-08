@@ -10,6 +10,7 @@
 #include "playlistalbum_detail_service.h"
 #include "song_url_service.h"
 #include "song_lyric_service.h"
+#include "user_item.h"
 
 #include "model/media_item_model.h"
 
@@ -26,6 +27,7 @@ class PlaylistDetailsController : public QObject {
   Q_PROPERTY(MediaItemModel* medias READ medias NOTIFY mediasChanged FINAL)
   Q_PROPERTY(
       QList<CommentItem> comments READ comments NOTIFY commentsChanged FINAL)
+  Q_PROPERTY(QList<UserItem> subscribers READ subscribers NOTIFY subscribersChanged FINAL)
   Q_PROPERTY(QString name READ name NOTIFY nameChanged FINAL)
   Q_PROPERTY(QString desc READ desc NOTIFY descChanged FINAL)
   Q_PROPERTY(QUrl coverUrl READ coverUrl NOTIFY coverUrlChanged FINAL)
@@ -44,6 +46,8 @@ class PlaylistDetailsController : public QObject {
   Q_INVOKABLE void fetchComments(qulonglong id, quint32 offset, quint32 limit);
   Q_INVOKABLE void fetchMediaUrl(qulonglong id,
                                  sound_level::SoundQualityLevel level);
+  Q_INVOKABLE void fetchSubscribers(qulonglong id, quint32 offset = 0,
+                                    quint32 limit = 30);
 
   PlaylistDetailsController();
   PlaylistItem playlist() { return m_playlist.value(); }
@@ -56,6 +60,7 @@ class PlaylistDetailsController : public QObject {
   QUrl creatorCoverUrl() { return m_creatorCoverUrl.value(); }
   qulonglong subscribedCount() { return m_subscribedCount.value(); }
   qulonglong createTime() { return m_createTime.value(); }
+  QList<UserItem> subscribers() { return m_subscribers.value(); }
 
  private slots:
   void onDetailReady(error_code::ErrorCode code, PlaylistItemPtr data);
@@ -63,6 +68,7 @@ class PlaylistDetailsController : public QObject {
   void onMediaUrlReady(error_code::ErrorCode code, const QUrl& url,
                        qulonglong id);
   void onLyricReady(error_code::ErrorCode code, qulonglong id,const QVariantList& data);
+  void onSubsribersReady(error_code::ErrorCode code, UserItemsPtr data);
  signals:
   void playlistChanged();
   void commentsChanged();
@@ -75,6 +81,7 @@ class PlaylistDetailsController : public QObject {
   void creatorCoverUrlChanged();
   void subscribedCountChanged();
   void createTimeChanged();
+  void subscribersChanged();
 
  private:
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, PlaylistItem,
@@ -83,6 +90,9 @@ class PlaylistDetailsController : public QObject {
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QList<CommentItem>,
                              m_comments,
                              &PlaylistDetailsController::commentsChanged);
+  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QList<UserItem>,
+                             m_subscribers,
+                             &PlaylistDetailsController::subscribersChanged);
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QUrl, m_coverUrl,
                              &PlaylistDetailsController::coverUrlChanged);
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QString, m_name,
@@ -100,6 +110,7 @@ class PlaylistDetailsController : public QObject {
   Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, qulonglong,
                              m_createTime,
                              &PlaylistDetailsController::createTimeChanged);
+
 
   QPointer<PlaylistAlbumDetailService> m_detailService;
   QPointer<CommentsFetchService> m_commentsService;
