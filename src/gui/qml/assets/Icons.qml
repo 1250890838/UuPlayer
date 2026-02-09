@@ -56,4 +56,7 @@ Item {
     property url refreshIcon: "qrc:/gui/images/button_refresh.svg"
     property url moreIcon: "qrc:/gui/images/button_more.svg"
     property url searchIcon: "qrc:/gui/images/search.svg"
+
+    property url maleIcon: "qrc:/gui/images/male.svg"
+    property url femaleIcon: "qrc:/gui/images/female.svg"
 }

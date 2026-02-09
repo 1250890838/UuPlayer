@@ -90,7 +90,7 @@ qt_add_qml_module(gui
     QML_FILES qml/components/other/RoundedImage.qml
     QML_FILES qml/components/other/RoundedRectangle.qml
     QML_FILES qml/components/utils.js
-    RESOURCES images/button_normalize.svg
+    RESOURCES images/button_normalize.svg images/female.svg images/male.svg
     RESOURCES images/button_pause.svg images/button_play.svg images/button_subscribed.svg
     QML_FILES qml/components/other/CTab.qml
     QML_FILES qml/components/edit/UTextEdit.qml
