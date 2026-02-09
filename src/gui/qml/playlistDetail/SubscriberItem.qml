@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
+import QtQuick.Layouts
+import assets 1.0
 import components 1.0
 
 Rectangle {
@@ -42,12 +44,24 @@ Rectangle {
             isBottomLeftRounded: true
             isBottomRightRounded: true
         }
-        Text {
-            id: nameText
-            text: modelData.name
-            width: parent.width
-            elide: Text.ElideRight
-            horizontalAlignment: Text.AlignHCenter
+        RowLayout {
+            id: nameGenderrowLayout
+            spacing: 10
+            anchors.horizontalCenter: parent.horizontalCenter
+            Text {
+                id: nameText
+                text: modelData.name
+                elide: Text.ElideRight
+                Layout.maximumWidth: parent.width - genderIcon.width - nameGenderrowLayout.spacing
+                Layout.alignment: Qt.AlignVCenter
+            }
+            Image {
+                id: genderIcon
+                source: modelData.gender ? Icons.maleIcon : Icons.femaleIcon
+                Layout.preferredWidth: 16
+                Layout.preferredHeight: 16
+                Layout.alignment: Qt.AlignVCenter
+            }
         }
         Text {
             id: descText
