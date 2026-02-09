@@ -46,21 +46,21 @@ Rectangle {
         }
         RowLayout {
             id: nameGenderrowLayout
-            spacing: 10
-            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 2
+            width: parent.width
             Text {
                 id: nameText
                 text: modelData.name
                 elide: Text.ElideRight
                 Layout.maximumWidth: parent.width - genderIcon.width - nameGenderrowLayout.spacing
-                Layout.alignment: Qt.AlignVCenter
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignTrailing
             }
             Image {
                 id: genderIcon
                 source: modelData.gender ? Icons.maleIcon : Icons.femaleIcon
                 Layout.preferredWidth: 16
                 Layout.preferredHeight: 16
-                Layout.alignment: Qt.AlignVCenter
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignLeading
             }
         }
         Text {
