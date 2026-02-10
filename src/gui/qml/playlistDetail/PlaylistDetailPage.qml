@@ -244,7 +244,7 @@ Flickable {
             CTab {
                 id: subscribersTab
                 text: "收藏者"
-                additionText: subscriberRepeater.count
+                additionText: detailsController.subscribedCount
                 isCurrentItem: tabsRow.currentTab === subscribersTab
                 onClicked: {
                     tabsRow.currentTab.isCurrentItem = false
