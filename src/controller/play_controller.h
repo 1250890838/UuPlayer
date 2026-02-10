@@ -21,7 +21,7 @@ class PlayController : public QObject {
   Q_PROPERTY(qint64 duration READ duration NOTIFY durationChanged FINAL)
   Q_PROPERTY(quint64 position READ position WRITE setPosition NOTIFY positionChanged FINAL)
   // Q_PROPERTY(PlayMode playmode READ playmode NOTIFY playmodeChanged)
-  Q_PROPERTY(float volumn READ volumn WRITE setVolumn NOTIFY volumnChanged)
+  Q_PROPERTY(float volumn READ volumn NOTIFY volumnChanged)
   Q_PROPERTY(MediaItem currMediaItem READ currMediaItem NOTIFY
                  currMediaItemChanged FINAL)
   Q_PROPERTY(MediaItemModel* medias READ medias NOTIFY mediasChanged FINAL)
@@ -40,7 +40,6 @@ class PlayController : public QObject {
   QVariantList lyric() { return m_service->currentLyric(); }
   // PlayMode playmode() { return m_service->playbackMode(); }
   float volumn() { return m_service->volumn(); }
-  void setVolumn(float v) { m_service->setVolumn(v); }
   MediaItem currMediaItem() { return m_service->currentPlayItem(); }
   MediaItemModel* medias() { return &m_mediasModel; }
   void setPosition(quint64 pos) { m_service->setPosition(pos); }

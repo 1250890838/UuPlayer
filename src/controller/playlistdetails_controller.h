@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QObjectBindableProperty>
 #include <QQmlEngine>
+#include <QSortFilterProxyModel>
 
 #include "comments_fetch_service.h"
 #include "play_service.h"
@@ -11,6 +12,7 @@
 #include "song_url_service.h"
 #include "song_lyric_service.h"
 #include "user_item.h"
+#include "model/mediaitem_filterproxy_model.h"
 
 #include "model/media_item_model.h"
 
@@ -24,7 +26,7 @@ class PlaylistDetailsController : public QObject {
   Q_OBJECT
   QML_ELEMENT
   Q_PROPERTY(PlaylistItem playlist READ playlist NOTIFY playlistChanged FINAL)
-  Q_PROPERTY(MediaItemModel* medias READ medias NOTIFY mediasChanged FINAL)
+  Q_PROPERTY(MediaItemFilterProxyModel* medias READ medias NOTIFY mediasChanged FINAL)
   Q_PROPERTY(
       QList<CommentItem> comments READ comments NOTIFY commentsChanged FINAL)
   Q_PROPERTY(QList<UserItem> subscribers READ subscribers NOTIFY subscribersChanged FINAL)
@@ -52,7 +54,7 @@ class PlaylistDetailsController : public QObject {
   PlaylistDetailsController();
   PlaylistItem playlist() { return m_playlist.value(); }
   QList<CommentItem> comments() { return m_comments.value(); }
-  MediaItemModel* medias() { return &m_mediasModel; }
+  MediaItemFilterProxyModel* medias() { return &m_mediasProxyModel; }
   QString name() { return m_name.value(); }
   QString desc() { return m_desc.value(); }
   QUrl coverUrl() { return m_coverUrl.value(); }
@@ -118,6 +120,7 @@ class PlaylistDetailsController : public QObject {
   QPointer<PlayService> m_playService;
   QPointer<SongLyricService> m_songLyricService;
 
+  MediaItemFilterProxyModel m_mediasProxyModel;
   MediaItemModel m_mediasModel;
   quint8 m_stateCounter = 0;
 };

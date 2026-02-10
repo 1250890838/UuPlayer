@@ -127,6 +127,7 @@ qt_add_qml_module(gui
     SOURCES image_provider.h image_provider.cc
     SOURCES image_store.h image_store.cc
     SOURCES theme_manager.h theme_manager.cc
+    QML_FILES qml/playlistDetail/SortHeaderItem.qml
 )
 
 target_include_directories(gui PUBLIC "./cpp" ".")

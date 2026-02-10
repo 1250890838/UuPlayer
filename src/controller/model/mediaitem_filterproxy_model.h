@@ -1,6 +1,5 @@
 #ifndef MEDIAITEMFILTERPROXYMODEL_H
 #define MEDIAITEMFILTERPROXYMODEL_H
-#endif
 #include <QSortFilterProxyModel>
 #if defined(CONTROLLER_EXPORT_SYMBOLS)
 #define CONTROLLER_DLL_EXPORT Q_DECL_EXPORT
@@ -29,13 +28,19 @@ class MediaItemFilterProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
  public:
-  Q_INVOKABLE void sortByArtistName(Qt::SortOrder);
-  Q_INVOKABLE void sortByTitle(Qt::SortOrder);
-  Q_INVOKABLE void sortByDuration(Qt::SortOrder);
-  Q_INVOKABLE void sortByFileSize(Qt::SortOrder);
-  Q_INVOKABLE void sortByAlbumName(Qt::SortOrder);
- public:
   MediaItemFilterProxyModel();
+
+ protected:
+  // QTC_TEMP
+  // QSortFilterProxyModel interface
+ protected:
+  bool lessThan(const QModelIndex& source_left,
+                const QModelIndex& source_right) const override;
+
+  // QAbstractItemModel interface
+ public:
+  void sort(int column, Qt::SortOrder order) override;
 };
 }
+#endif
 // MEDIAITEMFILTERPROXYMODEL_H
