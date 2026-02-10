@@ -244,7 +244,7 @@ Flickable {
             CTab {
                 id: subscribersTab
                 text: "收藏者"
-                additionText: subscriberRepeater.count
+                additionText: detailsController.subscribedCount
                 isCurrentItem: tabsRow.currentTab === subscribersTab
                 onClicked: {
                     tabsRow.currentTab.isCurrentItem = false
@@ -281,23 +281,103 @@ Flickable {
                             Layout.preferredWidth: headerDummyItem.implicitWidth + 8
                             font.pointSize: 9
                         }
-                        Text {
+                        SortHeaderItem {
                             id: headerTitleItem
-                            text: "标题"
+                            backgroundColor: "transparent"
+                            backgroundHoveredColor: "#f0f3ee"
+                            title: "标题"
+                            choiceMap: {
+                                "0": qsTr("↕默认排序"),
+                                "1": qsTr("↑标题升序"),
+                                "2": qsTr("↓标题降序"),
+                                "3": qsTr("↑歌手升序"),
+                                "4": qsTr("↓歌手降序")
+                            }
+                            onChoiceChanged: choice => {
+                                                 let order = Qt.AscendingOrder
+                                                 let role = Qt.UserRole + 2
+                                                 let column = 0
+                                                 if (choice === 0) {
+                                                     column = -1
+                                                 } else if (choice === 2
+                                                            || choice === 4) {
+                                                     order = Qt.DescendingOrder
+                                                 }
+
+                                                 if (choice === 1
+                                                     || choice === 2) {
+                                                     role = Qt.UserRole + 2
+                                                 } else if (choice === 3
+                                                            || choice === 4) {
+                                                     role = Qt.UserRole + 5
+                                                 }
+
+                                                 detailsController.medias.sortRole = role
+                                                 detailsController.medias.sort(
+                                                     column, order)
+                                                 headerAlbumItem.resetChoice()
+                                                 headerDurationItem.resetChoice(
+                                                     )
+                                             }
                             Layout.fillWidth: true
-                            font.pointSize: 9
+                            Layout.preferredWidth: 50
                         }
-                        Text {
+                        SortHeaderItem {
                             id: headerAlbumItem
-                            text: "专辑"
+                            backgroundColor: "transparent"
+                            backgroundHoveredColor: "#f0f3ee"
+                            title: "专辑"
+                            choiceMap: {
+                                "0": qsTr("↕默认"),
+                                "1": qsTr("↑升序"),
+                                "2": qsTr("↓降序")
+                            }
+                            onChoiceChanged: choice => {
+                                                 let order = Qt.AscendingOrder
+                                                 let role = Qt.UserRole + 4
+                                                 let column = 0
+                                                 if (choice === 0) {
+                                                     column = -1
+                                                 } else if (choice === 2) {
+                                                     order = Qt.DescendingOrder
+                                                 }
+                                                 detailsController.medias.sortRole = role
+                                                 detailsController.medias.sort(
+                                                     column, order)
+                                                 headerDurationItem.resetChoice(
+                                                     )
+                                                 headerTitleItem.resetChoice()
+                                             }
                             Layout.fillWidth: true
-                            font.pointSize: 9
+                            Layout.preferredWidth: 30
                         }
-                        Text {
+                        SortHeaderItem {
                             id: headerDurationItem
-                            text: "时长"
-                            Layout.preferredWidth: headerDurationItem.implicitWidth + 20
-                            font.pointSize: 9
+                            backgroundColor: "transparent"
+                            backgroundHoveredColor: "#f0f3ee"
+                            title: "时长"
+                            choiceMap: {
+                                "0": "↕",
+                                "1": "↑",
+                                "2": "↓"
+                            }
+                            onChoiceChanged: choice => {
+                                                 let order = Qt.AscendingOrder
+                                                 let role = Qt.UserRole + 3
+                                                 let column = 0
+                                                 if (choice === 0) {
+                                                     column = -1
+                                                 } else if (choice === 2) {
+                                                     order = Qt.DescendingOrder
+                                                 }
+                                                 detailsController.medias.sortRole = role
+                                                 detailsController.medias.sort(
+                                                     column, order)
+                                                 headerTitleItem.resetChoice()
+                                                 headerAlbumItem.resetChoice()
+                                             }
+                            Layout.fillWidth: true
+                            Layout.preferredWidth: 10
                         }
                     }
 

@@ -4,6 +4,9 @@
 namespace controller {
 
 PlaylistDetailsController::PlaylistDetailsController() {
+  m_mediasProxyModel.setSourceModel(
+      &m_mediasModel);  // set proxy for providing sort and fliter
+  m_mediasProxyModel.setDynamicSortFilter(true);
   m_detailService =
       ServiceManager::instance().getInstance<PlaylistAlbumDetailService>();
   m_commentsService =
