@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import controller
 import assets 1.0
-import components 1.0
+import ui_base 1.0
 import App.Enums 1.0
 
 Flickable {

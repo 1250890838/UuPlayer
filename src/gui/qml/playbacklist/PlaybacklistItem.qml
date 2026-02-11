@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls
 
 import controller
-import components 1.0
+import ui_base 1.0
 import assets 1.0
 
 

@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 
 import controller
-import components 1.0
+import ui_base 1.0
 import assets 1.0
 import App.Enums 1.0
 

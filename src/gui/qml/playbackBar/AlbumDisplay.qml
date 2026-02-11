@@ -1,5 +1,5 @@
 import QtQuick
-import components 1.0
+import ui_base 1.0
 
 Item {
     id: root

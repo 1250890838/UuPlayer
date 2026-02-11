@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import controller
-import components 1.0
+import ui_base 1.0
 
 Item {
     id: root

@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import assets 1.0
 import controller
-import components 1.0
+import ui_base 1.0
 
 // Lyrics View Page show lyrics
 Page {

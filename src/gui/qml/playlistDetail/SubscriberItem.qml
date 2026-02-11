@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Layouts
 import assets 1.0
-import components 1.0
+import ui_base 1.0
 
 Rectangle {
     id: root

@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import components 1.0
+import ui_base 1.0
 import skins 1.0
 import "NavigateLogic.js" as NavigateLogic
 
