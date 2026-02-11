@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import components 1.0
+import ui_base 1.0
 import assets 1.0
 
 

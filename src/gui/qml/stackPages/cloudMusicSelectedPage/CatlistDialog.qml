@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Effects
 import QtQuick.Controls
-import components 1.0
+import ui_base 1.0
 import skins 1.0
 import controller
 

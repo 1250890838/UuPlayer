@@ -32,6 +32,13 @@ set(custom_shared_qml_files
     qml/components/button/IconLabel.qml
     qml/components/button/TextIconButton.qml
     qml/components/other/PlaylistItem.qml
+    qml/components/other/CTab.qml
+    qml/components/edit/UTextEdit.qml
+    qml/components/other/UScrollBar.qml
+    qml/components/other/CatlistItem.qml
+    qml/components/other/RoundedImage.qml
+    qml/components/other/RoundedRectangle.qml
+    qml/components/utils.js
 )
 
 set(js_files
@@ -71,30 +78,19 @@ qt_add_qml_module(gui
     QML_FILES
     ${plain_qml_files}
     ${singletons_qml_files}
-    ${custom_shared_qml_files}
     ${js_files}
     SOURCES
     cpp/UuWindow.cc 
     cpp/UuWindow.h
-    #   ${cpp_files}
-    RESOURCE_PREFIX /
+    RESOURCE_PREFIX "/"
     RESOURCES
     ${image_files}
-        qml/components/qmldir
-    IMPORT_PATH
-        qml/
+   # qml/components/qmldir
     QML_FILES qml/stackPages/skinPage/SkinPage.qml
     QML_FILES qml/stackPages/skinPage/SkinItem.qml
-    QML_FILES qml/components/other/CatlistItem.qml
     QML_FILES qml/stackPages/cloudMusicSelectedPage/CatlistDialog.qml
-    QML_FILES qml/components/other/RoundedImage.qml
-    QML_FILES qml/components/other/RoundedRectangle.qml
-    QML_FILES qml/components/utils.js
     RESOURCES images/button_normalize.svg images/female.svg images/male.svg
     RESOURCES images/button_pause.svg images/button_play.svg images/button_subscribed.svg
-    QML_FILES qml/components/other/CTab.qml
-    QML_FILES qml/components/edit/UTextEdit.qml
-    QML_FILES qml/components/other/UScrollBar.qml
     RESOURCES images/button_pause_gray.svg images/button_play_gray.svg
     QML_FILES qml/playlistDetail/MediaItem.qml qml/playlistDetail/PlaylistDetailPage.qml
     QML_FILES qml/playbackBar/PlaybackBar.qml
@@ -132,5 +128,5 @@ qt_add_qml_module(gui
 
 target_include_directories(gui PUBLIC "./cpp" ".")
 
-target_link_libraries(gui PRIVATE network Qt6::Quick Qt6::Concurrent Qt6::Gui)
+target_link_libraries(gui PRIVATE ui_base network Qt6::Quick Qt6::Concurrent Qt6::Gui)
 
