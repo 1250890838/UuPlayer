@@ -258,15 +258,29 @@ Flickable {
             id: stackLayout
             Layout.rightMargin: 5
             Layout.leftMargin: 5
-            Layout.topMargin: 5
             currentIndex: 0
             Layout.fillWidth: true
-            implicitHeight: stackLayout.children[stackLayout.currentIndex].implicitHeight
-
+            Layout.preferredHeight: stackLayout.itemAt(
+                                        currentIndex) ? stackLayout.itemAt(
+                                                            currentIndex).implicitHeight : 0
             Item {
                 id: songsPage
                 implicitHeight: songsPageColumnLayout.implicitHeight
                 implicitWidth: songsPageColumnLayout.implicitWidth
+                SearchBar {
+                    anchors.right: parent.right
+                    anchors.rightMargin: 5
+                    anchors.topMargin: -50
+                    anchors.top: parent.top
+                    collapsedWidth: 100
+                    expandedWidth: 200
+                    animationDuration: 100
+                    placeholderText: qsTr("搜索")
+                    onSearchRequested: query => {
+                                           detailsController.medias.setFilterString(
+                                               query)
+                                       }
+                }
                 ColumnLayout {
                     id: songsPageColumnLayout
                     anchors.fill: parent
@@ -392,6 +406,10 @@ Flickable {
                                 mediaItemsRepeater.mediaIds.push(model.id)
                             }
                         }
+                    }
+                    Item {
+                        Layout.fillHeight: true
+                        implicitWidth: 1
                     }
                 }
             }

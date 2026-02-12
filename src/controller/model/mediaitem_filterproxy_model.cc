@@ -1,10 +1,15 @@
 #include "mediaitem_filterproxy_model.h"
 
 #include "media_item_model.h"
-namespace model{
+namespace model {
+
+void MediaItemFilterProxyModel::setFilterString(const QString& str) {
+  m_filterStr = str;
+  invalidateFilter();
+}
 
 MediaItemFilterProxyModel::MediaItemFilterProxyModel() {}
-// QTC_TEMP
+
 bool MediaItemFilterProxyModel::lessThan(
     const QModelIndex& source_left, const QModelIndex& source_right) const {
   int role = sortRole();
@@ -36,6 +41,32 @@ bool MediaItemFilterProxyModel::lessThan(
 
 void MediaItemFilterProxyModel::sort(int column, Qt::SortOrder order) {
   return QSortFilterProxyModel::sort(column, order);
+}
+
+bool MediaItemFilterProxyModel::filterAcceptsRow(
+    int source_row, const QModelIndex& source_parent) const {
+  if (m_filterStr.isEmpty())
+    return true;
+  auto model = sourceModel();
+  QModelIndex idx = model->index(source_row, 0, source_parent);
+  auto name = model->data(idx, MediaItemModel::NameRole).toString();
+  if (name.contains(m_filterStr, Qt::CaseInsensitive))
+    return true;
+  auto albumVar = model->data(idx, MediaItemModel::AlbumRole);
+  if (albumVar.canConvert<AlbumData>()) {
+    auto albumData = albumVar.value<AlbumData>();
+    if (albumData.name().contains(m_filterStr, Qt::CaseInsensitive))
+      return true;
+  }
+  auto artistsVar = model->data(idx, MediaItemModel::ArtistRole);
+  if (artistsVar.canConvert<QList<AristItem>>()) {
+    auto artistData = artistsVar.value<QList<AristItem>>();
+    for (const auto& artist : artistData) {
+      if (artist.name().contains(m_filterStr, Qt::CaseInsensitive))
+        return true;
+    }
+  }
+  return false;
 }
 // void MediaItemFilterProxyModel::sortByArtistName(Qt::SortOrder order)
 // {
@@ -74,4 +105,4 @@ void MediaItemFilterProxyModel::sort(int column, Qt::SortOrder order) {
 //   this->sort(0,order);
 // }
 
-}
+}  // namespace model
