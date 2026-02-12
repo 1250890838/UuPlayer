@@ -1,0 +1,40 @@
+name: CLI Build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "6.5.3"
+
+      - name: Configure QWindowKit
+        shell: bash
+        run: |
+          cmake -B libs/qwindowkit/build -S libs/qwindowkit \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DQWINDOWKIT_BUILD_QUICK=ON \
+            -DCMAKE_PREFIX_PATH="$Qt6_DIR" \
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/libs/qwindowkit/install"
+          cmake --build libs/qwindowkit/build --target install --config Release
+
+      - name: Build UuPlayer
+        shell: bash
+        run: |
+          cmake -B build -S src \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH="$Qt6_DIR" \
+            -DQWindowKit_DIR="${{ github.workspace }}/libs/qwindowkit/install/lib/cmake/QWindowKit"
+          cmake --build build --config Release
