@@ -1,13 +1,11 @@
 #include "play_service.h"
 #include "recommended_playlist_service.h"
 
-#include <QObject>
 #include <QModelIndex>
+#include <QObject>
 
 namespace service {
-PlayService::PlayService() : m_currentIndex(-1) {
-  // connect(&m_player, &engine::MediaPlayer::playingChanged, this,
-  //        &PlayService::playingChanged);
+PlayService::PlayService() {
   connect(&m_player, &engine::MediaPlayer::durationChanged, this,
           &PlayService::durationChanged);
   connect(&m_player, &engine::MediaPlayer::positionChanged, this,
@@ -64,13 +62,12 @@ void PlayService::setPosition(quint64 position) {
 }
 
 void PlayService::play(qulonglong id) {
-  for (int i = 0; i < m_medias.size(); i++) {
-    if (m_medias[i].id == id) {
-      m_player.play(m_medias[i].url);
-      m_currentIndex = i;
-      emit currentPlayItemChanged();
-      break;
-    }
+  auto it = std::ranges::find_if(
+      m_medias, [&](const auto& media) { return media.id == id; });
+  if (it != m_medias.end() && !it->url.isEmpty()) {
+    m_player.play(it->url);
+    m_currentIndex = std::distance(m_medias.begin(), it);
+    emit currentPlayItemChanged();
   }
 }
 
@@ -79,35 +76,28 @@ void PlayService::pause() {
 }
 
 void PlayService::next() {
-  m_currentIndex++;
-  if (m_currentIndex >= m_medias.size()) {
-    m_currentIndex = 0;
+  if (m_medias.empty()) {
+    m_currentIndex = std::nullopt;
+    return;
   }
-
-  if (m_currentIndex >= m_medias.size()) {
-    m_currentIndex = -1;
-  }
-
-  if (m_currentIndex != -1) {
-    auto& media = m_medias[m_currentIndex];
-    this->play(media.id);
-  }
+  m_currentIndex = m_currentIndex ? (*m_currentIndex + 1) % m_medias.size() : 0;
+  play(m_medias[*m_currentIndex].id);
 }
 
 void PlayService::previous() {
-  m_currentIndex--;
-  if (m_currentIndex < 0) {
-    m_currentIndex = 0;
+  if (m_medias.empty()) {
+    m_currentIndex.reset();
+    return;
   }
 
-  if (m_currentIndex >= m_medias.size()) {
-    m_currentIndex = -1;
+  if (!m_currentIndex.has_value()) {
+    m_currentIndex = m_medias.size() - 1;
+  } else {
+    m_currentIndex =
+        (*m_currentIndex == 0) ? m_medias.size() - 1 : *m_currentIndex - 1;
   }
 
-  if (m_currentIndex != -1) {
-    auto media = m_medias[m_currentIndex];
-    this->play(media.id);
-  }
+  play(m_medias[*m_currentIndex].id);
 }
 
 void PlayService::play() {
@@ -124,27 +114,11 @@ void PlayService::appendMediaItem(const MediaItem& item) {
   emit endInsertItems();
 }
 
-void PlayService::insertNext(qulonglong id) {
-  //  auto items = m_playbacklistModel.rawData();
-  //  for (int i = 0; i < items.size(); i++) {
-  //    if (items[i]->id == id) {
-  //      m_playbacklistModel.removeItem(i);
-  //      break;
-  //    }
-  //  }
-
-  //  if (g_idToMediaMap[id] != Q_NULLPTR) {
-  //    return;
-  //  }
-
-  //  m_playbacklistModel.insertItem(g_idToMediaMap[id], m_currentIndex + 1);
-  //  m_currentIndex++;
-  //  emit numChanged();
-}
+void PlayService::insertNextToPlayingItem(const MediaItem& item) {}
 
 entities::MediaItem PlayService::currentPlayItem() {
-  if (m_currentIndex >= 0 && m_currentIndex < m_medias.size()) {
-    return m_medias[m_currentIndex];
+  if (m_currentIndex.has_value()) {
+    return m_medias[m_currentIndex.value()];
   }
   return {};
 }
@@ -166,27 +140,27 @@ void PlayService::onMediaStatusChanged(QMediaPlayer::MediaStatus status) {
 }
 
 void PlayService::operateForPlaybackMode() {
-  switch (m_playbackMode) {
-    case play_mode::Sequentially:
-      m_currentIndex++;
-      if (m_currentIndex < m_medias.size()) {
-        play(m_medias[m_currentIndex].id);
-      }
-      break;
-    case play_mode::ListLoop:
-      m_currentIndex++;
-      if (m_currentIndex >= m_medias.size()) {
-        m_currentIndex = 0;
-      }
-      play(m_medias[m_currentIndex].id);
-      break;
-    case play_mode::SingleLoop:
-      play(m_medias[m_currentIndex].id);
-      break;
-    case play_mode::Shuffle:
-      break;
-    default:
-      break;
-  }
+  // switch (m_playbackMode) {
+  //   case play_mode::Sequentially:
+  //     m_currentIndex++;
+  //     if (m_currentIndex < m_medias.size()) {
+  //       play(m_medias[m_currentIndex].id);
+  //     }
+  //     break;
+  //   case play_mode::ListLoop:
+  //     m_currentIndex++;
+  //     if (m_currentIndex >= m_medias.size()) {
+  //       m_currentIndex = 0;
+  //     }
+  //     play(m_medias[m_currentIndex].id);
+  //     break;
+  //   case play_mode::SingleLoop:
+  //     play(m_medias[m_currentIndex].id);
+  //     break;
+  //   case play_mode::Shuffle:
+  //     break;
+  //   default:
+  //     break;
+  // }
 }
 }  // namespace service
