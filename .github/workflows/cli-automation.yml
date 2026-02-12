@@ -21,6 +21,7 @@ jobs:
         shell: bash
         run: |
           cmake -B libs/qwindowkit/build -S libs/qwindowkit \
+            -DCMAKE_BUILD_TYPE=Release \
             -DQWINDOWKIT_BUILD_QUICK=ON \
             -DCMAKE_PREFIX_PATH="$Qt6_DIR" \
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/libs/qwindowkit/install"
@@ -30,6 +31,7 @@ jobs:
         shell: bash
         run: |
           cmake -B build -S src \
+            -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_PREFIX_PATH="$Qt6_DIR" \
             -DQWindowKit_DIR="${{ github.workspace }}/libs/qwindowkit/install/lib/cmake/QWindowKit"
           cmake --build build --config Release
