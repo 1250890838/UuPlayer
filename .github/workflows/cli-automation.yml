@@ -19,6 +19,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: "6.5.3"
+          modules: "qtmultimedia"
 
       - name: Configure QWindowKit
         shell: bash
