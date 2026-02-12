@@ -34,6 +34,10 @@ qint64 PlayService::num() {
   return m_medias.count();
 }
 
+PlayMode PlayService::playbackMode() {
+  return m_playbackMode;
+}
+
 void PlayService::setPlaybackMode(PlayMode mode) {
   m_playbackMode = mode;
   emit playbackModeChanged();

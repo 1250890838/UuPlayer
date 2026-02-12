@@ -7,20 +7,22 @@
 
 #include "model/media_item_model.h"
 #include "play_service.h"
+#include "controller_global.h"
+
 namespace controller {
 using namespace service;
 using namespace entities;
 using namespace model;
 using namespace play_mode;
 
-class PlayController : public QObject {
+class CONTROLLER_DLL_EXPORT PlayController : public QObject {
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
   Q_PROPERTY(bool isPlaying READ isPlaying NOTIFY isPlayingChanged FINAL)
   Q_PROPERTY(qint64 duration READ duration NOTIFY durationChanged FINAL)
   Q_PROPERTY(quint64 position READ position WRITE setPosition NOTIFY positionChanged FINAL)
-  // Q_PROPERTY(PlayMode playmode READ playmode NOTIFY playmodeChanged)
+  Q_PROPERTY(PlayMode playmode READ playmode NOTIFY playmodeChanged)
   Q_PROPERTY(float volumn READ volumn NOTIFY volumnChanged)
   Q_PROPERTY(MediaItem currMediaItem READ currMediaItem NOTIFY
                  currMediaItemChanged FINAL)
@@ -38,7 +40,7 @@ class PlayController : public QObject {
   qint64 duration() { return m_service->duration(); }
   quint64 position() { return m_service->position(); }
   QVariantList lyric() { return m_service->currentLyric(); }
-  // PlayMode playmode() { return m_service->playbackMode(); }
+  PlayMode playmode() { return m_service->playbackMode(); }
   float volumn() { return m_service->volumn(); }
   MediaItem currMediaItem() { return m_service->currentPlayItem(); }
   MediaItemModel* medias() { return &m_mediasModel; }
