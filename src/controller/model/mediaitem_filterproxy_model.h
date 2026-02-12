@@ -27,8 +27,11 @@ namespace model{
 class MediaItemFilterProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
+
+
  public:
   MediaItemFilterProxyModel();
+  Q_INVOKABLE void setFilterString(const QString& str);
 
  protected:
   // QTC_TEMP
@@ -40,6 +43,14 @@ class MediaItemFilterProxyModel : public QSortFilterProxyModel
   // QAbstractItemModel interface
  public:
   void sort(int column, Qt::SortOrder order) override;
+
+  // QSortFilterProxyModel interface
+ protected:
+  bool filterAcceptsRow(int source_row,
+                        const QModelIndex& source_parent) const override;
+
+ private:
+  QString m_filterStr;
 };
 }
 #endif
