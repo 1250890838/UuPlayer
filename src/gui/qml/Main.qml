@@ -136,34 +136,79 @@ Window {
     LyricsViewPage {
         id: lyricsViewPage
         width: window.width
-        height: 0
+        height: window.height
         x: 0
         y: window.height
         z: 10
+        transformOrigin: Item.Bottom
         media: PlayController.currMediaItem
         states: [
             State {
                 name: "closed"
                 PropertyChanges {
-                    lyricsViewPage.height: 0
-                    lyricsViewPage.y: window.height
+                    target: lyricsViewPage
+                    scale: 0
+                    y: window.height
+                    visible: false
+                    enabled: false
                 }
             },
             State {
                 name: "opened"
                 PropertyChanges {
-                    lyricsViewPage.height: window.height
-                    lyricsViewPage.y: 0
+                    target: lyricsViewPage
+                    scale: 1
+                    y: 0
+                    visible: true
+                    enabled: true
                 }
             }
         ]
-        transitions: Transition {
-            PropertyAnimation {
-                id: yPropertyAnimation
-                properties: "y,height"
-                easing.type: Easing.InExpo
-                duration: 200
+        transitions: [
+            Transition {
+                from: "closed"
+                to: "opened"
+                ParallelAnimation {
+                    ScaleAnimator {
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+                    YAnimator {
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+                    OpacityAnimator {
+                        duration: 300
+                    }
+                }
+            },
+            Transition {
+                from: "opened"
+                to: "closed"
+                SequentialAnimation {
+                    ParallelAnimation {
+                        ScaleAnimator {
+                            duration: 300
+                            easing.type: Easing.InExpo
+                        }
+                        YAnimator {
+                            duration: 300
+                            easing.type: Easing.InExpo
+                        }
+                        OpacityAnimator {
+                            duration: 300
+                        }
+                    }
+                    PropertyAction {
+                        target: lyricsViewPage
+                        property: "visible"
+                    }
+                    PropertyAction {
+                        target: lyricsViewPage
+                        property: "enabled"
+                    }
+                }
             }
-        }
+        ]
     }
 }
