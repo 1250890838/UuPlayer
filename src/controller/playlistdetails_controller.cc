@@ -36,6 +36,8 @@ PlaylistDetailsController::PlaylistDetailsController() {
 
 void PlaylistDetailsController::onDetailReady(error_code::ErrorCode code,
                                               PlaylistItemPtr data) {
+  if (data.isNull())
+    return;
   m_playlist.setValue(*data.get());
   m_name.setValue(data->name());
   m_desc.setValue(data->desc());

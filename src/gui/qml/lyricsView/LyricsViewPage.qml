@@ -166,7 +166,6 @@ Page {
                                 lyricsListView.currentIndex
                                         = Utils.findClosestLowerIndexBinarySearch(
                                             PlayController.lyric, position)
-                                console.log(lyricsListView.currentIndex)
                                 lyricsListView.positionViewAtIndex(
                                             lyricsListView.currentIndex,
                                             ListView.Center)

@@ -31,14 +31,14 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void setPlaybackMode(PlayMode mode);
   float volumn();
   void setVolumn(float volumn);
-  // interface public:
   void play(qulonglong id);
+  void playByIndex(quint32 index);
   void pause();
   void next();
   void previous();
   void play();
   void appendMediaItem(const MediaItem& item);
-  void insertNext(qulonglong id);
+  void insertNextToPlayingItem(const MediaItem& item);
   MediaItem currentPlayItem();
   QVariantList currentLyric() { return m_lyricData.value(); }
   void setLyric(const QVariantList& data) { m_lyricData.setValue(data); }
@@ -48,7 +48,6 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void durationChanged(qint64 duration);
   void positionChanged(qint64 position);
   void currentPlayItemChanged();
-  void numChanged();
   void playbackModeChanged();
   void volumnChanged(float);
   void beginInsertItems(const QModelIndex& parent, int first, int last);
@@ -60,14 +59,14 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void onPlaybackStateChanged(QMediaPlayer::PlaybackState state);
   void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
  private:
-  void operateForPlaybackMode();
+  void operateForPlaybackMode(bool next);
  private:
   Q_OBJECT_BINDABLE_PROPERTY(PlayService, QVariantList, m_lyricData,
                              &PlayService::currentLyricChanged);
   engine::MediaPlayer m_player;
   QList<MediaItem> m_medias;
   PlayMode m_playbackMode;
-  quint32 m_currentIndex;
+  std::optional<quint32> m_currentIndex;
 };
 }  // namespace service
 #endif  // PLAY_SERVICE_H
