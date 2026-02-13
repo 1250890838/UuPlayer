@@ -109,19 +109,18 @@ Item {
                         onClicked: PlayController.next()
                     }
                     IconButton {
-                        property var currentMode: playbackModes[0]
+                        property int currentModeIndex: playbackModes.indexOf(
+                                                           PlayController.playmode)
                         property var playbackModes: [PlayMode.Sequentially, PlayMode.ListLoop, PlayMode.SingleLoop, PlayMode.Shuffle]
                         property var playbackModeIcons: [Icons.playbackModeSequentialIcon, Icons.playbackModeListLoopIcon, Icons.playbackModeSingleLoopIcon, Icons.playbackModeShuffleIcon]
-                        icon: playbackModeIcons[currentMode]
-                        hoveredIcon: playbackModeIcons[currentMode]
+                        icon: playbackModeIcons[currentModeIndex]
+                        hoveredIcon: playbackModeIcons[currentModeIndex]
                         width: 23
                         height: 23
                         anchors.verticalCenter: parent.verticalCenter
                         onClicked: {
-                            currentMode++
-                            if (currentMode > playbackModes.length)
-                                currentMode = 0
-                            PlayService.playbackMode = currentMode
+                            currentModeIndex = (currentModeIndex + 1) % playbackModes.length
+                            PlayController.playmode = playbackModes[currentModeIndex]
                         }
                     }
                 }

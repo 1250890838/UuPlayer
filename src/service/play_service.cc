@@ -3,9 +3,10 @@
 
 #include <QModelIndex>
 #include <QObject>
+#include <QRandomGenerator>
 
 namespace service {
-PlayService::PlayService() {
+PlayService::PlayService():m_playbackMode(play_mode::ListLoop) {
   connect(&m_player, &engine::MediaPlayer::durationChanged, this,
           &PlayService::durationChanged);
   connect(&m_player, &engine::MediaPlayer::positionChanged, this,
@@ -65,10 +66,17 @@ void PlayService::play(qulonglong id) {
   auto it = std::ranges::find_if(
       m_medias, [&](const auto& media) { return media.id == id; });
   if (it != m_medias.end() && !it->url.isEmpty()) {
-    m_player.play(it->url);
-    m_currentIndex = std::distance(m_medias.begin(), it);
-    emit currentPlayItemChanged();
+    playByIndex(std::distance(m_medias.begin(), it));
   }
+}
+
+void PlayService::playByIndex(quint32 index) {
+  if (index >= m_medias.size())
+    return;
+  const auto& media = m_medias[index];
+  m_player.play(media.url);
+  m_currentIndex = index;
+  emit currentPlayItemChanged();
 }
 
 void PlayService::pause() {
@@ -76,28 +84,11 @@ void PlayService::pause() {
 }
 
 void PlayService::next() {
-  if (m_medias.empty()) {
-    m_currentIndex = std::nullopt;
-    return;
-  }
-  m_currentIndex = m_currentIndex ? (*m_currentIndex + 1) % m_medias.size() : 0;
-  play(m_medias[*m_currentIndex].id);
+  operateForPlaybackMode(true);
 }
 
 void PlayService::previous() {
-  if (m_medias.empty()) {
-    m_currentIndex.reset();
-    return;
-  }
-
-  if (!m_currentIndex.has_value()) {
-    m_currentIndex = m_medias.size() - 1;
-  } else {
-    m_currentIndex =
-        (*m_currentIndex == 0) ? m_medias.size() - 1 : *m_currentIndex - 1;
-  }
-
-  play(m_medias[*m_currentIndex].id);
+  operateForPlaybackMode(false);
 }
 
 void PlayService::play() {
@@ -114,7 +105,14 @@ void PlayService::appendMediaItem(const MediaItem& item) {
   emit endInsertItems();
 }
 
-void PlayService::insertNextToPlayingItem(const MediaItem& item) {}
+void PlayService::insertNextToPlayingItem(const MediaItem& item) {
+  quint32 index = 0;
+  if (m_currentIndex && *m_currentIndex < m_medias.size())
+    index = *m_currentIndex + 1;
+  emit beginInsertItems(QModelIndex(), index, index);
+  m_medias.insert(index, item);
+  emit endInsertItems();
+}
 
 entities::MediaItem PlayService::currentPlayItem() {
   if (m_currentIndex.has_value()) {
@@ -135,32 +133,51 @@ void PlayService::onPlaybackStateChanged(QMediaPlayer::PlaybackState state) {
 
 void PlayService::onMediaStatusChanged(QMediaPlayer::MediaStatus status) {
   if (status == QMediaPlayer::EndOfMedia) {
-    operateForPlaybackMode();
+    operateForPlaybackMode(true);
   }
 }
 
-void PlayService::operateForPlaybackMode() {
-  // switch (m_playbackMode) {
-  //   case play_mode::Sequentially:
-  //     m_currentIndex++;
-  //     if (m_currentIndex < m_medias.size()) {
-  //       play(m_medias[m_currentIndex].id);
-  //     }
-  //     break;
-  //   case play_mode::ListLoop:
-  //     m_currentIndex++;
-  //     if (m_currentIndex >= m_medias.size()) {
-  //       m_currentIndex = 0;
-  //     }
-  //     play(m_medias[m_currentIndex].id);
-  //     break;
-  //   case play_mode::SingleLoop:
-  //     play(m_medias[m_currentIndex].id);
-  //     break;
-  //   case play_mode::Shuffle:
-  //     break;
-  //   default:
-  //     break;
-  // }
+void PlayService::operateForPlaybackMode(bool next) {
+  if (m_medias.empty()) {
+    m_currentIndex = std::nullopt;
+    return;
+  }
+  const qsizetype size = static_cast<qsizetype>(m_medias.size());
+  qsizetype idx = m_currentIndex ? static_cast<qsizetype>(*m_currentIndex) : -1;
+  switch (m_playbackMode) {
+    case play_mode::Sequentially:
+      if (!m_currentIndex) {
+        idx = next ? 0 : size - 1;
+      } else {
+        idx += next ? 1 : -1;
+        if (idx < 0 || idx >= size) {
+          m_currentIndex.reset();
+          return;
+        }
+      }
+      break;
+
+    case play_mode::ListLoop:
+      if (!m_currentIndex) {
+        idx = next ? 0 : size - 1;
+      } else {
+        idx = (idx + (next ? 1 : -1) + size) % size;
+      }
+      break;
+
+    case play_mode::SingleLoop:
+      if (!m_currentIndex)
+        idx = 0;
+      break;
+
+    case play_mode::Shuffle:
+      idx = QRandomGenerator::global()->bounded(size);
+      break;
+
+    default:
+      return;
+  }
+
+  playByIndex(idx);
 }
 }  // namespace service

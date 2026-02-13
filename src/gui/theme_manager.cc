@@ -102,7 +102,6 @@ QColor ThemeManager::averageColor(const QImage& img, const QRect& rect) {
 }
 
 void ThemeManager::onImageReady(const QString& url, const QSize& size) {
-  auto th = thread();
   if (url != m_pendingUrl || size != m_analysisSize)
     return;
   const QImage img = m_store->get(url, size);
