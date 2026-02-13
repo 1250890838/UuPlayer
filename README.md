@@ -3,14 +3,11 @@
 这是一个基于QML/C++的音乐播放器，模仿网易云音乐桌面客户端，主要是用来练习QML构建前端、QML与C++后端交互
 
 <table>
-  <!-- 第一行，第一张图片跨两列 -->
   <tr>
     <td colspan="2">
-      <img src="https://github.com/user-attachments/assets/d1d8a312-89df-4fe0-bc85-b914200c95bc" width="800"/>
+      <img width="2099" height="1560" alt="image" src="https://github.com/user-attachments/assets/f4e250cc-70dc-4892-8916-186469a5caa6" />
     </td>
   </tr>
-
-  <!-- 第二行，剩下四张图片，2x2 -->
   <tr>
     <td><img src="https://github.com/user-attachments/assets/9ea1500d-970d-43c5-afe4-b78d860429d5" width="400"/></td>
     <td><img src="https://github.com/user-attachments/assets/a7083747-dc30-4ef9-8bb3-0c41124634a0" width="400"/></td>
