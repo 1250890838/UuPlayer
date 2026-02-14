@@ -32,7 +32,6 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   float volumn();
   void setVolumn(float volumn);
   void play(qulonglong id);
-  void playByIndex(quint32 index);
   void pause();
   void next();
   void previous();
@@ -60,6 +59,7 @@ class SERVICE_DLL_EXPORT PlayService : public QObject {
   void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
  private:
   void operateForPlaybackMode(bool next);
+  void playByIndex(quint32 index);
  private:
   Q_OBJECT_BINDABLE_PROPERTY(PlayService, QVariantList, m_lyricData,
                              &PlayService::currentLyricChanged);

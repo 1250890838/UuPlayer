@@ -80,7 +80,7 @@ Item {
             Layout.preferredHeight: index.implicitHeight
             Layout.preferredWidth: headerDummyItem.width
             onClicked: {
-                if (PlayController.playing
+                if (PlayController.isPlaying
                         && PlayController.currPlayItem.id === model.id) {
                     PlayController.pause()
                 } else {
