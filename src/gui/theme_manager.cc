@@ -25,6 +25,7 @@ ThemeManager::ThemeManager(ImageStore* store, QObject* parent)
                    &ThemeManager::onImageReady);
   QObject::connect(m_store, &ImageStore::imageFailed, this,
                    &ThemeManager::onImageFailed);
+
 }
 
 void ThemeManager::applyThemeFromUrl(const QString& url) {
@@ -71,6 +72,15 @@ void ThemeManager::onImageFailed(const QString& url, const QSize& size,
   qDebug() << "ThemeManager image failed:" << reason << "url=" << url;
 }
 
+QColor ThemeManager::adjustColorForUI(const QColor& c) {
+  if (!c.isValid()) return QColor(QStringLiteral("#f7f9fc"));
+  float h, s, l, a;
+  c.getHslF(&h, &s, &l, &a);
+  s = qBound(0.20f, s, 0.35f);
+  l = qBound(0.84f, l, 0.90f);
+  return QColor::fromHslF(h, s, l, a);
+}
+
 QColor ThemeManager::averageColor(const QImage& img, const QRect& rect) {
   if (img.isNull())
     return QColor();
@@ -111,9 +121,8 @@ void ThemeManager::onImageReady(const QString& url, const QSize& size) {
                   const int h = img.height();
                   const QRect topRect(0, 0, img.width(), h / 2);
                   const QRect bottomRect(0, h / 2, img.width(), h - h / 2);
-
-                  const QColor c1 = averageColor(img, topRect);
-                  const QColor c2 = averageColor(img, bottomRect);
+                  const QColor c1 = adjustColorForUI(averageColor(img, topRect));
+                  const QColor c2 = adjustColorForUI(averageColor(img, bottomRect));
                   return qMakePair(c1, c2);
                 }).spawn();
   future.then(this, [this](const QPair<QColor, QColor>& colors) {

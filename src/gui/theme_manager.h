@@ -47,6 +47,7 @@ private slots:
 
 private:
   static QColor averageColor(const QImage& img, const QRect& rect);
+  static QColor adjustColorForUI(const QColor& c);
 
 private:
   ImageStore* m_store = nullptr;
