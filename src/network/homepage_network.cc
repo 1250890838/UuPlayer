@@ -17,7 +17,7 @@ void HomepageNetwork::fetch(bool refresh) {
   connect(reply, &QNetworkReply::finished, this, [reply, this] {
     auto code = handleReplyErrorCode(reply);
     auto data = reply->readAll();
-    emit (code, data);
+    emit ready(code, data);
     reply->deleteLater();
   });
 }

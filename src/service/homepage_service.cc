@@ -1,13 +1,13 @@
 #include "homepage_service.h"
 
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
-#include <QJsonArray>
 
 namespace service {
 HomepageService::HomepageService(QObject* parent) : QObject{parent} {
-  connect(m_network, &HomepageNetwork::ready, this, &HomepageService::onReady);
+  connect(&m_network, &HomepageNetwork::ready, this, &HomepageService::onReady);
 }
 
 void HomepageService::fetch(bool refresh) {
@@ -26,12 +26,15 @@ void HomepageService::onReady(error_code::ErrorCode code,
         result = HomePageInfoPtr::create();
         auto dataObj = obj["data"].toObject();
         auto blocksArr = dataObj["blocks"].toArray();
-        // parseBanners(blocksArr.at(0));
-        // parseRcmdPlaylists(blocksArr.at(2));
-        // parseRcmdSongs(blocksArr.at(3));
+        parseBanners(result, blocksArr.at(0));
+        parseRcmdPlaylists(result, blocksArr.at(2));
+        parseRcmdSongs(result, blocksArr.at(3));
       }
+    } else {
+      code = error_code::JsonContentError;
     }
   }
+  emit ready(code, result);
 }
 
 void HomepageService::parseBanners(HomePageInfoPtr ptr, QJsonValue value) {
@@ -83,7 +86,29 @@ void HomepageService::parseRcmdPlaylists(HomePageInfoPtr ptr,
 }
 
 void HomepageService::parseRcmdSongs(HomePageInfoPtr ptr, QJsonValue value) {
-
+  QJsonObject obj = value.toObject();
+  if (obj["blockCode"].toString() != "HOMEPAGE_BLOCK_STYLE_RCMD")
+    return;
+  QJsonArray arr = obj["creatives"].toArray();
+  for (const auto& creativeValue : arr) {
+    auto creativeObj = creativeValue.toObject();
+    auto resourceArr = creativeObj["resource"].toArray();
+    for (const auto& resourceValue : resourceArr) {
+      RcmdSongInfo info;
+      auto resourceObj = resourceValue.toObject();
+      info.mainTitle = resourceObj["uiElement"]
+                           .toObject()["mainTtile"]
+                           .toObject()["title"]
+                           .toString();
+      info.subTitle = resourceObj["uiElement"]
+                          .toObject()["subTitle"]
+                          .toObject()["title"]
+                          .toString();
+      info.picUrl = resourceObj["image"].toObject()["imageUrl"].toString();
+      info.targetId = resourceObj["resourceId"].toVariant().toULongLong();
+      ptr->rcmdSongs.append(info);
+    }
+  }
 }
 
 }  // namespace service

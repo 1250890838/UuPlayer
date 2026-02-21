@@ -8,6 +8,7 @@
 #include <QList>
 
 #include "homepage_network.h"
+#include "service_global.h"
 
 namespace service {
 
@@ -42,7 +43,7 @@ struct HomePageInfo {
 using namespace network;
 using HomePageInfoPtr = QSharedPointer<HomePageInfo>;
 
-class HomepageService : public QObject {
+class SERVICE_DLL_EXPORT HomepageService : public QObject {
   Q_OBJECT
  public:
   explicit HomepageService(QObject* parent = nullptr);

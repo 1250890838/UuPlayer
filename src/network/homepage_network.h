@@ -4,7 +4,7 @@
 #include "basic_network.h"
 
 namespace network{
-class HomepageNetwork : public BasicNetwork {
+class NETWORK_DLL_EXPORT HomepageNetwork : public BasicNetwork {
   Q_OBJECT
  public:
   HomepageNetwork();

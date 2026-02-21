@@ -13,6 +13,7 @@ qt6_add_qml_module(
    SOURCES featured_playlisthub_controller.h featured_playlisthub_controller.cc
    SOURCES playlistdetails_controller.h playlistdetails_controller.cc
    SOURCES play_controller.h play_controller.cc
+   SOURCES homepage_controller.h homepage_controller.cc
 )
 
 target_include_directories(controller INTERFACE ".")
