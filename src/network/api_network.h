@@ -30,6 +30,7 @@ const QString apiMvComment = host + QStringLiteral("/comment/mv");
 const QString apiPlaylistComment = host + QStringLiteral("/comment/playlist");
 const QString apiAlbumComment = host + QStringLiteral("/comment/album");
 const QString apiMusicComment = host + QStringLiteral("/comment/music");
+const QString apiHomepage = host + QStringLiteral("/homepage/block/page");
 }  // namespace network_api
 
 #endif

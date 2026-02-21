@@ -17,5 +17,6 @@ qt_add_qml_module(
     TextIconButton.qml
     UScrollBar.qml
     UTextEdit.qml
+    CarouselView.qml
     Utils.js
 )
