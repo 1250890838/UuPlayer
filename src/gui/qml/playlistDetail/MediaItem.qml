@@ -119,7 +119,8 @@ Item {
         IconButton {
             id: playButton
             visible: root.showType === MediaItem.ShowIcon
-            icon: root.isPlaying ? Icons.pauseGrayIcon : Icons.playGrayIcon
+            icon: (root.isPlaying
+                   && root.isCurrMedia) ? Icons.pauseGrayIcon : Icons.playGrayIcon
             hoveredIcon: Icons.playGrayIcon
             Layout.preferredHeight: index.implicitHeight
             Layout.preferredWidth: headerDummyItem.width
