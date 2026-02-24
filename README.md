@@ -5,7 +5,7 @@
 <table>
   <tr>
     <td colspan="2">
-      <img width="2099" height="1560" alt="image" src="https://github.com/user-attachments/assets/f4e250cc-70dc-4892-8916-186469a5caa6" />
+      <img width="2118" height="1564" alt="image" src="https://github.com/user-attachments/assets/4d937384-e21d-4e3a-9452-f94f2851a32d" />
     </td>
   </tr>
   <tr>
