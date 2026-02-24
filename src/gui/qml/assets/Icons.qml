@@ -1,5 +1,4 @@
 pragma Singleton
-
 import QtQuick
 
 Item {
@@ -59,4 +58,5 @@ Item {
 
     property url maleIcon: "qrc:/gui/images/male.svg"
     property url femaleIcon: "qrc:/gui/images/female.svg"
+    property url audioWaveGif: "qrc:/gui/images/audio_wave.gif"
 }

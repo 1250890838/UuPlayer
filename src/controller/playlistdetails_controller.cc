@@ -53,9 +53,11 @@ void PlaylistDetailsController::onDetailReady(error_code::ErrorCode code,
 
 void PlaylistDetailsController::onCommentsReady(error_code::ErrorCode code,
                                                 CommentItemListPtr data) {
-  auto temp = m_comments.value().toList();
-  temp.append(*data);
-  m_comments.setValue(temp);
+  if (code == error_code::NoError) {
+    auto temp = m_comments.value().toList();
+    temp.append(*data);
+    m_comments.setValue(temp);
+  }
 }
 
 void PlaylistDetailsController::onMediaUrlReady(error_code::ErrorCode code,

@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
-
 import controller
 import ui_base 1.0
 import assets 1.0
@@ -9,29 +8,56 @@ import App.Enums 1.0
 
 Item {
     id: root
+
+    enum ShowType {
+        ShowIndex,
+        ShowIcon,
+        ShowWave
+    }
+
     readonly property bool isPlaying: PlayController.isPlaying
-                                      && PlayController.currMediaItem.id === model.id
-    readonly property bool isActive: mouseArea.containsMouse
-                                     || PlayController.currMediaItem.id === model.id
-    MultiEffect {
-        id: effect
-        visible: root.isActive
-        source: container
+    readonly property bool isCurrMedia: PlayController.currMediaItem.id === model.id
+
+    property int showType: {
+        if (mouseArea.containsMouse || (isCurrMedia && !isPlaying))
+            return MediaItem.ShowIcon
+        else if (!mouseArea.containsMouse && (isCurrMedia && isPlaying))
+            return MediaItem.ShowWave
+        else
+            return MediaItem.ShowIndex
+    }
+
+    Loader {
+        id: effectLoader
         anchors.fill: container
-        shadowBlur: 0.01
-        shadowColor: "gray"
-        shadowEnabled: true
-        shadowVerticalOffset: 0
-        shadowHorizontalOffset: 0
-        shadowOpacity: 0.3
-        shadowScale: 1.0
+        sourceComponent: effectComponenet
+        active: (root.showType === MediaItem.ShowIcon
+                 || root.showType === MediaItem.ShowWave)
+    }
+
+    Component {
+        id: effectComponenet
+        MultiEffect {
+            id: effect
+            visible: true
+            source: container
+            shadowBlur: 0.01
+            shadowColor: "gray"
+            shadowEnabled: true
+            shadowVerticalOffset: 0
+            shadowHorizontalOffset: 0
+            shadowOpacity: 0.3
+            shadowScale: 1.0
+            Component.onDestruction: console.log("effect destroyed!!!")
+        }
     }
 
     Rectangle {
         id: container
         anchors.fill: parent
         radius: 8
-        color: root.isActive ? "#ffffff" : "transparent"
+        color: (root.showType === MediaItem.ShowIcon
+                || root.showType === MediaItem.ShowWave) ? "#ffffff" : "transparent"
     }
 
     RowLayout {
@@ -42,46 +68,64 @@ Item {
         spacing: 10
         Text {
             id: index
-            visible: !playButton.visible
+            visible: root.showType === MediaItem.ShowIndex
             text: model.index.toString().padStart(2, '0') // 转换为两位数格式
             Layout.preferredWidth: headerDummyItem.width
         }
+        Loader {
+            id: waveLoader
+            active: root.showType === MediaItem.ShowWave
+            visible: this.active
+            sourceComponent: waveComponent
+            Layout.preferredHeight: index.implicitHeight
+            Layout.preferredWidth: headerDummyItem.width
+        }
+        Component {
+            id: waveComponent
+            AnimatedImage {
+                id: waveImage
+                source: "qrc:/gui/images/audio_wave.gif"
+            }
+        }
 
-        // Component {
-        //     id: connectFactory
-        //     Connections {
-        //         id: playSongConnection
-        //         target: NetworkSongService
-        //         property int count: 2
-        //         function onSongUrlStatus(code) {
-        //             if (code === ErrorCode.NoError) {
-        //                 PlayService.appendMediaId(model.id)
-        //                 PlayService.play(model.id)
-        //             }
-        //             count--
-        //             if (count === 0)
-        //                 playSongConnection.destroy()
-        //         }
-        //         function onSongLyricStatus(code) {
-        //             if (code === ErrorCode.NoError) {
-        //                 PlayService.currentPlayItemChanged()
-        //             }
-        //             count--
-        //             if (count === 0)
-        //                 playSongConnection.destroy()
-        //         }
-        //     }
-        //}
+
+        /*
+        Component {
+            id: connectFactory
+            Connections {
+                id: playSongConnection
+                target: NetworkSongService
+                property int count: 2
+                function onSongUrlStatus(code) {
+                    if (code === ErrorCode.NoError) {
+                        PlayService.appendMediaId(model.id)
+                        PlayService.play(model.id)
+                    }
+                    count--
+                    if (count === 0)
+                        playSongConnection.destroy()
+                }
+                function onSongLyricStatus(code) {
+                    if (code === ErrorCode.NoError) {
+                        PlayService.currentPlayItemChanged()
+                    }
+                    count--
+                    if (count === 0)
+                        playSongConnection.destroy()
+                }
+            }
+        }
+        */
         IconButton {
             id: playButton
-            visible: root.isActive
+            visible: root.showType === MediaItem.ShowIcon
             icon: root.isPlaying ? Icons.pauseGrayIcon : Icons.playGrayIcon
             hoveredIcon: Icons.playGrayIcon
             Layout.preferredHeight: index.implicitHeight
             Layout.preferredWidth: headerDummyItem.width
             onClicked: {
                 if (PlayController.isPlaying
-                        && PlayController.currPlayItem.id === model.id) {
+                        && PlayController.currMediaItem.id === model.id) {
                     PlayController.pause()
                 } else {
                     detailsController.fetchMediaUrl(model.id,
