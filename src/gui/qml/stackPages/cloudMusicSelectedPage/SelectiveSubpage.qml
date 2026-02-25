@@ -12,8 +12,8 @@ Flickable {
     boundsMovement: Flickable.StopAtBounds
     clip: true
     Component.onCompleted: {
-        globalScrollBar.currentFlickable = this;
-        homepageController.fetch();
+        globalScrollBar.currentFlickable = this
+        homepageController.fetch()
     }
     HomepageController {
         id: homepageController
@@ -21,20 +21,20 @@ Flickable {
     ColumnLayout {
         id: rootLayout
         anchors.fill: parent
+        anchors.margins: 8
         spacing: 5
         Item {
             id: bannersConainter
             implicitWidth: parent.width
             implicitHeight: 200
             CarouselView {
-                model: homepageController.banners
+                dataModel: homepageController.banners
                 anchors.fill: parent
                 delegate: Item {
                     id: delegateRoot
-                    property var itemData
-                    property int itemIndex
+                    property var itemModel
                     RoundedImage {
-                        imageUrl: itemData.picUrl
+                        imageUrl: itemModel.picUrl
                         anchors.fill: parent
                         isTopLeftRounded: true
                         isTopRightRounded: true
@@ -49,10 +49,11 @@ Flickable {
             implicitHeight: 10
             implicitWidth: 1
         }
+
         Text {
             text: "推荐歌单 >"
             font {
-                pointSize: 16
+                pointSize: 15
                 bold: true
             }
         }
@@ -60,11 +61,12 @@ Flickable {
             id: playlistsContainer
             implicitHeight: 350
             implicitWidth: parent.width
-            // CarouselView {
-            //     anchors.fill: parent
-            //     model: homepageController.recommendedPlaylists
-            //     delegate: Pl
-            // }
+            CarouselView {
+                anchors.fill: parent
+                itemsPerPage: 5
+                dataModel: homepageController.recommendedPlaylists
+                delegate: PlaylistItem {}
+            }
         }
     }
 }
