@@ -6,7 +6,7 @@ import QtQuick.Effects
 Item {
     id: root
     signal clicked
-    required property var model
+    property var itemModel: model
     function formatCount(count) {
         if (count >= 1000 && count <= 9999) {
             return (count / 1000).toFixed(1) + "千"
@@ -27,7 +27,7 @@ Item {
             radius: 10
             isTopLeftRounded: true
             isTopRightRounded: true
-            imageUrl: model.coverUrl
+            imageUrl: itemModel.coverUrl
             width: parent.width
             height: parent.height - 55
             Text {
@@ -37,7 +37,7 @@ Item {
                 anchors.top: parent.top
                 anchors.rightMargin: 10
                 anchors.topMargin: 10
-                text: root.formatCount(model.playCount)
+                text: root.formatCount(itemModel.playCount)
                 font.bold: true
                 font.pointSize: 10
             }
@@ -74,7 +74,7 @@ Item {
                 height: 55
                 width: parent.width
                 padding: 7
-                text: root.model.name
+                text: itemModel.name
                 wrapMode: Text.WordWrap
                 elide: Qt.ElideRight
                 maximumLineCount: 2
@@ -87,15 +87,15 @@ Item {
             //                visible: mouseArea.containsMouse
             //                Repeater {
             //                    id: repeater
-            //                    model: root.model.tracks.count >= 3 ? 3 : root.model.tracks.count
+            //                    model: model.tracks.count >= 3 ? 3 : model.tracks.count
             //                    Label {
             //                        leftPadding: 7
             //                        rightPadding: 7
             //                        elide: Qt.ElideRight
             //                        text: {
-            //                            console.log(root.model.tracks.itemAt(
+            //                            console.log(model.tracks.itemAt(
             //                                            modelData).name)
-            //                            let a = (modelData + 1) + " " + root.model.tracks.itemAt(
+            //                            let a = (modelData + 1) + " " + model.tracks.itemAt(
             //                                    modelData).name
             //                            return a
             //                        }

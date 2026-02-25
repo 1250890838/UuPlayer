@@ -46,9 +46,9 @@ void HomepageController::onReady(error_code::ErrorCode code,
       QVariantMap map;
       map["targetId"] = playlistInfo.targetId;
       map["labels"] = playlistInfo.labels;
-      map["mainTitle"] = playlistInfo.mainTitle;
-      map["subTitle"] = playlistInfo.subTitle;
-      map["picUrl"] = playlistInfo.picUrl;
+      map["name"] = playlistInfo.mainTitle;
+      map["subName"] = playlistInfo.subTitle;
+      map["coverUrl"] = playlistInfo.picUrl;
       map["playCount"] = playlistInfo.playCount;
       temp.append(map);
     }
