@@ -71,8 +71,8 @@ Rectangle {
             height: listView.height
             Item {
                 anchors.fill: parent
-                anchors.leftMargin: root.itemSpacing / 2
-                anchors.rightMargin: root.itemSpacing / 2
+                anchors.leftMargin: index == 0 ? 0 : root.itemSpacing / 2
+                anchors.rightMargin: anchors.leftMargin
                 Loader {
                     id: myLoader
                     anchors.fill: parent

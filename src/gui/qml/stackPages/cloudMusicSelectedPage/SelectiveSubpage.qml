@@ -46,7 +46,7 @@ Flickable {
             }
         }
         Item {
-            implicitHeight: 10
+            implicitHeight: 4
             implicitWidth: 1
         }
 
@@ -57,13 +57,20 @@ Flickable {
                 bold: true
             }
         }
+
+        Item {
+            implicitHeight: 1
+            implicitWidth: 1
+        }
+
         Item {
             id: playlistsContainer
-            implicitHeight: 350
+            implicitHeight: 272
             implicitWidth: parent.width
             CarouselView {
                 anchors.fill: parent
-                itemsPerPage: 5
+                itemsPerPage: parent.width / 192
+
                 dataModel: homepageController.recommendedPlaylists
                 delegate: PlaylistItem {}
             }
