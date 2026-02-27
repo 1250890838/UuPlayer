@@ -31,6 +31,8 @@ struct RcmdSongInfo {
   QString mainTitle;
   QString subTitle;
   QUrl picUrl;
+  QStringList artistNames;
+  QList<qulonglong> artistIds;
 };
 
 struct HomePageInfo {
@@ -56,6 +58,9 @@ class SERVICE_DLL_EXPORT HomepageService : public QObject {
   void parseBanners(HomePageInfoPtr ptr, QJsonValue value);
   void parseRcmdPlaylists(HomePageInfoPtr ptr, QJsonValue value);
   void parseRcmdSongs(HomePageInfoPtr ptr, QJsonValue value);
+  QPair<QList<qulonglong>, QList<QString>> parseRcmdSongArtistValueArray(
+      QJsonArray data);
+
  private:
   HomepageNetwork m_network;
 };

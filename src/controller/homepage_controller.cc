@@ -61,6 +61,7 @@ void HomepageController::onReady(error_code::ErrorCode code,
       map["mainTitle"] = songInfo.mainTitle;
       map["subTitle"] = songInfo.subTitle;
       map["picUrl"] = songInfo.picUrl;
+      map["artistNames"] = songInfo.artistNames;
       temp.append(map);
     }
     m_recommendedStyleSongs = temp;
