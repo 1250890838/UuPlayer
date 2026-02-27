@@ -22,7 +22,7 @@ Flickable {
         id: rootLayout
         anchors.fill: parent
         anchors.margins: 8
-        spacing: 5
+        spacing: 3
         Item {
             id: bannersConainter
             implicitWidth: parent.width
@@ -46,26 +46,83 @@ Flickable {
             }
         }
         Item {
-            implicitHeight: 10
+            implicitHeight: 1
             implicitWidth: 1
         }
 
         Text {
             text: "推荐歌单 >"
+            Layout.leftMargin: 6
             font {
                 pointSize: 15
                 bold: true
             }
         }
+
+        Item {
+            implicitHeight: 1
+            implicitWidth: 1
+        }
+
         Item {
             id: playlistsContainer
-            implicitHeight: 350
+            implicitHeight: 272
             implicitWidth: parent.width
             CarouselView {
                 anchors.fill: parent
-                itemsPerPage: 5
+                itemsPerPage: parent.width / 192
+
                 dataModel: homepageController.recommendedPlaylists
                 delegate: PlaylistItem {}
+            }
+        }
+
+        Component {
+            id: rcmdSongItemComponent
+            Item {
+                id: songItemConainter
+                implicitHeight: containerRow.implicitHeight
+                implicitWidth: containerRow.implicitWidth
+                Row {
+                    id: containerRow
+                    RoundedImage {
+                        imageUrl: modelData.picUrl
+                        width: 40
+                        height: 40
+                    }
+                    Column {
+                        Text {
+                            id: songNameText
+                            text: modelData.mainTitle
+                        }
+                        Text {
+                            id: artistNameText
+                            text: modelData.artistNames?.join(',')
+                        }
+                    }
+                }
+            }
+        }
+
+        Text {
+            text: "今日推荐歌曲 >"
+            Layout.leftMargin: 6
+            font {
+                pointSize: 15
+                bold: true
+            }
+        }
+
+        GridLayout {
+            columns: 2
+            rows: 3
+            columnSpacing: 15
+            rowSpacing: 15
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Repeater {
+                model: homepageController.recommendedStyleSongs
+                delegate: rcmdSongItemComponent
             }
         }
     }

@@ -26,7 +26,7 @@ Rectangle {
         anchors.fill: parent
         source: root.imageUrl
         visible: false
-        fillMode: Image.PreserveAspectFit
+        fillMode: Image.Stretch
         smooth: true
     }
 

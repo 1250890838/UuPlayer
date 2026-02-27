@@ -26,9 +26,13 @@ void HomepageService::onReady(error_code::ErrorCode code,
         result = HomePageInfoPtr::create();
         auto dataObj = obj["data"].toObject();
         auto blocksArr = dataObj["blocks"].toArray();
-        parseBanners(result, blocksArr.at(0));
-        parseRcmdPlaylists(result, blocksArr.at(2));
-        parseRcmdSongs(result, blocksArr.at(3));
+
+        std::for_each(blocksArr.begin(), blocksArr.end(),
+                      [this, result](const QJsonValue& value) {
+                        parseBanners(result, value);
+                        parseRcmdPlaylists(result, value);
+                        parseRcmdSongs(result, value);
+                      });
       }
     } else {
       code = error_code::JsonContentError;
@@ -92,7 +96,7 @@ void HomepageService::parseRcmdSongs(HomePageInfoPtr ptr, QJsonValue value) {
   QJsonArray arr = obj["creatives"].toArray();
   for (const auto& creativeValue : arr) {
     auto creativeObj = creativeValue.toObject();
-    auto resourceArr = creativeObj["resource"].toArray();
+    auto resourceArr = creativeObj["resources"].toArray();
     for (const auto& resourceValue : resourceArr) {
       RcmdSongInfo info;
       auto resourceObj = resourceValue.toObject();
@@ -106,9 +110,39 @@ void HomepageService::parseRcmdSongs(HomePageInfoPtr ptr, QJsonValue value) {
                           .toString();
       info.picUrl = resourceObj["image"].toObject()["imageUrl"].toString();
       info.targetId = resourceObj["resourceId"].toVariant().toULongLong();
+      auto [ids, names] = parseRcmdSongArtistValueArray(
+          resourceObj["resourceExtInfo"].toObject()["artists"].toArray());
+      info.artistIds = ids;
+      info.artistNames = names;
       ptr->rcmdSongs.append(info);
     }
   }
+}
+// {
+//   "name": "连麻Swimming",
+//   "id": 12064019,
+//   "picId": 0,
+//   "img1v1Id": 0,
+//   "briefDesc": "",
+//   "picUrl": "",
+//   "img1v1Url": "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+//   "albumSize": 0,
+//   "alias": [],
+//   "trans": "",
+//   "musicSize": 0,
+//   "topicPerson": 0
+// },
+
+QPair<QList<qulonglong>, QList<QString>>
+HomepageService::parseRcmdSongArtistValueArray(QJsonArray data) {
+  QList<qulonglong> ids;
+  QList<QString> names;
+  for (const auto& value : data) {
+    auto obj = value.toObject();
+    names.append(obj["name"].toString());
+    ids.append(obj["id"].toVariant().toULongLong());
+  }
+  return {ids, names};
 }
 
 }  // namespace service

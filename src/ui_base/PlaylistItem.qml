@@ -16,12 +16,9 @@ Item {
             return count
         }
     }
-    Rectangle {
+    Item {
         id: container
         anchors.fill: parent
-        radius: 25
-        color: "transparent"
-
         RoundedImage {
             id: image
             radius: 10
@@ -48,7 +45,6 @@ Item {
             width: parent.width
             height: mouseArea.containsMouse ? parent.height * 0.4 + 55 : 55
             radius: 10
-
 
             /*
             gradient: Gradient {
