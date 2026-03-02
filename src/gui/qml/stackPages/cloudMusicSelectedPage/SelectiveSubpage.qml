@@ -12,8 +12,8 @@ Flickable {
     boundsMovement: Flickable.StopAtBounds
     clip: true
     Component.onCompleted: {
-        globalScrollBar.currentFlickable = this
-        homepageController.fetch()
+        globalScrollBar.currentFlickable = this;
+        homepageController.fetch();
     }
     HomepageController {
         id: homepageController
@@ -71,9 +71,9 @@ Flickable {
             CarouselView {
                 anchors.fill: parent
                 itemsPerPage: parent.width / 192
-
                 dataModel: homepageController.recommendedPlaylists
-                delegate: PlaylistItem {}
+                delegate: PlaylistItem {
+                }
             }
         }
 
@@ -85,12 +85,21 @@ Flickable {
                 implicitWidth: containerRow.implicitWidth
                 Row {
                     id: containerRow
+                    spacing: 10
                     RoundedImage {
+                        id: rcmdSongItemImage
                         imageUrl: modelData.picUrl
-                        width: 40
-                        height: 40
+                        isTopLeftRounded: true
+                        isBottomLeftRounded: true
+                        isTopRightRounded: true
+                        isBottomRightRounded: true
+                        width: 90
+                        height: 90
+                        radius: 8
                     }
                     Column {
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 5
                         Text {
                             id: songNameText
                             text: modelData.mainTitle
@@ -120,6 +129,7 @@ Flickable {
             rowSpacing: 15
             Layout.fillHeight: true
             Layout.fillWidth: true
+            Layout.leftMargin: 6
             Repeater {
                 model: homepageController.recommendedStyleSongs
                 delegate: rcmdSongItemComponent

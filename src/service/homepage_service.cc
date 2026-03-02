@@ -26,7 +26,6 @@ void HomepageService::onReady(error_code::ErrorCode code,
         result = HomePageInfoPtr::create();
         auto dataObj = obj["data"].toObject();
         auto blocksArr = dataObj["blocks"].toArray();
-
         std::for_each(blocksArr.begin(), blocksArr.end(),
                       [this, result](const QJsonValue& value) {
                         parseBanners(result, value);
@@ -101,14 +100,14 @@ void HomepageService::parseRcmdSongs(HomePageInfoPtr ptr, QJsonValue value) {
       RcmdSongInfo info;
       auto resourceObj = resourceValue.toObject();
       info.mainTitle = resourceObj["uiElement"]
-                           .toObject()["mainTtile"]
+                           .toObject()["mainTitle"]
                            .toObject()["title"]
                            .toString();
       info.subTitle = resourceObj["uiElement"]
                           .toObject()["subTitle"]
                           .toObject()["title"]
                           .toString();
-      info.picUrl = resourceObj["image"].toObject()["imageUrl"].toString();
+      info.picUrl = resourceObj["uiElement"].toObject()["image"].toObject()["imageUrl"].toString();
       info.targetId = resourceObj["resourceId"].toVariant().toULongLong();
       auto [ids, names] = parseRcmdSongArtistValueArray(
           resourceObj["resourceExtInfo"].toObject()["artists"].toArray());
