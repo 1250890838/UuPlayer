@@ -6,11 +6,11 @@
   <tr>
     <td><img width="400" alt="image" src="https://github.com/user-attachments/assets/4d937384-e21d-4e3a-9452-f94f2851a32d" /></td>
     <td><img width="400" alt="image" src="https://github.com/user-attachments/assets/244233f5-8f6c-4b23-b023-ab4c0a669a26" /></td>
-    
+
   </tr>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/9ea1500d-970d-43c5-afe4-b78d860429d5" width="400"/></td>
-    <td><img src="https://github.com/user-attachments/assets/a7083747-dc30-4ef9-8bb3-0c41124634a0" width="400"/></td>
+    <td><img width="400" alt="image" src="https://github.com/user-attachments/assets/707aaa75-6dab-4e5c-bd99-fa8c83cdcf06" /></td>
   </tr>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/ca347830-c3b7-43cf-bb2a-507b61cc2dad" width="400"/></td>
