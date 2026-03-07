@@ -46,23 +46,21 @@ Popup {
                 id: repeater1
                 model: {
                     if (root.map === null) {
-                        return null
+                        return null;
                     } else {
-                        return Object.keys(root.map).length
+                        return Object.keys(root.map).length;
                     }
                 }
                 CTab {
                     text: Object.keys(root.map)[modelData]
                     onClicked: {
                         if (root.currentItem !== null) {
-                            root.currentItem.isCurrentItem = false
+                            root.currentItem.isCurrentItem = false;
                         }
-                        root.currentItem = this
-                        root.currentItem.isCurrentItem = true
-
-                        repeater2.model = root.map[(Object.keys(
-                                                        root.map)[modelData])]
-                        isCurrentItem = this === root.currentItem
+                        root.currentItem = this;
+                        root.currentItem.isCurrentItem = true;
+                        repeater2.model = root.map[(Object.keys(root.map)[modelData])];
+                        isCurrentItem = this === root.currentItem;
                     }
                 }
             }
@@ -77,9 +75,9 @@ Popup {
                 id: repeater2
                 model: {
                     if (root.map == null) {
-                        return null
+                        return null;
                     } else {
-                        return root.map[(Object.keys(root.map)[0])]
+                        return root.map[(Object.keys(root.map)[0])];
                     }
                 }
                 CatlistItem {
@@ -89,12 +87,9 @@ Popup {
                     width: 80
                     height: 30
                     onClicked: {
-                        fetchAttributes.name = modelData
-                        fetchAttributes.offset = 0
-                        FeaturedPlaylistHubController.fetchPlaylistItems(
-                                    fetchAttributes.name,
-                                    fetchAttributes.offset,
-                                    fetchAttributes.limit)
+                        fetchAttributes.name = modelData;
+                        fetchAttributes.offset = 0;
+                        hubController.fetchPlaylistItems(fetchAttributes.name, fetchAttributes.offset, fetchAttributes.limit);
                     }
                 }
             }

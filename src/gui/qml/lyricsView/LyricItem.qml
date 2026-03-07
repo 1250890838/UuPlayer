@@ -4,6 +4,8 @@ import assets 1.0
 
 Item {
     id: root
+    property string lyricText: modelData.lyric
+
     implicitWidth: lyricsListView.width
     implicitHeight: Math.max(lyricText.implicitHeight, resumeButton.height)
     required property var modelData
@@ -38,10 +40,9 @@ Item {
         borderColor: "gray"
         radius: 4
         borderWidth: 1
-        visible: !lyricsListView.autoUpdateIndex
-                 && lyricsListView.currentIndex === index
+        visible: !lyricsListView.autoUpdateIndex && lyricsListView.currentIndex === index
         onClicked: {
-            root.clicked()
+            root.clicked();
         }
     }
 }

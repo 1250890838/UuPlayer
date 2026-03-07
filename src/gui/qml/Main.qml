@@ -24,20 +24,24 @@ Window {
     property var commands: []
 
     Component.onCompleted: {
-        windowAgent.setup(window)
-        window.visible = true
+        windowAgent.setup(window);
+        window.visible = true;
+    }
+    onClosing: {
+        Qt.quit();
     }
     WindowAgent {
         id: windowAgent
     }
-    title: qsTr("Demo")
+    title: qsTr("Uu")
     Component {
         id: playlistDetailPage
-        PlaylistDetailPage {}
+        PlaylistDetailPage {
+        }
     }
 
     function mainSwitchPage(page, properties) {
-        stackView.replace(page, properties)
+        stackView.replace(page, properties);
     }
 
     ColumnLayout {
@@ -83,7 +87,8 @@ Window {
                     pushExit: null
                     replaceEnter: null
                     replaceExit: null
-                    initialItem: CloudMusicSelectedPage {}
+                    initialItem: CloudMusicSelectedPage {
+                    }
                 }
             }
         }

@@ -125,6 +125,11 @@ qt_add_qml_module(gui
     SOURCES theme_manager.h theme_manager.cc
     QML_FILES qml/playlistDetail/SortHeaderItem.qml
     RESOURCES images/audio_wave.gif
+    QML_FILES qml/lyricsView/DesktopLyricWindow.qml
+    SOURCES window_helper.h window_helper.cc
+    RESOURCES
+    RESOURCES images/button_lyrics.svg images/button_lyrics_hovered.svg
+    RESOURCES images/desktoplyric_close.svg images/desktoplyric_locked.svg images/desktoplyric_next.svg images/desktoplyric_play.svg images/desktoplyric_previous.svg images/desktoplyric_setting.svg
 )
 
 target_include_directories(gui PUBLIC "./cpp" ".")

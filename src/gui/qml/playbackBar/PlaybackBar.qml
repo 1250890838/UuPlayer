@@ -38,9 +38,9 @@ Item {
                     anchors.fill: parent
                     onClicked: function () {
                         if (lyricsViewPage.state === "opened") {
-                            lyricsViewPage.state = "closed"
+                            lyricsViewPage.state = "closed";
                         } else {
-                            lyricsViewPage.state = "opened"
+                            lyricsViewPage.state = "opened";
                         }
                     }
                 }
@@ -64,8 +64,8 @@ Item {
                     elide: Text.ElideRight
                     width: parent.width
                     text: {
-                        var names = mediaData.artists.map(artist => artist.name)
-                        return names.join("/ ")
+                        var names = mediaData.artists.map(artist => artist.name);
+                        return names.join("/ ");
                     }
                 }
             }
@@ -95,9 +95,9 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         onClicked: {
                             if (PlayController.isPlaying)
-                                PlayController.pause()
+                                PlayController.pause();
                             else
-                                PlayController.play()
+                                PlayController.play();
                         }
                     }
                     IconButton {
@@ -109,8 +109,7 @@ Item {
                         onClicked: PlayController.next()
                     }
                     IconButton {
-                        property int currentModeIndex: playbackModes.indexOf(
-                                                           PlayController.playmode)
+                        property int currentModeIndex: playbackModes.indexOf(PlayController.playmode)
                         property var playbackModes: [PlayMode.Sequentially, PlayMode.ListLoop, PlayMode.SingleLoop, PlayMode.Shuffle]
                         property var playbackModeIcons: [Icons.playbackModeSequentialIcon, Icons.playbackModeListLoopIcon, Icons.playbackModeSingleLoopIcon, Icons.playbackModeShuffleIcon]
                         icon: playbackModeIcons[currentModeIndex]
@@ -119,8 +118,8 @@ Item {
                         height: 23
                         anchors.verticalCenter: parent.verticalCenter
                         onClicked: {
-                            currentModeIndex = (currentModeIndex + 1) % playbackModes.length
-                            PlayController.playmode = playbackModes[currentModeIndex]
+                            currentModeIndex = (currentModeIndex + 1) % playbackModes.length;
+                            PlayController.playmode = playbackModes[currentModeIndex];
                         }
                     }
                 }
@@ -165,7 +164,28 @@ Item {
                 hoveredIcon: Icons.playbackBarPlaylistIcon
                 Layout.alignment: Qt.AlignCenter
                 onClicked: {
-                    playbacklistPage.open()
+                    playbacklistPage.open();
+                }
+            }
+
+            IconButton {
+                id: lyricsButton
+                property Window lyricWindow: null
+                implicitHeight: 20
+                implicitWidth: 20
+                icon: Icons.playbackBarLyricsIcon
+                hoveredIcon: Icons.playbackBarLyricsHoveredIcon
+                onClicked: {
+                    if (lyricWindow == null) {
+                        let com = Qt.createComponent("../lyricsView/DesktopLyricWindow.qml");
+                        lyricWindow = com.createObject(null, {
+                                "width": 657,
+                                "height": 78,
+                                "visible": true
+                            });
+                    } else {
+                        lyricWindow.visible = !lyricWindow.visible;
+                    }
                 }
             }
 
