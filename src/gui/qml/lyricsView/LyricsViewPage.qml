@@ -9,6 +9,7 @@ import ui_base 1.0
 Page {
     id: root
     property var media
+    property string currentLyricText
 
     background: Rectangle {
         gradient: Gradient {
@@ -37,7 +38,7 @@ Page {
         borderColor: "#404b4b"
         borderWidth: 1
         onClicked: function () {
-            root.state = "closed"
+            root.state = "closed";
         }
         Component.onCompleted: windowAgent.setHitTestVisible(this)
     }
@@ -92,27 +93,25 @@ Page {
                         text: "专辑:" + media?.album?.name ?? ""
                         color: "white"
                         elide: Text.ElideRight
-                        width: Math.min(albumText.implicitWidth,
-                                        parent.width / 2)
+                        width: Math.min(albumText.implicitWidth, parent.width / 2)
                     }
                     Text {
                         id: singerText
                         color: "white"
                         elide: Text.ElideRight
                         text: {
-                            let result = ""
+                            let result = "";
                             if (media === undefined) {
-                                return result
+                                return result;
                             }
                             for (var i = 0; i < media.artists.length; i++) {
-                                let delimiter = i == 0 ? '' : '/'
-                                let artist = media.artists[i].name
-                                result += delimiter + artist
+                                let delimiter = i == 0 ? '' : '/';
+                                let artist = media.artists[i].name;
+                                result += delimiter + artist;
                             }
-                            return "歌手:" + result
+                            return "歌手:" + result;
                         }
-                        width: Math.min(singerText.implicitWidth,
-                                        parent.width / 2)
+                        width: Math.min(singerText.implicitWidth, parent.width / 2)
                     }
                 }
                 Item {
@@ -125,15 +124,14 @@ Page {
                     property bool autoUpdateIndex: true
                     onMovementStarted: autoUpdateIndex = false
                     onMovementEnded: {
-                        restoreAutoUpdateTimer.restart()
+                        restoreAutoUpdateTimer.restart();
                     }
                     onContentYChanged: {
                         if (!autoUpdateIndex) {
-                            var middleY = contentY + height / 2
-                            var middleIndex = indexAt(width / 2, middleY)
-                            if (middleIndex >= 0
-                                    && middleIndex !== currentIndex) {
-                                currentIndex = middleIndex
+                            var middleY = contentY + height / 2;
+                            var middleIndex = indexAt(width / 2, middleY);
+                            if (middleIndex >= 0 && middleIndex !== currentIndex) {
+                                currentIndex = middleIndex;
                             }
                         }
                     }
@@ -149,9 +147,9 @@ Page {
                     spacing: 20
                     delegate: LyricItem {
                         onClicked: {
-                            lyricsListView.autoUpdateIndex = true
-                            restoreAutoUpdateTimer.stop()
-                            PlayController.position = this.modelData.end
+                            lyricsListView.autoUpdateIndex = true;
+                            restoreAutoUpdateTimer.stop();
+                            PlayController.position = this.modelData.end;
                         }
                     }
 
@@ -159,16 +157,13 @@ Page {
                         // ms
                         target: PlayController
                         function onPositionChanged() {
-                            let position = PlayController.position
+                            let position = PlayController.position;
                             if (lyricsListView.currentIndex === PlayController.lyric.length - 1)
-                                return
+                                return;
                             if (lyricsListView.autoUpdateIndex) {
-                                lyricsListView.currentIndex
-                                        = Utils.findClosestLowerIndexBinarySearch(
-                                            PlayController.lyric, position)
-                                lyricsListView.positionViewAtIndex(
-                                            lyricsListView.currentIndex,
-                                            ListView.Center)
+                                lyricsListView.currentIndex = Utils.findClosestLowerIndexBinarySearch(PlayController.lyric, position);
+                                lyricsListView.positionViewAtIndex(lyricsListView.currentIndex, ListView.Center);
+                                root.currentLyricText = lyricsListView.currentItem?.lyricText ?? null;
                             }
                         }
                     }

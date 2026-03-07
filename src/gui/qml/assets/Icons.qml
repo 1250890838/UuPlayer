@@ -40,6 +40,8 @@ Item {
     property url playbackBarPlaylistIcon: "qrc:/gui/images/button_playbackbar_playlist.svg"
     property url playbackBarVolumnOpenIcon: "qrc:/gui/images/button_playbackbar_volumn_open.svg"
     property url playbackBarVolumnCloseIcon: "qrc:/gui/images/button_playbackbar_volumn_close.svg"
+    property url playbackBarLyricsIcon: "qrc:/gui/images/button_lyrics.svg"
+    property url playbackBarLyricsHoveredIcon: "qrc:/gui/images/button_lyrics_hovered.svg"
 
     property url playbackModeSequentialIcon: "qrc:/gui/images/button_playbackmode_sequential.svg"
     property url playbackModeListLoopIcon: "qrc:/gui/images/button_playbackmode_listloop.svg"
@@ -59,4 +61,11 @@ Item {
     property url maleIcon: "qrc:/gui/images/male.svg"
     property url femaleIcon: "qrc:/gui/images/female.svg"
     property url audioWaveGif: "qrc:/gui/images/audio_wave.gif"
+
+    property url desktoplyricCloseIcon: "qrc:/gui/images/desktoplyric_close.svg"
+    property url desktoplyricLockedIcon: "qrc:/gui/images/desktoplyric_locked.svg"
+    property url desktoplyricNextIcon: "qrc:/gui/images/desktoplyric_next.svg"
+    property url desktoplyricPlayIcon: "qrc:/gui/images/desktoplyric_play.svg"
+    property url desktoplyricPreviousIcon: "qrc:/gui/images/desktoplyric_previous.svg"
+    property url desktoplyricSettingIcon: "qrc:/gui/images/desktoplyric_setting.svg"
 }
