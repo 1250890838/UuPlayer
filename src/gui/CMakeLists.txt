@@ -130,6 +130,7 @@ qt_add_qml_module(gui
     RESOURCES
     RESOURCES images/button_lyrics.svg images/button_lyrics_hovered.svg
     RESOURCES images/desktoplyric_close.svg images/desktoplyric_locked.svg images/desktoplyric_next.svg images/desktoplyric_play.svg images/desktoplyric_previous.svg images/desktoplyric_setting.svg
+    RESOURCES images/desktoplyric_pause.svg
 )
 
 target_include_directories(gui PUBLIC "./cpp" ".")

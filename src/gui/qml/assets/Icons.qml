@@ -68,4 +68,5 @@ Item {
     property url desktoplyricPlayIcon: "qrc:/gui/images/desktoplyric_play.svg"
     property url desktoplyricPreviousIcon: "qrc:/gui/images/desktoplyric_previous.svg"
     property url desktoplyricSettingIcon: "qrc:/gui/images/desktoplyric_setting.svg"
+    property url desktoplyricPauseIcon: "qrc:/gui/images/desktoplyric_pause.svg"
 }
