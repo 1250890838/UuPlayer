@@ -4,6 +4,7 @@ import QtQuick.Controls
 import controller
 import ui_base 1.0
 import assets 1.0
+import gui 1.0
 
 Window {
     id: root
@@ -19,6 +20,18 @@ Window {
     property int resizeMargin: 8
     property int hoverToShowMs: 600
     property int leaveToHideMs: 1500
+    Shortcut {
+        sequence: "Ctrl+Alt+H"
+        onActivated: {
+            WindowHelper.setClickThrough(root, false);
+            root.uiMode = root.panel;
+        }
+    }
+    Toast {
+        id: toast
+        parent: root.contentItem
+    }
+
     Rectangle {
         id: backgroundRect
         anchors.fill: parent
@@ -75,6 +88,11 @@ Window {
             width: 20
             height: 20
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: {
+                WindowHelper.setClickThrough(root, true);
+                root.uiMode = locked;
+                toast.show("已锁定桌面歌词：按 Ctrl+Alt+L 解锁", 2000);
+            }
         }
         IconButton {
             icon: Icons.desktoplyricCloseIcon

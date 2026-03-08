@@ -19,4 +19,5 @@ qt_add_qml_module(
     UTextEdit.qml
     CarouselView.qml
     Utils.js
+    QML_FILES Toast.qml
 )

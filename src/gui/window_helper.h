@@ -9,6 +9,7 @@ namespace gui{
 class WindowHelper : public QObject {
   Q_OBJECT
   QML_ELEMENT
+  QML_SINGLETON
  public:
   explicit WindowHelper(QObject* parent = nullptr);
  public:
