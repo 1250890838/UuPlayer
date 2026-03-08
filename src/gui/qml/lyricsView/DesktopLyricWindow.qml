@@ -42,18 +42,23 @@ Window {
             anchors.verticalCenter: parent.verticalCenter
         }
         IconButton {
-            icon: Icons.desktoplyricPlayIcon
-            hoveredIcon: Icons.desktoplyricPlayIcon
+            icon: PlayController.isPlaying ? Icons.desktoplyricPauseIcon : Icons.desktoplyricPlayIcon
+            hoveredIcon: PlayController.isPlaying ? Icons.desktoplyricPauseIcon : Icons.desktoplyricPlayIcon
             width: 20
             height: 20
-            onClicked: PlayController.play()
+            onClicked: {
+                if (PlayController.isPlaying)
+                    PlayController.pause();
+                else
+                    PlayController.play();
+            }
             anchors.verticalCenter: parent.verticalCenter
         }
         IconButton {
             icon: Icons.desktoplyricNextIcon
             hoveredIcon: Icons.desktoplyricNextIcon
-            width: 14
-            height: 14
+            width: 13
+            height: 13
             onClicked: PlayController.next()
             anchors.verticalCenter: parent.verticalCenter
         }

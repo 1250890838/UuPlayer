@@ -89,7 +89,7 @@ Item {
                     IconButton {
                         id: playbackButton
                         icon: PlayController.isPlaying ? Icons.playbackBarPauseIcon : Icons.playbackBarPlayIcon
-                        hoveredIcon: this.icon
+                        hoveredIcon: PlayController.isPlaying ? Icons.playbackBarPauseIcon : Icons.playbackBarPlayIcon
                         width: 41
                         height: 41
                         anchors.verticalCenter: parent.verticalCenter
@@ -179,8 +179,8 @@ Item {
                     if (lyricWindow == null) {
                         let com = Qt.createComponent("../lyricsView/DesktopLyricWindow.qml");
                         lyricWindow = com.createObject(null, {
-                                "width": 657,
-                                "height": 78,
+                                "width": 420,
+                                "height": 120,
                                 "visible": true
                             });
                     } else {
