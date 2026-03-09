@@ -9,7 +9,6 @@ import ui_base 1.0
 Page {
     id: root
     property var media
-    property string currentLyricText
 
     background: Rectangle {
         gradient: Gradient {
@@ -122,6 +121,10 @@ Page {
                 ListView {
                     id: lyricsListView
                     property bool autoUpdateIndex: true
+                    currentIndex: LyricsViewController.currentLineIndex
+                    onCurrentIndexChanged: {
+                        lyricsListView.positionViewAtIndex(lyricsListView.currentIndex, ListView.Center);
+                    }
                     onMovementStarted: autoUpdateIndex = false
                     onMovementEnded: {
                         restoreAutoUpdateTimer.restart();
@@ -143,30 +146,32 @@ Page {
                     }
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    model: PlayController.lyric ?? []
+                    model: LyricsViewController.lyricsText
                     spacing: 20
                     delegate: LyricItem {
-                        onClicked: {
-                            lyricsListView.autoUpdateIndex = true;
-                            restoreAutoUpdateTimer.stop();
-                            PlayController.position = this.modelData.end;
+                        onClicked:
+                        // TODO: ++
+                        // lyricsListView.autoUpdateIndex = true;
+                        // restoreAutoUpdateTimer.stop();
+                        // PlayController.position = this.modelData.end;
+                        {
                         }
                     }
 
-                    Connections {
-                        // ms
-                        target: PlayController
-                        function onPositionChanged() {
-                            let position = PlayController.position;
-                            if (lyricsListView.currentIndex === PlayController.lyric.length - 1)
-                                return;
-                            if (lyricsListView.autoUpdateIndex) {
-                                lyricsListView.currentIndex = Utils.findClosestLowerIndexBinarySearch(PlayController.lyric, position);
-                                lyricsListView.positionViewAtIndex(lyricsListView.currentIndex, ListView.Center);
-                                root.currentLyricText = lyricsListView.currentItem?.lyricText ?? null;
-                            }
-                        }
-                    }
+                    // Connections {
+                    //     // ms
+                    //     target: PlayController
+                    //     function onPositionChanged() {
+                    //         let position = PlayController.position;
+                    //         if (lyricsListView.currentIndex === PlayController.lyric.length - 1)
+                    //             return;
+                    //         if (lyricsListView.autoUpdateIndex) {
+                    //             lyricsListView.currentIndex = Utils.findClosestLowerIndexBinarySearch(PlayController.lyric, position);
+                    //             lyricsListView.positionViewAtIndex(lyricsListView.currentIndex, ListView.Center);
+                    //             root.currentLyricText = lyricsListView.currentItem?.lyricText ?? null;
+                    //         }
+                    //     }
+                    // }
                 }
             }
         }

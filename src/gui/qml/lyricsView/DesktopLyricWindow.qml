@@ -111,17 +111,50 @@ Window {
         anchors.topMargin: 10
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 12
-        Text {
-            text: {
-                if (lyricsViewPage.currentLyricText.length === 0)
-                    return "歌词正在加载中 ~~~";
-                else
-                    return lyricsViewPage.currentLyricText;
-            }
-            font.pointSize: (parent.height - 6) / 2
-            color: "pink"
+        Row {
             anchors.horizontalCenter: parent.horizontalCenter
+            Repeater {
+                model: LyricsViewController.currentTokens
+                delegate: Text {
+                    id: base
+                    required property string modelData
+                    required property int index
+                    text: modelData
+                    font.pixelSize: 24
+                    font.bold: true
+                    color: (index < LyricsViewController.currentTokenIndex) ? "#ffd1dc" : "white"
+                    Item {
+                        //  anchors.fill: parent
+                        visible: index === LyricsViewController.currentTokenIndex
+                        clip: true
+                        width: parent.width * LyricsViewController.currentTokenProgress
+                        Behavior on width {
+                            NumberAnimation {
+                                duration: 5
+                                easing.type: Easing.Linear
+                            }
+                        }
+                        Text {
+                            text: base.text
+                            font.pixelSize: base.font.pixelSize
+                            font.bold: base.font.bold
+                            color: "#ffd1dc"
+                        }
+                    }
+                }
+            }
         }
+        // Text {
+        //     text: {
+        //         if (lyricsViewPage.currentLyricText.length === 0)
+        //             return "歌词正在加载中 ~~~";
+        //         else
+        //             return lyricsViewPage.currentLyricText;
+        //     }
+        //     font.pointSize: (parent.height - 6) / 2
+        //     color: "pink"
+        //     anchors.horizontalCenter: parent.horizontalCenter
+        // }
         MouseArea {
             anchors.fill: parent
             enabled: true
