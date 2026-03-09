@@ -1,3 +1,5 @@
+#ifndef SONG_LYRIC_SERVICE_H
+#define SONG_LYRIC_SERVICE_H
 #include "song_lyric_network.h"
 
 #include <qglobal.h>
@@ -9,9 +11,10 @@
 #include <QObject>
 
 #include "service_global.h"
+#include "lyric_types.h"
 
 namespace service {
-
+using namespace entities;
 // 获取歌曲相关信息服务
 class SERVICE_DLL_EXPORT SongLyricService : public QObject {
   Q_OBJECT
@@ -28,11 +31,13 @@ class SERVICE_DLL_EXPORT SongLyricService : public QObject {
 
  private:
   QVariantList parseLyricStr(const QString& lyric);
+  QList<LyricLine> parseYrcLyric(const QString& yrc);
 
  private:
   network::SongLyricNetwork m_network;
  signals:
-  void standardReady(error_code::ErrorCode code, qulonglong id,const QVariantList& data);
-  void verbatimReady(error_code::ErrorCode code, qulonglong id,const QVariantList& data);
+  void standardReady(error_code::ErrorCode code, qulonglong id,QList<LyricLine> lyricsLines);
+  void verbatimReady(error_code::ErrorCode code, qulonglong id,QList<LyricLine> lyricsLines);
 };
 }  // namespace service
+#endif

@@ -85,8 +85,8 @@ class PlaylistDetailsController : public QObject {
   void onCommentsReady(error_code::ErrorCode code, CommentItemListPtr data);
   void onMediaUrlReady(error_code::ErrorCode code, const QUrl& url,
                        qulonglong id);
-  void onLyricReady(error_code::ErrorCode code, qulonglong id,
-                    const QVariantList& data);
+  // void onLyricReady(error_code::ErrorCode code, qulonglong id,
+  //                   const QVariantList& data);
   void onSubsribersReady(error_code::ErrorCode code, UserItemsPtr data);
  signals:
   void mediasChanged();

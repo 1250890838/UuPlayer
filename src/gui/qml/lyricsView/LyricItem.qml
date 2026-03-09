@@ -4,11 +4,9 @@ import assets 1.0
 
 Item {
     id: root
-    property string lyricText: modelData.lyric
-
+    required property var modelData
     implicitWidth: lyricsListView.width
     implicitHeight: Math.max(lyricText.implicitHeight, resumeButton.height)
-    required property var modelData
     required property int index
     signal clicked
     Text {
@@ -20,7 +18,7 @@ Item {
         width: lyricsListView.width
         height: parent.height
         color: "white"
-        text: modelData.lyric
+        text: modelData
         elide: Text.ElideRight
         property int distance: Math.abs(index - lyricsListView.currentIndex)
         opacity: 1.0 - Math.min(distance * 0.35, 0.9)

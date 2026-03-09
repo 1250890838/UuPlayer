@@ -29,8 +29,8 @@ PlaylistDetailsController::PlaylistDetailsController() {
   if (m_songUrlService) {
     connect(m_songUrlService, &SongUrlService::ready, this,
             &PlaylistDetailsController::onMediaUrlReady);
-    connect(m_songLyricService, &SongLyricService::standardReady, this,
-            &PlaylistDetailsController::onLyricReady);
+    // connect(m_songLyricService, &SongLyricService::standardReady, this,
+    //         &PlaylistDetailsController::onLyricReady);
   }
 }
 
@@ -71,14 +71,14 @@ void PlaylistDetailsController::onMediaUrlReady(error_code::ErrorCode code,
   }
 }
 
-void PlaylistDetailsController::onLyricReady(error_code::ErrorCode code,
-                                             qulonglong id,
-                                             const QVariantList& data) {
-  if (code == error_code::NoError) {
-    m_playService->setLyric(data);
-    emit m_playService->currentLyricChanged();
-  }
-}
+// void PlaylistDetailsController::onLyricReady(error_code::ErrorCode code,
+//                                              qulonglong id,
+//                                              const QVariantList& data) {
+//   if (code == error_code::NoError) {
+//     m_playService->setLyric(data);
+//     emit m_playService->currentLyricChanged();
+//   }
+// }
 
 void PlaylistDetailsController::onSubsribersReady(error_code::ErrorCode code,
                                                   UserItemsPtr data) {

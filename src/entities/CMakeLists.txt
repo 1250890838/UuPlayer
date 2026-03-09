@@ -9,6 +9,7 @@ qt_add_library(entities SHARED
    comment_item.h
    entities_global.h
    types.h
+   lyric_types.h
 )
 
 target_compile_definitions(entities PRIVATE ENTITIES_EXPORT_SYMBOLS)

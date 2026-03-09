@@ -29,7 +29,7 @@ class CONTROLLER_DLL_EXPORT PlayController : public QObject {
   Q_PROPERTY(MediaItem currMediaItem READ currMediaItem NOTIFY
                  currMediaItemChanged FINAL)
   Q_PROPERTY(MediaItemModel* medias READ medias NOTIFY mediasChanged FINAL)
-  Q_PROPERTY(QVariantList lyric READ lyric NOTIFY lyricChanged FINAL)
+  // Q_PROPERTY(QVariantList lyric READ lyric NOTIFY lyricChanged FINAL)
 
  public:
   Q_INVOKABLE void play(qulonglong id);
@@ -41,7 +41,7 @@ class CONTROLLER_DLL_EXPORT PlayController : public QObject {
   bool isPlaying() { return m_service->isPlaying(); }
   qint64 duration() { return m_service->duration(); }
   quint64 position() { return m_service->position(); }
-  QVariantList lyric() { return m_service->currentLyric(); }
+  // QVariantList lyric() { return m_service->currentLyric(); }
   PlayMode playmode() { return m_service->playbackMode(); }
   float volumn() { return m_service->volumn(); }
   MediaItem currMediaItem() { return m_service->currentPlayItem(); }
@@ -59,7 +59,7 @@ class CONTROLLER_DLL_EXPORT PlayController : public QObject {
   void volumnChanged();
   void currMediaItemChanged();
   void mediasChanged();
-  void lyricChanged();
+  // void lyricChanged();
 
  private:
   MediaItemModel m_mediasModel;
