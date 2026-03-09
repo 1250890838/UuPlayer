@@ -31,7 +31,7 @@ class CONTROLLER_DLL_EXPORT FeaturedPlaylistHubController : public QObject {
   FeaturedPlaylistHubController();
   PlaylistItemModel* currPlaylistItems();
   QVariantMap categories() { return m_categories.value(); }
-  QBindable<QVariantMap> bindableCategories() { return &m_categories; }
+  QBindable<QVariantMap> bindableCategories() { return QBindable<QVariantMap>(&m_categories); }
 
  signals:
   void categoriesChanged();

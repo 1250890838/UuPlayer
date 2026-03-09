@@ -7,12 +7,12 @@
 #include <QSortFilterProxyModel>
 
 #include "comments_fetch_service.h"
+#include "model/mediaitem_filterproxy_model.h"
 #include "play_service.h"
 #include "playlistalbum_detail_service.h"
-#include "song_url_service.h"
 #include "song_lyric_service.h"
+#include "song_url_service.h"
 #include "user_item.h"
-#include "model/mediaitem_filterproxy_model.h"
 
 #include "model/media_item_model.h"
 
@@ -25,22 +25,25 @@ class PlaylistDetailsController : public QObject {
 
   Q_OBJECT
   QML_ELEMENT
-  Q_PROPERTY(PlaylistItem playlist READ playlist NOTIFY playlistChanged FINAL)
-  Q_PROPERTY(MediaItemFilterProxyModel* medias READ medias NOTIFY mediasChanged FINAL)
   Q_PROPERTY(
-      QList<CommentItem> comments READ comments NOTIFY commentsChanged FINAL)
-  Q_PROPERTY(QList<UserItem> subscribers READ subscribers NOTIFY subscribersChanged FINAL)
-  Q_PROPERTY(QString name READ name NOTIFY nameChanged FINAL)
-  Q_PROPERTY(QString desc READ desc NOTIFY descChanged FINAL)
-  Q_PROPERTY(QUrl coverUrl READ coverUrl NOTIFY coverUrlChanged FINAL)
+      PlaylistItem playlist READ playlist BINDABLE bindablePlaylistItem FINAL)
   Q_PROPERTY(
-      QString creatorName READ creatorName NOTIFY creatorNameChanged FINAL)
-  Q_PROPERTY(QUrl creatorCoverUrl READ creatorCoverUrl NOTIFY
-                 creatorCoverUrlChanged FINAL)
-  Q_PROPERTY(qulonglong subscribedCount READ subscribedCount NOTIFY
-                 subscribedCountChanged FINAL)
+      MediaItemFilterProxyModel* medias READ medias NOTIFY mediasChanged FINAL)
   Q_PROPERTY(
-      qulonglong createTime READ createTime NOTIFY createTimeChanged FINAL)
+      QList<CommentItem> comments READ comments BINDABLE bindableComments FINAL)
+  Q_PROPERTY(QList<UserItem> subscribers READ subscribers BINDABLE
+                 bindableSubscribers FINAL)
+  Q_PROPERTY(QString name READ name BINDABLE bindableName FINAL)
+  Q_PROPERTY(QString desc READ desc BINDABLE bindableDesc FINAL)
+  Q_PROPERTY(QUrl coverUrl READ coverUrl BINDABLE bindableCoverUrl FINAL)
+  Q_PROPERTY(
+      QString creatorName READ creatorName BINDABLE bindableCreatorName FINAL)
+  Q_PROPERTY(QUrl creatorCoverUrl READ creatorCoverUrl BINDABLE
+                 bindableCreatorCoverUrl FINAL)
+  Q_PROPERTY(qulonglong subscribedCount READ subscribedCount BINDABLE
+                 bindableSubscribedCount FINAL)
+  Q_PROPERTY(
+      qulonglong createTime READ createTime BINDABLE bindableCreateTime FINAL)
 
  public:
   Q_INVOKABLE void fetchDetail(qulonglong id);
@@ -64,55 +67,42 @@ class PlaylistDetailsController : public QObject {
   qulonglong createTime() { return m_createTime.value(); }
   QList<UserItem> subscribers() { return m_subscribers.value(); }
 
+  QBindable<PlaylistItem> bindablePlaylistItem() {
+    return QBindable<PlaylistItem>(&m_playlist);
+  }
+  QBindable<QList<CommentItem>> bindableComments() { return &m_comments; }
+  QBindable<QList<UserItem>> bindableSubscribers() { return &m_subscribers; }
+  QBindable<QString> bindableName() { return &m_name; }
+  QBindable<QString> bindableDesc() { return &m_desc; }
+  QBindable<QUrl> bindableCoverUrl() { return &m_coverUrl; }
+  QBindable<QString> bindableCreatorName() { return &m_creatorName; }
+  QBindable<QUrl> bindableCreatorCoverUrl() { return &m_creatorCoverUrl; }
+  QBindable<qulonglong> bindableSubscribedCount() { return &m_subscribedCount; }
+  QBindable<qulonglong> bindableCreateTime() { return &m_createTime; }
+
  private slots:
   void onDetailReady(error_code::ErrorCode code, PlaylistItemPtr data);
   void onCommentsReady(error_code::ErrorCode code, CommentItemListPtr data);
   void onMediaUrlReady(error_code::ErrorCode code, const QUrl& url,
                        qulonglong id);
-  void onLyricReady(error_code::ErrorCode code, qulonglong id,const QVariantList& data);
+  void onLyricReady(error_code::ErrorCode code, qulonglong id,
+                    const QVariantList& data);
   void onSubsribersReady(error_code::ErrorCode code, UserItemsPtr data);
  signals:
-  void playlistChanged();
-  void commentsChanged();
   void mediasChanged();
   void mediaUrlReady(error_code::ErrorCode code, qulonglong id);
-  void coverUrlChanged();
-  void nameChanged();
-  void descChanged();
-  void creatorNameChanged();
-  void creatorCoverUrlChanged();
-  void subscribedCountChanged();
-  void createTimeChanged();
-  void subscribersChanged();
 
  private:
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, PlaylistItem,
-                             m_playlist,
-                             &PlaylistDetailsController::playlistChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QList<CommentItem>,
-                             m_comments,
-                             &PlaylistDetailsController::commentsChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QList<UserItem>,
-                             m_subscribers,
-                             &PlaylistDetailsController::subscribersChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QUrl, m_coverUrl,
-                             &PlaylistDetailsController::coverUrlChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QString, m_name,
-                             &PlaylistDetailsController::nameChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QString, m_desc,
-                             &PlaylistDetailsController::descChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(
-      PlaylistDetailsController, QUrl, m_creatorCoverUrl,
-      &PlaylistDetailsController::creatorCoverUrlChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, QString, m_creatorName,
-                             &PlaylistDetailsController::creatorNameChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(
-      PlaylistDetailsController, qulonglong, m_subscribedCount,
-      &PlaylistDetailsController::subscribedCountChanged);
-  Q_OBJECT_BINDABLE_PROPERTY(PlaylistDetailsController, qulonglong,
-                             m_createTime,
-                             &PlaylistDetailsController::createTimeChanged);
-
+  QProperty<PlaylistItem> m_playlist;
+  QProperty<QList<CommentItem>> m_comments;
+  QProperty<QList<UserItem>> m_subscribers;
+  QProperty<QUrl> m_coverUrl;
+  QProperty<QString> m_name;
+  QProperty<QString> m_desc;
+  QProperty<QUrl> m_creatorCoverUrl;
+  QProperty<QString> m_creatorName;
+  QProperty<qulonglong> m_subscribedCount;
+  QProperty<qulonglong> m_createTime;
 
   QPointer<PlaylistAlbumDetailService> m_detailService;
   QPointer<CommentsFetchService> m_commentsService;
