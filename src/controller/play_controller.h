@@ -14,7 +14,6 @@ using namespace service;
 using namespace entities;
 using namespace model;
 using namespace play_mode;
-
 class CONTROLLER_DLL_EXPORT PlayController : public QObject {
   Q_OBJECT
   QML_ELEMENT
@@ -25,7 +24,7 @@ class CONTROLLER_DLL_EXPORT PlayController : public QObject {
                  positionChanged FINAL)
   Q_PROPERTY(
       PlayMode playmode READ playmode WRITE setPlaymode NOTIFY playmodeChanged)
-  Q_PROPERTY(float volumn READ volumn NOTIFY volumnChanged)
+  Q_PROPERTY(float volumn READ volumn WRITE setVolumn NOTIFY volumnChanged)
   Q_PROPERTY(MediaItem currMediaItem READ currMediaItem NOTIFY
                  currMediaItemChanged FINAL)
   Q_PROPERTY(MediaItemModel* medias READ medias NOTIFY mediasChanged FINAL)
@@ -41,9 +40,9 @@ class CONTROLLER_DLL_EXPORT PlayController : public QObject {
   bool isPlaying() { return m_service->isPlaying(); }
   qint64 duration() { return m_service->duration(); }
   quint64 position() { return m_service->position(); }
-  // QVariantList lyric() { return m_service->currentLyric(); }
   PlayMode playmode() { return m_service->playbackMode(); }
   float volumn() { return m_service->volumn(); }
+  void setVolumn(float v) { m_service->setVolumn(v); }
   MediaItem currMediaItem() { return m_service->currentPlayItem(); }
   MediaItemModel* medias() { return &m_mediasModel; }
   void setPosition(quint64 pos) { m_service->setPosition(pos); }
@@ -59,7 +58,6 @@ class CONTROLLER_DLL_EXPORT PlayController : public QObject {
   void volumnChanged();
   void currMediaItemChanged();
   void mediasChanged();
-  // void lyricChanged();
 
  private:
   MediaItemModel m_mediasModel;
