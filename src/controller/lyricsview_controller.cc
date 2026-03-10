@@ -41,13 +41,11 @@ static int findTokenIndexByPos(const QVector<LyricToken>& tokens,
                                quint64 posMs) {
   if (tokens.isEmpty())
     return -1;
-
   int lo = 0;
   int hi = tokens.size() - 1;
   while (lo <= hi) {
     const int mid = (lo + hi) / 2;
     const auto& t = tokens[mid];
-
     if (posMs < t.startMs) {
       hi = mid - 1;
     } else if (posMs >= t.endMs) {
@@ -81,8 +79,8 @@ LyricsViewController::LyricsViewController(QObject* parent) : QObject{parent} {
 void LyricsViewController::onLyricsReady(error_code::ErrorCode code,
                                          qulonglong id,
                                          QList<LyricLine> lyricsLines) {
-  if (m_playService->currentPlayItem().id != id ||
-      code != error_code::NoError) {
+  auto currId = m_playService->currentPlayItem().id;
+  if ((currId != 0 && currId != id) || code != error_code::NoError) {
     m_lyricLines.clear();
     m_lyricsText.setValue({});
     m_currentTokens.setValue({});
@@ -119,11 +117,15 @@ void LyricsViewController::onLyricsReady(error_code::ErrorCode code,
     }
   }
 
-  QStringList lyricsText;
+  QVariantList lyricsText;
   lyricsText.reserve(m_lyricLines.size());
   for (const auto& line : m_lyricLines) {
-    lyricsText.append(line.plainText);
+    QVariantMap map;
+    map["start"] = line.startMs;
+    map["text"] = line.plainText;
+    lyricsText.append(QVariant::fromValue(map));
   }
+
   m_lyricsText.setValue(lyricsText);
   m_currentTokens.setValue({});
   m_currentTokenIndex.setValue(-1);
@@ -150,8 +152,12 @@ void LyricsViewController::onPositionChanged(qint64 pos) {
     for (const auto& t : line.tokens) {
       tokensText.append(t.text);
     }
+    if (tokensText.empty()) {
+      std::transform(line.plainText.begin(), line.plainText.end(),
+                     std::back_inserter(tokensText),
+                     [](const QChar& c) { return QString(c); });
+    }
     m_currentTokens.setValue(tokensText);
-
     m_currentTokenIndex.setValue(-1);
     m_currentTokenProgress.setValue(0.0);
   }
@@ -159,8 +165,7 @@ void LyricsViewController::onPositionChanged(qint64 pos) {
   const auto& line = m_lyricLines[m_currentLineIndex.value()];
 
   if (line.tokens.isEmpty()) {
-    if (m_currentTokenIndex.value() != -1)
-      m_currentTokenIndex.setValue(-1);
+    m_currentTokenIndex.setValue(line.plainText.size());
     if (!qFuzzyIsNull(m_currentTokenProgress.value()))
       m_currentTokenProgress.setValue(0.0);
     return;

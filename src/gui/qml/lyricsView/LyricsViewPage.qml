@@ -149,12 +149,10 @@ Page {
                     model: LyricsViewController.lyricsText
                     spacing: 20
                     delegate: LyricItem {
-                        onClicked:
-                        // TODO: ++
-                        // lyricsListView.autoUpdateIndex = true;
-                        // restoreAutoUpdateTimer.stop();
-                        // PlayController.position = this.modelData.end;
-                        {
+                        onClicked: {
+                            lyricsListView.autoUpdateIndex = true;
+                            restoreAutoUpdateTimer.stop();
+                            PlayController.position = modelData.start;
                         }
                     }
 

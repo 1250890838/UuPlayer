@@ -37,10 +37,10 @@ void SongLyricService::onVerbatimReady(error_code::ErrorCode code,
   //emit verbatimReady(code,result);
 }
 
-QVariantList SongLyricService::parseLyricStr(const QString& lyric) {
+QList<LyricLine> SongLyricService::parseLyricStr(const QString& lyric) {
   QRegularExpression regex(R"(\[(\d{2}):(\d{2})\.(\d{2,3})\]\s*(.*))");
   QStringList lines = lyric.split("\n");
-  QVariantList result;
+  QList<LyricLine> result;
   for (const auto& line : lines) {
     QRegularExpressionMatch match = regex.match(line);
     if (match.hasMatch()) {
@@ -49,12 +49,16 @@ QVariantList SongLyricService::parseLyricStr(const QString& lyric) {
       int milliseconds = match.captured(3).toInt();
       int totalMs = minutes * 60000 + seconds * 1000 + milliseconds;
       QString text = match.captured(4).trimmed();
-      QVariantMap map;
-      map["lyric"] = text;
-      map["end"] = totalMs;
-      result.append(map);
+      if (!result.empty())
+        result.last().endMs = totalMs;
+      LyricLine line;
+      line.plainText = text;
+      line.startMs = totalMs;
+      result.append(line);
     }
   }
+  if (!result.empty())
+    result.last().endMs += result.last().startMs + 500;
   return result;
 }
 
@@ -112,8 +116,13 @@ void SongLyricService::fetchStandard(qulonglong id) {
           if (doc.isNull() || doc.isEmpty() || obj.isEmpty())
             code = error_code::JsonContentError;
           else {
-            auto lyricStr = obj["yrc"].toObject()["lyric"].toString();
-            result = parseYrcLyric(lyricStr);
+            auto yrcStr = obj["yrc"].toObject()["lyric"].toString();
+            if (!yrcStr.isEmpty())
+              result = parseYrcLyric(yrcStr);
+            else {
+              auto lrcStr = obj["lrc"].toObject()["lyric"].toString();
+              result = parseLyricStr(lrcStr);
+            }
           }
         }
         emit standardReady(code, id, result);

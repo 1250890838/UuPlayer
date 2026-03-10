@@ -30,7 +30,7 @@ class SERVICE_DLL_EXPORT SongLyricService : public QObject {
   void onVerbatimReady(error_code::ErrorCode code, const QByteArray&);
 
  private:
-  QVariantList parseLyricStr(const QString& lyric);
+  QList<LyricLine> parseLyricStr(const QString& yrc);
   QList<LyricLine> parseYrcLyric(const QString& yrc);
 
  private:

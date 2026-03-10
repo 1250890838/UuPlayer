@@ -19,7 +19,7 @@ class LyricsViewController : public QObject {
   QML_ELEMENT
   QML_SINGLETON
   Q_PROPERTY(
-      QStringList lyricsText READ lyricsText BINDABLE bindableLyricsText FINAL)
+      QVariantList lyricsText READ lyricsText BINDABLE bindableLyricsText FINAL)
   Q_PROPERTY(QStringList currentTokens READ currentTokens BINDABLE
                  bindableCurrentTokens FINAL)
   Q_PROPERTY(qreal currentTokenProgress READ currentTokenProgress BINDABLE
@@ -30,8 +30,8 @@ class LyricsViewController : public QObject {
                  bindableCurrentLineIndex FINAL)
  public:
   explicit LyricsViewController(QObject* parent = nullptr);
-  QStringList lyricsText() { return m_lyricsText.value(); }
-  QBindable<QStringList> bindableLyricsText() { return &m_lyricsText; }
+  QVariantList lyricsText() { return m_lyricsText.value(); }
+  QBindable<QVariantList> bindableLyricsText() { return &m_lyricsText; }
   qint64 currentTokenIndex() { return m_currentTokenIndex.value(); }
   QBindable<qint64> bindableCurrentTokenIndex() { return &m_currentTokenIndex; }
   QStringList currentTokens() { return m_currentTokens.value(); }
@@ -47,7 +47,7 @@ class LyricsViewController : public QObject {
                      QList<LyricLine> lyricsLines);
   void onPositionChanged(qint64 pos);
  private:
-  QProperty<QStringList> m_lyricsText;
+  QProperty<QVariantList> m_lyricsText;
   QProperty<QStringList> m_currentTokens;
   QProperty<qint64> m_currentTokenIndex;
   QProperty<qreal> m_currentTokenProgress;
