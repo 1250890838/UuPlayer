@@ -160,6 +160,7 @@ void LyricsViewController::onPositionChanged(qint64 pos) {
     m_currentTokens.setValue(tokensText);
     m_currentTokenIndex.setValue(-1);
     m_currentTokenProgress.setValue(0.0);
+    return;
   }
 
   const auto& line = m_lyricLines[m_currentLineIndex.value()];
