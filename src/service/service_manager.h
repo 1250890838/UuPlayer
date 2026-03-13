@@ -4,9 +4,8 @@
 #include <QHash>
 #include <QMetaType>
 #include <QObject>
-#include <QScopedPointer>
-#include <QSharedPointer>
 #include <typeindex>
+#include <memory>
 
 #include "service_global.h"
 
@@ -25,9 +24,9 @@ class SERVICE_DLL_EXPORT ServiceManager : QObject {
       return static_cast<T*>(m_instances[type]);
     }
 
-    QScopedPointer<T> newInstance(new T(std::forward<Args>(args)...));
-    T* rawInstance = newInstance.data();
-    m_instances[type] = newInstance.take();
+    auto newInstance = std::make_unique<T>(std::forward<Args>(args)...);
+    T* rawInstance = newInstance.get();
+    m_instances[type] = newInstance.release();
     return rawInstance;
   }
 
