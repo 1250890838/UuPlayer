@@ -38,7 +38,7 @@
   - Linux：GCC 或 Clang
   - CMake 3.16 及以上
 - **库依赖**：
-  - Qt 6 (Quick, Gui, Multimedia, Network)
+  - Qt 6.5 及以上 (Quick, Gui, Multimedia, Network)
   - QWindowKit
 
 ---
