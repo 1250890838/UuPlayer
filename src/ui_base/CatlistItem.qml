@@ -5,7 +5,6 @@ Item {
     signal clicked
     required property string text
     property color backgroundColor: "#F7f9fc"
-    property bool selected: false
     property real borderWidth: 1
     Rectangle {
         anchors.fill: parent
@@ -13,13 +12,13 @@ Item {
         radius: 15
         border {
             width: root.borderWidth
-            color: root.selected == true ? "red" : "#D3D3D3"
+            color: columnLayout.currentCatItem == this ? "red" : "#D3D3D3"
         }
         Text {
             id: text
             anchors.centerIn: parent
             text: root.text
-            color: root.selected == true ? "red" : "black"
+            color: repeater2.currentCatItem == this ? "red" : "black"
         }
 
         MouseArea {
