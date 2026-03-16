@@ -9,11 +9,11 @@ Item {
     property var itemModel: model
     function formatCount(count) {
         if (count >= 1000 && count <= 9999) {
-            return (count / 1000).toFixed(1) + "千"
+            return (count / 1000).toFixed(1) + "千";
         } else if (count >= 10000) {
-            return (count / 10000).toFixed(1) + "万"
+            return (count / 10000).toFixed(1) + "万";
         } else {
-            return count
+            return count;
         }
     }
     Item {
@@ -43,26 +43,42 @@ Item {
         RoundedRectangle {
             id: descRect
             width: parent.width
-            height: mouseArea.containsMouse ? parent.height * 0.4 + 55 : 55
+            height: 55
             radius: 10
-
-            /*
-            gradient: Gradient {
-                GradientStop {
-                    position: 0.0
-                    color: "#f97794"
-                }
-                GradientStop {
-                    position: 1.0
-                    color: "#623aa2"
-                }
-            }
-            */
             color: "#FFB6C1"
             x: 0
-            y: mouseArea.containsMouse ? image.height - parent.height * 0.4 : image.height
+            y: image.height
             isBottomLeftRounded: true
             isBottomRightRounded: true
+
+            NumberAnimation on height {
+                id: heightAnimation1
+                running: false
+                from: 55
+                to: container.height * 0.35 + 55
+            }
+
+            NumberAnimation on y {
+                id: yAnimation1
+                running: false
+                from: image.height
+                to: image.height - container.height * 0.35
+            }
+
+            NumberAnimation on height {
+                id: heightAnimation2
+                running: false
+                from: container.height * 0.35 + 55
+                to: 55
+            }
+
+            NumberAnimation on y {
+                id: yAnimation2
+                running: false
+                from: image.height - container.height * 0.35
+                to: image.height
+            }
+
             Label {
                 id: desc
                 color: "white"
@@ -75,44 +91,6 @@ Item {
                 elide: Qt.ElideRight
                 maximumLineCount: 2
             }
-
-            //            Column {
-            //                spacing: 10
-            //                anchors.top: desc.bottom
-            //                anchors.topMargin: 10
-            //                visible: mouseArea.containsMouse
-            //                Repeater {
-            //                    id: repeater
-            //                    model: model.tracks.count >= 3 ? 3 : model.tracks.count
-            //                    Label {
-            //                        leftPadding: 7
-            //                        rightPadding: 7
-            //                        elide: Qt.ElideRight
-            //                        text: {
-            //                            console.log(model.tracks.itemAt(
-            //                                            modelData).name)
-            //                            let a = (modelData + 1) + " " + model.tracks.itemAt(
-            //                                    modelData).name
-            //                            return a
-            //                        }
-            //                        width: desc.width
-            //                        color: "white"
-            //                        font.pointSize: 8.5
-            //                    }
-            //                }
-            //            }
-            Behavior on y {
-                NumberAnimation {
-                    duration: 200
-                    easing.type: Easing.InOutQuad
-                }
-            }
-            Behavior on height {
-                NumberAnimation {
-                    duration: 200
-                    easing.type: Easing.InOutQuad
-                }
-            }
         }
     }
 
@@ -122,5 +100,11 @@ Item {
         onClicked: root.clicked()
         cursorShape: Qt.PointingHandCursor
         hoverEnabled: true
+        onHoveredChanged: {
+            yAnimation1.running = mouseArea.containsMouse;
+            heightAnimation1.running = mouseArea.containsMouse;
+            yAnimation2.running = !mouseArea.containsMouse;
+            heightAnimation2.running = !mouseArea.containsMouse;
+        }
     }
 }

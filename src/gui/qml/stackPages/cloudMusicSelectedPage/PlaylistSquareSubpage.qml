@@ -22,11 +22,8 @@ Flickable {
     Connections {
         target: hubController
         function onCategoriesChanged() {
-            fetchAttributes.name = Object.values(hubController.categories
-                                                 ?? {})[0][0] ?? "清晨"
-            hubController.fetchPlaylistItems(fetchAttributes.name,
-                                             fetchAttributes.offset,
-                                             fetchAttributes.limit)
+            fetchAttributes.name = Object.values(hubController.categories ?? {})[0][0] ?? "清晨";
+            hubController.fetchPlaylistItems(fetchAttributes.name, fetchAttributes.offset, fetchAttributes.limit);
         }
     }
 
@@ -37,13 +34,10 @@ Flickable {
     clip: true
 
     onContentYChanged: {
-        const threshold = 10
-        if (!loading
-                && root.contentY + root.height >= root.contentHeight - threshold) {
-            fetchAttributes.offset += fetchAttributes.limit
-            hubController.fetchPlaylistItems(fetchAttributes.name,
-                                             fetchAttributes.offset,
-                                             fetchAttributes.limit)
+        const threshold = 10;
+        if (!loading && root.contentY + root.height >= root.contentHeight - threshold) {
+            fetchAttributes.offset += fetchAttributes.limit;
+            hubController.fetchPlaylistItems(fetchAttributes.name, fetchAttributes.offset, fetchAttributes.limit);
         }
     }
 
@@ -62,20 +56,14 @@ Flickable {
                 delegate: CatlistItem {
                     required property string modelData
                     text: modelData
-                    selected: columnLayout.currentCatItem === this
                     width: 65
                     height: 30
                     onClicked: {
-                        if (selected)
-                            return
-                        columnLayout.currentCatItem = this
-                        fetchAttributes.name = modelData
-                        fetchAttributes.offset = 0
-                        hubController.clearPlaylistItems()
-                        hubController.fetchPlaylistItems(
-                                    fetchAttributes.name,
-                                    fetchAttributes.offset,
-                                    fetchAttributes.limit)
+                        columnLayout.currentCatItem = this;
+                        fetchAttributes.name = modelData;
+                        fetchAttributes.offset = 0;
+                        hubController.clearPlaylistItems();
+                        hubController.fetchPlaylistItems(fetchAttributes.name, fetchAttributes.offset, fetchAttributes.limit);
                     }
                 }
             }
@@ -85,26 +73,26 @@ Flickable {
                 width: 60
                 height: 30
                 onClicked: {
-                    catlistDialog.open()
+                    catlistDialog.open();
                 }
             }
         }
 
         GridLayout {
             id: gridLayout
-            columns: columnLayout.width / (182 + 20)
+            columns: 4
             columnSpacing: 20
             rowSpacing: 20
             Repeater {
                 id: repeater2
                 model: hubController.currPlaylistItems
                 delegate: PlaylistItem {
-                    implicitWidth: 182
-                    implicitHeight: 234
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width / 0.77
                     onClicked: {
                         window.mainSwitchPage(playlistDetailPage, {
-                                                  "playlistId": model.id
-                                              })
+                                "playlistId": model.id
+                            });
                     }
                 }
             }
@@ -118,7 +106,7 @@ Flickable {
         x: 45
     }
     Component.onCompleted: {
-        globalScrollBar.currentFlickable = this
-        hubController.fetchCategories()
+        globalScrollBar.currentFlickable = this;
+        hubController.fetchCategories();
     }
 }

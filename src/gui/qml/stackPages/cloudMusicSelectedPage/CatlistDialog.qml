@@ -80,6 +80,7 @@ Popup {
                         return root.map[(Object.keys(root.map)[0])];
                     }
                 }
+                property Item currentItem: null
                 CatlistItem {
                     required property string modelData
                     text: modelData
@@ -89,7 +90,9 @@ Popup {
                     onClicked: {
                         fetchAttributes.name = modelData;
                         fetchAttributes.offset = 0;
+                        hubController.clearPlaylistItems();
                         hubController.fetchPlaylistItems(fetchAttributes.name, fetchAttributes.offset, fetchAttributes.limit);
+                        columnLayout.currentCatItem = this;
                     }
                 }
             }
