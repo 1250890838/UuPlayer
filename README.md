@@ -32,11 +32,13 @@
 
 - **操作系统**：
   - Windows 10/11
+  - Linux（已在 Ubuntu 22.04.5 LTS / WSL2 上验证）
 - **编译工具**：
-  - Visual Studio 2019 或以上
+  - Windows：Visual Studio 2019 或以上
+  - Linux：GCC 或 Clang
   - CMake 3.16 及以上
 - **库依赖**：
-  - Qt 6 (Quick, Gui, Multimedia, Network)
+  - Qt 6.5 及以上 (Quick, Gui, Multimedia, Network)
   - QWindowKit
 
 ---
