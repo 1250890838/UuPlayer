@@ -3,6 +3,7 @@
 这是一个基于QML/C++的音乐播放器，模仿网易云音乐桌面客户端，主要是用来练习QML构建前端、QML与C++后端交互
 
 <table>
+
   <tr>
     <td><img width="400" src="https://github.com/user-attachments/assets/42b7aca2-213f-4762-b150-6fcd4dc08771" />
 </td>
@@ -10,7 +11,7 @@
   </tr>
   <tr>
     <td><img width="400" alt="image" src="https://github.com/user-attachments/assets/4d937384-e21d-4e3a-9452-f94f2851a32d" /></td>
-    <td><img width="400" alt="image" src="https://github.com/user-attachments/assets/707aaa75-6dab-4e5c-bd99-fa8c83cdcf06" /></td>
+    <td><img width="400" alt="image" src="https://github.com/user-attachments/assets/06cd5ac4-dd8c-43c7-9811-653401659591" /></td>
   </tr>
   <tr>
     <td><img width="400" src="https://github.com/user-attachments/assets/bcdccd74-04e4-4734-bc40-d868c2731080" />
