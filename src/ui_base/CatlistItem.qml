@@ -2,30 +2,40 @@ import QtQuick
 
 Item {
     id: root
-    signal clicked
+
     required property string text
     property color backgroundColor: "#F7f9fc"
+    property color borderColor: "#E0E0E0"
     property real borderWidth: 1
+
+    signal clicked
+
+    implicitWidth: textLabel.implicitWidth + 30
+    implicitHeight: textLabel.implicitHeight + 15
+
     Rectangle {
+        id: container
         anchors.fill: parent
         color: root.backgroundColor
         radius: 15
         border {
             width: root.borderWidth
-            color: columnLayout.currentCatItem == this ? "red" : "#D3D3D3"
+            color: (playlistSquareSubpageColumnLayout.currentCatItem == this || mouseArea.containsMouse) ? "red" : root.borderColor
         }
         Text {
-            id: text
+            id: textLabel
             anchors.centerIn: parent
             text: root.text
-            color: repeater2.currentCatItem == this ? "red" : "black"
+            font.pointSize: 9
+            color: (playlistSquareSubpageColumnLayout.currentCatItem == this || mouseArea.containsMouse) ? "red" : "black"
         }
 
         MouseArea {
             id: mouseArea
             anchors.fill: parent
-            onClicked: root.clicked()
             cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            onClicked: root.clicked()
         }
     }
 }

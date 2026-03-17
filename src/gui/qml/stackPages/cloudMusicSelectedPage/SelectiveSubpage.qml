@@ -21,7 +21,6 @@ Flickable {
     ColumnLayout {
         id: rootLayout
         anchors.fill: parent
-        anchors.margins: 8
         spacing: 3
         Item {
             id: bannersConainter
