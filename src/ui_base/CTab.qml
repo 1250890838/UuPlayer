@@ -21,7 +21,7 @@ Item {
 
     Column {
         id: column
-        spacing: 5
+        spacing: 1
         Row {
             spacing: 3
             Text {
@@ -45,7 +45,7 @@ Item {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            root.clicked()
+            root.clicked();
         }
     }
 }

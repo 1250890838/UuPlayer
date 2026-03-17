@@ -17,12 +17,12 @@ import "lyricsView"
 
 Window {
     id: window
-    minimumWidth: 1057
-    minimumHeight: 752
-    visible: false
-    color: Skins.bodyBackColor
+
     property var commands: []
 
+    function mainSwitchPage(page, properties) {
+        stackView.replace(page, properties);
+    }
     Component.onCompleted: {
         windowAgent.setup(window);
         window.visible = true;
@@ -30,18 +30,21 @@ Window {
     onClosing: {
         Qt.quit();
     }
-    WindowAgent {
-        id: windowAgent
-    }
+
+    minimumWidth: 1057
+    minimumHeight: 752
+    visible: false
+    color: Skins.bodyBackColor
     title: qsTr("Uu")
+
     Component {
         id: playlistDetailPage
         PlaylistDetailPage {
         }
     }
 
-    function mainSwitchPage(page, properties) {
-        stackView.replace(page, properties);
+    WindowAgent {
+        id: windowAgent
     }
 
     ColumnLayout {

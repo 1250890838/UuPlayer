@@ -6,8 +6,24 @@ import controller
 
 Flickable {
     id: root
+
     property var catMap
     property bool loading: false
+
+    contentHeight: playlistSquareSubpageColumnLayout.implicitHeight + 20
+    contentWidth: this.width
+    boundsBehavior: Flickable.StopAtBounds
+    boundsMovement: Flickable.StopAtBounds
+    clip: true
+
+    onContentYChanged: {
+        const threshold = 5;
+        if (!loading && root.contentY + root.height >= root.contentHeight - threshold) {
+            fetchAttributes.offset += fetchAttributes.limit;
+            hubController.fetchPlaylistItems(fetchAttributes.name, fetchAttributes.offset, fetchAttributes.limit);
+        }
+    }
+
     QtObject {
         id: fetchAttributes
         property string name
@@ -27,39 +43,24 @@ Flickable {
         }
     }
 
-    contentHeight: columnLayout.implicitHeight + 20
-    contentWidth: this.width
-    boundsBehavior: Flickable.StopAtBounds
-    boundsMovement: Flickable.StopAtBounds
-    clip: true
-
-    onContentYChanged: {
-        const threshold = 10;
-        if (!loading && root.contentY + root.height >= root.contentHeight - threshold) {
-            fetchAttributes.offset += fetchAttributes.limit;
-            hubController.fetchPlaylistItems(fetchAttributes.name, fetchAttributes.offset, fetchAttributes.limit);
-        }
-    }
-
     ColumnLayout {
-        id: columnLayout
-        anchors.fill: parent
+        id: playlistSquareSubpageColumnLayout
+        width: parent.width
+        anchors.horizontalCenter: parent.horizontalCenter
         spacing: 25
-        anchors.margins: 10
         property Item currentCatItem
         Row {
             id: row
             spacing: 10
+            Layout.fillWidth: true
             Repeater {
                 id: repeater
                 model: Object.values(hubController.categories)[0]?.slice(0, 6)
                 delegate: CatlistItem {
                     required property string modelData
                     text: modelData
-                    width: 65
-                    height: 30
                     onClicked: {
-                        columnLayout.currentCatItem = this;
+                        playlistSquareSubpageColumnLayout.currentCatItem = this;
                         fetchAttributes.name = modelData;
                         fetchAttributes.offset = 0;
                         hubController.clearPlaylistItems();
@@ -70,8 +71,6 @@ Flickable {
             CatlistItem {
                 id: moreCatItem
                 text: catlistDialog.opened ? "更多分类 ^" : "更多分类 ˇ"
-                width: 60
-                height: 30
                 onClicked: {
                     catlistDialog.open();
                 }
@@ -80,7 +79,8 @@ Flickable {
 
         GridLayout {
             id: gridLayout
-            columns: 4
+            columns: width >= 908 ? 5 : 4
+            onWidthChanged: console.log(width)
             columnSpacing: 20
             rowSpacing: 20
             Repeater {
@@ -89,6 +89,7 @@ Flickable {
                 delegate: PlaylistItem {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width / 0.77
+                    Layout.maximumWidth: 212
                     onClicked: {
                         window.mainSwitchPage(playlistDetailPage, {
                                 "playlistId": model.id

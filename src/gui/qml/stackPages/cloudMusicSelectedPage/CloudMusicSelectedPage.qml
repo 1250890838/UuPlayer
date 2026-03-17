@@ -22,6 +22,7 @@ Page {
 
         StackView {
             id: stackView
+            Layout.margins: 10
             Layout.fillHeight: true
             Layout.fillWidth: true
             popEnter: null
@@ -30,7 +31,8 @@ Page {
             pushExit: null
             replaceEnter: null
             replaceExit: null
-            initialItem: SelectiveSubpage {}
+            initialItem: SelectiveSubpage {
+            }
         }
     }
 
