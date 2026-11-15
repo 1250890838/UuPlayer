@@ -1,0 +1,105 @@
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Effects
+import QtQuick.Layouts
+
+import app
+
+Popup {
+    id: popup
+    modal: true
+    focus: true
+    padding: 0
+    dim: false
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    background: Rectangle {
+        color: "transparent"
+    }
+
+    MultiEffect {
+        id: effect
+        source: container
+        anchors.fill: container
+        shadowBlur: 0.2
+        shadowColor: "gray"
+        shadowEnabled: true
+        shadowVerticalOffset: 0
+        shadowHorizontalOffset: 0
+        shadowOpacity: 1
+        shadowScale: 1.0
+    }
+
+    Rectangle {
+        id: container
+        anchors.fill: parent
+        radius: 8
+        color: "#fafafa"
+
+        UScrollBar {
+            id: playbacklistScrollBar
+            width: 10
+            height: flickable.height - 2
+            anchors.right: container.right
+            anchors.rightMargin: 11
+            y: flickable.y - 1
+            currentFlickable: flickable
+            z: 5
+        }
+
+        Column {
+            id: containerColumn
+            anchors.fill: parent
+            spacing: 20
+            Row {
+                id: headerRow
+                width: parent.width
+                leftPadding: 20
+                topPadding: 20
+                spacing: 2
+                Label {
+                    id: playlistLabel
+                    text: qsTr("播放列表")
+                    font.bold: true
+                    font.pointSize: 12
+                }
+                Label {
+                    id: playlistSizeLabel
+                    text: repeater.count
+                    font.pointSize: 9
+                    anchors.top: playlistLabel.top
+                    color: "gray"
+                }
+            }
+            Flickable {
+                id: flickable
+                contentWidth: width
+                contentHeight: contentColumn.implicitHeight // 使用实际内容高度
+                boundsBehavior: Flickable.StopAtBounds
+                boundsMovement: Flickable.StopAtBounds
+                width: container.width - playbacklistScrollBar.width - 22 // 为滑条留一定的水平空间
+                height: parent.height - headerRow.height - containerColumn.spacing // 动态计算高度
+                clip: true
+                ScrollBar.vertical: ScrollBar {
+                    policy: ScrollBar.AlwaysOff
+                }
+                ColumnLayout {
+                    id: contentColumn
+                    anchors.fill: parent
+                    Repeater {
+                        id: repeater
+                        property bool isOneDragging: false
+                        model: PlayController.medias
+                        PlaybacklistItem {
+                            id: playbacklistItem
+                            implicitWidth: flickable.width
+                            implicitHeight: 70
+                            onIsDraggingChanged: {
+                                repeater.isOneDragging = isDragging
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
